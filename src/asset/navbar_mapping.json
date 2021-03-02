@@ -1,0 +1,23 @@
+[
+    {
+        "url": "/home",
+        "name": "Home"
+    },
+    {
+        "url": "/how-it-works",
+        "name": "How it works"
+    },
+    {
+        "url": "/about",
+        "name": "About"
+    },
+    {
+        "url": "/contact",
+        "name": "Contact"
+    },
+    {
+        "url": "/login",
+        "name": "Log in",
+        "isPillButton": true
+    }
+]
