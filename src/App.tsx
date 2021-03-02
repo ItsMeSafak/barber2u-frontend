@@ -4,8 +4,7 @@ import Header from "./template/header";
 
 import "./App.scss";
 
-export const App: React.FC = () => {
-    return (
+const App: React.FC = () => (
         <>
             <Header />
             <div className="App">
@@ -26,6 +25,5 @@ export const App: React.FC = () => {
             </div>
         </>
     );
-};
 
 export default App;
