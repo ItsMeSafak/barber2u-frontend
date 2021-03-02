@@ -2,4 +2,23 @@ header {
     padding: 25px;
     background-color: #252525;
     color: #FFF;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .nav-right {
+        display: flex;
+        justify-content: flex-end;
+
+        > div {
+            padding: 4px 16px;
+            margin: 0 4px;
+        }
+
+        .loginbtn {
+            background: #00b2ff;
+            border-radius: 25px;
+        }
+    }
 }
