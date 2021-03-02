@@ -7,14 +7,15 @@ header {
     flex-direction: row;
     justify-content: space-between;
 
+     li {
+        padding: 4px 16px;
+        margin: 0 4px;
+        list-style-type: none;
+    }
+
     .nav-right {
         display: flex;
         justify-content: flex-end;
-
-        > div {
-            padding: 4px 16px;
-            margin: 0 4px;
-        }
 
         .loginbtn {
             background: #00b2ff;

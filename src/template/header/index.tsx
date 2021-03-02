@@ -4,16 +4,16 @@ import "./styles.scss";
 
 const Header: React.FC = () => (
     <header>
-        <div>
-            <div>LOGO</div>
-        </div>
-        <div className="nav-right">
-            <div>Home</div>
-            <div>How it works</div>
-            <div>About</div>
-            <div>Contact</div>
-            <div className="loginbtn">Log in</div>
-        </div>
+        <ul>
+            <li>LOGO</li>
+        </ul>
+        <ul className="nav-right">
+            <li>Home</li>
+            <li>How it works</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li className="loginbtn">Log in</li>
+        </ul>
     </header>
     );
 
