@@ -4,9 +4,34 @@ import Header from "./template/header";
 
 import "./App.scss";
 
-const App: React.FC = () => (
+const App: React.FC = () => {
+    const navbarElements = [
+        {
+            url: "/home",
+            name: "Home",
+        },
+        {
+            url: "/how-it-works",
+            name: "How it works",
+        },
+        {
+            url: "/about",
+            name: "About",
+        },
+        {
+            url: "/contact",
+            name: "Contact",
+        },
+        {
+            url: "/login",
+            name: "Log in",
+            isPillButton: true,
+        },
+    ];
+
+    return (
         <>
-            <Header />
+            <Header tabs={navbarElements} />
             <div className="App">
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo" />
@@ -25,5 +50,6 @@ const App: React.FC = () => (
             </div>
         </>
     );
+};
 
 export default App;
