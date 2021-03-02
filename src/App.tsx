@@ -1,9 +1,14 @@
 import React from "react";
+
+import Header from "./template/header";
+import Footer from "./template/footer";
+
 import logo from "./logo.svg";
 import "./App.scss";
 
-function App() {
-    return (
+const App: React.FC = () => (
+    <>
+        <Header />
         <div className="App">
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
@@ -20,7 +25,8 @@ function App() {
                 </a>
             </header>
         </div>
-    );
-}
+        <Footer />
+    </>
+);
 
 export default App;
