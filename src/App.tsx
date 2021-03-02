@@ -1,9 +1,10 @@
 import React from "react";
 import logo from "./logo.svg";
 import Header from "./template/header";
-import "./App.css";
 
-function App() {
+import "./App.scss";
+
+export const App: React.FC = () => {
     return (
         <>
             <Header />
@@ -25,6 +26,6 @@ function App() {
             </div>
         </>
     );
-}
+};
 
 export default App;
