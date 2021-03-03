@@ -2,11 +2,11 @@
     {
         "url": "/settings",
         "name": "Settings",
-        "icon_name": "faCog"
+        "iconName": "cog"
     },
     {
         "url": "/reservations",
         "name": "Reservations",
-        "icon_name": "faCalender"
+        "iconName": "calendar"
     }
 ]

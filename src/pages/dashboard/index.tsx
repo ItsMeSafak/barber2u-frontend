@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { BrowserRouter, Route, useRouteMatch, Switch } from "react-router-dom";
 import Sidebar from "../../template/sidebar";
-
+import DashboardLinks from "../../asset/dashboard_links.json"
 import styles from "./styles.module.scss";
 
 import Reservations from "./sub-pages/reservations";
@@ -27,7 +27,7 @@ const Dashboard: React.FC = () => {
         <BrowserRouter>
             <div className={`${styles.dashboard} ${isMobile ? styles.dashboardMobile
                 : styles.dashboardDesktop}`}>
-                <Sidebar baseUrl={url} isMobile={isMobile} />
+                <Sidebar baseUrl={url} isMobile={isMobile} items={DashboardLinks} />
                 <Switch>
                     <Route path={`${path}/settings`} component={Settings} />
                     <Route path={`${path}/reservations`} component={Reservations} />

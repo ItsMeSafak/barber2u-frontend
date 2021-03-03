@@ -40,8 +40,8 @@
                 background-color: #1687A7;
 
                 &::after {
-                    position: absolute;
                     filter: invert(64%) sepia(94%) saturate(6749%) hue-rotate(172deg) brightness(95%) contrast(83%);
+                    position: absolute;
                     content: "";
                     background: url(../../asset/arrow.svg) no-repeat;
                     width: 50px;
@@ -53,9 +53,25 @@
             }
         }
     }
+}
 
-    & .sidebarMobile {
-        width: 100%;
-        min-height: auto;
-    }
+.sidebarMobile {
+    width: 100%;
+    min-height: auto;
+
+    ul {
+        display: flex;
+        flex-direction: row;
+        margin: 0;
+        > li {
+            .active {
+                 &::after {
+                    left: 0;
+                    bottom: 0;
+                    width: 35px;
+                    transform: translate(0%, 60%) rotate(90deg);
+                }
+            }
+        }
+    }   
 }
