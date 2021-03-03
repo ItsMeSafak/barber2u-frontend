@@ -1,6 +1,6 @@
 .navbar {
     > li {
-        padding: 8px 26px;
+        padding: 8px 16px;
         margin: 0 4px;
         list-style-type: none;
 
@@ -21,8 +21,8 @@
     background-color: #252525;
     padding: 0 0 30px 30px;
 
-    a:hover {
-        color: gray;
+    > li {
+        padding: 0;
     }
 }
 
@@ -32,9 +32,4 @@
     justify-content: flex-end;
     padding: 15px;
     margin-right: 30px;
-}
-
-.pillButton {
-    background: #00b2ff;
-    border-radius: 25px;
 }

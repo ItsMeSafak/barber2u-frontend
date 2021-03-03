@@ -1,9 +1,13 @@
 import React from "react";
 
+import { DatePicker } from "antd";
+
 import Header from "./template/header";
 import Footer from "./template/footer";
 
 import logo from "./logo.svg";
+
+import "antd/dist/antd.css";
 import "./App.scss";
 
 const App: React.FC = () => (
@@ -23,6 +27,7 @@ const App: React.FC = () => (
                 >
                     Learn React
                 </a>
+                <DatePicker />
             </header>
         </div>
         <Footer />
