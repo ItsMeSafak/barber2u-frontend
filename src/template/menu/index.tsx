@@ -18,43 +18,38 @@ interface ComponentProps {
  *
  * @param props     Component properties.
  */
-export const Menu: React.FC<ComponentProps> = ({ isMobile, items }) => (
-    <ul className={isMobile ? styles.navbarMobile : styles.navbarDesktop}>
-        {/* {items &&
-            items.map(({ url, name, isPillButton }) => {
-                const renderPillButton = isPillButton && !isMobile;
-                return (
-                    <li key={name}>
-                        <Button
-                            href={url}
-                            type={renderPillButton ? "primary" : "link"}
-                            shape={renderPillButton ? "round" : undefined}
-                        >
-                            {name}
-                        </Button>
-                    </li>
-                )
-            })
-        } */}
-        {items && RenderNavMenuItems()}
-    </ul>
-);
+const Menu: React.FC<ComponentProps> = (props) => {
+    const { isMobile, items } = props;
 
-const RenderNavMenuItems: React.FC<ComponentProps> = ({ isMobile, items }) => {
-    items?.map(({ url, name, isPillButton }) => {
-        const renderPillButton = isPillButton && !isMobile;
-        return (
-            <li key={name}>
-                <Button
-                    href={url}
-                    type={renderPillButton ? "primary" : "link"}
-                    shape={renderPillButton ? "round" : undefined}
-                >
-                    {name}
-                </Button>
-            </li>
-        )
-    })
-}
+    /**
+     * This function renders the navbar menu items.
+     * Depending on the given property, it renders a pill button for the specific text/button.
+     */
+    const renderNavMenuItems = () =>
+        items?.map(({ url, name, isPillButton }) => {
+            const renderPillButton = isPillButton && !isMobile;
+            return (
+                <li key={name}>
+                    <Button
+                        href={url}
+                        type={renderPillButton ? "primary" : "link"}
+                        shape={renderPillButton ? "round" : undefined}
+                    >
+                        {name}
+                    </Button>
+                </li>
+            );
+        });
+
+    return (
+        <ul
+            className={
+                props.isMobile ? styles.navbarMobile : styles.navbarDesktop
+            }
+        >
+            {props.items && renderNavMenuItems()}
+        </ul>
+    );
+};
 
 export default Menu;

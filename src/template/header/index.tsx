@@ -55,17 +55,9 @@ const Header: React.FC = () => {
                         aria-hidden="true"
                     >
                         {isMenuOpen ? (
-                            <FontAwesomeIcon
-                                className={styles.hamburgerMenuCloseButton}
-                                icon={faTimes}
-                                size="2x"
-                            />
+                            <FontAwesomeIcon icon={faTimes} size="2x" />
                         ) : (
-                            <FontAwesomeIcon
-                                className={styles.hamburgerMenuOpenButton}
-                                icon={faBars}
-                                size="2x"
-                            />
+                            <FontAwesomeIcon icon={faBars} size="2x" />
                         )}
                     </a>
                 ) : (
