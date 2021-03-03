@@ -4,16 +4,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes, faCut } from "@fortawesome/free-solid-svg-icons";
 
 import Menu from "../menu";
-
 import NavMenuMapping from "../../asset/navbar_mapping.json";
+
+import { MAX_WIDTH_SCREEN } from "../../asset/constants";
 
 import styles from "./styles.module.scss";
 
 /**
  * This component renders a menu header with its menu items.
  */
-const Header: React.FC = () => {
-    const MAX_WIDTH = 940;
+const HeaderPartial: React.FC = () => {
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [isMobile, setMobile] = useState(false);
 
@@ -25,7 +25,7 @@ const Header: React.FC = () => {
      */
     useEffect(() => {
         const handleMobileView = () =>
-            setMobile(window.innerWidth <= MAX_WIDTH);
+            setMobile(window.innerWidth <= MAX_WIDTH_SCREEN);
         handleMobileView();
         window.addEventListener("resize", handleMobileView);
         // Remove event listener if not being used.
@@ -61,20 +61,20 @@ const Header: React.FC = () => {
                                 size="2x"
                             />
                         ) : (
-                                <FontAwesomeIcon
-                                    className={styles.hamburgerMenuOpenButton}
-                                    icon={faBars}
-                                    size="2x"
-                                />
-                            )}
+                            <FontAwesomeIcon
+                                className={styles.hamburgerMenuOpenButton}
+                                icon={faBars}
+                                size="2x"
+                            />
+                        )}
                     </a>
                 ) : (
-                        <Menu items={NavMenuMapping} />
-                    )}
+                    <Menu items={NavMenuMapping} />
+                )}
             </header>
             {isMobile && isMenuOpen && <Menu isMobile items={NavMenuMapping} />}
         </>
     );
 };
 
-export default Header;
+export default HeaderPartial;

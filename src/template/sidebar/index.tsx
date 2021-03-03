@@ -1,7 +1,11 @@
 import React from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCog, faCalendar, faCaretRight } from "@fortawesome/free-solid-svg-icons";
+import {
+    faCog,
+    faCalendar,
+    faCaretRight,
+} from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 
 import Menu from "../menu";
@@ -15,7 +19,6 @@ interface ComponentProps {
     isMobile?: boolean;
 }
 
-
 const Sidebar: React.FC<ComponentProps> = ({ baseUrl, isMobile }) => {
     const items = DashboardMenuLinks;
 
@@ -23,7 +26,6 @@ const Sidebar: React.FC<ComponentProps> = ({ baseUrl, isMobile }) => {
         <>
             <div className={`${styles.sidebar}`}>
                 <ul>
-
                     {/* {items && items.map(({ url, name, icon_name }) => {
                         <li>
                             <NavLink to={`${baseUrl}/${url}`} activeClassName={styles.active}><FontAwesomeIcon
@@ -50,9 +52,9 @@ const Sidebar: React.FC<ComponentProps> = ({ baseUrl, isMobile }) => {
                         </NavLink>
                     </li> */}
                 </ul>
-            </div >
+            </div>
         </>
-    )
+    );
 };
 
 export default Sidebar;

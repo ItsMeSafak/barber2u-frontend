@@ -8,7 +8,7 @@ import styles from "./styles.module.scss";
 /**
  * This component renders a footer.
  */
-const Footer: React.FC = () => (
+const FooterPartial: React.FC = () => (
     <footer className={styles.footer}>
         <small>
             All rights reserved. &copy; 2021 -{" "}
@@ -18,4 +18,4 @@ const Footer: React.FC = () => (
     </footer>
 );
 
-export default Footer;
+export default FooterPartial;
