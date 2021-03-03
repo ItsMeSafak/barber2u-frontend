@@ -1,0 +1,12 @@
+.dashboard {
+    background-color: #E1E1E1;
+    display: flex;
+
+    & .dashboardMobile {
+        flex-direction: column;
+    }
+
+    & .dashboardDesktop {
+        flex-direction: row;
+    }
+}
