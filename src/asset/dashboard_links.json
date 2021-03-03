@@ -1,0 +1,12 @@
+[
+    {
+        "url": "/settings",
+        "name": "Settings",
+        "icon_name": "faCog"
+    },
+    {
+        "url": "/reservations",
+        "name": "Reservations",
+        "icon_name": "faCalender"
+    }
+]

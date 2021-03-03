@@ -13,7 +13,7 @@ import styles from "./styles.module.scss";
  * This component renders a menu header with its menu items.
  */
 const Header: React.FC = () => {
-    const MAX_WIDTH = 900;
+    const MAX_WIDTH = 940;
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [isMobile, setMobile] = useState(false);
 
@@ -61,16 +61,16 @@ const Header: React.FC = () => {
                                 size="2x"
                             />
                         ) : (
-                            <FontAwesomeIcon
-                                className={styles.hamburgerMenuOpenButton}
-                                icon={faBars}
-                                size="2x"
-                            />
-                        )}
+                                <FontAwesomeIcon
+                                    className={styles.hamburgerMenuOpenButton}
+                                    icon={faBars}
+                                    size="2x"
+                                />
+                            )}
                     </a>
                 ) : (
-                    <Menu items={NavMenuMapping} />
-                )}
+                        <Menu items={NavMenuMapping} />
+                    )}
             </header>
             {isMobile && isMenuOpen && <Menu isMobile items={NavMenuMapping} />}
         </>
