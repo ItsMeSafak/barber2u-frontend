@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Button } from "antd";
+
 import styles from "./styles.module.scss";
 
 interface ComponentProps {
@@ -16,22 +18,43 @@ interface ComponentProps {
  *
  * @param props     Component properties.
  */
-const Menu: React.FC<ComponentProps> = ({ isMobile, items }) => (
+export const Menu: React.FC<ComponentProps> = ({ isMobile, items }) => (
     <ul className={isMobile ? styles.navbarMobile : styles.navbarDesktop}>
-        {items &&
-            items.map(({ url, name, isPillButton }) => (
-                <li
-                    key={name}
-                    className={
-                        isPillButton && !isMobile
-                            ? styles.pillButton
-                            : undefined
-                    }
-                >
-                    <a href={url}>{name}</a>
-                </li>
-            ))}
+        {/* {items &&
+            items.map(({ url, name, isPillButton }) => {
+                const renderPillButton = isPillButton && !isMobile;
+                return (
+                    <li key={name}>
+                        <Button
+                            href={url}
+                            type={renderPillButton ? "primary" : "link"}
+                            shape={renderPillButton ? "round" : undefined}
+                        >
+                            {name}
+                        </Button>
+                    </li>
+                )
+            })
+        } */}
+        {items && RenderNavMenuItems()}
     </ul>
 );
+
+const RenderNavMenuItems: React.FC<ComponentProps> = ({ isMobile, items }) => {
+    items?.map(({ url, name, isPillButton }) => {
+        const renderPillButton = isPillButton && !isMobile;
+        return (
+            <li key={name}>
+                <Button
+                    href={url}
+                    type={renderPillButton ? "primary" : "link"}
+                    shape={renderPillButton ? "round" : undefined}
+                >
+                    {name}
+                </Button>
+            </li>
+        )
+    })
+}
 
 export default Menu;

@@ -44,10 +44,10 @@ const Header: React.FC = () => {
     return (
         <>
             <header>
-                <h2 className={styles.title}>
+                <h1 className={styles.title}>
                     <FontAwesomeIcon icon={faCut} size="1x" />
                     Barber2U
-                </h2>
+                </h1>
                 {isMobile ? (
                     <a
                         className={styles.hamburgerMenu}
