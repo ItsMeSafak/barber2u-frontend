@@ -39,7 +39,7 @@ const Sidebar: React.FC<ComponentProps> = ({ baseUrl, isMobile, items }) => {
                 {items && items.map(({ url, name, iconName }) => (
                     <li key={name}>
                         <NavLink to={`${baseUrl}${url}`} activeClassName={styles.active}>
-                            <FontAwesomeIcon icon={stringToIcon(iconName)} />
+                        {stringToIcon(iconName)}
                             <span>{name}</span>
                         </NavLink>
                     </li>

@@ -14,6 +14,7 @@
             list-style-type: none;
             font-size: 20px; 
             text-align: left;
+            transition: all .2s ease;
 
             > a {
                 display: block;
@@ -58,6 +59,7 @@
 .sidebarMobile {
     width: 100%;
     min-height: auto;
+    position: relative;
 
     ul {
         display: flex;
@@ -69,7 +71,7 @@
                     left: 0;
                     bottom: 0;
                     width: 35px;
-                    transform: translate(0%, 60%) rotate(90deg);
+                    transform: translate(0%, 75%) rotate(90deg);
                 }
             }
         }
