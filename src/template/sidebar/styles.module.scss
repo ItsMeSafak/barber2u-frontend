@@ -1,0 +1,52 @@
+.sidebar {
+    background-color: #252525;
+    min-height: 80vh;
+    width: 20%;
+
+    > ul {
+        padding: 0;
+        
+        > li {
+            color: white;
+            list-style-type: none;
+            font-size: 20px; 
+            text-align: left;
+            position: relative;
+
+            > a {
+                display: block;
+                padding: 10px 20px;
+                color: inherit;
+                text-decoration: none;
+                transition: all .2s ease;
+
+                > span {
+                    &::before {
+                        content: "|";
+                        margin: 0 5px;
+                    }
+                }
+
+                &:hover {
+                    background-color: #1687A7;
+                }
+            }
+
+            .active {
+                background-color: #1687A7;
+
+                &::after {
+                    position: absolute;
+                    content: "";
+                    background: url(//public/images/arrow.svg);
+                    width: 20px;
+                    right: 0;
+                    top: 0;
+                    height: 100%;
+                    transform: translateX(20px);
+                }
+            }
+        }
+
+    }
+}

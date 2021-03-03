@@ -1,37 +1,26 @@
 import React from "react";
+import { BrowserRouter, Route, useRouteMatch, Switch } from "react-router-dom";
+import Sidebar from "../../template/sidebar";
 
 import styles from "./styles.module.scss";
 
-interface ComponentProps {
-    isMobile?: boolean;
-    items?: {
-        url: string;
-        name: string;
-        isPillButton?: boolean;
-    }[];
-}
+import Reservations from "./sub-pages/reservations";
+import Settings from "./sub-pages/settings";
 
-/**
- * This component renders the navbar menu item elements.
- *
- * @param props     Component properties.
- */
-const Menu: React.FC<ComponentProps> = ({ isMobile, items }) => (
-    <ul className={isMobile ? styles.navbarMobile : styles.navbarDesktop}>
-        {items &&
-            items.map(({ url, name, isPillButton }) => (
-                <li
-                    key={name}
-                    className={
-                        isPillButton && !isMobile
-                            ? styles.pillButton
-                            : undefined
-                    }
-                >
-                    <a href={url}>{name}</a>
-                </li>
-            ))}
-    </ul>
-);
 
-export default Menu;
+const Dashboard: React.FC = () => {
+    const { path, url } = useRouteMatch();
+    return (
+        <BrowserRouter>
+            <div className={styles.dashboard}>
+                <Sidebar url={url} />
+                <Switch>
+                    <Route path={`${path}/settings`} component={Settings} />
+                    <Route path={`${path}/reservations`} component={Reservations} />
+                </Switch>
+            </div>
+        </BrowserRouter>
+    )
+};
+
+export default Dashboard;
