@@ -1,0 +1,26 @@
+.container {
+    text-align: center;
+}
+
+.formCard {
+    text-align: left;
+    width: calc(100vh - 50vh);
+    margin: auto;
+    display: inline-block;
+    background-color: #252525;
+    padding: 25px;
+
+    h2 {
+        text-align: center;
+        color: #ddd;
+        font-size: 1.5rem;
+        font-weight: bolder;
+        text-decoration: underline;
+        text-decoration-color: #0e87ff;
+        padding-bottom: 25px;
+    }
+}
+
+.alert {
+    margin-bottom: 25px;
+}

@@ -6,14 +6,11 @@ import FooterPartial from "./template/footer-partial";
 import Dashboard from "./pages/dashboard";
 import ForgotPasswordPage from "./pages/forgot-password";
 
-import "antd/dist/antd.css";
-import "./App.scss";
-
 const App: React.FC = () => (
     <>
         <BrowserRouter>
             <HeaderPartial />
-            <div className="App-body">
+            <div className="body">
                 <Switch>
                     <Route path="/dashboard" component={Dashboard} />
                     <Route
