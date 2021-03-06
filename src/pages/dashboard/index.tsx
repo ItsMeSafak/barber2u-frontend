@@ -11,7 +11,7 @@ import Settings from "./sub-pages/settings";
 
 const Dashboard: React.FC = () => {
     const { path, url } = useRouteMatch();
-    const MAX_WIDTH = 940;
+    const MAX_WIDTH = 1200;
     const [isMobile, setMobile] = useState(false);
 
     useEffect(() => {
@@ -28,10 +28,12 @@ const Dashboard: React.FC = () => {
             <div className={`${styles.dashboard} ${isMobile ? styles.dashboardMobile
                 : styles.dashboardDesktop}`}>
                 <Sidebar baseUrl={url} isMobile={isMobile} items={DashboardLinks} />
-                <Switch>
-                    <Route path={`${path}/settings`} component={Settings} />
-                    <Route path={`${path}/reservations`} component={Reservations} />
-                </Switch>
+                <div className={styles.dashboardContent}>
+                    <Switch>
+                        <Route path={`${path}/settings`} component={Settings} />
+                        <Route path={`${path}/reservations`} component={Reservations} />
+                    </Switch>
+                </div>
             </div>
         </BrowserRouter >
     )

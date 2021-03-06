@@ -34,15 +34,15 @@
                 }
 
                 &:hover {
-                    background-color: #1687A7;
+                    background-color: #00b2ff;
                 }
             }
 
             .active {
-                background-color: #1687A7;
+                background-color: #00b2ff;
 
                 &::after {
-                    filter: invert(64%) sepia(94%) saturate(6749%) hue-rotate(172deg) brightness(95%) contrast(83%);
+                    filter: invert(53%) sepia(89%) saturate(2274%) hue-rotate(165deg) brightness(100%) contrast(102%);
                     position: absolute;
                     content: "";
                     background: url(../../asset/arrow.svg) no-repeat;
