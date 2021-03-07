@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIdCard, faAt, faKey, faMobileAlt, faAddressBook, faCity } from "@fortawesome/free-solid-svg-icons";
-import { Form, Input, Button, Card, Row, Col } from "antd";
+import { Form, Input, Button, Card } from "antd";
 import { useForm } from "react-hook-form";
 
 
 import styles from "./styles.module.scss";
 
 const Settings: React.FC = () => {
-    // const { formState } = useForm({
-    //     mode: "onChange"
-    // });
+    const {
+        register,
+        formState
+    } = useForm({
+        mode: "onChange"
+    });
 
-    useEffect(() => {
+    const [disabled, setDisabled] = useState(true);
 
-    }, []);
+    const handleUserInput = (inputFields: any) => {
 
-    // const { dirtyFields } = formState;
+    }
 
 
     return (
@@ -27,7 +30,9 @@ const Settings: React.FC = () => {
                     <Card type="inner" title="Personal details">
                         <Form.Item>
                             <Input
+                                name="firstname"
                                 size="large"
+                                onChange={(event) => handleUserInput(event)}
                                 placeholder="Firstname"
                                 prefix={<FontAwesomeIcon icon={faIdCard} />}
                             />
@@ -35,6 +40,8 @@ const Settings: React.FC = () => {
 
                         <Form.Item>
                             <Input
+                                name="lastname"
+                                ref={register}
                                 size="large"
                                 placeholder="Lastname"
                                 prefix={<FontAwesomeIcon icon={faIdCard} />}
@@ -43,6 +50,8 @@ const Settings: React.FC = () => {
 
                         <Form.Item>
                             <Input
+                                name="email"
+                                ref={register}
                                 size="large"
                                 placeholder="Email"
                                 prefix={<FontAwesomeIcon icon={faAt} />}
@@ -51,6 +60,8 @@ const Settings: React.FC = () => {
 
                         <Form.Item>
                             <Input
+                                name="password"
+                                ref={register}
                                 size="large"
                                 placeholder="Password"
                                 prefix={<FontAwesomeIcon icon={faKey} />}
@@ -59,6 +70,8 @@ const Settings: React.FC = () => {
 
                         <Form.Item>
                             <Input
+                                name="phone"
+                                ref={register}
                                 size="large"
                                 placeholder="Phone number"
                                 prefix={<FontAwesomeIcon icon={faMobileAlt} />}
@@ -67,6 +80,8 @@ const Settings: React.FC = () => {
 
                         <Form.Item>
                             <Input
+                                name="adress"
+                                ref={register}
                                 size="large"
                                 placeholder="Adress"
                                 prefix={<FontAwesomeIcon icon={faAddressBook} />}
@@ -75,6 +90,8 @@ const Settings: React.FC = () => {
 
                         <Form.Item>
                             <Input
+                                name="city"
+                                ref={register}
                                 size="large"
                                 placeholder="City"
                                 prefix={<FontAwesomeIcon icon={faCity} />}
@@ -87,7 +104,7 @@ const Settings: React.FC = () => {
                             type="primary"
                             htmlType="submit"
                             className={styles.saveButton}
-                        // disabled={!formState.isDirty}
+                            disabled={disabled}
                         >
                             Save changes
                         </Button>

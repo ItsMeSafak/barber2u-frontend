@@ -19,11 +19,11 @@ interface ComponentProps {
 
 
 const Sidebar: React.FC<ComponentProps> = ({ baseUrl, isMobile, items }) => {
-    const stringToIcon: any = (iconName: string) =>{
-        switch(iconName) {
+    const stringToIcon: any = (iconName: string) => {
+        switch (iconName) {
             case "faCog":
                 return <FontAwesomeIcon icon={faCog} />;
-            case "faCalendar" :
+            case "faCalendar":
                 return <FontAwesomeIcon icon={faCalendar} />;
             case "faCaretRight":
                 return <FontAwesomeIcon icon={faCaretRight} />;
@@ -33,22 +33,21 @@ const Sidebar: React.FC<ComponentProps> = ({ baseUrl, isMobile, items }) => {
     }
 
     return (
-    <>
-        <div className={`${styles.sidebar} ${isMobile ? styles.sidebarMobile: styles.sideBarDesktop}`}>
-            <ul>
-                {items && items.map(({ url, name, iconName }) => (
-                    <li key={name}>
-                        <NavLink to={`${baseUrl}${url}`} activeClassName={styles.active}>
-                        {stringToIcon(iconName)}
-                            <span>{name}</span>
-                        </NavLink>
-                    </li>
-                ))}
-            </ul>
-        </div >
-    </>
+        <>
+            <div className={`${styles.sidebar} ${isMobile ? styles.sidebarMobile : styles.sideBarDesktop}`}>
+                <ul>
+                    {items && items.map(({ url, name, iconName }) => (
+                        <li key={name}>
+                            <NavLink to={`${baseUrl}${url}`} activeClassName={styles.active}>
+                                {stringToIcon(iconName)}
+                                <span>{name}</span>
+                            </NavLink>
+                        </li>
+                    ))}
+                </ul>
+            </div >
+        </>
     )
-
-                };
+};
 
 export default Sidebar;
