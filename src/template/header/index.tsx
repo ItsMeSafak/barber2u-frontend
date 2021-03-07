@@ -61,16 +61,16 @@ const Header: React.FC = () => {
                                 size="2x"
                             />
                         ) : (
-                                <FontAwesomeIcon
-                                    className={styles.hamburgerMenuOpenButton}
-                                    icon={faBars}
-                                    size="2x"
-                                />
-                            )}
+                            <FontAwesomeIcon
+                                className={styles.hamburgerMenuOpenButton}
+                                icon={faBars}
+                                size="2x"
+                            />
+                        )}
                     </a>
                 ) : (
-                        <Menu items={NavMenuMapping} />
-                    )}
+                    <Menu items={NavMenuMapping} />
+                )}
             </header>
             {isMobile && isMenuOpen && <Menu isMobile items={NavMenuMapping} />}
         </>

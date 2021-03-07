@@ -1,30 +1,44 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, ChangeEvent } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faIdCard, faAt, faKey, faMobileAlt, faAddressBook, faCity } from "@fortawesome/free-solid-svg-icons";
+import {
+    faIdCard,
+    faAt,
+    faKey,
+    faMobileAlt,
+    faAddressBook,
+    faCity,
+} from "@fortawesome/free-solid-svg-icons";
 import { Form, Input, Button, Card } from "antd";
-import { useForm } from "react-hook-form";
-
 
 import styles from "./styles.module.scss";
 
 const Settings: React.FC = () => {
-    const {
-        register,
-        formState
-    } = useForm({
-        mode: "onChange"
+    // dit kan opzich een user object worden
+    const [formValue, setFormValue] = useState<{
+        name: string;
+        lastname: string;
+        email: string;
+        password: string;
+        phone: string;
+        city: string;
+        adress: string;
+    }>({
+        name: "",
+        lastname: "",
+        email: "",
+        password: "",
+        phone: "",
+        city: "",
+        adress: "",
     });
 
-    const [disabled, setDisabled] = useState(true);
-
-    const handleUserInput = (inputFields: any) => {
-
-    }
-
+    // hier kan je eventueel een mapper bij toevoegen om filters te handhaven maar dat ligt aan wat 100% ingevuld moet worden
+    // met deze line moet alles ingevuld worden om de button te enablen
+    const isEnabled = () => Object.values(formValue).every((o) => o !== "");
 
     return (
-        <div className={styles.settings} >
+        <div className={styles.settings}>
             <Card className={styles.container}>
                 <Form>
                     <Card type="inner" title="Personal details">
@@ -32,7 +46,14 @@ const Settings: React.FC = () => {
                             <Input
                                 name="firstname"
                                 size="large"
-                                onChange={(event) => handleUserInput(event)}
+                                onChange={(
+                                    event: ChangeEvent<HTMLInputElement>
+                                ) =>
+                                    setFormValue({
+                                        ...formValue,
+                                        name: event.target.value,
+                                    })
+                                }
                                 placeholder="Firstname"
                                 prefix={<FontAwesomeIcon icon={faIdCard} />}
                             />
@@ -41,9 +62,16 @@ const Settings: React.FC = () => {
                         <Form.Item>
                             <Input
                                 name="lastname"
-                                ref={register}
                                 size="large"
                                 placeholder="Lastname"
+                                onChange={(
+                                    event: ChangeEvent<HTMLInputElement>
+                                ) =>
+                                    setFormValue({
+                                        ...formValue,
+                                        lastname: event.target.value,
+                                    })
+                                }
                                 prefix={<FontAwesomeIcon icon={faIdCard} />}
                             />
                         </Form.Item>
@@ -51,9 +79,16 @@ const Settings: React.FC = () => {
                         <Form.Item>
                             <Input
                                 name="email"
-                                ref={register}
                                 size="large"
                                 placeholder="Email"
+                                onChange={(
+                                    event: ChangeEvent<HTMLInputElement>
+                                ) =>
+                                    setFormValue({
+                                        ...formValue,
+                                        email: event.target.value,
+                                    })
+                                }
                                 prefix={<FontAwesomeIcon icon={faAt} />}
                             />
                         </Form.Item>
@@ -61,9 +96,16 @@ const Settings: React.FC = () => {
                         <Form.Item>
                             <Input
                                 name="password"
-                                ref={register}
                                 size="large"
                                 placeholder="Password"
+                                onChange={(
+                                    event: ChangeEvent<HTMLInputElement>
+                                ) =>
+                                    setFormValue({
+                                        ...formValue,
+                                        password: event.target.value,
+                                    })
+                                }
                                 prefix={<FontAwesomeIcon icon={faKey} />}
                             />
                         </Form.Item>
@@ -71,9 +113,16 @@ const Settings: React.FC = () => {
                         <Form.Item>
                             <Input
                                 name="phone"
-                                ref={register}
                                 size="large"
                                 placeholder="Phone number"
+                                onChange={(
+                                    event: ChangeEvent<HTMLInputElement>
+                                ) =>
+                                    setFormValue({
+                                        ...formValue,
+                                        phone: event.target.value,
+                                    })
+                                }
                                 prefix={<FontAwesomeIcon icon={faMobileAlt} />}
                             />
                         </Form.Item>
@@ -81,19 +130,35 @@ const Settings: React.FC = () => {
                         <Form.Item>
                             <Input
                                 name="adress"
-                                ref={register}
                                 size="large"
                                 placeholder="Adress"
-                                prefix={<FontAwesomeIcon icon={faAddressBook} />}
+                                onChange={(
+                                    event: ChangeEvent<HTMLInputElement>
+                                ) =>
+                                    setFormValue({
+                                        ...formValue,
+                                        adress: event.target.value,
+                                    })
+                                }
+                                prefix={
+                                    <FontAwesomeIcon icon={faAddressBook} />
+                                }
                             />
                         </Form.Item>
 
                         <Form.Item>
                             <Input
                                 name="city"
-                                ref={register}
                                 size="large"
                                 placeholder="City"
+                                onChange={(
+                                    event: ChangeEvent<HTMLInputElement>
+                                ) =>
+                                    setFormValue({
+                                        ...formValue,
+                                        city: event.target.value,
+                                    })
+                                }
                                 prefix={<FontAwesomeIcon icon={faCity} />}
                             />
                         </Form.Item>
@@ -104,15 +169,15 @@ const Settings: React.FC = () => {
                             type="primary"
                             htmlType="submit"
                             className={styles.saveButton}
-                            disabled={disabled}
+                            disabled={!isEnabled()}
                         >
                             Save changes
                         </Button>
                     </Form.Item>
                 </Form>
-            </Card >
-        </div >
-    )
+            </Card>
+        </div>
+    );
 };
 
 export default Settings;

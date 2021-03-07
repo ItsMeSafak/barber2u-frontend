@@ -1,8 +1,12 @@
 import React from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconName, IconProp } from "@fortawesome/fontawesome-svg-core"
-import { faCog, faCalendar, faCaretRight } from "@fortawesome/free-solid-svg-icons";
+import { IconName, IconProp } from "@fortawesome/fontawesome-svg-core";
+import {
+    faCog,
+    faCalendar,
+    faCaretRight,
+} from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 
 import styles from "./styles.module.scss";
@@ -17,7 +21,6 @@ interface ComponentProps {
     }[];
 }
 
-
 const Sidebar: React.FC<ComponentProps> = ({ baseUrl, isMobile, items }) => {
     const stringToIcon: any = (iconName: string) => {
         switch (iconName) {
@@ -30,24 +33,32 @@ const Sidebar: React.FC<ComponentProps> = ({ baseUrl, isMobile, items }) => {
             default:
                 return <FontAwesomeIcon icon={faCalendar} />;
         }
-    }
+    };
 
     return (
         <>
-            <div className={`${styles.sidebar} ${isMobile ? styles.sidebarMobile : styles.sideBarDesktop}`}>
+            <div
+                className={`${styles.sidebar} ${
+                    isMobile ? styles.sidebarMobile : styles.sideBarDesktop
+                }`}
+            >
                 <ul>
-                    {items && items.map(({ url, name, iconName }) => (
-                        <li key={name}>
-                            <NavLink to={`${baseUrl}${url}`} activeClassName={styles.active}>
-                                {stringToIcon(iconName)}
-                                <span>{name}</span>
-                            </NavLink>
-                        </li>
-                    ))}
+                    {items &&
+                        items.map(({ url, name, iconName }) => (
+                            <li key={name}>
+                                <NavLink
+                                    to={`${baseUrl}${url}`}
+                                    activeClassName={styles.active}
+                                >
+                                    {stringToIcon(iconName)}
+                                    <span>{name}</span>
+                                </NavLink>
+                            </li>
+                        ))}
                 </ul>
-            </div >
+            </div>
         </>
-    )
+    );
 };
 
 export default Sidebar;
