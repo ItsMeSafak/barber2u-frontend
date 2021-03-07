@@ -1,0 +1,291 @@
+$dark-background: #252525;
+$light-background: #e6e6e6;
+$dark-fontcolor: #000000;
+$light-fontcolor: #e6e6e6;
+$primary-color: #00b2ff;
+
+$height-of-header: 112px;
+
+$mq-laptop: 1200px;
+
+section {
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    text-align: left;
+
+    &.welcome, &.about, &.footer {
+        background-color: $dark-background;
+
+        * {
+            color: $light-fontcolor;
+        }
+    }
+
+    &.howdoesitwork, &.reviews {
+        background-color: $light-background;
+
+        * {
+            color: $dark-fontcolor;
+        }
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: normal;
+        text-align: center;
+        color: inherit;
+        line-height: 1;
+
+        &.underlined {
+            margin-inline: auto;
+            border-bottom: solid 3px $primary-color;
+        }
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .primaryButton {
+        padding: 8px 26px;
+        margin: 0 auto;
+        color: $light-fontcolor;
+        background: $primary-color;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+    }
+}
+
+.welcome {
+    display: flex;
+    // TODO fix to 100vh when header is a fixed height for mobile and desktop view.
+    height: calc(100vh - #{$height-of-header});
+    justify-content: center;
+
+    .welcomeContainer {
+        max-width: 600px;
+        align-self: center;
+        text-align: center;
+        position: relative;
+        bottom: 64px;
+
+        h1 {
+            align-self: center;
+        }
+    }
+}
+
+.howdoesitwork {
+    h1 {
+        margin: 0 0 32px 0;
+    }
+
+    .cardContainer {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            padding: 16px 32px;
+            max-width: 800px;
+
+            img {
+                height: 250px;
+                width: 250px;
+                margin-bottom: 16px;
+            }
+
+            .step {
+                height: 48px;
+                width: 48px;
+                background-color: $primary-color;
+                border-radius: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 16px;
+
+                span {
+                    font-size: 2rem;
+                    color: $light-fontcolor;
+                }
+            }
+        }
+    }
+}
+
+.about {
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+        display: inline-block;
+    }
+
+    img {
+        margin-top: 16px;
+        max-width: 500px;
+        max-height: 500px;
+    }
+}
+
+.reviews {
+    display: flex;
+    flex-direction: column;
+
+    .reviewContainer {
+        .slick-track {
+            display: flex;
+            align-items: center;
+        }
+
+        p {
+            min-height: 200px;
+            font-size: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 20px;
+
+            .reviewMessage {
+                text-align: center;
+            }
+        }
+
+        .slickPrev, .slickNext {
+            width: 0;
+            height: 0;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+        }
+
+        .slickPrev {
+            border-right: 30px solid $primary-color
+        }
+
+        .slickNext {
+            border-left: 30px solid $primary-color
+        }
+    }
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 16px;
+
+    .footerLogo {
+        display: block;
+        font-size: 2rem;
+        padding: 16px;
+    }
+
+    .footerContainer {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        ul {
+            padding: 16px;
+            margin: 0;
+
+            span {
+                font-weight: bold;
+                font-size: 1rem;
+            }
+
+            > li {
+                list-style-type: none;
+
+                a {
+                    color: inherit;
+
+                    &:active {
+                        color: $primary-color;
+                    }
+
+                    &::before {
+                        content: ">";
+                        display: inline-block;
+                        color: $primary-color;
+                        padding-right: 4px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: $mq-laptop) {
+    section {
+        h1 {
+            font-size: 4rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        .primaryButton {
+            font-size: 1.5rem;
+        }
+    }
+
+    .welcome .welcomeContainer {
+        max-width: 900px;
+
+        p {
+            font-size: 1.5rem;
+        }
+    }
+
+    .howdoesitwork .cardContainer {
+        flex-direction: row;
+
+        .card {
+            max-width: 400px;
+        }
+
+        .card:not(:last-child) {
+            border-right: 1px solid grey;
+        }
+    }
+
+    .about {
+        flex-direction: row;
+
+        p {
+            margin-right: 10%;
+        }
+
+        img {
+            margin: 0;
+        }
+    }
+
+    .reviews .reviewContainer {
+        max-width: $mq-laptop;
+        margin: 0 auto;
+
+        p {
+            font-size: 1.6rem;
+        }
+    }
+
+    .footer .footerLogo {
+        font-size: 3rem;
+    }
+}

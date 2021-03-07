@@ -11,6 +11,7 @@ import logo from "./logo.svg";
 import "antd/dist/antd.css";
 import "./App.scss";
 import Dashboard from "./pages/dashboard";
+import Home from "./template/home"
 
 const App: React.FC = () => (
     <>
@@ -18,6 +19,7 @@ const App: React.FC = () => (
             <Header />
             <div className="App">
                 <Switch>
+                    <Route exact path='/' component={Home} />
                     <Route path='/dashboard' component={Dashboard} />
                 </Switch>
             </div>
