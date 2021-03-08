@@ -33,9 +33,7 @@ const Settings: React.FC = () => {
         adress: "",
     });
 
-    // hier kan je eventueel een mapper bij toevoegen om filters te handhaven maar dat ligt aan wat 100% ingevuld moet worden
-    // met deze line moet alles ingevuld worden om de button te enablen
-    const isEnabled = () => Object.values(formValue).every((o) => o !== "");
+    const isEnabled = () => Object.values(formValue).some((o) => o !== "");
 
     return (
         <div className={styles.settings}>

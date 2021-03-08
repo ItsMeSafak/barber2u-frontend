@@ -5,8 +5,8 @@ import Sidebar from "../../template/sidebar";
 import DashboardLinks from "../../asset/dashboard_links.json";
 import styles from "./styles.module.scss";
 
-import Reservations from "./sub-pages/reservations";
-import Settings from "./sub-pages/settings";
+import Reservations from "./reservations";
+import Settings from "./settings";
 
 const Dashboard: React.FC = () => {
     const { path, url } = useRouteMatch();
@@ -25,9 +25,8 @@ const Dashboard: React.FC = () => {
     return (
         <BrowserRouter>
             <div
-                className={`${styles.dashboard} ${
-                    isMobile ? styles.dashboardMobile : styles.dashboardDesktop
-                }`}
+                className={`${styles.dashboard} ${isMobile ? styles.dashboardMobile : styles.dashboardDesktop
+                    }`}
             >
                 <Sidebar
                     baseUrl={url}
@@ -36,7 +35,9 @@ const Dashboard: React.FC = () => {
                 />
                 <div className={styles.dashboardContent}>
                     <Switch>
-                        <Route path={`${path}/settings`} component={Settings} />
+                        <Route
+                            path={`${path}/settings`}
+                            component={Settings} />
                         <Route
                             path={`${path}/reservations`}
                             component={Reservations}
