@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, useRouteMatch, Switch } from "react-router-dom";
 import Sidebar from "../../template/sidebar";
 import DashboardLinks from "../../asset/dashboard_links.json";
+import ReservationsData from "../../asset/reservations.json";
+
 import styles from "./styles.module.scss";
 
 import Reservations from "./reservations";
@@ -12,6 +14,8 @@ const Dashboard: React.FC = () => {
     const { path, url } = useRouteMatch();
     const MAX_WIDTH = 1200;
     const [isMobile, setMobile] = useState(false);
+
+    const reservations = Reservations
 
     useEffect(() => {
         const handleMobileView = () =>
@@ -39,9 +43,9 @@ const Dashboard: React.FC = () => {
                             path={`${path}/settings`}
                             component={Settings} />
                         <Route
-                            path={`${path}/reservations`}
-                            component={Reservations}
-                        />
+                            path={`${path}/reservations`}>
+                                <Reservations items={ReservationsData}/>
+                        </Route>
                     </Switch>
                 </div>
             </div>

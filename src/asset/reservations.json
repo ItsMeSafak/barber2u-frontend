@@ -1,0 +1,32 @@
+[
+    {
+        "dateF": "10-02-2021",
+        "style": "Cool car",
+        "price": 20.00
+    },
+    {
+        "dateF": "11-01-2020",
+        "style": "Lolwut",
+        "price": 16.20
+    },
+    {
+        "dateF": "8-02-2011",
+        "style": "cooler car",
+        "price": 20.10
+    },
+    {
+        "dateF": "11-01-2080",
+        "style": "coolest",
+        "price": 16.45
+    },
+    {
+        "dateF": "10-02-2022",
+        "style": "dope car",
+        "price": 20.11
+    },
+    {
+        "dateF": "11-01-2021",
+        "style": "balss",
+        "price": 16.00
+    }
+]
