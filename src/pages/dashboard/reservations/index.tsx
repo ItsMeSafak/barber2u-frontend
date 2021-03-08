@@ -15,37 +15,58 @@ interface ComponentProps {
     }[];
 }
 
+const date = new Date().getUTCMonth;
+
 const Reservations: React.FC<ComponentProps> = ({ items }) => {
-    const [currentMonth, setCurrentMonth] = useState("");
+    const [currentMonth, setCurrentMonth] = useState(new Date().getUTCMonth());
 
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const date: number = new Date().getMonth();
 
-    const previousMonth = () => {
-        console.log("prev")
-        setCurrentMonth(monthNames[date - 1])
-    }
+    const prevMonth = () => setCurrentMonth((prevState) => {
+        let state = prevState - 1
+        if (state < 0) {
+            state = 11
+        }
+        return state
+    });
 
-    const nextMonth = () => {
-        console.log("next")
-        setCurrentMonth(monthNames[date + 1])
+    const nextMonth = () => setCurrentMonth((prevState) => {
+        let state = prevState + 1
+        if (state > 11) {
+            state = 0
+        }
+        return state
+    });
+
+    const newItems = items?.filter((item) => {
+        const objDate = new Date(item.dateF);
+        console.log(objDate.getUTCMonth());
+        console.log(objDate.getUTCMonth() == currentMonth);
+        return objDate.getUTCMonth() == currentMonth;
+    })
+
+    console.log(items);
+
+    const convertDateToMonth = (dateString: string) => {
+        const objDate = new Date(dateString)
+        return objDate.getUTCMonth()
     }
 
     return (
         <Layout>
             <Content className={styles.reservations}>
                 <div className={styles.header}>
-                    <FontAwesomeIcon className={styles.arrow} onClick={previousMonth} icon={faCaretLeft} />
-                    <span>{currentMonth}</span>
+                    <FontAwesomeIcon className={styles.arrow} onClick={prevMonth} icon={faCaretLeft} />
+                    <span>{monthNames[currentMonth]}</span>
                     <FontAwesomeIcon className={styles.arrow} onClick={nextMonth} icon={faCaretRight} />
                 </div>
                 <div>
-                    <Row gutter={[20,20]}>
-                        {items &&
-                            items.map(({ dateF, style, price }) => (
+                    <Row gutter={[20, 20]}>
+                        {newItems &&
+                            newItems.map(({ dateF, style, price }) => (
                                 <Col key={style} xs={24} sm={12} lg={8} xl={8} >
                                     <Card className={styles.card} key={style}>
-                                        <p className={styles.title}>{dateF}</p>
+                                        <p className={styles.title}>{convertDateToMonth(dateF)}</p>
                                         <p>{style}</p>
                                         <p className={styles.price}>&euro; {price.toFixed(2)}</p>
                                     </Card>
