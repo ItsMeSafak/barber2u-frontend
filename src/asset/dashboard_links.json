@@ -1,12 +1,32 @@
 [
     {
-        "url": "/settings",
-        "name": "Settings",
-        "iconName": "faCog"
+        "url": "",
+        "name": "Dashboard",
+        "iconName": "faChartPie"
+    },
+    {
+        "url": "/schedule",
+        "name": "Schedule",
+        "iconName": "faCalendarAlt"
+    },
+    {
+        "url": "/portfolio",
+        "name": "Portfolio",
+        "iconName": "faCamera"
+    },
+    {
+        "url": "/services",
+        "name": "Services",
+        "iconName": "faCut"
     },
     {
         "url": "/reservations",
         "name": "Reservations",
         "iconName": "faCalendar"
+    },
+    {
+        "url": "/settings",
+        "name": "Settings",
+        "iconName": "faCog"
     }
 ]

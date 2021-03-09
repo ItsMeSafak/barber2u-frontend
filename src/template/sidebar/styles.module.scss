@@ -1,9 +1,6 @@
 .sidebar {
-    background-color: #252525;
     min-height: 100vh;
-    width: 20%;
     position: relative;
-    box-shadow: -8px 21px 45px -4px black;
 
     > ul {
         position: sticky;
@@ -58,24 +55,13 @@
 }
 
 .sidebarMobile {
-    width: 100%;
-    min-height: auto;
-    position: relative;
-    box-shadow: 10px 6px 45px -4px black;
+    aside {
+        box-shadow: 0px 15px -4px black;
+        min-width: fit-content !important;
+        max-width: fit-content !important;
+    }
 
     ul {
-        display: flex;
-        flex-direction: row;
-        margin: 0;
-        > li {
-            .active {
-                &::after {
-                    left: 0;
-                    bottom: 0;
-                    width: 35px;
-                    transform: translate(0%, 75%) rotate(90deg);
-                }
-            }
-        }
+        width: 50px !important;
     }
 }
