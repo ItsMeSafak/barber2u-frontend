@@ -29,7 +29,8 @@ interface ComponentProps {
 }
 
 const Sidebar: React.FC<ComponentProps> = ({ baseUrl, isMobile, items }) => {
-    const [currentPath, setCurrentPath] = useState(`/${window.location.pathname.split("/")[2]}`);
+    const currentUrl = window.location.pathname.split("/")[2] == null ? "/" : `/${window.location.pathname.split("/")[2]}`;
+    const [currentPath, setCurrentPath] = useState(currentUrl)
 
     const stringToIcon: any = (iconName: string) => {
         switch (iconName) {
@@ -69,8 +70,7 @@ const Sidebar: React.FC<ComponentProps> = ({ baseUrl, isMobile, items }) => {
                                     {name}
                                 </NavLink>
                             </Menu.Item>
-                        ))}
-                        
+                            ))}
                     </Menu>
                 </Sider>
 

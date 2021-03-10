@@ -1,7 +1,9 @@
+@import "../../asset/config.scss";
+
 header {
     padding: 15px;
-    background-color: #252525;
-    color: #fff;
+    background-color: $secondary-color;
+    color: $white-color;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -18,11 +20,11 @@ header {
         margin-right: 30px;
 
         .hamburgerMenuCloseButton:hover {
-            color: gray;
+            color: $grey-color;
         }
 
         .hamburgerMenuOpenButton:hover {
-            color: gray;
+            color: $grey-color;
         }
     }
 }
