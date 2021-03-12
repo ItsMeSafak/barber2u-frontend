@@ -13,6 +13,8 @@ import Settings from "./settings";
 import Statistics from "./statistics";
 import Services from "./services";
 import { Service } from "../../models/Service";
+import Schedule from "./schedule";
+import Portfolio from "./portfolio";
 
 const Dashboard: React.FC = () => {
     const { path, url } = useRouteMatch();
@@ -43,6 +45,12 @@ const Dashboard: React.FC = () => {
                     <Switch>
                         <Route exact path={`${path}`}>
                             <Statistics />
+                        </Route>
+                        <Route path={`${path}/schedule`}>
+                            <Schedule/>
+                        </Route>
+                        <Route path={`${path}/portfolio`}>
+                            <Portfolio/>
                         </Route>
                         <Route
                             path={`${path}/services`}>

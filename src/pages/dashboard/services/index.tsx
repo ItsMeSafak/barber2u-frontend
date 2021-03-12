@@ -70,13 +70,7 @@ const ServiceCard: React.FC<CardProps> = ({ serviceDetail, newService }) => {
 }
 
 const Services: React.FC<ComponentProps> = ({ services }) => {
-    const keyCounter = 0;
     const [newService, setNewService] = useState(false)
-
-    const keyCounterUp = () => {
-        const newCounter = keyCounter + 1;
-        return newCounter
-    }
 
     const emptyService = () => new Service(0, Style.Curly, "", 0.00);
 
@@ -104,7 +98,7 @@ const Services: React.FC<ComponentProps> = ({ services }) => {
                     <Row gutter={[20, 20]}>
                         {services &&
                             services.map((service) => (
-                                <ServiceCard key={keyCounterUp()} serviceDetail={service} newService={false} />
+                                <ServiceCard key={service.id} serviceDetail={service} newService={false} />
                             ))}
                     </Row>
                 </Content>

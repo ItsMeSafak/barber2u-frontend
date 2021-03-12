@@ -1,42 +1,68 @@
-import Paper from "@material-ui/core/Paper";
 import {
     Chart,
     BarSeries,
     Title,
     ArgumentAxis,
-    ValueAxis
+    ValueAxis,
+    Legend
 } from "@devexpress/dx-react-chart-material-ui";
+
 import React, { useState } from "react";
-import { Animation } from "@devexpress/dx-react-chart";
-import { Card } from "antd";
+import { Animation, PieSeries } from "@devexpress/dx-react-chart";
+import { Card, Col, Layout, Row, Statistic } from "antd";
+import { Content } from "antd/lib/layout/layout";
+
+import styles from "./styles.module.scss";
 
 const Statistics: React.FC = () => {
     const data = [
-        { year: "1950", population: 2.525 },
-        { year: "1960", population: 3.018 },
-        { year: "1970", population: 3.682 },
-        { year: "1980", population: 4.440 },
-        { year: "1990", population: 5.310 },
-        { year: "2000", population: 6.127 },
-        { year: "2010", population: 6.930 },
+        { month: "Jan", revenue: 200 },
+        { month: "Feb", revenue: 250 },
+        { month: "Mar", revenue: 165 },
+        { month: "Apr", revenue: 44 },
+        { month: "May", revenue: 310 },
+        { month: "Jun", revenue: 27 },
+        { month: "Jul", revenue: 430 },
     ];
 
 
     return (
-        <Card>
-            <Chart
-                data={data}
-            >
-                <ArgumentAxis />
-                <ValueAxis />
-                <BarSeries
-                    valueField="population"
-                    argumentField="year"
-                />
-                <Title text="World population" />
-                <Animation />
-            </Chart>
-        </Card>
+        <Layout className={styles.statistics}>
+            <Content>
+                <Row gutter={[20, 20]}>
+                    <Col xs={24} sm={24} lg={12} xl={12}>
+                        <Card className={styles.card}>
+                            <Chart data={data}>
+                                <ArgumentAxis />
+                                <ValueAxis />
+                                <BarSeries
+                                    valueField="revenue"
+                                    argumentField="month"
+                                />
+                                <Animation />
+                            </Chart>
+                        </Card>
+                    </Col>
+                    <Col xs={24} sm={24} lg={12} xl={12}>
+                        <Card className={styles.card}>
+                            <Chart data={data} >
+                                <PieSeries
+                                    valueField="revenue"
+                                    argumentField="month"
+                                />
+                                <Animation />
+                            </Chart>
+                        </Card>
+                    </Col>
+                    <Col xs={24} sm={12} lg={8} xl={8}>
+                        <Card className={styles.card}>
+                            <Statistic title="Account Balance (CNY)" value={112893} precision={2} />
+                        </Card>
+                    </Col>
+                </Row>
+            </Content>
+        </Layout>
+
 
     );
 };
