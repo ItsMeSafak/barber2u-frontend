@@ -13,8 +13,11 @@ import Settings from "./settings";
 import Statistics from "./statistics";
 import Services from "./services";
 import { Service } from "../../models/Service";
+import { Reservation } from "../../models/Reservation";
+
 import Schedule from "./schedule";
 import Portfolio from "./portfolio";
+
 
 const Dashboard: React.FC = () => {
     const { path, url } = useRouteMatch();
@@ -54,14 +57,14 @@ const Dashboard: React.FC = () => {
                         </Route>
                         <Route
                             path={`${path}/services`}>
-                            <Services services={ServicesData as Service[]}/>
+                            <Services services={ServicesData as Service[]} />
                         </Route>
                         <Route
                             path={`${path}/settings`}
                             component={Settings} />
                         <Route
                             path={`${path}/reservations`}>
-                            <Reservations items={ReservationsData} />
+                            <Reservations reservationItems={ReservationsData as Reservation[]} />
                         </Route>
                     </Switch>
                 </div>

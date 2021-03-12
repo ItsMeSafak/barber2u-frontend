@@ -1,23 +1,21 @@
 import React, { useState } from "react";
-import { Card, Col, Layout, Row } from "antd";
+import { Card, Col, Row, Modal, Button, Divider } from "antd";
 import { Content } from "antd/lib/layout/layout";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 
+import { Reservation } from "../../../models/Reservation";
+
+
 import styles from "./styles.module.scss";
+import { Style } from "../../../models/Style";
 
 interface ComponentProps {
-    items?: {
-        dateF: string;
-        style: string;
-        price: number;
-    }[];
+    reservationItems: Reservation[];
 }
 
-const date = new Date().getUTCMonth;
-
-const Reservations: React.FC<ComponentProps> = ({ items }) => {
+const Reservations: React.FC<ComponentProps> = ({ reservationItems }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date().getUTCMonth());
 
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -38,45 +36,62 @@ const Reservations: React.FC<ComponentProps> = ({ items }) => {
         return state
     });
 
-    const newItems = items?.filter((item) => {
-        const objDate = new Date(item.dateF);
-        console.log(objDate.getUTCMonth());
-        console.log(objDate.getUTCMonth() == currentMonth);
+    const newItems = reservationItems.filter((item) => {
+        const objDate = new Date(item.date);
         return objDate.getUTCMonth() == currentMonth;
     })
 
-    console.log(items);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [reservation, setReservation] = useState(new Reservation(0, Style.Curly, "", "", 0));
 
-    const convertDateToMonth = (dateString: string) => {
-        const objDate = new Date(dateString)
-        return objDate.getUTCMonth()
-    }
+    const showModal = (item: Reservation) => {
+        setReservation(item)
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
 
     return (
-        <Layout>
-            <Content className={styles.reservations}>
-                <div className={styles.header}>
-                    <FontAwesomeIcon className={styles.arrow} onClick={prevMonth} icon={faCaretLeft} />
-                    <span>{monthNames[currentMonth]}</span>
-                    <FontAwesomeIcon className={styles.arrow} onClick={nextMonth} icon={faCaretRight} />
-                </div>
-                <div>
-                    <Row gutter={[20, 20]}>
-                        {newItems &&
-                            newItems.map(({ dateF, style, price }) => (
-                                <Col key={style} xs={24} sm={12} lg={8} xl={8} >
-                                    <Card className={styles.card} key={style}>
-                                        <p className={styles.title}>{convertDateToMonth(dateF)}</p>
-                                        <p>{style}</p>
-                                        <p className={styles.price}>&euro; {price.toFixed(2)}</p>
-                                    </Card>
-                                </Col>
-                            ))}
-                    </Row>
-                </div>
-            </Content>
-        </Layout>
+        <Content className={styles.reservations}>
+            <div className={styles.header}>
+                <FontAwesomeIcon className={styles.arrow} onClick={prevMonth} icon={faCaretLeft} />
+                <span>{monthNames[currentMonth]}</span>
+                <FontAwesomeIcon className={styles.arrow} onClick={nextMonth} icon={faCaretRight} />
+            </div>
+            <div>
+                <Row gutter={[20, 20]}>
+                    {newItems &&
+                        newItems.map((item) => (
+                            <Col key={item.id} xs={24} sm={12} lg={8} xl={8} >
+                                <Card className={styles.card} onClick={(event) => showModal(item)}>
+                                    <p className={styles.title}>Reservation</p>
+                                    <p>{item.style}</p>
+                                    <p>{item.date}, {item.location}</p>
+                                    <Divider />
+                                    <p className={styles.price}>&euro; {item.price.toFixed(2)}</p>
+                                </Card>
+                            </Col>
+                        ))}
+                </Row>
+            </div>
 
+            <Modal title="Detailed information" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                {reservation &&
+                    <Card className={styles.card} key={reservation.id}>
+                        <p>Hairstyle: {reservation.style}</p>
+                        <p>{reservation.date},{reservation.location}</p>
+                        <Divider />
+                        <p className={styles.price}>Price: &euro;{reservation.price.toFixed(2)}</p>
+                    </Card>
+                }
+            </Modal>
+        </Content>
     );
 };
 
