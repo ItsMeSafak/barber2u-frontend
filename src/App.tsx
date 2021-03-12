@@ -1,27 +1,36 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+import { Layout } from "antd";
+
+import Dashboard from "./pages/dashboard";
+import ErrorPage from "./pages/error-page";
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
-import Dashboard from "./pages/dashboard";
-import ForgotPasswordPage from "./pages/forgot-password";
+
+const { Header, Footer } = Layout;
 
 const App: React.FC = () => (
-    <>
+    <Layout className="layoutContainer">
         <BrowserRouter>
-            <HeaderPartial />
-            <div className="body">
+            <Header className="header">
+                <HeaderPartial />
+            </Header>
+            <Layout>
                 <Switch>
                     <Route path="/dashboard" component={Dashboard} />
                     <Route
-                        path="/forgot-password"
-                        component={ForgotPasswordPage}
+                        component={() => (
+                            <ErrorPage code={404} returnUrl="home" />
+                        )}
                     />
                 </Switch>
-            </div>
+            </Layout>
+            <Footer className="footer">
+                <FooterPartial />
+            </Footer>
         </BrowserRouter>
-        <FooterPartial />
-    </>
+    </Layout>
 );
 
 export default App;

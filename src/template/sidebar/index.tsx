@@ -8,14 +8,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 
-import Menu from "../menu";
+import Menu from "../header-partial/menu";
 
 import DashboardMenuLinks from "../../asset/dashboard_links.json";
 
 import styles from "./styles.module.scss";
 
 interface ComponentProps {
-    baseUrl?: String;
+    baseUrl?: string;
     isMobile?: boolean;
 }
 

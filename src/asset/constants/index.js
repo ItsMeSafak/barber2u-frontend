@@ -1,1 +1,0 @@
-export const MAX_WIDTH_SCREEN = 940;

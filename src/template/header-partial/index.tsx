@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
+import { Drawer, Button } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes, faCut } from "@fortawesome/free-solid-svg-icons";
 
-import Menu from "../menu";
+import Menu from "./menu";
+import LogoComponent from "../../component/logo";
 import NavMenuMapping from "../../asset/navbar_mapping.json";
 
-import { MAX_WIDTH_SCREEN } from "../../asset/constants";
+import { WIDTH_SCREEN_LG } from "../../asset/constants";
+import { getIconByPrefixName } from "../../asset/functions/icon";
 
 import styles from "./styles.module.scss";
 
@@ -14,8 +17,16 @@ import styles from "./styles.module.scss";
  * This component renders a menu header with its menu items.
  */
 const HeaderPartial: React.FC = () => {
-    const [isMenuOpen, setMenuOpen] = useState(false);
     const [isMobile, setMobile] = useState(false);
+    const [drawerVisible, setDrawerVisible] = useState(false);
+
+    /**
+     * This function checks whether the window screen width reaches a breakpoint.
+     * If so, the mobile state is set to true.
+     */
+    const handleMobileView = useCallback(() => {
+        setMobile(window.innerWidth <= WIDTH_SCREEN_LG);
+    }, []);
 
     /**
      * This function checks whether the window size has been adjusted.
@@ -24,47 +35,58 @@ const HeaderPartial: React.FC = () => {
      * At the end, the event listener is removed so that unnecessary events are unloaded.
      */
     useEffect(() => {
-        const handleMobileView = () =>
-            setMobile(window.innerWidth <= MAX_WIDTH_SCREEN);
-        handleMobileView();
         window.addEventListener("resize", handleMobileView);
         // Remove event listener if not being used.
         return () => window.removeEventListener("resize", handleMobileView);
-    }, []);
+    }, [handleMobileView]);
 
     /**
-     * This function checks whether the (hamburger) menu for mobile should be visible or not.
+     * This function renders the hamburger menu.
+     */
+    const renderHamburgerMenu = () => (
+        <Button className={styles.hamburgerMenu} ghost onClick={toggleDrawer}>
+            <FontAwesomeIcon
+                icon={getIconByPrefixName("fas", "bars")}
+                size="lg"
+            />
+        </Button>
+    );
+
+    /**
+     * This function renders the drawer menu when toggled on mobile.
+     *
+     * @param {boolean} visible Whether the drawer menu has to be visible or not.
+     * @returns {JSX}
+     */
+    const renderDrawerMenu = (visible: boolean) => (
+        <Drawer
+            key="Menu"
+            title="Menu"
+            closable={false}
+            placement="right"
+            onClose={toggleDrawer}
+            visible={visible}
+            bodyStyle={{ backgroundColor: "#252525" }}
+        >
+            <Menu isMobile items={NavMenuMapping} />
+        </Drawer>
+    );
+
+    /**
+     * This function checks whether the drawer menu should be visible or not.
      * It checks the previous state and returns the opposite state.
      */
-    const toggleMenu = () => setMenuOpen((prevState) => !prevState);
+    const toggleDrawer = () => setDrawerVisible((prevState) => !prevState);
 
-    /**
-     * This function renders the navbar header elements.
-     */
     return (
         <>
-            <header>
-                <h1 className={styles.title}>
-                    <FontAwesomeIcon icon={faCut} size="1x" />
-                    Barber2U
+            <Link to="home">
+                <h1 className={styles.logo}>
+                    <LogoComponent />
                 </h1>
-                {isMobile ? (
-                    <a
-                        className={styles.hamburgerMenu}
-                        onClick={toggleMenu}
-                        aria-hidden="true"
-                    >
-                        {isMenuOpen ? (
-                            <FontAwesomeIcon icon={faTimes} size="2x" />
-                        ) : (
-                            <FontAwesomeIcon icon={faBars} size="2x" />
-                        )}
-                    </a>
-                ) : (
-                    <Menu items={NavMenuMapping} />
-                )}
-            </header>
-            {isMobile && isMenuOpen && <Menu isMobile items={NavMenuMapping} />}
+            </Link>
+            {isMobile ? renderHamburgerMenu() : <Menu items={NavMenuMapping} />}
+            {renderDrawerMenu(isMobile && drawerVisible)}
         </>
     );
 };

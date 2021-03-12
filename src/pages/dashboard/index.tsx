@@ -5,7 +5,7 @@ import Sidebar from "../../template/sidebar";
 import Settings from "./sub-pages/settings";
 import Reservations from "./sub-pages/reservations";
 
-import { MAX_WIDTH_SCREEN } from "../../asset/constants";
+import { WIDTH_SCREEN_LG } from "../../asset/constants";
 
 import styles from "./styles.module.scss";
 
@@ -15,7 +15,7 @@ const Dashboard: React.FC = () => {
 
     useEffect(() => {
         const handleMobileView = () =>
-            setMobile(window.innerWidth <= MAX_WIDTH_SCREEN);
+            setMobile(window.innerWidth <= WIDTH_SCREEN_LG);
         handleMobileView();
         window.addEventListener("resize", handleMobileView);
         // Remove event listener if not being used.
