@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Col, Layout, Row } from "antd";
+import { Card, Col, Row, Modal, Button } from "antd";
 import { Content } from "antd/lib/layout/layout";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +11,7 @@ interface ComponentProps {
     items?: {
         dateF: string;
         style: string;
+        location: string;
         price: number;
     }[];
 }
@@ -40,43 +41,71 @@ const Reservations: React.FC<ComponentProps> = ({ items }) => {
 
     const newItems = items?.filter((item) => {
         const objDate = new Date(item.dateF);
-        console.log(objDate.getUTCMonth());
-        console.log(objDate.getUTCMonth() == currentMonth);
         return objDate.getUTCMonth() == currentMonth;
     })
 
-    console.log(items);
+    // const convertDateToMonth = (dateString: string) => {
+    //     const objDate = new Date(dateString)
+    //     return objDate.getUTCMonth()
+    // }
 
-    const convertDateToMonth = (dateString: string) => {
-        const objDate = new Date(dateString)
-        return objDate.getUTCMonth()
-    }
+    const detailedItem = items?.filter((item) => {
+        const objDate = new Date(item.dateF);
+        return objDate.getUTCMonth() == currentMonth;
+    })
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
 
     return (
-        <Layout>
-            <Content className={styles.reservations}>
-                <div className={styles.header}>
-                    <FontAwesomeIcon className={styles.arrow} onClick={prevMonth} icon={faCaretLeft} />
-                    <span>{monthNames[currentMonth]}</span>
-                    <FontAwesomeIcon className={styles.arrow} onClick={nextMonth} icon={faCaretRight} />
-                </div>
-                <div>
-                    <Row gutter={[20, 20]}>
-                        {newItems &&
-                            newItems.map(({ dateF, style, price }) => (
-                                <Col key={style} xs={24} sm={12} lg={8} xl={8} >
-                                    <Card className={styles.card} key={style}>
-                                        <p className={styles.title}>{convertDateToMonth(dateF)}</p>
-                                        <p>{style}</p>
-                                        <p className={styles.price}>&euro; {price.toFixed(2)}</p>
-                                    </Card>
-                                </Col>
-                            ))}
-                    </Row>
-                </div>
-            </Content>
-        </Layout>
+        <Content className={styles.reservations}>
+            <div className={styles.header}>
+                <FontAwesomeIcon className={styles.arrow} onClick={prevMonth} icon={faCaretLeft} />
+                <span>{monthNames[currentMonth]}</span>
+                <FontAwesomeIcon className={styles.arrow} onClick={nextMonth} icon={faCaretRight} />
+            </div>
+            <div>
+                <Row gutter={[20, 20]}>
+                    {newItems &&
+                        newItems.map(({ dateF, style, location, price }) => (
+                            <Col key={style} xs={24} sm={12} lg={8} xl={8} >
+                                <Card className={styles.card} key={style} onClick={showModal}>
+                                    <p className={styles.title}>Reservation</p>
+                                    <p>{style}</p>
+                                    <p>{dateF}, {location}</p>
+                                    <hr />
+                                    <p className={styles.price}>&euro; {price.toFixed(2)}</p>
+                                </Card>
+                            </Col>
+                        ))}
+                </Row>
+            </div>
 
+            <div>
+                <Modal title="Detailed information" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                    {newItems &&
+                        newItems.map(({ dateF, style, location, price }) => (
+                            <Card className={styles.card} key={style} onClick={showModal}>
+                                <p className={styles.title}>{dateF}</p>
+                                <p>{style}</p>
+                                <p>{location}</p>
+                                <p className={styles.price}>&euro; {price.toFixed(2)}</p>
+                            </Card>
+                        ))}
+                </Modal>
+            </div>
+        </Content>
     );
 };
 

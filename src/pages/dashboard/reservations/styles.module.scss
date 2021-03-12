@@ -21,12 +21,18 @@
     }
 
     .card {
+        box-shadow: $shadow;
+
         .title {
             font-size: 20px;
             font-weight: bold;
+            color: $primary-color;
         }
         .price {
+            font-size: $header-3-size;
+            font-weight: bold;
             text-align: right;
+            color: $green-color;
         }
     }
 }

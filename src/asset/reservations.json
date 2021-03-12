@@ -1,32 +1,38 @@
 [
     {
-        "dateF": "2012-04-23T18:25:43.511Z",
-        "style": "Cool car",
+        "dateF": "2012-04-23",
+        "style": "Fade",
+        "location": "Amsterdam",
         "price": 20.00
     },
     {
-        "dateF": "2012-04-23T18:25:43.511Z",
-        "style": "Lolwut",
+        "dateF": "2012-04-23",
+        "style": "Style",
+        "location": "Amsterdam",
         "price": 16.20
     },
     {
-        "dateF": "2012-04-23T18:25:43.511Z",
-        "style": "cooler car",
+        "dateF": "2012-04-23",
+        "style": "Curly",
+        "location": "Amsterdam",
         "price": 20.10
     },
     {
         "dateF": "1968-11-16T00:00:00",
         "style": "coolest",
+        "location": "Amsterdam",
         "price": 16.45
     },
     {
         "dateF": "1968-11-16T00:00:00",
         "style": "dope car",
+        "location": "Amsterdam",
         "price": 20.11
     },
     {
         "dateF": "1968-11-16T00:00:00",
         "style": "balss",
+        "location": "Amsterdam",
         "price": 16.00
     }
 ]
