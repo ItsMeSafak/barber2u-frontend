@@ -3,12 +3,18 @@
 .sidebar {
     min-height: 100vh;
     position: relative;
+    
+    aside {
+        height: 100% !important;
+        flex: none !important;
+    }
 
     > ul {
         position: sticky;
         padding: 0;
         top: 0;
-
+        height: 100% !important;
+        
         > li {
             color: white;
             list-style-type: none;
@@ -61,9 +67,12 @@
         box-shadow: $shadow;
         min-width: fit-content !important;
         max-width: fit-content !important;
+        height: 100% !important;
+        flex: none !important;
     }
 
     ul {
         width: 50px !important;
+        height: 100% !important;
     }
 }
