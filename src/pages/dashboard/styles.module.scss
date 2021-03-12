@@ -13,3 +13,9 @@
 .dashboardDesktop {
     flex-direction: row;
 }
+
+.dashboardMobile {
+    .dashboardContent {
+        padding: 20px;
+    }
+}
