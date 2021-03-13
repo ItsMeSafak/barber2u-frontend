@@ -23,6 +23,7 @@ interface ComponentProps {
  * This component renders the error page.
  *
  * @param {Object} props Component properties.
+ * @returns {JSX}
  */
 const ErrorPage: React.FC<ComponentProps> = (props) => {
     const { code, returnUrl } = props;

@@ -15,6 +15,8 @@ import styles from "./styles.module.scss";
 
 /**
  * This component renders a menu header with its menu items.
+ *
+ * @returns {JSX}
  */
 const HeaderPartial: React.FC = () => {
     const [isMobile, setMobile] = useState(false);
@@ -82,7 +84,7 @@ const HeaderPartial: React.FC = () => {
         <>
             <Link to="home">
                 <h1 className={styles.logo}>
-                    <LogoComponent />
+                    <LogoComponent iconPrefix="fas" iconName="cut" />
                 </h1>
             </Link>
             {isMobile ? renderHamburgerMenu() : <Menu items={NavMenuMapping} />}

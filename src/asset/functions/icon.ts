@@ -24,7 +24,7 @@ export const icons = {
 /**
  * This function returns the correct font awesome icon with the use of strings
  * instead of having to use the font awesome icon object.
- * 
+ *
  * @param {string | undefined} prefix The prefix of the icon.
  * @param {string | undefined} name The name of the icon
  * @returns {IconDefinition}

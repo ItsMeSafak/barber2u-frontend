@@ -18,6 +18,7 @@ interface ComponentProps {
  * This component renders the navbar menu item elements.
  *
  * @param {Object} props Component properties.
+ * @returns {JSX}
  */
 const Menu: React.FC<ComponentProps> = (props) => {
     const { isMobile, items } = props;

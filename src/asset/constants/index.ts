@@ -15,15 +15,15 @@ export const ERROR_STATUSES: Array<{
     iconPrefix: string;
     iconName: string;
 }> = [
-        {
-            code: 404,
-            message: "Page Not Found",
-            description: "Oops... Something went wrong!",
-            color: "red",
-            iconPrefix: "fas",
-            iconName: "exclamation-triangle",
-        },
-    ];
+    {
+        code: 404,
+        message: "Page Not Found",
+        description: "Oops... Something went wrong!",
+        color: "red",
+        iconPrefix: "fas",
+        iconName: "exclamation-triangle",
+    },
+];
 
 // String constants.
 export const APPLICATION_NAME = "Barber2U";
