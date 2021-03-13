@@ -4,6 +4,7 @@ import { BrowserRouter, Route, useRouteMatch, Switch } from "react-router-dom";
 import Sidebar from "../../template/sidebar";
 import DashboardLinks from "../../asset/dashboard_links.json";
 import ReservationsData from "../../asset/reservations.json";
+import PortfolioData from "../../asset/portfolio.json";
 import ServicesData from "../../asset/services.json";
 
 import styles from "./styles.module.scss";
@@ -13,6 +14,7 @@ import Settings from "./settings";
 import Statistics from "./statistics";
 import Services from "./services";
 import { Service } from "../../models/Service";
+import { Portfolio as PortfolioObject } from "../../models/Portfolio";
 import { Reservation } from "../../models/Reservation";
 
 import Schedule from "./schedule";
@@ -53,7 +55,7 @@ const Dashboard: React.FC = () => {
                             <Schedule/>
                         </Route>
                         <Route path={`${path}/portfolio`}>
-                            <Portfolio/>
+                            <Portfolio portfolio={PortfolioData as PortfolioObject}/>
                         </Route>
                         <Route
                             path={`${path}/services`}>

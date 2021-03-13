@@ -65,7 +65,8 @@ const Sidebar: React.FC<ComponentProps> = ({ baseUrl, isMobile, items }) => {
                         items.map(({ url, name, iconName }) => (
                             <Menu.Item key={url == "" ? "/": url} icon={stringToIcon(iconName)}>
                                 <NavLink
-                                    to={`${baseUrl}${url}`}
+                                 
+                                 to={`${baseUrl}${url}`}
                                     onClick={(evt) => setCurrentPath(url == "" ? "/": url)}>
                                     {name}
                                 </NavLink>

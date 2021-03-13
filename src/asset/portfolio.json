@@ -1,0 +1,20 @@
+
+{
+    "id": 1,
+    "items": [
+    {
+        "id": 1,
+        "style": "Curly",
+        "image": ""
+    },
+    {
+        "id": 2,
+        "style": "Styled",
+        "image": ""
+    },{
+        "id": 3,
+        "style": "Yee",
+        "image": ""
+    }
+]
+}

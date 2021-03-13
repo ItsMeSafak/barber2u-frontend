@@ -1,7 +1,44 @@
 @import "../../../asset/config.scss";
 
-.statistics {
-    .card {
-        box-shadow: $shadow;
+.portfolio {
+    .title {
+        font-size: $header-1-size;
+   }
+
+   .addBtn {
+       margin-bottom: 20px;
+       margin-right: 10px;
+   }
+
+   .saveBtn {
+       background-color: $green-color !important;
+       border-color: $green-color;
+   }
+
+   .styleRow {
+       margin-bottom: 20px;
+
+       > .header {
+        font-size: $header-2-size;
+        font-weight: bold;
+        color: $primary-color;
     }
+   }
+
+   .card {
+       box-shadow: $shadow;
+       
+       .description {
+           margin-bottom: 20px;
+       }
+
+       .dropdown {
+           width: 100%;
+           margin-bottom: 20px;
+       }
+
+       .confirmButton {
+           margin-right: 10px;
+       }
+   }
 }
