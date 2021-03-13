@@ -1,0 +1,59 @@
+$primary-color: #00b2ff;
+$light-grey-color: #E1E1E1;
+
+.container {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    margin-bottom: 32px;
+    background-color: white;
+
+    .containerTop {
+        display: flex;
+        flex-direction: row;
+
+        .profileImage {
+            border: solid 3px black;
+            border-radius: 100px;
+        }
+
+        .containerTopContent {
+            display: flex;
+            flex-direction: column;
+            margin-left: 16px;
+
+            .barberName {
+                font-size: 3rem;
+            }
+
+            .rating {
+                font-size: 2rem;
+            }
+        }
+
+    }
+
+    .containerBottom {
+        padding-top: 16px;
+
+        .portfolioImage {
+            margin: 0 8px 8px 0;
+        }
+
+        .reviewContainer {
+            margin: 16px 8px;
+            background-color: $light-grey-color;
+            border-radius: 10px;
+            padding: 8px;
+
+            .reviewRate {
+                text-align: right;
+            }
+        }
+    }
+}
+
+.hide {
+    display: none;
+}

@@ -9,8 +9,10 @@ import Footer from "./template/footer";
 import logo from "./logo.svg";
 
 import "antd/dist/antd.css";
+import "./custom-antd.css";
 import "./App.scss";
 import Dashboard from "./pages/dashboard";
+import Listings from "./pages/listings";
 
 const App: React.FC = () => (
     <>
@@ -19,6 +21,7 @@ const App: React.FC = () => (
             <div className="App">
                 <Switch>
                     <Route path='/dashboard' component={Dashboard} />
+                    <Route path='/listings' component={Listings} />
                 </Switch>
             </div>
         </BrowserRouter>

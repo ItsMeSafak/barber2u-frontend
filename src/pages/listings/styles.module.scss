@@ -1,0 +1,45 @@
+.amountBarbers {
+    padding: 32px 0;
+}
+.mainSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: left;
+    background-color: #e1e1e1;
+    padding-top: 16px;
+
+    .filterContainer {
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+        margin-left: 16px;
+
+        > span {
+            font-weight: bold;
+        }
+
+        .checkboxGroup {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    .contentContainer {
+        margin-left: 16px;
+        max-width: 1000px;
+        width: 1000px;
+        display: flex;
+        flex-direction: column;
+
+        .sortContainer {
+            font-weight: bold;
+            margin-bottom: 32px;
+
+            span {
+                margin-right: 8px;
+            }
+        }
+
+    }
+}
