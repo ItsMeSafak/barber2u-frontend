@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef, ChangeEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faIdCard,
     faAt,
@@ -10,10 +9,11 @@ import {
     faCity,
 } from "@fortawesome/free-solid-svg-icons";
 import { Form, Input, Button, Card } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import styles from "./styles.module.scss";
 
-const Settings: React.FC = () => {
+const SettingsPage: React.FC = () => {
     // dit kan opzich een user object worden
     const [formValue, setFormValue] = useState<{
         name: string;
@@ -178,4 +178,4 @@ const Settings: React.FC = () => {
     );
 };
 
-export default Settings;
+export default SettingsPage;

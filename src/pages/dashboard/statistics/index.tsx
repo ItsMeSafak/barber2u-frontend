@@ -1,20 +1,18 @@
+import React from "react";
+
 import {
     Chart,
     BarSeries,
-    Title,
     ArgumentAxis,
     ValueAxis,
-    Legend
 } from "@devexpress/dx-react-chart-material-ui";
-
-import React, { useState } from "react";
-import { Animation, PieSeries } from "@devexpress/dx-react-chart";
-import { Card, Col, Layout, Row, Statistic } from "antd";
 import { Content } from "antd/lib/layout/layout";
+import { Card, Col, Layout, Row, Statistic } from "antd";
+import { Animation, PieSeries } from "@devexpress/dx-react-chart";
 
 import styles from "./styles.module.scss";
 
-const Statistics: React.FC = () => {
+const StatisticsPage: React.FC = () => {
     const data = [
         { month: "Jan", revenue: 200 },
         { month: "Feb", revenue: 250 },
@@ -24,7 +22,6 @@ const Statistics: React.FC = () => {
         { month: "Jun", revenue: 27 },
         { month: "Jul", revenue: 430 },
     ];
-
 
     return (
         <Layout className={styles.statistics}>
@@ -45,7 +42,7 @@ const Statistics: React.FC = () => {
                     </Col>
                     <Col xs={24} sm={24} lg={12} xl={12}>
                         <Card className={styles.card}>
-                            <Chart data={data} >
+                            <Chart data={data}>
                                 <PieSeries
                                     valueField="revenue"
                                     argumentField="month"
@@ -56,16 +53,17 @@ const Statistics: React.FC = () => {
                     </Col>
                     <Col xs={24} sm={12} lg={8} xl={8}>
                         <Card className={styles.card}>
-                            <Statistic title="Account Balance (CNY)" value={112893} precision={2} />
+                            <Statistic
+                                title="Account Balance (CNY)"
+                                value={112893}
+                                precision={2}
+                            />
                         </Card>
                     </Col>
                 </Row>
             </Content>
         </Layout>
-
-
     );
 };
 
-
-export default Statistics;
+export default StatisticsPage;

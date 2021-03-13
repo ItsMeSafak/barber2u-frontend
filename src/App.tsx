@@ -1,12 +1,13 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+import "antd/dist/antd.css";
 import Header from "./template/header";
 import Footer from "./template/footer";
 
-import "antd/dist/antd.css";
+import DashboardPage from "./pages/dashboard";
+
 import "./App.scss";
-import Dashboard from "./pages/dashboard";
 
 const App: React.FC = () => (
     <>
@@ -14,7 +15,7 @@ const App: React.FC = () => (
             <Header />
             <div className="App">
                 <Switch>
-                    <Route path="/dashboard" component={Dashboard} />
+                    <Route path="/dashboard" component={DashboardPage} />
                 </Switch>
             </div>
         </BrowserRouter>

@@ -1,9 +1,5 @@
 import React from "react";
 
-import styles from "./styles.module.scss";
+const SchedulePage: React.FC = () => <div>Schedule works!</div>;
 
-const Schedule: React.FC = () => (
-    <div>Schedule works!</div>
-);
-
-export default Schedule;
+export default SchedulePage;

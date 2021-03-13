@@ -4,20 +4,20 @@
         "date": "2012-04-23",
         "style": "Fade",
         "location": "Amsterdam",
-        "price": 20.00
+        "price": 20.0
     },
     {
         "id": 2,
         "date": "2012-04-23",
         "style": "Style",
         "location": "Amsterdam",
-        "price": 16.20
+        "price": 16.2
     },
     {
         "id": 3,
         "date": "2012-04-23",
         "style": "Curly",
         "location": "Amsterdam",
-        "price": 20.10
+        "price": 20.1
     }
 ]

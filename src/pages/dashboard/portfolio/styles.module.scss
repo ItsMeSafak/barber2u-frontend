@@ -2,43 +2,43 @@
 
 .portfolio {
     .title {
-        font-size: $header-1-size;
-   }
-
-   .addBtn {
-       margin-bottom: 20px;
-       margin-right: 10px;
-   }
-
-   .saveBtn {
-       background-color: $green-color !important;
-       border-color: $green-color;
-   }
-
-   .styleRow {
-       margin-bottom: 20px;
-
-       > .header {
-        font-size: $header-2-size;
-        font-weight: bold;
-        color: $primary-color;
+        font-size: $header-size-1;
     }
-   }
 
-   .card {
-       box-shadow: $shadow;
-       
-       .description {
-           margin-bottom: 20px;
-       }
+    .addBtn {
+        margin-bottom: 20px;
+        margin-right: 10px;
+    }
 
-       .dropdown {
-           width: 100%;
-           margin-bottom: 20px;
-       }
+    .saveBtn {
+        background-color: $green-color !important;
+        border-color: $green-color;
+    }
 
-       .confirmButton {
-           margin-right: 10px;
-       }
-   }
+    .styleRow {
+        margin-bottom: 20px;
+
+        > .header {
+            font-size: $header-size-2;
+            font-weight: bold;
+            color: $primary-color;
+        }
+    }
+
+    .card {
+        box-shadow: $shadow;
+
+        .description {
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .confirmButton {
+            margin-right: 10px;
+        }
+    }
 }

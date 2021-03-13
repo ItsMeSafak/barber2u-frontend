@@ -2,7 +2,7 @@
 
 .services {
     .title {
-         font-size: $header-1-size;
+        font-size: $header-size-1;
     }
 
     .addBtn {
@@ -17,9 +17,9 @@
 
     .card {
         box-shadow: $shadow;
-        
+
         .header {
-            font-size: $header-2-size;
+            font-size: $header-size-2;
             font-weight: bold;
             color: $primary-color;
         }
@@ -29,7 +29,7 @@
         }
 
         .price {
-            font-size: $header-3-size;
+            font-size: $header-size-3;
             font-weight: bold;
             color: $green-color;
             float: right;

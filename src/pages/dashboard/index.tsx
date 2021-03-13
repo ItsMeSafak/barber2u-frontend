@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
 
 import { BrowserRouter, Route, useRouteMatch, Switch } from "react-router-dom";
-import Sidebar from "../../template/sidebar";
-import DashboardLinks from "../../asset/dashboard_links.json";
-import ReservationsData from "../../asset/reservations.json";
-import PortfolioData from "../../asset/portfolio.json";
+
+import SettingsPage from "./settings";
+import ServicesPage from "./services";
+import SchedulePage from "./schedule";
+import StatisticsPage from "./statistics";
+import PortfolioPage from "./portfolio"
+import ReservationsPage from "./reservations";
+import SidebarPartial from "../../template/sidebar-partial";
+
+import { Service } from "../../models/Service";
+import { Portfolio } from "../../models/Portfolio";
+import { Reservation } from "../../models/Reservation";
+
 import ServicesData from "../../asset/services.json";
+import PortfolioData from "../../asset/portfolio.json";
+import ReservationsData from "../../asset/reservations.json";
+import DashboardLinks from "../../asset/dashboard_links.json";
 
 import styles from "./styles.module.scss";
 
-import Reservations from "./reservations";
-import Settings from "./settings";
-import Statistics from "./statistics";
-import Services from "./services";
-import { Service } from "../../models/Service";
-import { Portfolio as PortfolioObject } from "../../models/Portfolio";
-import { Reservation } from "../../models/Reservation";
-
-import Schedule from "./schedule";
-import Portfolio from "./portfolio";
-
-
-const Dashboard: React.FC = () => {
+const DashboardPage: React.FC = () => {
     const { path, url } = useRouteMatch();
     const MAX_WIDTH = 1200;
     const [isMobile, setMobile] = useState(false);
@@ -38,10 +38,11 @@ const Dashboard: React.FC = () => {
     return (
         <BrowserRouter>
             <div
-                className={`${styles.dashboard} ${isMobile ? styles.dashboardMobile : styles.dashboardDesktop
-                    }`}
+                className={`${styles.dashboard} ${
+                    isMobile ? styles.dashboardMobile : styles.dashboardDesktop
+                }`}
             >
-                <Sidebar
+                <SidebarPartial
                     baseUrl={url}
                     isMobile={isMobile}
                     items={DashboardLinks}
@@ -49,24 +50,26 @@ const Dashboard: React.FC = () => {
                 <div className={styles.dashboardContent}>
                     <Switch>
                         <Route exact path={`${path}`}>
-                            <Statistics />
+                            <StatisticsPage />
                         </Route>
                         <Route path={`${path}/schedule`}>
-                            <Schedule/>
+                            <SchedulePage />
                         </Route>
                         <Route path={`${path}/portfolio`}>
-                            <Portfolio portfolio={PortfolioData as PortfolioObject}/>
+                            <PortfolioPage
+                                portfolio={PortfolioData as Portfolio}
+                            />
                         </Route>
-                        <Route
-                            path={`${path}/services`}>
-                            <Services services={ServicesData as Service[]} />
+                        <Route path={`${path}/services`}>
+                            <ServicesPage services={ServicesData as Service[]} />
                         </Route>
-                        <Route
-                            path={`${path}/settings`}
-                            component={Settings} />
-                        <Route
-                            path={`${path}/reservations`}>
-                            <Reservations reservationItems={ReservationsData as Reservation[]} />
+                        <Route path={`${path}/settings`} component={SettingsPage} />
+                        <Route path={`${path}/reservations`}>
+                            <ReservationsPage
+                                reservationItems={
+                                    ReservationsData as Reservation[]
+                                }
+                            />
                         </Route>
                     </Switch>
                 </div>
@@ -75,4 +78,4 @@ const Dashboard: React.FC = () => {
     );
 };
 
-export default Dashboard;
+export default DashboardPage;

@@ -1,7 +1,6 @@
 import { Style } from "./Style";
 
 export class PortfolioItem {
-
     id: number;
 
     style: Style;
@@ -14,4 +13,3 @@ export class PortfolioItem {
         this.image = image;
     }
 }
-

@@ -1,7 +1,6 @@
 import { Style } from "./Style";
 
 export class Service {
-
     id: number;
 
     style: Style;
@@ -14,7 +13,6 @@ export class Service {
         this.id = id;
         this.style = style;
         this.description = description;
-        this.price = price
+        this.price = price;
     }
 }
-
