@@ -4,6 +4,7 @@
         "@typescript-eslint"
     ],
     "extends": [
+        "plugin:@typescript-eslint/recommended",
         "airbnb-typescript",
         "react-app",
         "prettier"
@@ -20,6 +21,14 @@
         }
     },
     "rules": {
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": [
+            "error"
+        ],
+        "semi": "off",
+        "@typescript-eslint/semi": [
+            "error"
+        ],
         "react/react-in-jsx-scope": "off",
         "react/jsx-filename-extension": [
             1,

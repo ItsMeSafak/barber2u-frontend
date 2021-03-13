@@ -1,8 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.scss";
+
+import { library } from "@fortawesome/fontawesome-svg-core";
+
+import { icons } from "./asset/functions/icon";
+
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+
+import "./index.scss";
+
+// Make font awesome icons global.
+library.add(icons);
 
 ReactDOM.render(
     <React.StrictMode>
