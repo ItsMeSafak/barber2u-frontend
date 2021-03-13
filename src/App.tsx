@@ -3,13 +3,13 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { Layout } from "antd";
 
-import Dashboard from "./pages/dashboard";
 import ErrorPage from "./pages/error-page";
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
 
 const { Header, Footer } = Layout;
 
+// eslint-disable-next-line require-jsdoc
 const App: React.FC = () => (
     <Layout className="layoutContainer">
         <BrowserRouter>
@@ -18,7 +18,6 @@ const App: React.FC = () => (
             </Header>
             <Layout>
                 <Switch>
-                    <Route path="/dashboard" component={Dashboard} />
                     <Route
                         component={() => (
                             <ErrorPage code={404} returnUrl="home" />
