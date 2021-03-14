@@ -29,6 +29,7 @@ interface MenuItem {
     iconName: string;
 }
 
+/* eslint-disable */
 const DashboardPage: React.FC = () => {
     const { path, url } = useRouteMatch();
     const [isMobile, setMobile] = useState(false);

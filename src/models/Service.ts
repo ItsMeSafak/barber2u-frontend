@@ -1,12 +1,10 @@
 import Style from "./Style";
 
+/* eslint-disable */
 export default class Service {
     id: number;
-
     style: Style;
-
     description: string;
-
     price: number;
 
     constructor(id: number, style: Style, description: string, price: number) {

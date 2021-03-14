@@ -12,6 +12,7 @@ import { Card, Col, Layout, Row, Statistic } from "antd";
 
 import styles from "./styles.module.scss";
 
+/* eslint-disable */
 const StatisticsPage: React.FC = () => {
     const data = [
         { month: "Jan", revenue: 200 },

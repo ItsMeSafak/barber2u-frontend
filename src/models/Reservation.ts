@@ -1,14 +1,11 @@
 import Style from "./Style";
 
+/* eslint-disable */
 export default class Reservation {
     id: number;
-
     style: Style;
-
     date: string;
-
     location: string;
-
     price: number;
 
     constructor(

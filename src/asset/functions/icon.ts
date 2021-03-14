@@ -6,7 +6,6 @@ import {
     IconPrefix,
 } from "@fortawesome/fontawesome-svg-core";
 import {
-    faAt,
     faBars,
     faCut,
     faEnvelope,
@@ -23,7 +22,7 @@ import {
     faCalendarAlt,
     faCamera,
     faCalendar,
-    faCog
+    faCog,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -31,7 +30,6 @@ import {
  * This will make it accessible to use it anywhere within this project.
  */
 export const icons = {
-    faAt,
     faCut,
     faBars,
     faEnvelope,
@@ -48,7 +46,7 @@ export const icons = {
     faCalendarAlt,
     faCamera,
     faCalendar,
-    faCog
+    faCog,
 };
 
 /**

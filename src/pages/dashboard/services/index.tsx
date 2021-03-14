@@ -38,6 +38,7 @@ interface CardProps {
 
 const { Option } = Select;
 
+/* eslint-disable */
 const ServiceCardComponent: React.FC<CardProps> = (props) => {
     const { serviceDetail, newService } = props;
     const [isEditing, setIsEditing] = useState(0);

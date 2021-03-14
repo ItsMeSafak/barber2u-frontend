@@ -43,7 +43,7 @@ const ErrorPage: React.FC<ComponentProps> = (props) => {
               }
             | undefined
     ) => (
-        <Card className={styles.card}>
+        <Card className={styles.card} bordered={false}>
             <Col span={24}>
                 <FontAwesomeIcon
                     icon={getIconByPrefixName(
@@ -54,7 +54,8 @@ const ErrorPage: React.FC<ComponentProps> = (props) => {
                     size="6x"
                 />
                 <h2 className={styles.errorCode}>
-                    {code} - {error?.message}
+                    <Col span={24}>{code}</Col>
+                    <Col span={24}>{error?.message}</Col>
                 </h2>
             </Col>
             <Col span={24}>

@@ -20,6 +20,7 @@ interface ComponentProps {
     }>;
 }
 
+/* eslint-disable */
 const SidebarPartial: React.FC<ComponentProps> = ({
     baseUrl,
     isMobile,
@@ -31,37 +32,43 @@ const SidebarPartial: React.FC<ComponentProps> = ({
             : `/${window.location.pathname.split("/")[2]}`;
     const [currentPath, setCurrentPath] = useState(currentUrl);
 
-    const renderMenuItems = (menuItems: Array<{
-        url: string;
-        name: string;
-        iconPrefix: string;
-        iconName: string;
-    }>) => (
+    const renderMenuItems = (
+        menuItems: Array<{
+            url: string;
+            name: string;
+            iconPrefix: string;
+            iconName: string;
+        }>
+    ) =>
         menuItems.map((menuItem) => (
             <Menu.Item
                 key={menuItem.url === "" ? "/" : menuItem.url}
-                icon={<FontAwesomeIcon
-                    icon={getIconByPrefixName(menuItem.iconPrefix, menuItem.iconName)} />}
+                icon={
+                    <FontAwesomeIcon
+                        icon={getIconByPrefixName(
+                            menuItem.iconPrefix,
+                            menuItem.iconName
+                        )}
+                    />
+                }
             >
                 <NavLink
                     to={`${baseUrl}${menuItem.url}`}
                     onClick={(evt) =>
-                        setCurrentPath(
-                            menuItem.url === "" ? "/" : menuItem.url
-                        )
+                        setCurrentPath(menuItem.url === "" ? "/" : menuItem.url)
                     }
                 >
                     {menuItem.name}
                 </NavLink>
             </Menu.Item>
-        ))
-    );
+        ));
 
     return (
         <>
             <Layout
-                className={`${styles.side} ${isMobile ? styles.sidebarMobile : styles.sideBarDesktop
-                    }`}
+                className={`${styles.side} ${
+                    isMobile ? styles.sidebarMobile : styles.sideBarDesktop
+                }`}
             >
                 <Sider>
                     <Menu

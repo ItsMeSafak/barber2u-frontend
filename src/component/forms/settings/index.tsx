@@ -7,6 +7,7 @@ import { getIconByPrefixName } from "../../../asset/functions/icon";
 
 import styles from "../../../pages/dashboard/settings/styles.module.scss";
 
+/* eslint-disable */
 const SettingsForm: React.FC = () => {
     const [formValue, setFormValue] = useState<{
         name: string;

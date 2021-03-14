@@ -14,6 +14,7 @@ interface ComponentProps {
 
 const { Option } = Select;
 
+// eslint-disable-next-line require-jsdoc
 const ServiceCard: React.FC<ComponentProps> = (props) => {
     const [isEditing, setIsEditing] = useState(0);
     const { portfolioItem, newItem } = props;

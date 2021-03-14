@@ -16,6 +16,7 @@ interface ComponentProps {
     reservationItems: Reservation[];
 }
 
+/* eslint-disable */
 const ReservationsPage: React.FC<ComponentProps> = (props) => {
     const { reservationItems } = props;
     const [currentMonth, setCurrentMonth] = useState(new Date().getUTCMonth());

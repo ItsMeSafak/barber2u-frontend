@@ -11,6 +11,7 @@ import ResetPasswordPage from "./pages/reset-password-page";
 
 const { Header, Footer } = Layout;
 
+// eslint-disable-next-line require-jsdoc
 const App: React.FC = () => (
     <Layout className="layoutContainer">
         <BrowserRouter>
@@ -19,17 +20,16 @@ const App: React.FC = () => (
             </Header>
             <Layout>
                 <Switch>
-                    <Route path="/dashboard" component={DashboardPage} />
                     <Route
                         path="/reset-password"
                         component={ResetPasswordPage}
                     />
+                    <Route path="/dashboard" component={DashboardPage} />
                     <Route
                         component={() => (
                             <ErrorPage code={404} returnUrl="home" />
                         )}
                     />
-                    <Route path="/dashboard" component={DashboardPage} />
                 </Switch>
             </Layout>
             <Footer className="footer">

@@ -17,6 +17,7 @@ interface ComponentProps {
     portfolio: Portfolio;
 }
 
+/* eslint-disable */
 const PortfolioPage: React.FC<ComponentProps> = (props) => {
     const { portfolio } = props;
     const [newItem, setNewItem] = useState(false);

@@ -1,7 +1,7 @@
 enum Style {
     Curly = "Curly",
     Styled = "Styled",
-    Yee = "Yee"
+    Yee = "Yee",
 }
 
 export default Style;
