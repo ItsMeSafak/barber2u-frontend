@@ -1,6 +1,6 @@
-import { Style } from "./Style";
+import Style from "./Style";
 
-export class PortfolioItem {
+export default class PortfolioItem {
     id: number;
 
     style: Style;

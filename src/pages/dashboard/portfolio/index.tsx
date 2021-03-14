@@ -3,54 +3,20 @@ import React, { useState } from "react";
 import {
     Layout,
     Button,
-    Card,
-    Col,
     Divider,
-    Row,
-    Select
+    Row
 } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-import { Style } from "../../../models/Style";
-import { Portfolio } from "../../../models/Portfolio";
-import { PortfolioItem } from "../../../models/PortfolioItem";
+import ServiceCard from "../../../component/card";
+
+import Style  from "../../../models/Style";
+import Portfolio  from "../../../models/Portfolio";
+import PortfolioItem from "../../../models/PortfolioItem";
 
 import styles from "./styles.module.scss";
-
-interface CardProps {
-    portfolioItem: PortfolioItem;
-    newItem: boolean;
-}
-
-const { Option } = Select;
-
-const ServiceCard: React.FC<CardProps> = (props) => {
-    const [isEditing, setIsEditing] = useState(0);
-    const { portfolioItem, newItem } = props;
-
-    return (
-        <Col key={portfolioItem.id} xs={24} sm={12} lg={8}>
-            <Card className={styles.card}>
-                {isEditing === portfolioItem.id ? (
-                    <Select
-                        className={styles.dropdown}
-                        defaultValue={portfolioItem.style}
-                    >
-                        {Object.keys(Style).map((style) => (
-                            <Option key={style} value={style}>
-                                {style}
-                            </Option>
-                        ))}
-                    </Select>
-                ) : (
-                    <h2 className={styles.header}>{portfolioItem.style}</h2>
-                )}
-            </Card>
-        </Col>
-    );
-};
 
 interface ComponentProps {
     portfolio: Portfolio;

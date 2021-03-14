@@ -1,6 +1,6 @@
-import { PortfolioItem } from "./PortfolioItem";
+import PortfolioItem from "./PortfolioItem";
 
-export class Portfolio {
+export default class Portfolio {
     id: number;
 
     items: PortfolioItem[];

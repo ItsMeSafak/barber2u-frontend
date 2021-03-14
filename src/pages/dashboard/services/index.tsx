@@ -22,8 +22,8 @@ import TextArea from "antd/lib/input/TextArea";
 import { Content } from "antd/lib/layout/layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { Style } from "../../../models/Style";
-import { Service } from "../../../models/Service";
+import Style from "../../../models/Style";
+import Service from "../../../models/Service";
 
 import styles from "./styles.module.scss";
 

@@ -7,8 +7,8 @@ import {
     ValueAxis,
 } from "@devexpress/dx-react-chart-material-ui";
 import { Content } from "antd/lib/layout/layout";
-import { Card, Col, Layout, Row, Statistic } from "antd";
 import { Animation, PieSeries } from "@devexpress/dx-react-chart";
+import { Card, Col, Layout, Row, Statistic } from "antd";
 
 import styles from "./styles.module.scss";
 
@@ -27,7 +27,7 @@ const StatisticsPage: React.FC = () => {
         <Layout className={styles.statistics}>
             <Content>
                 <Row gutter={[20, 20]}>
-                    <Col xs={24} sm={24} lg={12} xl={12}>
+                    <Col sm={24} lg={12}>
                         <Card className={styles.card}>
                             <Chart data={data}>
                                 <ArgumentAxis />
@@ -40,7 +40,7 @@ const StatisticsPage: React.FC = () => {
                             </Chart>
                         </Card>
                     </Col>
-                    <Col xs={24} sm={24} lg={12} xl={12}>
+                    <Col sm={24} lg={12}>
                         <Card className={styles.card}>
                             <Chart data={data}>
                                 <PieSeries
@@ -51,7 +51,7 @@ const StatisticsPage: React.FC = () => {
                             </Chart>
                         </Card>
                     </Col>
-                    <Col xs={24} sm={12} lg={8} xl={8}>
+                    <Col sm={12} lg={8}>
                         <Card className={styles.card}>
                             <Statistic
                                 title="Account Balance (CNY)"

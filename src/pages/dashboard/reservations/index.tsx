@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 
 import { Content } from "antd/lib/layout/layout";
-import { Card, Col, Row, Modal, Divider } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
+import { Card, Col, Row, Modal, Divider } from "antd";
 
-import { Style } from "../../../models/Style";
-import { Reservation } from "../../../models/Reservation";
+import Style from "../../../models/Style";
+import Reservation from "../../../models/Reservation";
+
+import { MONTH_NAMES } from "../../../asset/constants";
+import { getIconByPrefixName } from "../../../asset/functions/icon";
 
 import styles from "./styles.module.scss";
 
@@ -21,20 +23,6 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
     const [reservation, setReservation] = useState(
         new Reservation(0, Style.Curly, "", "", 0)
     );
-    const monthNames = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-    ];
 
     const previousMonth = () =>
         setCurrentMonth((prevState) => {
@@ -91,7 +79,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
                 </Card>
             </Col>
         ))
-    )
+    );
 
     const renderDetailedInformation = (reservationItem: Reservation) => (
         <Card className={styles.card} key={reservationItem.id}>
@@ -112,13 +100,13 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
                 <FontAwesomeIcon
                     className={styles.arrow}
                     onClick={previousMonth}
-                    icon={faCaretLeft}
+                    icon={getIconByPrefixName("fas", "caret-left")}
                 />
-                <span>{monthNames[currentMonth]}</span>
+                <span>{MONTH_NAMES[currentMonth]}</span>
                 <FontAwesomeIcon
                     className={styles.arrow}
                     onClick={nextMonth}
-                    icon={faCaretRight}
+                    icon={getIconByPrefixName("fas", "caret-right")}
                 />
             </div>
             <div>

@@ -1,6 +1,6 @@
-import { Style } from "./Style";
+import Style from "./Style";
 
-export class Service {
+export default class Service {
     id: number;
 
     style: Style;
