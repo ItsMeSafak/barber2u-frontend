@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, useRouteMatch, Switch } from "react-router-dom";
+import { Route, useRouteMatch, Switch } from "react-router-dom";
 
 import SettingsPage from "./settings";
 import ServicesPage from "./services";
@@ -55,9 +55,7 @@ const DashboardPage: React.FC = () => {
                         <SchedulePage />
                     </Route>
                     <Route path={`${path}/portfolio`}>
-                        <PortfolioPage
-                            portfolio={PortfolioData as Portfolio}
-                        />
+                        <PortfolioPage portfolio={PortfolioData as Portfolio} />
                     </Route>
                     <Route path={`${path}/services`}>
                         <ServicesPage services={ServicesData as Service[]} />
@@ -65,9 +63,7 @@ const DashboardPage: React.FC = () => {
                     <Route path={`${path}/settings`} component={SettingsPage} />
                     <Route path={`${path}/reservations`}>
                         <ReservationsPage
-                            reservationItems={
-                                ReservationsData as Reservation[]
-                            }
+                            reservationItems={ReservationsData as Reservation[]}
                         />
                     </Route>
                 </Switch>

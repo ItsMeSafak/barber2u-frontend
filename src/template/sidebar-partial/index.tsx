@@ -26,7 +26,11 @@ interface ComponentProps {
     }[];
 }
 
-const SidebarPartial: React.FC<ComponentProps> = ({ baseUrl, isMobile, items }) => {
+const SidebarPartial: React.FC<ComponentProps> = ({
+    baseUrl,
+    isMobile,
+    items,
+}) => {
     const currentUrl =
         window.location.pathname.split("/")[2] === null
             ? "/"

@@ -1,18 +1,18 @@
 @import "../../asset/config.scss";
 
 .card {
-  box-shadow: $shadow;
+    box-shadow: $shadow;
 
-  .description {
-    margin-bottom: 20px;
-  }
+    .description {
+        margin-bottom: 20px;
+    }
 
-  .dropdown {
-    width: 100%;
-    margin-bottom: 20px;
-  }
+    .dropdown {
+        width: 100%;
+        margin-bottom: 20px;
+    }
 
-  .confirmButton {
-    margin-right: 10px;
-  }
+    .confirmButton {
+        margin-right: 10px;
+    }
 }

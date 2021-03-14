@@ -1,19 +1,14 @@
 import React, { useState } from "react";
 
-import {
-    Layout,
-    Button,
-    Divider,
-    Row
-} from "antd";
+import { Layout, Button, Divider, Row } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import ServiceCard from "../../../component/card";
 
-import Style  from "../../../models/Style";
-import Portfolio  from "../../../models/Portfolio";
+import Style from "../../../models/Style";
+import Portfolio from "../../../models/Portfolio";
 import PortfolioItem from "../../../models/PortfolioItem";
 
 import styles from "./styles.module.scss";
@@ -49,49 +44,40 @@ const PortfolioPage: React.FC<ComponentProps> = (props) => {
                 type="primary"
                 icon={<FontAwesomeIcon icon={faCheck} />}
                 size="large"
-                onClick={() =>
-                    setNewItem((prevState) => !prevState)
-                }
+                onClick={() => setNewItem((prevState) => !prevState)}
             >
                 Save
-                        </Button>
+            </Button>
             <Button
                 className={styles.addBtn}
                 danger
                 type="primary"
                 icon={<FontAwesomeIcon icon={faTimes} />}
                 size="large"
-                onClick={() =>
-                    setNewItem((prevState) => !prevState)
-                }
+                onClick={() => setNewItem((prevState) => !prevState)}
             >
                 Cancel
-                        </Button>
+            </Button>
             <Row gutter={[20, 20]}>
-                <ServiceCard
-                    portfolioItem={emptyIItem()}
-                    newItem={newItem}
-                />
+                <ServiceCard portfolioItem={emptyIItem()} newItem={newItem} />
             </Row>
         </>
     );
 
-    const renderPortfolioItems = (portfolioObject: Portfolio, style: Style) => (
+    const renderPortfolioItems = (portfolioObject: Portfolio, style: Style) =>
         portfolioObject.items.map((portfolioItem) => {
             if (portfolioItem.style === style)
                 return (
                     <ServiceCard
                         key={portfolioItem.id}
-                        portfolioItem=
-                        {portfolioItem}
+                        portfolioItem={portfolioItem}
                         newItem={false}
                     />
                 );
             return null;
-        })
-    );
+        });
 
-    const renderStyleSections = (allStyles: Style[]) => (
+    const renderStyleSections = (allStyles: Style[]) =>
         allStyles.map((style) => (
             <div className={styles.styleRow} key={style}>
                 <h2 className={styles.header}>{style}</h2>
@@ -99,19 +85,15 @@ const PortfolioPage: React.FC<ComponentProps> = (props) => {
                     {portfolio && renderPortfolioItems(portfolio, style)}
                 </Row>
             </div>
-        ))
-    );
+        ));
 
     return (
         <Layout className={styles.portfolio}>
             <Content>
                 <h1 className={styles.title}>Portfolio</h1>
-                {!newItem ? renderAddButton() : (
-                    renderSaveAndCancelButton()
-                )}
+                {!newItem ? renderAddButton() : renderSaveAndCancelButton()}
                 <Divider />
-                {allStylesAvailable &&
-                    renderStyleSections(allStylesAvailable)}
+                {allStylesAvailable && renderStyleSections(allStylesAvailable)}
             </Content>
         </Layout>
     );

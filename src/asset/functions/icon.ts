@@ -16,7 +16,7 @@ import {
     faKey,
     faMobileAlt,
     faAddressBook,
-    faCity
+    faCity,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -34,7 +34,7 @@ export const icons = {
     faKey,
     faMobileAlt,
     faAddressBook,
-    faCity
+    faCity,
 };
 
 /**

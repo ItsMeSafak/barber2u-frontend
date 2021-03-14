@@ -60,7 +60,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
         setIsModalVisible(false);
     };
 
-    const renderReservationItems = (reservationList: Reservation[]) => (
+    const renderReservationItems = (reservationList: Reservation[]) =>
         reservationList.map((item) => (
             <Col key={item.id} xs={24} sm={12} lg={8}>
                 <Card
@@ -78,8 +78,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
                     </p>
                 </Card>
             </Col>
-        ))
-    );
+        ));
 
     const renderDetailedInformation = (reservationItem: Reservation) => (
         <Card className={styles.card} key={reservationItem.id}>
@@ -111,8 +110,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
             </div>
             <div>
                 <Row gutter={[20, 20]}>
-                    {newItems &&
-                        renderReservationItems(newItems)}
+                    {newItems && renderReservationItems(newItems)}
                 </Row>
             </div>
 
@@ -122,9 +120,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
                 onOk={handleOk}
                 onCancel={handleCancel}
             >
-                {reservation && (
-                    renderDetailedInformation(reservation)
-                )}
+                {reservation && renderDetailedInformation(reservation)}
             </Modal>
         </Content>
     );
