@@ -17,6 +17,11 @@ import {
     faMobileAlt,
     faAddressBook,
     faCity,
+    faChartPie,
+    faCalendarAlt,
+    faCamera,
+    faCalendar,
+    faCog
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -35,6 +40,11 @@ export const icons = {
     faMobileAlt,
     faAddressBook,
     faCity,
+    faChartPie,
+    faCalendarAlt,
+    faCamera,
+    faCalendar,
+    faCog
 };
 
 /**

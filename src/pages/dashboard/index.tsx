@@ -6,8 +6,8 @@ import ServicesPage from "./services";
 import SchedulePage from "./schedule";
 import PortfolioPage from "./portfolio";
 import StatisticsPage from "./statistics";
-import ReservationsPage from "./reservations";
 import SidebarPartial from "../../template/sidebar-partial";
+import ReservationsPage from "./reservations";
 
 import Service from "../../models/Service";
 import Portfolio from "../../models/Portfolio";
@@ -15,12 +15,19 @@ import Reservation from "../../models/Reservation";
 
 import ServicesData from "../../asset/services.json";
 import PortfolioData from "../../asset/portfolio.json";
-import ReservationsData from "../../asset/reservations.json";
 import DashboardLinks from "../../asset/dashboard_links.json";
+import ReservationsData from "../../asset/reservations.json";
 
 import { WIDTH_SCREEN_XL } from "../../asset/constants";
 
 import styles from "./styles.module.scss";
+
+interface MenuItem {
+    url: string;
+    name: string;
+    iconPrefix: string;
+    iconName: string;
+}
 
 const DashboardPage: React.FC = () => {
     const { path, url } = useRouteMatch();
@@ -44,7 +51,7 @@ const DashboardPage: React.FC = () => {
             <SidebarPartial
                 baseUrl={url}
                 isMobile={isMobile}
-                items={DashboardLinks}
+                items={DashboardLinks as MenuItem[]}
             />
             <div className={styles.dashboardContent}>
                 <Switch>

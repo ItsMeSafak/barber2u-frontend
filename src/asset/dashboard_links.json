@@ -2,31 +2,37 @@
     {
         "url": "",
         "name": "Dashboard",
-        "iconName": "faChartPie"
+        "iconPrefix": "fas",
+        "iconName": "chart-pie"
     },
     {
         "url": "/schedule",
         "name": "Schedule",
-        "iconName": "faCalendarAlt"
+        "iconPrefix": "fas",
+        "iconName": "calendar-alt"
     },
     {
         "url": "/portfolio",
         "name": "Portfolio",
-        "iconName": "faCamera"
+        "iconPrefix": "fas",
+        "iconName": "camera"
     },
     {
         "url": "/services",
         "name": "Services",
-        "iconName": "faCut"
+        "iconPrefix": "fas",
+        "iconName": "cut"
     },
     {
         "url": "/reservations",
         "name": "Reservations",
-        "iconName": "faCalendar"
+        "iconPrefix": "fas",
+        "iconName": "calendar"
     },
     {
         "url": "/settings",
         "name": "Settings",
-        "iconName": "faCog"
+        "iconPrefix": "fas",
+        "iconName": "cog"
     }
 ]

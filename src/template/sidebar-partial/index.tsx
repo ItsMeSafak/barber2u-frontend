@@ -1,29 +1,25 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-import { Layout, Menu } from "antd";
 import Sider from "antd/lib/layout/Sider";
-import {
-    faCog,
-    faCalendar,
-    faCaretRight,
-    faChartPie,
-    faCalendarAlt,
-    faCamera,
-    faCut,
-} from "@fortawesome/free-solid-svg-icons";
+import { Layout, Menu } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { getIconByPrefixName } from "../../asset/functions/icon";
+
 import styles from "./styles.module.scss";
+
+interface MenuItem {
+    url: string;
+    name: string;
+    iconPrefix: string;
+    iconName: string;
+}
 
 interface ComponentProps {
     baseUrl?: string;
     isMobile?: boolean;
-    items?: {
-        url: string;
-        name: string;
-        iconName: string;
-    }[];
+    items?: MenuItem[];
 }
 
 const SidebarPartial: React.FC<ComponentProps> = ({
@@ -37,27 +33,27 @@ const SidebarPartial: React.FC<ComponentProps> = ({
             : `/${window.location.pathname.split("/")[2]}`;
     const [currentPath, setCurrentPath] = useState(currentUrl);
 
-    const stringToIcon: any = (iconName: string) => {
-        switch (iconName) {
-            case "faChartPie":
-                return <FontAwesomeIcon icon={faChartPie} />;
-            case "faCalendarAlt":
-                return <FontAwesomeIcon icon={faCalendarAlt} />;
-            case "faCamera":
-                return <FontAwesomeIcon icon={faCamera} />;
-            case "faCut":
-                return <FontAwesomeIcon icon={faCut} />;
-            case "faCog":
-                return <FontAwesomeIcon icon={faCog} />;
-            case "faCalendar":
-                return <FontAwesomeIcon icon={faCalendar} />;
-            case "faCaretRight":
-                return <FontAwesomeIcon icon={faCaretRight} />;
-            default:
-                return <FontAwesomeIcon icon={faCalendar} />;
-        }
-    };
-
+    const renderMenuItems = (menuItems: MenuItem[]) => (
+        menuItems.map((menuItem) => (
+            <Menu.Item
+                key={menuItem.url === "" ? "/" : menuItem.url}
+                icon={<FontAwesomeIcon 
+                    icon={getIconByPrefixName(menuItem.iconPrefix, menuItem.iconName)}/>}
+            >
+                <NavLink
+                    to={`${baseUrl}${menuItem.url}`}
+                    onClick={(evt) =>
+                        setCurrentPath(
+                            menuItem.url === "" ? "/" : menuItem.url
+                        )
+                    }
+                >
+                    {menuItem.name}
+                </NavLink>
+            </Menu.Item>
+        ))
+    );
+    
     return (
         <>
             <Layout
@@ -72,24 +68,7 @@ const SidebarPartial: React.FC<ComponentProps> = ({
                         selectedKeys={[currentPath]}
                         inlineCollapsed={isMobile}
                     >
-                        {items &&
-                            items.map(({ url, name, iconName }) => (
-                                <Menu.Item
-                                    key={url === "" ? "/" : url}
-                                    icon={stringToIcon(iconName)}
-                                >
-                                    <NavLink
-                                        to={`${baseUrl}${url}`}
-                                        onClick={(evt) =>
-                                            setCurrentPath(
-                                                url === "" ? "/" : url
-                                            )
-                                        }
-                                    >
-                                        {name}
-                                    </NavLink>
-                                </Menu.Item>
-                            ))}
+                        {items && renderMenuItems(items)}
                     </Menu>
                 </Sider>
             </Layout>
