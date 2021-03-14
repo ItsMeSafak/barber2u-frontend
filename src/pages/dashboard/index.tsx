@@ -15,7 +15,7 @@ import Reservation from "../../models/Reservation";
 
 import ServicesData from "../../asset/services.json";
 import PortfolioData from "../../asset/portfolio.json";
-import DashboardLinks from "../../asset/dashboard_links.json";
+import SidebarMenuItems from "../../asset/dashboard_links.json";
 import ReservationsData from "../../asset/reservations.json";
 
 import { WIDTH_SCREEN_XL } from "../../asset/constants";
@@ -51,7 +51,7 @@ const DashboardPage: React.FC = () => {
             <SidebarPartial
                 baseUrl={url}
                 isMobile={isMobile}
-                items={DashboardLinks as MenuItem[]}
+                items={SidebarMenuItems}
             />
             <div className={styles.dashboardContent}>
                 <Switch>
