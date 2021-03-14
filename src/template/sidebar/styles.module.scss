@@ -1,0 +1,61 @@
+.sidebar {
+    background-color: #252525;
+    min-height: 100vh;
+    width: 20%;
+    position: relative;
+
+    > ul {
+        position: sticky;
+        padding: 0;
+        top: 0;
+
+        > li {
+            color: white;
+            list-style-type: none;
+            font-size: 20px;
+            text-align: left;
+
+            > a {
+                display: block;
+                padding: 10px 20px;
+                color: inherit;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                position: relative;
+
+                > span {
+                    &::before {
+                        content: "|";
+                        margin: 0 5px;
+                    }
+                }
+
+                &:hover {
+                    background-color: #1687a7;
+                }
+            }
+
+            .active {
+                background-color: #1687a7;
+
+                &::after {
+                    position: absolute;
+                    filter: invert(64%) sepia(94%) saturate(6749%)
+                        hue-rotate(172deg) brightness(95%) contrast(83%);
+                    content: "";
+                    background: url(../../asset/arrow.svg) no-repeat;
+                    width: 50px;
+                    right: 0;
+                    top: 0;
+                    height: 100%;
+                    transform: translateX(85%);
+                }
+            }
+        }
+    }
+
+    & .sidebarMobile {
+        width: 100%;
+        min-height: auto;
+    }
+}
