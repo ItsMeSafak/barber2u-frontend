@@ -14,8 +14,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import { Style } from "../../../models/Style";
-import { PortfolioItem } from "../../../models/PortfolioItem";
 import { Portfolio } from "../../../models/Portfolio";
+import { PortfolioItem } from "../../../models/PortfolioItem";
 
 import styles from "./styles.module.scss";
 

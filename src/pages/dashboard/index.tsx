@@ -5,8 +5,8 @@ import { BrowserRouter, Route, useRouteMatch, Switch } from "react-router-dom";
 import SettingsPage from "./settings";
 import ServicesPage from "./services";
 import SchedulePage from "./schedule";
-import StatisticsPage from "./statistics";
 import PortfolioPage from "./portfolio"
+import StatisticsPage from "./statistics";
 import ReservationsPage from "./reservations";
 import SidebarPartial from "../../template/sidebar-partial";
 
