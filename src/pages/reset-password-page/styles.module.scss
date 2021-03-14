@@ -1,0 +1,17 @@
+.content {
+    display: flex;
+    align-items: center;
+    background: url("https://i7x7p5b7.stackpathcdn.com/codrops/wp-content/uploads/2015/01/blend-mode-example-screenshot.png")
+        no-repeat;
+    background-size: cover;
+
+    .container {
+        text-align: center;
+        width: 100%;
+
+        .card {
+            background-color: #252525;
+            padding: 15px 25px;
+        }
+    }
+}

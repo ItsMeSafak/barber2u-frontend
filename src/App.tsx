@@ -7,6 +7,7 @@ import Dashboard from "./pages/dashboard";
 import ErrorPage from "./pages/error-page";
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
+import ResetPasswordPage from "./pages/reset-password-page";
 
 const { Header, Footer } = Layout;
 
@@ -19,6 +20,10 @@ const App: React.FC = () => (
             <Layout>
                 <Switch>
                     <Route path="/dashboard" component={Dashboard} />
+                    <Route
+                        path="/reset-password"
+                        component={ResetPasswordPage}
+                    />
                     <Route
                         component={() => (
                             <ErrorPage code={404} returnUrl="home" />

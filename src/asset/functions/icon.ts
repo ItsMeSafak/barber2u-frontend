@@ -6,8 +6,10 @@ import {
     IconPrefix,
 } from "@fortawesome/fontawesome-svg-core";
 import {
+    faAt,
     faBars,
     faCut,
+    faEnvelope,
     faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,8 +18,10 @@ import {
  * This will make it accessible to use it anywhere within this project.
  */
 export const icons = {
+    faAt,
     faCut,
     faBars,
+    faEnvelope,
     faExclamationTriangle,
 };
 
