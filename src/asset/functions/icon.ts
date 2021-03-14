@@ -11,6 +11,19 @@ import {
     faCut,
     faEnvelope,
     faExclamationTriangle,
+    faCaretLeft,
+    faCaretRight,
+    faIdCard,
+    faAt,
+    faKey,
+    faMobileAlt,
+    faAddressBook,
+    faCity,
+    faChartPie,
+    faCalendarAlt,
+    faCamera,
+    faCalendar,
+    faCog
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -23,6 +36,19 @@ export const icons = {
     faBars,
     faEnvelope,
     faExclamationTriangle,
+    faCaretLeft,
+    faCaretRight,
+    faIdCard,
+    faAt,
+    faKey,
+    faMobileAlt,
+    faAddressBook,
+    faCity,
+    faChartPie,
+    faCalendarAlt,
+    faCamera,
+    faCalendar,
+    faCog
 };
 
 /**

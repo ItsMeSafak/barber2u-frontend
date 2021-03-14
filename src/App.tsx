@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { Layout } from "antd";
 
-import Dashboard from "./pages/dashboard";
 import ErrorPage from "./pages/error-page";
+import DashboardPage from "./pages/dashboard";
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
 import ResetPasswordPage from "./pages/reset-password-page";
@@ -19,7 +19,7 @@ const App: React.FC = () => (
             </Header>
             <Layout>
                 <Switch>
-                    <Route path="/dashboard" component={Dashboard} />
+                    <Route path="/dashboard" component={DashboardPage} />
                     <Route
                         path="/reset-password"
                         component={ResetPasswordPage}
@@ -29,6 +29,7 @@ const App: React.FC = () => (
                             <ErrorPage code={404} returnUrl="home" />
                         )}
                     />
+                    <Route path="/dashboard" component={DashboardPage} />
                 </Switch>
             </Layout>
             <Footer className="footer">
