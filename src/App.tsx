@@ -17,11 +17,6 @@ const {Header, Footer} = Layout;
 const App: React.FC = () => {
     const [user] = useState(getCurrentUser());
 
-    useEffect(() => {
-        if (user) {
-            console.log(user);
-        }
-    });
     return (
         <Layout className="layoutContainer">
             <BrowserRouter>
