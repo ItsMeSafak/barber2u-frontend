@@ -10,6 +10,7 @@ import FooterPartial from "./template/footer-partial";
 
 const { Header, Footer } = Layout;
 
+// eslint-disable-next-line require-jsdoc
 const App: React.FC = () => (
     <Layout className="layoutContainer">
         <BrowserRouter>
