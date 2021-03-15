@@ -5,17 +5,13 @@ import Style from "./Style";
  */
 export default class Reservation {
     id: number;
-
     style: Style;
-
     date: string;
-
     location: string;
-
     price: number;
 
     /**
-     * 
+     *
      * @param {number} id Id of the reservation.
      * @param {Style} style Style of the reservation.
      * @param {string} date Date of the reservation placed.

@@ -25,7 +25,6 @@ const App: React.FC = () => (
                             <ErrorPage code={404} returnUrl="home" />
                         )}
                     />
-                    <Route path="/dashboard" component={DashboardPage} />
                 </Switch>
             </Layout>
             <Footer className="footer">

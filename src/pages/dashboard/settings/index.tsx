@@ -9,7 +9,7 @@ import styles from "./styles.module.scss";
 /**
  * This component renders the settings page.
  * The page has a settings form with user values in it.
- * 
+ *
  * @returns {JSX}
  */
 const SettingsPage: React.FC = () => (

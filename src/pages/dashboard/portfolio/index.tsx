@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
-import { Layout, Button, Divider, Row } from "antd";
-import { Content } from "antd/lib/layout/layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Layout, Button, Divider, Row } from "antd";
 
 import ServiceCard from "../../../component/card";
 
@@ -13,13 +12,15 @@ import PortfolioItem from "../../../models/PortfolioItem";
 
 import styles from "./styles.module.scss";
 
+const { Content } = Layout;
+
 interface ComponentProps {
     portfolio: Portfolio;
 }
 
 /**
  * This component renders the protfolio page, consisting of portfolio cards/items.
- * 
+ *
  * @param {Object} props Component properties.
  * @returns {JSX}
  */
@@ -31,7 +32,7 @@ const PortfolioPage: React.FC<ComponentProps> = (props) => {
 
     /**
      * This function creates a new (and empty) instance of a portfolio item.
-     * 
+     *
      * @returns {PortfolioItem}
      */
     const emptyIItem = () => new PortfolioItem(0, Style.Curly, "");
@@ -39,7 +40,7 @@ const PortfolioPage: React.FC<ComponentProps> = (props) => {
     /**
      * This function renders an add button.
      * This would then create an empty portfolio card with empty values in the input fields.
-     * 
+     *
      * @returns {JSX}
      */
     const renderAddButton = () => (
@@ -58,7 +59,7 @@ const PortfolioPage: React.FC<ComponentProps> = (props) => {
      * This function render the save and cancel button, which will appear after triggering the add button.
      * The save button has the functionality to add the newly created instance of portfolio item to the list.
      * The cancel button closes the empty portfolio item and switches back to the add button.
-     * 
+     *
      * @returns {JSX}
      */
     const renderSaveAndCancelButton = () => (
@@ -90,9 +91,9 @@ const PortfolioPage: React.FC<ComponentProps> = (props) => {
 
     /**
      * This method renders all the portfolio items that match the passed style value.
-     * If the passed style equals the style of the current portfolio item in the map function, 
+     * If the passed style equals the style of the current portfolio item in the map function,
      * then it should get rendered on that row.
-     * 
+     *
      * @param {Portfolio} portfolioObject The portfolio object, consisting of portfolio items.
      * @param {Style} style The current style to be rendered on the row.
      * @returns {JSX}
@@ -113,7 +114,7 @@ const PortfolioPage: React.FC<ComponentProps> = (props) => {
     /**
      * This function renders all the available style rows in the portfolio.
      * Each row is a unique style and each row consists of portfolio items that match that style.
-     * 
+     *
      * @param {Style[]} allStyles List of all the available styles in the portfolio.
      * @returns {JSX}
      */

@@ -5,13 +5,11 @@ import Style from "./Style";
  */
 export default class PortfolioItem {
     id: number;
-
     style: Style;
-
     image: string;
 
     /**
-     * 
+     *
      * @param {number} id Id of a portfolio item.
      * @param {Style} style Style of the portfolio item.
      * @param {string} image Image of the portfolio item.

@@ -5,15 +5,12 @@ import Style from "./Style";
  */
 export default class Service {
     id: number;
-
     style: Style;
-
     description: string;
-
     price: number;
 
     /**
-     * 
+     *
      * @param {number} id Id of the service.
      * @param {Style} style Style of the service.
      * @param {string} description Description of the service.
