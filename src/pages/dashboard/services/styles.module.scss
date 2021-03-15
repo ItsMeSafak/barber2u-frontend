@@ -1,0 +1,52 @@
+@import "../../../asset/config.scss";
+
+.services {
+    .title {
+        font-size: $header-size-1;
+    }
+
+    .addBtn {
+        margin-bottom: 20px;
+        margin-right: 10px;
+    }
+
+    .saveBtn {
+        background-color: $green-color !important;
+        border-color: $green-color;
+    }
+
+    .card {
+        box-shadow: $shadow;
+
+        .header {
+            font-size: $header-size-2;
+            font-weight: bold;
+            color: $primary-color;
+        }
+
+        .description {
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: $header-size-3;
+            font-weight: bold;
+            color: $green-color;
+            float: right;
+        }
+
+        .inputPrice {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .confirmButton {
+            margin-right: 10px;
+        }
+    }
+}

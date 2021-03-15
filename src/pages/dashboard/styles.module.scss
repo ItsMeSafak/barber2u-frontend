@@ -1,12 +1,21 @@
+@import "../../asset/config.scss";
+
 .dashboard {
-    background-color: #e1e1e1;
+    background-color: $light-grey-color;
     display: flex;
+}
 
-    & .dashboardMobile {
-        flex-direction: column;
-    }
+.dashboardContent {
+    padding: 50px;
+    width: 100%;
+}
 
-    & .dashboardDesktop {
-        flex-direction: row;
+.dashboardDesktop {
+    flex-direction: row;
+}
+
+.dashboardMobile {
+    .dashboardContent {
+        padding: 20px;
     }
 }

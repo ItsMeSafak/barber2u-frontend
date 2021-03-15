@@ -1,19 +1,26 @@
+@import "../../asset/config.scss";
+
 .sidebar {
-    background-color: #252525;
     min-height: 100vh;
-    width: 20%;
     position: relative;
+
+    aside {
+        height: 100% !important;
+        flex: none !important;
+    }
 
     > ul {
         position: sticky;
         padding: 0;
         top: 0;
+        height: 100% !important;
 
         > li {
             color: white;
             list-style-type: none;
             font-size: 20px;
             text-align: left;
+            transition: all 0.2s ease;
 
             > a {
                 display: block;
@@ -31,17 +38,18 @@
                 }
 
                 &:hover {
-                    background-color: #1687a7;
+                    background-color: $primary-color;
                 }
             }
 
             .active {
-                background-color: #1687a7;
+                background-color: $primary-color;
 
                 &::after {
+                    filter: invert(53%) sepia(89%) saturate(2274%)
+                        hue-rotate(165deg) brightness(100%) contrast(102%);
                     position: absolute;
-                    filter: invert(64%) sepia(94%) saturate(6749%)
-                        hue-rotate(172deg) brightness(95%) contrast(83%);
+                    //filter: invert(64%) sepia(94%) saturate(6749%) hue-rotate(172deg) brightness(95%) contrast(83%);
                     content: "";
                     background: url(../../asset/arrow.svg) no-repeat;
                     width: 50px;
@@ -53,9 +61,19 @@
             }
         }
     }
+}
 
-    & .sidebarMobile {
-        width: 100%;
-        min-height: auto;
+.sidebarMobile {
+    aside {
+        box-shadow: $shadow;
+        min-width: fit-content !important;
+        max-width: fit-content !important;
+        height: 100% !important;
+        flex: none !important;
+    }
+
+    ul {
+        width: 50px !important;
+        height: 100% !important;
     }
 }
