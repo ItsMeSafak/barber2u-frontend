@@ -6,7 +6,12 @@ import SettingsForm from "../../../component/forms/settings";
 
 import styles from "./styles.module.scss";
 
-/* eslint-disable */
+/**
+ * This component renders the settings page.
+ * The page has a settings form with user values in it.
+ *
+ * @returns {JSX}
+ */
 const SettingsPage: React.FC = () => (
     <div className={styles.settings}>
         <Card className={styles.container}>

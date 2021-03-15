@@ -1,0 +1,37 @@
+[
+    {
+        "name": "firstname",
+        "placeHolder": "Firstname",
+        "icon": "id-card"
+    },
+    {
+        "name": "lastname",
+        "placeHolder": "Lastname",
+        "icon": "id-card"
+    },
+    {
+        "name": "email",
+        "placeHolder": "Email",
+        "icon": "at"
+    },
+    {
+        "name": "password",
+        "placeHolder": "Password",
+        "icon": "key"
+    },
+    {
+        "name": "phone",
+        "placeHolder": "Phone",
+        "icon": "mobile-alt"
+    },
+    {
+        "name": "address",
+        "placeHolder": "Address",
+        "icon": "address-book"
+    },
+    {
+        "name": "city",
+        "placeHolder": "City",
+        "icon": "city"
+    }
+]

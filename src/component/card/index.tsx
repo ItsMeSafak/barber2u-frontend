@@ -14,10 +14,16 @@ interface ComponentProps {
 
 const { Option } = Select;
 
-// eslint-disable-next-line require-jsdoc
+/**
+ * This component renders a service card for the service page.
+ * TODO: Make this component generic
+ *
+ * @param {Object} props Component properties.
+ * @returns {JSX}
+ */
 const ServiceCard: React.FC<ComponentProps> = (props) => {
-    const [isEditing, setIsEditing] = useState(0);
     const { portfolioItem, newItem } = props;
+    const [isEditing, setIsEditing] = useState(0);
 
     return (
         <Col key={portfolioItem.id} xs={24} sm={12} lg={8}>

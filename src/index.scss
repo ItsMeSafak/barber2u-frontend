@@ -1,6 +1,5 @@
 @import "~antd/dist/antd.css";
-
-$secondary-color: #252525;
+@import "./asset/config.scss";
 
 body {
     margin: 0;
@@ -34,18 +33,21 @@ code {
 
 .footer {
     background-color: $secondary-color;
-    padding: 30px;
+    padding: 14px;
     color: #fff;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
-    small {
-        margin: auto;
-    }
 }
 
 .ant-layout {
     background-color: transparent;
+}
+
+.underlined-text {
+    line-height: 1;
+    display: inline-block;
+    margin-inline: auto;
+    border-bottom: solid 3px $primary-color;
 }

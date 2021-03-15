@@ -84,7 +84,7 @@ const HeaderPartial: React.FC = () => {
 
     return (
         <>
-            <Link to="home">
+            <Link to="/">
                 <h1 className={styles.logo}>
                     <LogoComponent iconPrefix="fas" iconName="cut" />
                 </h1>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Route, useRouteMatch, Switch } from "react-router-dom";
 
 import SettingsPage from "./settings";
@@ -15,33 +15,42 @@ import Reservation from "../../models/Reservation";
 
 import ServicesData from "../../asset/services.json";
 import PortfolioData from "../../asset/portfolio.json";
-import SidebarMenuItems from "../../asset/dashboard_links.json";
 import ReservationsData from "../../asset/reservations.json";
+import SidebarMenuItems from "../../asset/dashboard_links.json";
 
 import { WIDTH_SCREEN_XL } from "../../asset/constants";
 
 import styles from "./styles.module.scss";
 
-interface MenuItem {
-    url: string;
-    name: string;
-    iconPrefix: string;
-    iconName: string;
-}
-
-/* eslint-disable */
+/**
+ * This component renders the dashboard page that has some routing configured, based on the sidebar.
+ *
+ * @returns {JSX}
+ */
 const DashboardPage: React.FC = () => {
     const { path, url } = useRouteMatch();
     const [isMobile, setMobile] = useState(false);
 
+    /**
+     * This function checks whether the window screen width reaches a breakpoint.
+     * If so, the mobile state is set to true.
+     */
+    const handleMobileView = useCallback(() => {
+        setMobile(window.innerWidth <= WIDTH_SCREEN_XL);
+    }, []);
+
+    /**
+     * This function checks whether the window size has been adjusted.
+     * Whenever the window width reaches a specific width, the hamburger menu is then visible.
+     * The function gets executed by default whenever the window has been loaded.
+     * At the end, the event listener is removed so that unnecessary events are unloaded.
+     */
     useEffect(() => {
-        const handleMobileView = () =>
-            setMobile(window.innerWidth <= WIDTH_SCREEN_XL);
         handleMobileView();
         window.addEventListener("resize", handleMobileView);
         // Remove event listener if not being used.
         return () => window.removeEventListener("resize", handleMobileView);
-    }, []);
+    }, [handleMobileView]);
 
     return (
         <div
