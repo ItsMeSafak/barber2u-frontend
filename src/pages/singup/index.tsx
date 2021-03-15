@@ -7,28 +7,21 @@ import { WIDTH_SCREEN_LG } from "../../asset/constants";
 
 import styles from "./styles.module.scss";
 
-const Signup: React.FC = () => {
-    const [isMobile, setMobile] = useState(false);
-
-    useEffect(() => {
-        const handleMobileView = () =>
-            setMobile(window.innerWidth <= WIDTH_SCREEN_LG);
-        handleMobileView();
-        window.addEventListener("resize", handleMobileView);
-        // Remove event listener if not being used.
-        return () => window.removeEventListener("resize", handleMobileView);
-    }, []);
-
-    return (
-        <BrowserRouter>
-            <div className={`${styles.signup}`}>
-                <div className={`${styles.column} ${styles.signupImage}`} />
-                <div className={`${styles.column}`}>
-                    <SignupForm />
-                </div>
+/**
+ * This component renders a signup form.
+ * The form consists of input fields regarding the users information.
+ *
+ * @returns {JSX}
+ */
+const Signup: React.FC = () => (
+    <BrowserRouter>
+        <div className={styles.signup}>
+            <div className={styles.column && styles.signupImage} />
+            <div className={styles.column}>
+                <SignupForm />
             </div>
-        </BrowserRouter>
-    );
-};
+        </div>
+    </BrowserRouter>
+);
 
 export default Signup;

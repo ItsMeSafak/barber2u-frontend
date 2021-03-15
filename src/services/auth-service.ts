@@ -1,4 +1,4 @@
-import { User } from "../../models/User";
+import { User } from "../models/User";
 
 const API_URL = "http://localhost:8080/api/auth/signin";
 
@@ -10,8 +10,8 @@ const API_URL = "http://localhost:8080/api/auth/signin";
 /**
  * This functions does the sign in request to the backend.
  *
- * @param User Object
- * @returns JSON response with JWT, data and response code
+ * @returns {JSON} response with JWT, data and response code
+ * @param {User} User object.
  */
 export const signIn = async (user: User) => {
     let response: Response | null = null;

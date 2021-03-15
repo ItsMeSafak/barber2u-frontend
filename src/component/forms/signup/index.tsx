@@ -15,6 +15,12 @@ import styles from "./styles.module.scss";
 import { getIconByPrefixName } from "../../../asset/functions/icon";
 
 // TODO: Add input fields and link register form to backend
+/**
+ * This component renders a signup form.
+ * The form consists of input fields regarding the users information.
+ *
+ * @returns {JSX}
+ */
 const SignupForm: React.FC = () => {
     const [formValue, setFormValue] = useState<{
         name: string;
@@ -34,10 +40,14 @@ const SignupForm: React.FC = () => {
         address: "",
     });
 
-    const isEnabled = () => Object.values(formValue).some((o) => o !== "");
+    /**
+     * This function checks whether everything in the form is filled in
+     */
+    const isEnabled = () =>
+        Object.values(formValue).every((value) => value !== "");
 
     return (
-        <div className={`${styles.signupForm}`}>
+        <div className={styles.signupForm}>
             <h2>Sign up</h2>
             <Form>
                 <Form.Item>

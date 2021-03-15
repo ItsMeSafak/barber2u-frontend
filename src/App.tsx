@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import { Layout } from "antd";
-import { getCurrentUser } from "./asset/services/Auth-Service";
+import { getCurrentUser } from "./services/auth-service";
 
 import Dashboard from "./pages/dashboard";
 import ErrorPage from "./pages/error-page";

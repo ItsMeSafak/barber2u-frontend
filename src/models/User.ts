@@ -1,7 +1,7 @@
 /**
  * User class which can be used for creating user objects.
  */
-export class User {
+export default class User {
     private firstName?: string;
     private lastName?: string;
     private email: string;
