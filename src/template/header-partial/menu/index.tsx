@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Button } from "antd";
 
 import styles from "./styles.module.scss";
+import {logout} from "../../../asset/services/Auth-Service";
 
 interface ComponentProps {
     isMobile?: boolean;
@@ -41,6 +42,7 @@ const Menu: React.FC<ComponentProps> = (props) => {
                         <Button
                             type={renderPillButton ? "primary" : "link"}
                             shape={renderPillButton ? "round" : undefined}
+                            onClick={logout}
                         >
                             {name}
                         </Button>

@@ -14,7 +14,6 @@ import {
 import styles from "./styles.module.scss";
 import { getIconByPrefixName } from "../../../asset/functions/icon";
 
-
 // TODO: Add input fields and link register form to backend
 const SignupForm: React.FC = () => {
     const [formValue, setFormValue] = useState<{

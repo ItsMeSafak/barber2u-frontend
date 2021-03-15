@@ -1,16 +1,15 @@
 import React from "react";
-import { Button } from "react-bootstrap";
-import { signIn } from "../../asset/services/Auth-Service";
+import { BrowserRouter } from "react-router-dom";
 import styles from "./styles.module.scss";
+import SignInForm from "../../component/forms/signin";
 
-const Login: React.FC = () => {
-    const handleSignIn = () => {
-        signIn("test").then((response) => {
-            // hier handelen we de response af.
-        });
-    };
+const SignIn: React.FC = () => (
+        <div className={`${styles.signin}`}>
+            <div className={`${styles.column} ${styles.signInImage}`} />
+            <div className={`${styles.column}`}>
+                <SignInForm />
+            </div>
+        </div>
+);
 
-    return <Button>test</Button>;
-};
-
-export default Login;
+export default SignIn;
