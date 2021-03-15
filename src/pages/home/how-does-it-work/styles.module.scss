@@ -1,0 +1,70 @@
+$_light-background: #e6e6e6;
+$_dark-fontcolor: #000000;
+$_light-fontcolor: #e6e6e6;
+$_primary-color: #00b2ff;
+
+$_mq-laptop: 1200px;
+
+.howdoesitwork {
+    padding: 32px;
+    background-color: $_light-background;
+    text-align: center;
+
+    * {
+        color: $_dark-fontcolor;
+    }
+
+    h1 {
+        display: inline-block;
+        font-size: 2.5rem;
+        font-weight: normal;
+        text-align: center;
+        color: inherit;
+        line-height: 1;
+        margin: 0 0 32px 0;
+
+        &.underlined {
+            margin-inline: auto;
+            border-bottom: solid 3px $_primary-color;
+        }
+    }
+
+    .cardContainer .card {
+        background-color: transparent;
+        border: none;
+        text-align: center;
+        align-items: center;
+        max-width: 400px;
+
+        img {
+            height: 250px;
+            width: 250px;
+            margin-bottom: 16px;
+        }
+
+        .step {
+            height: 48px;
+            width: 48px;
+            background-color: $_primary-color;
+            border-radius: 50px;
+            margin-bottom: 16px;
+
+            span {
+                font-size: 2rem;
+                color: $_light-fontcolor;
+            }
+        }
+
+        p {
+            font-size: 1rem;
+        }
+    }
+}
+
+@media (min-width: $_mq-laptop) {
+    .howdoesitwork {
+        h1 {
+            font-size: 4rem;
+        }
+    }
+}

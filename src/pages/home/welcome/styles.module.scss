@@ -1,0 +1,67 @@
+$_dark-background: #252525;
+$_dark-fontcolor: #000000;
+$_light-fontcolor: #e6e6e6;
+$_primary-color: #00b2ff;
+
+$_mq-laptop: 1200px;
+
+.welcome {
+    padding: 32px;
+    background-color: $_dark-background;
+    justify-content: center;
+    height: 100vh;
+
+    * {
+        color: $_light-fontcolor;
+    }
+
+    .welcomeContainer {
+        max-width: 600px;
+        align-self: center;
+        text-align: center;
+        position: relative;
+        bottom: 64px;
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: normal;
+            text-align: center;
+            color: inherit;
+            line-height: 1;
+            align-self: center;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        .primaryButton {
+            display: inline-block;
+            padding: 8px 24px;
+            margin: 0 auto;
+            color: $_light-fontcolor;
+            background: $_primary-color;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+        }
+    }
+}
+
+@media (min-width: $_mq-laptop) {
+    .welcome .welcomeContainer {
+        max-width: 900px;
+
+        h1 {
+            font-size: 4rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        .primaryButton {
+            font-size: 1.5rem;
+        }
+    }
+}

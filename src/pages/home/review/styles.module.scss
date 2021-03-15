@@ -1,0 +1,59 @@
+$_light-background: #e6e6e6;
+$_dark-fontcolor: #000000;
+$_primary-color: #00b2ff;
+
+$_mq-laptop: 1200px;
+
+.reviews {
+    padding: 32px;
+    text-align: left;
+    background-color: $_light-background;
+
+    .carousel {
+        > div > div {
+            display: flex;
+            align-items: center;
+        }
+
+        ul {
+            bottom: 0;
+            position: relative;
+
+            li,
+            li.slick-active {
+                margin: 0 8px 0 8px;
+
+                button {
+                    height: 16px;
+                    border-radius: 16px;
+                    background-color: $_primary-color !important;
+                }
+            }
+        }
+    }
+
+    * {
+        color: $_dark-fontcolor;
+    }
+
+    p {
+        min-height: 200px;
+        font-size: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin: 0;
+    }
+}
+
+@media (min-width: $_mq-laptop) {
+    .reviews .reviewContainer {
+        margin: 0 auto;
+
+        p {
+            font-size: 1.6rem;
+        }
+    }
+}
