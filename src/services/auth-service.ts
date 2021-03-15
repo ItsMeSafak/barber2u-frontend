@@ -1,6 +1,6 @@
 import User from "../models/User";
 
-const API_URL = "http://localhost:8080/api/auth/signin";
+const API_URL = "http://localhost:8080/api/auth/signup";
 
 /**
  * This service file is responsible for every auth related function.
@@ -25,6 +25,28 @@ export const signIn = async (user: User) => {
                 email: user.getEmail,
                 password: user.getPassword,
             }),
+        });
+    } catch (error) {
+        console.log("Empty");
+    }
+    return response?.json();
+};
+
+/**
+ * This functions does the sign up request to the backend.
+ *
+ * @param User Object
+ * @returns The result of the request
+ */
+export const signUp = async (user: User) => {
+    let response: Response | null = null;
+    try {
+        response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
         });
     } catch (error) {
         console.log("Empty");

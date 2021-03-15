@@ -1,24 +1,34 @@
 /**
  * User class which can be used for creating user objects.
  */
-export default class User {
-    private firstName?: string;
-    private lastName?: string;
+export class User {
+    private firstName: string;
+
+    private lastName: string;
+
     private email: string;
     private password: string;
-    constructor(email: string, password: string);
+
+    private zipCode: string;
+    private phoneNumber: string;
+
+    // constructor(email: string, password: string);
 
     // eslint-disable-next-line require-jsdoc
     constructor(
         email: string,
         password: string,
-        firstName?: string,
-        lastName?: string
+        firstName: string,
+        lastName: string,
+        zipCode: string,
+        phoneNumber: string
     ) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.zipCode = zipCode;
+        this.phoneNumber = phoneNumber;
     }
 
     // eslint-disable-next-line require-jsdoc

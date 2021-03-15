@@ -1,12 +1,11 @@
+import React, { ChangeEvent, useState } from "react";
 import { useHistory } from "react-router-dom";
-import React, { ChangeEvent, useEffect, useState } from "react";
 
 import { Button, Form, Input, notification } from "antd";
 import { faKey, faAt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import styles from "./styles.module.scss";
-import User from "../../../models/User";
 import { signIn } from "../../../services/auth-service";
 
 /**
@@ -41,17 +40,17 @@ const SignInForm: React.FC = () => {
      * It will redirect you to the correct page when logged in succesfully
      */
     const handleSignIn = () => {
-        signIn(new User(formValue.email, formValue.password)).then(
-            (response) => {
-                if (response.status === 200) {
-                    localStorage.setItem("user", JSON.stringify(response.data));
-                    history.push("/dashboard");
-                    window.location.reload();
-                } else {
-                    openNotificationWithIcon();
-                }
-            }
-        );
+        // signIn(new User(formValue.email, formValue.password)).then(
+        //     (response) => {
+        //         if (response.status === 200) {
+        //             localStorage.setItem("user", JSON.stringify(response.data));
+        //             history.push("/dashboard");
+        //             window.location.reload();
+        //         } else {
+        //             openNotificationWithIcon();
+        //         }
+        //     }
+        // );
     };
 
     return (
