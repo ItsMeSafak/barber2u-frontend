@@ -41,7 +41,10 @@ const Menu: React.FC<ComponentProps> = (props) => {
                         <Button
                             type={renderPillButton ? "primary" : "link"}
                             shape={renderPillButton ? "round" : undefined}
-                            onClick={logout}
+                            onClick={() => {
+                                logout();
+                                window.location.reload();
+                            }}
                         >
                             {name}
                         </Button>

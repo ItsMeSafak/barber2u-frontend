@@ -32,8 +32,9 @@ const App: React.FC = () => {
                         <Route path="/signin">
                             {user ? <Redirect to="/dashboard" /> : <SignIn/>}
                         </Route>
-                        <Route path="/customer/signUp" component={Signup}/>
-                        <Route path="/signIn" component={SignIn}/>
+                        <Route path="/customer/signUp">
+                            {user ? <Redirect to="/dashboard" /> : <Signup/>}
+                        </Route>
                         <Route
                             component={() => (
                                 <ErrorPage code={404} returnUrl="home"/>

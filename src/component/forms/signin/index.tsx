@@ -44,7 +44,7 @@ const SignInForm: React.FC = () => {
             (response) => {
                 if (response.status === 200) {
                     localStorage.setItem("user", JSON.stringify(response.data));
-                    history.push("/customer/signup");
+                    history.push("/dashboard");
                     window.location.reload();
                 } else {
                     openNotificationWithIcon();
