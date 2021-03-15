@@ -219,7 +219,7 @@ const SignupForm: React.FC = () => {
                         disabled={!isEnabled()}
                         onClick={handleSignUp}
                     >
-                        Save changes
+                        Sign Up
                     </Button>
                 </Form.Item>
             </Form>
