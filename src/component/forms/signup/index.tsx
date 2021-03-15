@@ -16,7 +16,7 @@ import { IconType } from "antd/lib/notification";
 import styles from "./styles.module.scss";
 import { getIconByPrefixName } from "../../../asset/functions/icon";
 import { User } from "../../../models/User";
-import { signUp } from "../../../asset/services/Auth-Service";
+import { signUp } from "../../../services/auth-service";
 
 /**
  * This component renders a signup form.

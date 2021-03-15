@@ -9,7 +9,7 @@ import SignInForm from "../../component/forms/signin";
  */
 const SignIn: React.FC = () => (
     <div className={styles.signin}>
-        <div className={styles.column && styles.signInImag} />
+        <div className={`${styles.column} ${styles.signInImage}`} />
         <div className={styles.column}>
             <SignInForm />
         </div>
