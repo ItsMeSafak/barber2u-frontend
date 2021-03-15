@@ -16,8 +16,8 @@
         "name": "Contact"
     },
     {
-        "url": "/login",
-        "name": "Log in",
+        "url": "/signin",
+        "name": "Sign in",
         "isPillButton": true
     }
 ]

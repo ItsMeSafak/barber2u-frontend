@@ -10,12 +10,8 @@ export default class PortfolioItem {
 
     image: string;
 
-    /**
-     * 
-     * @param {number} id Id of a portfolio item.
-     * @param {Style} style Style of the portfolio item.
-     * @param {string} image Image of the portfolio item.
-     */
+
+    // eslint-disable-next-line require-jsdoc
     constructor(id: number, style: Style, image: string) {
         this.id = id;
         this.style = style;

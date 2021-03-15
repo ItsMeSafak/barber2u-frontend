@@ -12,13 +12,7 @@ export default class Service {
 
     price: number;
 
-    /**
-     * 
-     * @param {number} id Id of the service.
-     * @param {Style} style Style of the service.
-     * @param {string} description Description of the service.
-     * @param {number} price Price of the service.
-     */
+    // eslint-disable-next-line require-jsdoc
     constructor(id: number, style: Style, description: string, price: number) {
         this.id = id;
         this.style = style;

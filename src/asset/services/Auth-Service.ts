@@ -2,7 +2,17 @@ import { User } from "../../models/User";
 
 const API_URL = "http://localhost:8080/api/auth/signin";
 
-// The sign in function created in Auth-Service.ts
+/**
+ * This service file is responsible for every auth related function.
+ *
+ */
+
+/**
+ * This functions does the sign in request to the backend.
+ *
+ * @param User Object
+ * @returns JSON response with JWT, data and response code
+ */
 export const signIn = async (user: User) => {
     let response: Response | null = null;
     try {
@@ -22,10 +32,17 @@ export const signIn = async (user: User) => {
     return response?.json();
 };
 
+/**
+ * This function removes the user from the localstorage the moment he logged out
+ */
 export const logout = () => {
     localStorage.removeItem("user");
 };
 
+/**
+ * This function is used for authenticating when trying to reach the backend.
+ * You might need your jwt token for some functions in the backend.
+ */
 export const authHeader = () => {
     const user = JSON.parse(<string>localStorage.getItem("user"));
     if (user && user.accessToken) {
@@ -35,5 +52,8 @@ export const authHeader = () => {
     return {};
 };
 
+/**
+ * This function is responsible for retrieving the user from the localstorage.
+ */
 export const getCurrentUser = () =>
     JSON.parse(<string>localStorage.getItem("user"));

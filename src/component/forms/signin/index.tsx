@@ -1,15 +1,18 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, notification } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKey, faAt } from "@fortawesome/free-solid-svg-icons";
-import { getIconByPrefixName } from "../../../asset/functions/icon";
 import { User } from "../../../models/User";
 import { signIn } from "../../../asset/services/Auth-Service";
-import { WIDTH_SCREEN_LG } from "../../../asset/constants";
 
 import styles from "./styles.module.scss";
-
+/**
+ * This component renders a login form.
+ * The form consists of input fields regarding the users information.
+ *
+ * @returns {JSX}
+ */
 const SignInForm: React.FC = () => {
     const history = useHistory();
     const [formValue, setFormValue] = useState<{
@@ -20,6 +23,22 @@ const SignInForm: React.FC = () => {
         password: "",
     });
 
+    /**
+     * This function handles the antd notification which will be shown the moment the credentials are wrong.
+     */
+    const openNotificationWithIcon = () => {
+        notification.error({
+            message: "Invalid Credentials",
+            description:
+                "The email or password is not correct :(. Try again.",
+            placement: "bottomRight"
+        });
+    };
+
+    /**
+     * This function handles the signin and stores the user json object in the localstorage.
+     * It will redirect you to the correct page when logged in succesfully
+     */
     const handleSignIn = () => {
         signIn(new User(formValue.email, formValue.password)).then(
             (response) => {
@@ -28,7 +47,7 @@ const SignInForm: React.FC = () => {
                     history.push("/customer/signup");
                     window.location.reload();
                 } else {
-                    console.error(response.message);
+                    openNotificationWithIcon();
                 }
             }
         );

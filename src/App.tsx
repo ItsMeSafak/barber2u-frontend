@@ -10,10 +10,11 @@ import ErrorPage from "./pages/error-page";
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
 import Signup from "./pages/singup";
-import SignIn from "./pages/login";
+import SignIn from "./pages/signin";
 
 const {Header, Footer} = Layout;
 
+// eslint-disable-next-line require-jsdoc
 const App: React.FC = () => {
     const [user] = useState(getCurrentUser());
 
@@ -25,10 +26,12 @@ const App: React.FC = () => {
                 </Header>
                 <Layout>
                     <Switch>
-                        <Route exact path="/">
-                            {user ? <Redirect to="/dashboard" /> : <SignIn />}
+                        <Route path="/dashboard">
+                            {!user ? <Redirect to="/signin" /> : <Dashboard/>}
                         </Route>
-                        <Route path="/dashboard" component={Dashboard}/>
+                        <Route path="/signin">
+                            {user ? <Redirect to="/dashboard" /> : <SignIn/>}
+                        </Route>
                         <Route path="/customer/signUp" component={Signup}/>
                         <Route path="/signIn" component={SignIn}/>
                         <Route
