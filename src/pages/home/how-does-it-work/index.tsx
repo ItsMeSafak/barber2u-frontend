@@ -22,16 +22,11 @@ const HowDoesItWorkSection: React.FC = () => {
         content.instruction.map((card) => (
             <Col key={card.step} xs={24} sm={12} lg={8}>
                 <Card className={styles.card}>
-                    <Image
-                        src={card.image}
-                        preview={false}
-                    />
+                    <Image src={card.image} preview={false} />
                     <div className={styles.step}>
                         <span>{card.step}</span>
                     </div>
-                    <p className={styles.stepDescription}>
-                        {card.description}
-                    </p>
+                    <p className={styles.stepDescription}>{card.description}</p>
                 </Card>
             </Col>
         ));

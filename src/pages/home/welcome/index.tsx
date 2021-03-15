@@ -16,7 +16,9 @@ const WelcomeSection: React.FC = () => (
     <Row id="welcome" className={styles.section} justify="center">
         <div className={styles.container}>
             <h1 className={styles.sectionTitle}>{content.header1_text}</h1>
-            <h2 className={styles.sectionDescription}>{content.header2_text}</h2>
+            <h2 className={styles.sectionDescription}>
+                {content.header2_text}
+            </h2>
             <Link to="register">
                 <Button type="primary" shape="round" size="large">
                     {content.button_text}

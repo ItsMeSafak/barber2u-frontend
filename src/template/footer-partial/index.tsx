@@ -44,9 +44,7 @@ const FooterPartial: React.FC = () => {
                 </Col>
                 <Col xs={24} sm={7} lg={5}>
                     <ul>
-                        <div className={styles.footerHeader}>
-                            Navigation
-                        </div>
+                        <div className={styles.footerHeader}>Navigation</div>
                         {renderLinks()}
                     </ul>
                 </Col>
