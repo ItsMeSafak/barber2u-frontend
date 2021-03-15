@@ -35,4 +35,5 @@ export const authHeader = () => {
     return {};
 };
 
-export const getCurrentUser = () => JSON.parse(<string>localStorage.getItem("user"));
+export const getCurrentUser = () =>
+    JSON.parse(<string>localStorage.getItem("user"));
