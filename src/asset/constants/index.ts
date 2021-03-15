@@ -27,3 +27,19 @@ export const ERROR_STATUSES: Array<{
 
 // String constants.
 export const APPLICATION_NAME = "Barber2U";
+
+// Month names.
+export const MONTH_NAMES = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+];

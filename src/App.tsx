@@ -5,6 +5,7 @@ import { Layout } from "antd";
 
 import HomePage from "./pages/home";
 import ErrorPage from "./pages/error-page";
+import DashboardPage from "./pages/dashboard";
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
 
@@ -20,6 +21,7 @@ const App: React.FC = () => (
             <Layout>
                 <Switch>
                     <Route exact path="/" component={HomePage} />
+                    <Route path="/dashboard" component={DashboardPage} />
                     <Route
                         component={() => (
                             <ErrorPage code={404} returnUrl="home" />
