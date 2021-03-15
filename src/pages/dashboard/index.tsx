@@ -15,8 +15,8 @@ import Reservation from "../../models/Reservation";
 
 import ServicesData from "../../asset/services.json";
 import PortfolioData from "../../asset/portfolio.json";
-import SidebarMenuItems from "../../asset/dashboard_links.json";
 import ReservationsData from "../../asset/reservations.json";
+import SidebarMenuItems from "../../asset/dashboard_links.json";
 
 import { WIDTH_SCREEN_XL } from "../../asset/constants";
 

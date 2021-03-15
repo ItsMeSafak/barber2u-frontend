@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
-import { Layout, Button, Divider, Row } from "antd";
-import { Content } from "antd/lib/layout/layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Layout, Button, Divider, Row } from "antd";
 
 import ServiceCard from "../../../component/card";
 
@@ -12,6 +11,8 @@ import Portfolio from "../../../models/Portfolio";
 import PortfolioItem from "../../../models/PortfolioItem";
 
 import styles from "./styles.module.scss";
+
+const { Content } = Layout;
 
 interface ComponentProps {
     portfolio: Portfolio;

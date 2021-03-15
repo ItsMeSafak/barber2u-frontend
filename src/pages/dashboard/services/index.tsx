@@ -10,6 +10,7 @@ import {
     Row,
     Select,
     Tooltip,
+    Input,
 } from "antd";
 import {
     faCheck,
@@ -18,14 +19,16 @@ import {
     faTimes,
     faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import TextArea from "antd/lib/input/TextArea";
-import { Content } from "antd/lib/layout/layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Style from "../../../models/Style";
 import Service from "../../../models/Service";
 
 import styles from "./styles.module.scss";
+
+const { Option } = Select;
+const { Content } = Layout;
+const { TextArea } = Input;
 
 interface ComponentProps {
     services: Service[];
@@ -35,8 +38,6 @@ interface CardProps {
     serviceDetail: Service;
     newService: boolean;
 }
-
-const { Option } = Select;
 
 /**
  * This component renders the service card for the services page,
@@ -63,7 +64,7 @@ const ServiceCardComponent: React.FC<CardProps> = (props) => {
         <FontAwesomeIcon
             key="edit"
             icon={faEdit}
-            onClick={(evt) => setIsEditing(serviceDetail.id)}
+            onClick={() => setIsEditing(serviceDetail.id)}
         />,
     ];
 
@@ -164,7 +165,7 @@ const ServicesPage: React.FC<ComponentProps> = (props) => {
                             type="primary"
                             icon={<FontAwesomeIcon icon={faPlus} />}
                             size="large"
-                            onClick={(evt) =>
+                            onClick={() =>
                                 setNewService((prevState) => !prevState)
                             }
                         >
@@ -177,7 +178,7 @@ const ServicesPage: React.FC<ComponentProps> = (props) => {
                                 type="primary"
                                 icon={<FontAwesomeIcon icon={faCheck} />}
                                 size="large"
-                                onClick={(evt) =>
+                                onClick={() =>
                                     setNewService((prevState) => !prevState)
                                 }
                             >

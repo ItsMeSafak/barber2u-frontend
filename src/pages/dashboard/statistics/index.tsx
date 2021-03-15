@@ -6,11 +6,12 @@ import {
     ArgumentAxis,
     ValueAxis,
 } from "@devexpress/dx-react-chart-material-ui";
-import { Content } from "antd/lib/layout/layout";
 import { Animation, PieSeries } from "@devexpress/dx-react-chart";
 import { Card, Col, Layout, Row, Statistic } from "antd";
 
 import styles from "./styles.module.scss";
+
+const { Content } = Layout;
 
 /**
  * This component renders the statistics page of a barber.

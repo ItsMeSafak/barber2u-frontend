@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
-import { Content } from "antd/lib/layout/layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Card, Col, Row, Modal, Divider } from "antd";
+import { Card, Col, Row, Modal, Divider, Layout } from "antd";
 
 import Style from "../../../models/Style";
 import Reservation from "../../../models/Reservation";
@@ -11,6 +10,8 @@ import { MONTH_NAMES } from "../../../asset/constants";
 import { getIconByPrefixName } from "../../../asset/functions/icon";
 
 import styles from "./styles.module.scss";
+
+const { Content } = Layout;
 
 interface ComponentProps {
     reservationItems: Reservation[];
@@ -102,10 +103,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
     const renderReservationItems = (reservationList: Reservation[]) =>
         reservationList.map((item) => (
             <Col key={item.id} xs={24} sm={12} lg={8}>
-                <Card
-                    className={styles.card}
-                    onClick={(event) => showModal(item)}
-                >
+                <Card className={styles.card} onClick={() => showModal(item)}>
                     <p className={styles.title}>Reservation</p>
                     <p>{item.style}</p>
                     <p>

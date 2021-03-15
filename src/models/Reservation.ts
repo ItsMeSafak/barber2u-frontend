@@ -5,16 +5,19 @@ import Style from "./Style";
  */
 export default class Reservation {
     id: number;
-
     style: Style;
-
     date: string;
-
     location: string;
-
     price: number;
 
-    // eslint-disable-next-line require-jsdoc
+    /**
+     *
+     * @param {number} id Id of the reservation.
+     * @param {Style} style Style of the reservation.
+     * @param {string} date Date of the reservation placed.
+     * @param {string} location Location of the reservation.
+     * @param {number} price Price of the reservation.
+     */
     constructor(
         id: number,
         style: Style,
