@@ -154,6 +154,8 @@ const SignupForm: React.FC = () => {
                 <Form.Item>
                     <Button
                         type="primary"
+                        block
+                        shape="round"
                         htmlType="submit"
                         className={styles.saveButton}
                         disabled={!isEnabled()}
