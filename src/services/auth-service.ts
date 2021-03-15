@@ -11,7 +11,8 @@ const API_URL = "http://localhost:8080/api/auth/signup";
  * This functions does the sign in request to the backend.
  *
  * @returns {JSON} response with JWT, data and response code
- * @param {User} User object.
+ * @param userEmail
+ * @param userPassword
  */
 export const signIn = async (userEmail: string, userPassword: string) => {
     let response: Response | null = null;
