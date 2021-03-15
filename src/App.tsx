@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import { Layout } from "antd";
-import { getCurrentUser } from "./asset/services/Auth-Service";
+import { getCurrentUser } from "./services/auth-service";
 
 import Dashboard from "./pages/dashboard";
 import ErrorPage from "./pages/error-page";
@@ -16,10 +16,7 @@ const { Header, Footer } = Layout;
 // eslint-disable-next-line require-jsdoc
 const App: React.FC = () => {
     const [user] = useState(getCurrentUser());
-
-    useEffect(() => {
-        console.log(getCurrentUser());
-    }, []);
+    const errorCode = 404;
 
     return (
         <Layout className="layoutContainer">
@@ -40,7 +37,7 @@ const App: React.FC = () => {
                         </Route>
                         <Route
                             component={() => (
-                                <ErrorPage code={404} returnUrl="home" />
+                                <ErrorPage code={errorCode} returnUrl="home" />
                             )}
                         />
                     </Switch>

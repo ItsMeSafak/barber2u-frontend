@@ -93,7 +93,7 @@ const SignupForm: React.FC = () => {
     const isEnabled = () => Object.values(formValue).every((o) => o !== "");
 
     return (
-        <div className={`${styles.signupForm}`}>
+        <div className={styles.signupForm}>
             <h2>Sign up</h2>
             <Form>
                 <Form.Item>

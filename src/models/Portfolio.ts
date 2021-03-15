@@ -5,7 +5,6 @@ import PortfolioItem from "./PortfolioItem";
  */
 export default class Portfolio {
     id: number;
-
     items: PortfolioItem[];
 
     // eslint-disable-next-line require-jsdoc

@@ -7,7 +7,6 @@ export class User {
     private lastName: string;
 
     private email: string;
-
     private password: string;
 
     private zipCode: string;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "antd";
-import { logout } from "../../../asset/services/Auth-Service";
+import { logout } from "../../../services/auth-service";
 
 import styles from "./styles.module.scss";
 
