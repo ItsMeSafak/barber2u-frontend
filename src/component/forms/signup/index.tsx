@@ -1,5 +1,7 @@
+import { useHistory } from "react-router-dom";
 import React, { ChangeEvent, useState } from "react";
 
+import { IconType } from "antd/lib/notification";
 import { Button, Form, Input, notification } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,13 +12,11 @@ import {
     faKey,
     faMobileAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { useHistory } from "react-router-dom";
 
-import { IconType } from "antd/lib/notification";
+import User  from "../../../models/User";
 import styles from "./styles.module.scss";
-import { getIconByPrefixName } from "../../../asset/functions/icon";
-import { User } from "../../../models/User";
 import { signUp } from "../../../services/auth-service";
+import { getIconByPrefixName } from "../../../asset/functions/icon";
 
 /**
  * This component renders a signup form.

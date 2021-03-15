@@ -1,5 +1,7 @@
+@import "../../asset/config.scss";
+
 .signin {
-    background-color: #e1e1e1;
+    background-color: $light-grey-color;
     display: flex;
 }
 

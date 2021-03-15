@@ -26,6 +26,9 @@ const App: React.FC = () => {
                 </Header>
                 <Layout>
                     <Switch>
+                        <Route path="/home">
+                            {user ? <Redirect to="/dashboard" /> : <Signup />}
+                        </Route>
                         <Route path="/dashboard">
                             {!user ? <Redirect to="/signin" /> : <Dashboard />}
                         </Route>

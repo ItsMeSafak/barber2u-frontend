@@ -13,7 +13,7 @@ const API_URL = "http://localhost:8080/api/auth/signup";
  * @returns {JSON} response with JWT, data and response code
  * @param {User} User object.
  */
-export const signIn = async (user: User) => {
+export const signIn = async (userEmail: string, userPassword: string) => {
     let response: Response | null = null;
     try {
         response = await fetch(API_URL, {
@@ -22,8 +22,8 @@ export const signIn = async (user: User) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email: user.getEmail,
-                password: user.getPassword,
+                email: userEmail,
+                password: userPassword,
             }),
         });
     } catch (error) {
