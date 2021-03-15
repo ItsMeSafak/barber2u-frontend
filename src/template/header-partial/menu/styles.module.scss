@@ -1,3 +1,5 @@
+@import "../../../asset/config.scss";
+
 .navbar {
     li {
         padding: 8px 16px;
@@ -6,7 +8,7 @@
 
         a button {
             text-decoration: none;
-            color: #ddd;
+            color: $white-color;
             font-weight: 600;
         }
     }

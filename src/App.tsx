@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Layout } from "antd";
 
 import ErrorPage from "./pages/error-page";
+import DashboardPage from "./pages/dashboard";
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
 
@@ -18,11 +19,13 @@ const App: React.FC = () => (
             </Header>
             <Layout>
                 <Switch>
+                    <Route path="/dashboard" component={DashboardPage} />
                     <Route
                         component={() => (
                             <ErrorPage code={404} returnUrl="home" />
                         )}
                     />
+                    <Route path="/dashboard" component={DashboardPage} />
                 </Switch>
             </Layout>
             <Footer className="footer">
