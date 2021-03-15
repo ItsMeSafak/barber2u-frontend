@@ -1,4 +1,4 @@
-import  User  from "../models/User";
+import User from "../models/User";
 
 const API_URL = "http://localhost:8080/api/auth/signin";
 
