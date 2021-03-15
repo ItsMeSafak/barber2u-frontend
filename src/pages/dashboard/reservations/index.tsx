@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
-import { Content } from "antd/lib/layout/layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Card, Col, Row, Modal, Divider } from "antd";
+import { Card, Col, Row, Modal, Divider, Layout } from "antd";
 
 import Style from "../../../models/Style";
 import Reservation from "../../../models/Reservation";
@@ -12,6 +11,8 @@ import { getIconByPrefixName } from "../../../asset/functions/icon";
 
 import styles from "./styles.module.scss";
 
+const { Content } = Layout;
+
 interface ComponentProps {
     reservationItems: Reservation[];
 }
@@ -19,7 +20,7 @@ interface ComponentProps {
 /**
  * This component renders the reservations page on the dashboard for the customer.
  * The component consists of reservation items that the customer has made in the past and future.
- * 
+ *
  * @param {Object} props Component properties.
  * @returns {JSX}
  */
@@ -33,7 +34,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
 
     /**
      * This function returns the index number of the previous month.
-     * 
+     *
      * @returns {number}
      */
     const previousMonth = () =>
@@ -47,7 +48,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
 
     /**
      * This function returns the index number of the next month.
-     * 
+     *
      * @returns {number}
      */
     const nextMonth = () =>
@@ -60,7 +61,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
         });
 
     /**
-     * This function filters the reservation items and checks 
+     * This function filters the reservation items and checks
      * if the current month does not equal the month of the reservation item, then the item gets filtered out.
      */
     const newItems = reservationItems.filter((item) => {
@@ -71,7 +72,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
     /**
      * This function sets the current reservation item selected.
      * After executing this function, the details will de rendered.
-     * 
+     *
      * @param {Reservation} item Reservation item to be shown detailed.
      */
     const showModal = (item: Reservation) => {
@@ -95,17 +96,14 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
 
     /**
      * This function renders the reservations of the current month.
-     * 
+     *
      * @param {Reservation[]} reservationList Reservations to be rendered.
      * @returns {JSX}
      */
     const renderReservationItems = (reservationList: Reservation[]) =>
         reservationList.map((item) => (
             <Col key={item.id} xs={24} sm={12} lg={8}>
-                <Card
-                    className={styles.card}
-                    onClick={(event) => showModal(item)}
-                >
+                <Card className={styles.card} onClick={() => showModal(item)}>
                     <p className={styles.title}>Reservation</p>
                     <p>{item.style}</p>
                     <p>
@@ -121,7 +119,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
 
     /**
      * This function renders the detailed information of a selected reservation.
-     * 
+     *
      * @param reservationItem Reservation item to be rendered.
      * @returns {JSX}
      */

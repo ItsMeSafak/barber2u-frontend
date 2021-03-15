@@ -5,11 +5,10 @@ import PortfolioItem from "./PortfolioItem";
  */
 export default class Portfolio {
     id: number;
-
     items: PortfolioItem[];
 
     /**
-     * 
+     *
      * @param {number} id Id of the portfolio.
      * @param {PortfolioItem[]} items A list of portfolio items.
      */

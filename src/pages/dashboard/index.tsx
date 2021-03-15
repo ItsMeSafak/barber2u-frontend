@@ -15,8 +15,8 @@ import Reservation from "../../models/Reservation";
 
 import ServicesData from "../../asset/services.json";
 import PortfolioData from "../../asset/portfolio.json";
-import SidebarMenuItems from "../../asset/dashboard_links.json";
 import ReservationsData from "../../asset/reservations.json";
+import SidebarMenuItems from "../../asset/dashboard_links.json";
 
 import { WIDTH_SCREEN_XL } from "../../asset/constants";
 
@@ -24,8 +24,8 @@ import styles from "./styles.module.scss";
 
 /**
  * This component renders the dashboard page that has some routing configured, based on the sidebar.
- * 
- * @returns {JSX} 
+ *
+ * @returns {JSX}
  */
 const DashboardPage: React.FC = () => {
     const { path, url } = useRouteMatch();
@@ -35,7 +35,7 @@ const DashboardPage: React.FC = () => {
      * This function checks whether the window screen width reaches a breakpoint.
      * If so, the mobile state is set to true.
      */
-     const handleMobileView = useCallback(() => {
+    const handleMobileView = useCallback(() => {
         setMobile(window.innerWidth <= WIDTH_SCREEN_XL);
     }, []);
 
@@ -50,7 +50,6 @@ const DashboardPage: React.FC = () => {
         // Remove event listener if not being used.
         return () => window.removeEventListener("resize", handleMobileView);
     }, [handleMobileView]);
-
 
     return (
         <div
