@@ -1,6 +1,7 @@
 import User from "../models/User";
 
-const API_URL = "http://localhost:8080/api/auth/signup";
+const API_URL = "http://localhost:8080/api";
+
 
 /**
  * This service file is responsible for every auth related function.
@@ -17,7 +18,7 @@ const API_URL = "http://localhost:8080/api/auth/signup";
 export const signIn = async (userEmail: string, userPassword: string) => {
     let response: Response | null = null;
     try {
-        response = await fetch(API_URL, {
+        response = await fetch(`${API_URL}/auth/signin`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -42,7 +43,7 @@ export const signIn = async (userEmail: string, userPassword: string) => {
 export const signUp = async (user: User) => {
     let response: Response | null = null;
     try {
-        response = await fetch(API_URL, {
+        response = await fetch(`${API_URL}/auth/signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

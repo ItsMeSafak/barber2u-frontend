@@ -74,7 +74,6 @@ const SignupForm: React.FC = () => {
             if (response.status === 200) {
                 openNotificationWithIcon("Successfully registered!", "success");
                 history.push("/signin");
-                window.location.reload();
             } else {
                 openNotificationWithIcon(
                     response
