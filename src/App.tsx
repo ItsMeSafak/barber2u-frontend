@@ -3,7 +3,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { Layout } from "antd";
 
-import ErrorPage from "./pages/error-page";
+import HomePage from "./pages/home";
+import ErrorPage from "./pages/error";
 import DashboardPage from "./pages/dashboard";
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
@@ -19,6 +20,7 @@ const App: React.FC = () => (
             </Header>
             <Layout>
                 <Switch>
+                    <Route exact path="/" component={HomePage} />
                     <Route path="/dashboard" component={DashboardPage} />
                     <Route
                         component={() => (

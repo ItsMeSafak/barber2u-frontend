@@ -37,6 +37,7 @@ const HeaderPartial: React.FC = () => {
      * At the end, the event listener is removed so that unnecessary events are unloaded.
      */
     useEffect(() => {
+        handleMobileView();
         window.addEventListener("resize", handleMobileView);
         // Remove event listener if not being used.
         return () => window.removeEventListener("resize", handleMobileView);
@@ -82,7 +83,7 @@ const HeaderPartial: React.FC = () => {
 
     return (
         <>
-            <Link to="home">
+            <Link to="/">
                 <h1 className={styles.logo}>
                     <LogoComponent iconPrefix="fas" iconName="cut" />
                 </h1>
