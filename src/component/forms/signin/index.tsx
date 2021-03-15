@@ -6,9 +6,9 @@ import { faKey, faAt } from "@fortawesome/free-solid-svg-icons";
 import { getIconByPrefixName } from "../../../asset/functions/icon";
 import { User } from "../../../models/User";
 import { signIn } from "../../../asset/services/Auth-Service";
+import { WIDTH_SCREEN_LG } from "../../../asset/constants";
 
 import styles from "./styles.module.scss";
-import { WIDTH_SCREEN_LG } from "../../../asset/constants";
 
 const SignInForm: React.FC = () => {
     const history = useHistory();

@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
 
 import {Layout} from "antd";
+import {WIDTH_SCREEN_LG} from "./asset/constants";
+import {getCurrentUser} from "./asset/services/Auth-Service";
 
 import Dashboard from "./pages/dashboard";
 import ErrorPage from "./pages/error-page";
@@ -9,8 +11,6 @@ import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
 import Signup from "./pages/singup";
 import SignIn from "./pages/login";
-import {WIDTH_SCREEN_LG} from "./asset/constants";
-import {getCurrentUser} from "./asset/services/Auth-Service";
 
 const {Header, Footer} = Layout;
 
