@@ -5,11 +5,8 @@ import Style from "./Style";
  */
 export default class Service {
     id: number;
-
     style: Style;
-
     description: string;
-
     price: number;
 
     // eslint-disable-next-line require-jsdoc

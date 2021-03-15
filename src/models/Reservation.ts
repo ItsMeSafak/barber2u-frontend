@@ -10,14 +10,8 @@ export default class Reservation {
     location: string;
     price: number;
 
-    /**
-     *
-     * @param {number} id Id of the reservation.
-     * @param {Style} style Style of the reservation.
-     * @param {string} date Date of the reservation placed.
-     * @param {string} location Location of the reservation.
-     * @param {number} price Price of the reservation.
-     */
+
+    // eslint-disable-next-line require-jsdoc
     constructor(
         id: number,
         style: Style,

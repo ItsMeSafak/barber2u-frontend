@@ -5,9 +5,7 @@ import Style from "./Style";
  */
 export default class PortfolioItem {
     id: number;
-
     style: Style;
-
     image: string;
 
     // eslint-disable-next-line require-jsdoc
