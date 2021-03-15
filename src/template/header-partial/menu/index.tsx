@@ -45,6 +45,7 @@ const Menu: React.FC<ComponentProps> = (props) => {
                             onClick={() => {
                                 logout();
                                 history.push("/signin");
+                                window.location.reload();
                             }}
                         >
                             {name}
