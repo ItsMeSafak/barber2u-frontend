@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Layout } from "antd";
 
 import HomePage from "./pages/home";
-import ErrorPage from "./pages/error-page";
+import ErrorPage from "./pages/error";
 import DashboardPage from "./pages/dashboard";
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";

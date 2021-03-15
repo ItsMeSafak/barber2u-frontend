@@ -1,70 +1,51 @@
-$_light-background: #e6e6e6;
-$_dark-fontcolor: #000000;
-$_light-fontcolor: #e6e6e6;
-$_primary-color: #00b2ff;
+@import "../../../index.scss";
+@import "../../../asset/config.scss";
 
-$_mq-laptop: 1200px;
-
-.howdoesitwork {
-    padding: 32px;
-    background-color: $_light-background;
+.section {
     text-align: center;
+    padding: 64px 16px;
+    font-size: 1rem;
 
-    * {
-        color: $_dark-fontcolor;
-    }
-
-    h1 {
-        display: inline-block;
+    .sectionTitle {
+        @extend .underlined-text;
         font-size: 2.5rem;
-        font-weight: normal;
-        text-align: center;
-        color: inherit;
-        line-height: 1;
-        margin: 0 0 32px 0;
-
-        &.underlined {
-            margin-inline: auto;
-            border-bottom: solid 3px $_primary-color;
-        }
+        font-weight: 600;
+        margin: 48px 0;
     }
 
-    .cardContainer .card {
-        background-color: transparent;
-        border: none;
-        text-align: center;
-        align-items: center;
-        max-width: 400px;
-
-        img {
-            height: 250px;
-            width: 250px;
-            margin-bottom: 16px;
+    .cardContainer {
+        * {
+            margin: auto;
         }
 
-        .step {
-            height: 48px;
-            width: 48px;
-            background-color: $_primary-color;
-            border-radius: 50px;
-            margin-bottom: 16px;
+        .card {
+            background-color: transparent;
+            border: none;
+            max-width: 400px;
 
-            span {
-                font-size: 2rem;
-                color: $_light-fontcolor;
+            img {
+                height: 250px;
+                width: 250px;
+                margin-bottom: 16px;
             }
-        }
 
-        p {
-            font-size: 1rem;
-        }
-    }
-}
+            .step {
+                height: 48px;
+                width: 48px;
+                background-color: $primary-color;
+                border-radius: 50px;
+                margin-bottom: 16px;
 
-@media (min-width: $_mq-laptop) {
-    .howdoesitwork {
-        h1 {
-            font-size: 4rem;
+                span {
+                    font-size: 2rem;
+                    color: $light-grey-color;
+                }
+            }
+
+            .stepDescription {
+                text-align: justify;
+                padding: 25px;
+            }
         }
     }
 }

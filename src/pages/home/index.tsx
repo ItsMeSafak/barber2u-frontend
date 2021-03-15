@@ -1,10 +1,9 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
 
-import AboutComponent from "./about";
-import ReviewComponent from "./review";
-import WelcomeComponent from "./welcome";
-import HowDoesItWorkComponent from "./how-does-it-work";
+import AboutSection from "./about";
+import ReviewSection from "./review";
+import WelcomeSection from "./welcome";
+import HowDoesItWorkSection from "./how-does-it-work";
 
 /**
  * Homepage wrapper containing all the needed components
@@ -12,12 +11,12 @@ import HowDoesItWorkComponent from "./how-does-it-work";
  * @returns {JSX}
  */
 const HomePage: React.FC = () => (
-    <BrowserRouter>
-        <WelcomeComponent />
-        <HowDoesItWorkComponent />
-        <AboutComponent />
-        <ReviewComponent />
-    </BrowserRouter>
+    <>
+        <WelcomeSection />
+        <HowDoesItWorkSection />
+        <AboutSection />
+        <ReviewSection />
+    </>
 );
 
 export default HomePage;

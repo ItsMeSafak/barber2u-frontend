@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Col, Image, Row } from "antd";
+import { Button, Col, Row } from "antd";
 
 import content from "../../../asset/content/homepage/homepage_about.json";
 
@@ -13,19 +13,20 @@ import styles from "./styles.module.scss";
  *
  * @returns {JSX}
  */
-const AboutComponent: React.FC = () => (
-    <Row id="about" className={styles.about}>
-        <Col className={styles.aboutContainer}>
-            <h1 className={styles.underlined}>{content.header_text}</h1>
-            <p>{content.paragraph_text}</p>
-            <Link to="/about" className={styles.primaryButton}>
-                {content.button_text}
-            </Link>
+const AboutSection: React.FC = () => (
+    <Row id="about" className={styles.section} justify="center">
+        <Col xs={24}>
+            <h2 className={styles.sectionTitle}>{content.header_text}</h2>
         </Col>
-        <Col flex="auto">
-            <Image preview={false} src={content.image} />
+        <Col xs={24} lg={12}>
+            <p>{content.paragraph_text}</p>
+            <Link to="/about">
+                <Button type="primary" shape="round" size="large">
+                    {content.button_text}
+                </Button>
+            </Link>
         </Col>
     </Row>
 );
 
-export default AboutComponent;
+export default AboutSection;

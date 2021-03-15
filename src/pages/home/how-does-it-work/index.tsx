@@ -12,37 +12,40 @@ import styles from "./styles.module.scss";
  *
  * @returns {JSX}
  */
-const HowDoesItWorkComponent: React.FC = () => {
+const HowDoesItWorkSection: React.FC = () => {
     /**
      * Rendering the cards from the content data
+     *
+     * @returns {JSX}
      */
     const renderCards = () =>
         content.instruction.map((card) => (
-            <Card key={card.step} className={styles.card}>
-                <Col>
-                    <Row justify="center">
-                        <Image src={card.image} preview={false} />
-                    </Row>
-                    <Row justify="center">
-                        <div className={styles.step}>
-                            <span>{card.step}</span>
-                        </div>
-                    </Row>
-                    <Row justify="center">
-                        <p>{card.description}</p>
-                    </Row>
-                </Col>
-            </Card>
+            <Col key={card.step} xs={24} sm={12} lg={8}>
+                <Card className={styles.card}>
+                    <Image
+                        src={card.image}
+                        preview={false}
+                    />
+                    <div className={styles.step}>
+                        <span>{card.step}</span>
+                    </div>
+                    <p className={styles.stepDescription}>
+                        {card.description}
+                    </p>
+                </Card>
+            </Col>
         ));
 
     return (
-        <section id="howdoesitwork" className={styles.howdoesitwork}>
-            <h1 className={styles.underlined}>{content.header_text}</h1>
-            <Row justify="center" className={styles.cardContainer}>
-                {renderCards()}
+        <Row id="howdoesitwork" className={styles.section} justify="center">
+            <Col xs={24}>
+                <h2 className={styles.sectionTitle}>{content.header_text}</h2>
+            </Col>
+            <Row className={styles.cardContainer} justify="center">
+                {content && renderCards()}
             </Row>
-        </section>
+        </Row>
     );
 };
 
-export default HowDoesItWorkComponent;
+export default HowDoesItWorkSection;
