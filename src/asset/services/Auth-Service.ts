@@ -27,7 +27,7 @@ export const signIn = async (user: User) => {
             }),
         });
     } catch (error) {
-        console.log("LOL");
+        console.log("Empty");
     }
     return response?.json();
 };
