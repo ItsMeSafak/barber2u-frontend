@@ -17,7 +17,7 @@ const { Option } = Select;
 /**
  * This component renders a service card for the service page.
  * TODO: Make this component generic
- * 
+ *
  * @param {Object} props Component properties.
  * @returns {JSX}
  */

@@ -29,9 +29,8 @@ const SignInForm: React.FC = () => {
     const openNotificationWithIcon = () => {
         notification.error({
             message: "Invalid Credentials",
-            description:
-                "The email or password is not correct :(. Try again.",
-            placement: "bottomRight"
+            description: "The email or password is not correct :(. Try again.",
+            placement: "bottomRight",
         });
     };
 

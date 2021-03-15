@@ -10,7 +10,6 @@ export default class PortfolioItem {
 
     image: string;
 
-
     // eslint-disable-next-line require-jsdoc
     constructor(id: number, style: Style, image: string) {
         this.id = id;

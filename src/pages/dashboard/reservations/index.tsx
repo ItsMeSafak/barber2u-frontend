@@ -19,7 +19,7 @@ interface ComponentProps {
 /**
  * This component renders the reservations page on the dashboard for the customer.
  * The component consists of reservation items that the customer has made in the past and future.
- * 
+ *
  * @param {Object} props Component properties.
  * @returns {JSX}
  */
@@ -33,7 +33,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
 
     /**
      * This function returns the index number of the previous month.
-     * 
+     *
      * @returns {number}
      */
     const previousMonth = () =>
@@ -47,7 +47,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
 
     /**
      * This function returns the index number of the next month.
-     * 
+     *
      * @returns {number}
      */
     const nextMonth = () =>
@@ -60,7 +60,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
         });
 
     /**
-     * This function filters the reservation items and checks 
+     * This function filters the reservation items and checks
      * if the current month does not equal the month of the reservation item, then the item gets filtered out.
      */
     const newItems = reservationItems.filter((item) => {
@@ -71,7 +71,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
     /**
      * This function sets the current reservation item selected.
      * After executing this function, the details will de rendered.
-     * 
+     *
      * @param {Reservation} item Reservation item to be shown detailed.
      */
     const showModal = (item: Reservation) => {
@@ -95,7 +95,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
 
     /**
      * This function renders the reservations of the current month.
-     * 
+     *
      * @param {Reservation[]} reservationList Reservations to be rendered.
      * @returns {JSX}
      */
@@ -121,7 +121,7 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
 
     /**
      * This function renders the detailed information of a selected reservation.
-     * 
+     *
      * @param reservationItem Reservation item to be rendered.
      * @returns {JSX}
      */

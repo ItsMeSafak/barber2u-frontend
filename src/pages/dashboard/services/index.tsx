@@ -39,11 +39,11 @@ interface CardProps {
 const { Option } = Select;
 
 /**
- * This component renders the service card for the services page, 
+ * This component renders the service card for the services page,
  * consisting of information regarding the service a barber offers.
  * TODO: Create a generic card component, that can be reused in the other pages.
- * 
- * @param {Object} props 
+ *
+ * @param {Object} props
  * @returns {JSX}
  */
 const ServiceCardComponent: React.FC<CardProps> = (props) => {
@@ -54,8 +54,8 @@ const ServiceCardComponent: React.FC<CardProps> = (props) => {
      * This function renders the actions a card can have.
      * The actions are:
      * - Deleting the service.
-     * - Editing the service.    
-     *  
+     * - Editing the service.
+     *
      * @returns {JSX}
      */
     const actions = () => [
@@ -138,8 +138,8 @@ const ServiceCardComponent: React.FC<CardProps> = (props) => {
 
 /**
  * This component renders the services page, where the barber can display the services they offer.
- * 
- * @param {Object} props Component properties. 
+ *
+ * @param {Object} props Component properties.
  * @returns {JSX}
  */
 const ServicesPage: React.FC<ComponentProps> = (props) => {
@@ -148,7 +148,7 @@ const ServicesPage: React.FC<ComponentProps> = (props) => {
 
     /**
      * This function create a new (and empty) instance of a service.
-     * 
+     *
      * @returns {Service}
      */
     const emptyService = () => new Service(0, Style.Curly, "", 0.0);

@@ -21,7 +21,7 @@ import {
     faCalendarAlt,
     faCamera,
     faCalendar,
-    faCog
+    faCog,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -44,7 +44,7 @@ export const icons = {
     faCalendarAlt,
     faCamera,
     faCalendar,
-    faCog
+    faCog,
 };
 
 /**

@@ -17,8 +17,8 @@ import styles from "./styles.module.scss";
  * The statistics consist of how much income a barber made from past months.
  * A pie chart that indicates which service is chosen most often.
  * TODO: Adjust data.
- * 
- * @returns {JSX} 
+ *
+ * @returns {JSX}
  */
 const StatisticsPage: React.FC = () => {
     const data = [

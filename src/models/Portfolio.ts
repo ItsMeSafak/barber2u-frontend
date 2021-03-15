@@ -8,7 +8,6 @@ export default class Portfolio {
 
     items: PortfolioItem[];
 
-
     // eslint-disable-next-line require-jsdoc
     constructor(id: number, items: PortfolioItem[]) {
         this.id = id;

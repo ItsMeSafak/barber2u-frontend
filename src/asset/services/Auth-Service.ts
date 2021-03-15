@@ -57,3 +57,9 @@ export const authHeader = () => {
  */
 export const getCurrentUser = () =>
     JSON.parse(<string>localStorage.getItem("user"));
+
+/**
+ * This function is responsible for retrieving the user from the localstorage.
+ */
+export const isSignedIn = () =>
+    JSON.parse(<string>localStorage.getItem("user")) !== null;
