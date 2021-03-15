@@ -18,6 +18,7 @@ const ResetPasswordForm: React.FC = () => {
      * This function is being used whenever the form succeeds.
      *
      * @param {any} values Form values.
+     * @TODO Fix function/attach to back-end.
      */
     const onFormFinish = (values: any) => {
         console.log(values);
@@ -27,6 +28,7 @@ const ResetPasswordForm: React.FC = () => {
      * This function is being used whenever the form fails.
      *
      * @param {any} values Form values.
+     * @TODO Fix function/attach to back-end.
      */
     const onFormFinishFailed = (values: any) => {
         console.log("error", values);

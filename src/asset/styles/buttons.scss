@@ -31,19 +31,20 @@
 
 // All the filled buttons that should have a background color.
 $_buttons: (
-    primary: (
-        #2f54eb,
-        #1d39c4,
-        #597ef7,
-    ),
+    // primary: (
+    //     #2f54eb,
+    //     #1d39c4,
+    //     #597ef7,
+    // ),
+    primary: (#1890ff, #40a9ff, #096dd9)
 );
 
 // All the unfilled buttons that should not have a background color.
 $_ghost-buttons: (
     primary: (
-        #2f54eb,
-        #1d39c4,
-        #597ef7,
+        #1890ff,
+        #40a9ff,
+        #096dd9,
     ),
 );
 

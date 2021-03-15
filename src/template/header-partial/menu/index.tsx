@@ -40,6 +40,9 @@ const Menu: React.FC<ComponentProps> = (props) => {
                     <Link to={url}>
                         <Button
                             type={renderPillButton ? "primary" : "link"}
+                            className={
+                                renderPillButton ? styles.pillButton : ""
+                            }
                             shape={renderPillButton ? "round" : undefined}
                         >
                             {name}
