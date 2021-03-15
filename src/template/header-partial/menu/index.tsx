@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
+import {Link, useHistory} from "react-router-dom";
 import { Button } from "antd";
+import { logout } from "../../../services/auth-service";
 
 import styles from "./styles.module.scss";
 
@@ -22,6 +22,7 @@ interface ComponentProps {
  */
 const Menu: React.FC<ComponentProps> = (props) => {
     const { isMobile, items } = props;
+    const history = useHistory();
 
     /**
      * This function renders the navbar menu items.
@@ -41,6 +42,9 @@ const Menu: React.FC<ComponentProps> = (props) => {
                         <Button
                             type={renderPillButton ? "primary" : "link"}
                             shape={renderPillButton ? "round" : undefined}
+                            onClick={() => {
+
+                            }}
                         >
                             {name}
                         </Button>
