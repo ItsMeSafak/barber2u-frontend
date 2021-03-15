@@ -10,7 +10,6 @@ export default class Reservation {
     location: string;
     price: number;
 
-
     // eslint-disable-next-line require-jsdoc
     constructor(
         id: number,
