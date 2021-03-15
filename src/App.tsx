@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import { Layout } from "antd";
-import { WIDTH_SCREEN_LG } from "./asset/constants";
 import { getCurrentUser } from "./asset/services/Auth-Service";
 
 import Dashboard from "./pages/dashboard";

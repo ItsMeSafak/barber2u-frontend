@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Form, Input, notification } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -39,17 +39,17 @@ const SignInForm: React.FC = () => {
      * It will redirect you to the correct page when logged in succesfully
      */
     const handleSignIn = () => {
-        signIn(new User(formValue.email, formValue.password)).then(
-            (response) => {
-                if (response.status === 200) {
-                    localStorage.setItem("user", JSON.stringify(response.data));
-                    history.push("/dashboard");
-                    window.location.reload();
-                } else {
-                    openNotificationWithIcon();
-                }
-            }
-        );
+        // signIn(new User(formValue.email, formValue.password)).then(
+        //     (response) => {
+        //         if (response.status === 200) {
+        //             localStorage.setItem("user", JSON.stringify(response.data));
+        //             history.push("/dashboard");
+        //             window.location.reload();
+        //         } else {
+        //             openNotificationWithIcon();
+        //         }
+        //     }
+        // );
     };
 
     return (
