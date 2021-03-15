@@ -55,7 +55,7 @@ const SignInForm: React.FC = () => {
     };
 
     return (
-        <div className={`${styles.signinForm}`}>
+        <div className={styles.signinForm}>
             <h2>Sign in</h2>
             <Form>
                 <Form.Item>
