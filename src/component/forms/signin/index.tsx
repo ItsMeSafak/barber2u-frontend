@@ -1,12 +1,14 @@
-import React, { ChangeEvent, useState } from "react";
 import { useHistory } from "react-router-dom";
+import React, { ChangeEvent, useState } from "react";
 
-import { Button, Form, Input, notification } from "antd";
 import { faKey, faAt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Form, Input, notification } from "antd";
+
+import { signIn } from "../../../services/auth-service";
 
 import styles from "./styles.module.scss";
-import { signIn } from "../../../services/auth-service";
+
 
 /**
  * This component renders a login form.

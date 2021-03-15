@@ -14,9 +14,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import User from "../../../models/User";
-import styles from "./styles.module.scss";
 import { signUp } from "../../../services/auth-service";
 import { getIconByPrefixName } from "../../../asset/functions/icon";
+import styles from "./styles.module.scss";
+
 
 /**
  * This component renders a signup form.

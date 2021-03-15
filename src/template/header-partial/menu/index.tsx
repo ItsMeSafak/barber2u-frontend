@@ -43,9 +43,7 @@ const Menu: React.FC<ComponentProps> = (props) => {
                             type={renderPillButton ? "primary" : "link"}
                             shape={renderPillButton ? "round" : undefined}
                             onClick={() => {
-                                logout();
-                                history.push("/signin");
-                                window.location.reload();
+
                             }}
                         >
                             {name}
