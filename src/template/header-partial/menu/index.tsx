@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 import { Button } from "antd";
+import { logout } from "../../../asset/services/Auth-Service";
 
 import styles from "./styles.module.scss";
 
@@ -41,6 +41,10 @@ const Menu: React.FC<ComponentProps> = (props) => {
                         <Button
                             type={renderPillButton ? "primary" : "link"}
                             shape={renderPillButton ? "round" : undefined}
+                            onClick={() => {
+                                logout();
+                                window.location.reload();
+                            }}
                         >
                             {name}
                         </Button>
