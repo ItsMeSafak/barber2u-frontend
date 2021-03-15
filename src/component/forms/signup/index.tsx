@@ -13,7 +13,7 @@ import {
     faMobileAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
-import User  from "../../../models/User";
+import User from "../../../models/User";
 import styles from "./styles.module.scss";
 import { signUp } from "../../../services/auth-service";
 import { getIconByPrefixName } from "../../../asset/functions/icon";

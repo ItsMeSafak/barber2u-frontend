@@ -10,7 +10,6 @@ import LogoComponent from "../../component/logo";
 import { WIDTH_SCREEN_LG } from "../../asset/constants";
 import NavMenuMapping from "../../asset/navbar_mapping.json";
 
-
 import styles from "./styles.module.scss";
 
 /**

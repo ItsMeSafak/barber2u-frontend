@@ -40,17 +40,15 @@ const SignInForm: React.FC = () => {
      * It will redirect you to the correct page when logged in succesfully
      */
     const handleSignIn = () => {
-        signIn(formValue.email, formValue.password).then(
-            (response) => {
-                if (response.status === 200) {
-                    localStorage.setItem("user", JSON.stringify(response.data));
-                    history.push("/dashboard");
-                    window.location.reload();
-                } else {
-                    openNotificationWithIcon();
-                }
+        signIn(formValue.email, formValue.password).then((response) => {
+            if (response.status === 200) {
+                localStorage.setItem("user", JSON.stringify(response.data));
+                history.push("/dashboard");
+                window.location.reload();
+            } else {
+                openNotificationWithIcon();
             }
-        );
+        });
     };
 
     return (
