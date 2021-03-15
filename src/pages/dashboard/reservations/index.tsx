@@ -16,6 +16,13 @@ interface ComponentProps {
     reservationItems: Reservation[];
 }
 
+/**
+ * This component renders the reservations page on the dashboard for the customer.
+ * The component consists of reservation items that the customer has made in the past and future.
+ * 
+ * @param {Object} props Component properties.
+ * @returns {JSX}
+ */
 const ReservationsPage: React.FC<ComponentProps> = (props) => {
     const { reservationItems } = props;
     const [currentMonth, setCurrentMonth] = useState(new Date().getUTCMonth());
@@ -24,6 +31,11 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
         new Reservation(0, Style.Curly, "", "", 0)
     );
 
+    /**
+     * This function returns the index number of the previous month.
+     * 
+     * @returns {number}
+     */
     const previousMonth = () =>
         setCurrentMonth((prevState) => {
             let state = prevState - 1;
@@ -33,6 +45,11 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
             return state;
         });
 
+    /**
+     * This function returns the index number of the next month.
+     * 
+     * @returns {number}
+     */
     const nextMonth = () =>
         setCurrentMonth((prevState) => {
             let state = prevState + 1;
@@ -42,24 +59,46 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
             return state;
         });
 
+    /**
+     * This function filters the reservation items and checks 
+     * if the current month does not equal the month of the reservation item, then the item gets filtered out.
+     */
     const newItems = reservationItems.filter((item) => {
         const objDate = new Date(item.date);
         return objDate.getUTCMonth() === currentMonth;
     });
 
+    /**
+     * This function sets the current reservation item selected.
+     * After executing this function, the details will de rendered.
+     * 
+     * @param {Reservation} item Reservation item to be shown detailed.
+     */
     const showModal = (item: Reservation) => {
         setReservation(item);
         setIsModalVisible(true);
     };
 
+    /**
+     * TODO: Work this fucntion out.
+     */
     const handleOk = () => {
         setIsModalVisible(false);
     };
 
+    /**
+     * TODO: Work this fucntion out.
+     */
     const handleCancel = () => {
         setIsModalVisible(false);
     };
 
+    /**
+     * This function renders the reservations of the current month.
+     * 
+     * @param {Reservation[]} reservationList Reservations to be rendered.
+     * @returns {JSX}
+     */
     const renderReservationItems = (reservationList: Reservation[]) =>
         reservationList.map((item) => (
             <Col key={item.id} xs={24} sm={12} lg={8}>
@@ -80,6 +119,12 @@ const ReservationsPage: React.FC<ComponentProps> = (props) => {
             </Col>
         ));
 
+    /**
+     * This function renders the detailed information of a selected reservation.
+     * 
+     * @param reservationItem Reservation item to be rendered.
+     * @returns {JSX}
+     */
     const renderDetailedInformation = (reservationItem: Reservation) => (
         <Card className={styles.card} key={reservationItem.id}>
             <p>Hairstyle: {reservationItem.style}</p>

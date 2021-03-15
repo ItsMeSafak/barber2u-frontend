@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-import Sider from "antd/lib/layout/Sider";
 import { Layout, Menu } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { getIconByPrefixName } from "../../asset/functions/icon";
 
 import styles from "./styles.module.scss";
+
+const { Sider } = Layout;
 
 interface ComponentProps {
     baseUrl?: string;
@@ -20,17 +21,26 @@ interface ComponentProps {
     }>;
 }
 
-const SidebarPartial: React.FC<ComponentProps> = ({
-    baseUrl,
-    isMobile,
-    items,
-}) => {
+/**
+ * This component renders the sidebar partial with items that navigate to components within the dashboard.
+ * 
+ * @param {Object} props Component properties.
+ * @returns {JSX}
+ */
+const SidebarPartial: React.FC<ComponentProps> = (props) => {
+    const { baseUrl, isMobile, items } = props;
     const currentUrl =
         window.location.pathname.split("/")[2] === null
             ? "/"
             : `/${window.location.pathname.split("/")[2]}`;
     const [currentPath, setCurrentPath] = useState(currentUrl);
 
+    /**
+     * This function renders all the menu items in the sidebar.
+     * 
+     * @param {Array<{ url: string, name: string, iconPrefix: string, iconName: string}>} menuItems Menu items to be rendered.
+     * @returns {JSX}
+     */
     const renderMenuItems = (menuItems: Array<{
         url: string;
         name: string;

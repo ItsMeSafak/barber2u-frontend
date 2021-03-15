@@ -17,14 +17,31 @@ interface ComponentProps {
     portfolio: Portfolio;
 }
 
+/**
+ * This component renders the protfolio page, consisting of portfolio cards/items.
+ * 
+ * @param {Object} props Component properties.
+ * @returns {JSX}
+ */
 const PortfolioPage: React.FC<ComponentProps> = (props) => {
     const { portfolio } = props;
     const [newItem, setNewItem] = useState(false);
 
     const allStylesAvailable = portfolio.items.map((item) => item.style);
 
+    /**
+     * This function creates a new (and empty) instance of a portfolio item.
+     * 
+     * @returns {PortfolioItem}
+     */
     const emptyIItem = () => new PortfolioItem(0, Style.Curly, "");
 
+    /**
+     * This function renders an add button.
+     * This would then create an empty portfolio card with empty values in the input fields.
+     * 
+     * @returns {JSX}
+     */
     const renderAddButton = () => (
         <Button
             className={styles.addBtn}
@@ -37,6 +54,13 @@ const PortfolioPage: React.FC<ComponentProps> = (props) => {
         </Button>
     );
 
+    /**
+     * This function render the save and cancel button, which will appear after triggering the add button.
+     * The save button has the functionality to add the newly created instance of portfolio item to the list.
+     * The cancel button closes the empty portfolio item and switches back to the add button.
+     * 
+     * @returns {JSX}
+     */
     const renderSaveAndCancelButton = () => (
         <>
             <Button
@@ -64,6 +88,15 @@ const PortfolioPage: React.FC<ComponentProps> = (props) => {
         </>
     );
 
+    /**
+     * This method renders all the portfolio items that match the passed style value.
+     * If the passed style equals the style of the current portfolio item in the map function, 
+     * then it should get rendered on that row.
+     * 
+     * @param {Portfolio} portfolioObject The portfolio object, consisting of portfolio items.
+     * @param {Style} style The current style to be rendered on the row.
+     * @returns {JSX}
+     */
     const renderPortfolioItems = (portfolioObject: Portfolio, style: Style) =>
         portfolioObject.items.map((portfolioItem) => {
             if (portfolioItem.style === style)
@@ -77,6 +110,13 @@ const PortfolioPage: React.FC<ComponentProps> = (props) => {
             return null;
         });
 
+    /**
+     * This function renders all the available style rows in the portfolio.
+     * Each row is a unique style and each row consists of portfolio items that match that style.
+     * 
+     * @param {Style[]} allStyles List of all the available styles in the portfolio.
+     * @returns {JSX}
+     */
     const renderStyleSections = (allStyles: Style[]) =>
         allStyles.map((style) => (
             <div className={styles.styleRow} key={style}>

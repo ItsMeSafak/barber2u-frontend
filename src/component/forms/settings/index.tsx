@@ -3,10 +3,17 @@ import React, { ChangeEvent, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Form, Input } from "antd";
 
+import SettingsInputs from "../../../asset/settings_inputs.json";
 import { getIconByPrefixName } from "../../../asset/functions/icon";
 
 import styles from "../../../pages/dashboard/settings/styles.module.scss";
 
+/**
+ * This component renders a settings form.
+ * The form consists of input fields regarding the users information.
+ * 
+ * @returns {JSX}
+ */
 const SettingsForm: React.FC = () => {
     const [formValue, setFormValue] = useState<{
         name: string;
@@ -26,146 +33,49 @@ const SettingsForm: React.FC = () => {
         adress: "",
     });
 
-    const isEnabled = () => Object.values(formValue).some((o) => o !== "");
+    const inputFieldValues: Array<{ name: string, placeHolder: string, icon: string }>
+        = SettingsInputs;
+
+    /**
+     * This method checks if some of the fields have a filled in value or not.
+     * 
+     * @returns {boolean}
+     */
+    const isEnabled = () => Object.values(formValue).some((field) => field !== "");
+
+    /**
+     * This function renders all the input fields for the settings form.
+     * 
+     * @returns {JSX}
+     */
+    const renderInputFields = () => (
+        inputFieldValues.map(({ name, placeHolder, icon }) => (
+            <Form.Item key={name}>
+                <Input
+                    name={name}
+                    size="large"
+                    onChange={(event) =>
+                        setFormValue({
+                            ...formValue,
+                            name: event.target.value,
+                        })
+                    }
+                    placeholder={placeHolder}
+                    prefix={
+                        <FontAwesomeIcon
+                            icon={getIconByPrefixName("fas", icon)}
+                        />
+                    }
+                />
+            </Form.Item>
+        ))
+    );
 
     return (
         <Form>
             <Card type="inner" title="Personal details">
-                <Form.Item>
-                    <Input
-                        name="firstname"
-                        size="large"
-                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                            setFormValue({
-                                ...formValue,
-                                name: event.target.value,
-                            })
-                        }
-                        placeholder="Firstname"
-                        prefix={
-                            <FontAwesomeIcon
-                                icon={getIconByPrefixName("fas", "id-card")}
-                            />
-                        }
-                    />
-                </Form.Item>
+                {inputFieldValues && renderInputFields()}
 
-                <Form.Item>
-                    <Input
-                        name="lastname"
-                        size="large"
-                        placeholder="Lastname"
-                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                            setFormValue({
-                                ...formValue,
-                                lastname: event.target.value,
-                            })
-                        }
-                        prefix={
-                            <FontAwesomeIcon
-                                icon={getIconByPrefixName("fas", "id-card")}
-                            />
-                        }
-                    />
-                </Form.Item>
-
-                <Form.Item>
-                    <Input
-                        name="email"
-                        size="large"
-                        placeholder="Email"
-                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                            setFormValue({
-                                ...formValue,
-                                email: event.target.value,
-                            })
-                        }
-                        prefix={
-                            <FontAwesomeIcon
-                                icon={getIconByPrefixName("fas", "at")}
-                            />
-                        }
-                    />
-                </Form.Item>
-
-                <Form.Item>
-                    <Input
-                        name="password"
-                        size="large"
-                        placeholder="Password"
-                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                            setFormValue({
-                                ...formValue,
-                                password: event.target.value,
-                            })
-                        }
-                        prefix={
-                            <FontAwesomeIcon
-                                icon={getIconByPrefixName("fas", "key")}
-                            />
-                        }
-                    />
-                </Form.Item>
-
-                <Form.Item>
-                    <Input
-                        name="phone"
-                        size="large"
-                        placeholder="Phone number"
-                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                            setFormValue({
-                                ...formValue,
-                                phone: event.target.value,
-                            })
-                        }
-                        prefix={
-                            <FontAwesomeIcon
-                                icon={getIconByPrefixName("fas", "mobile-alt")}
-                            />
-                        }
-                    />
-                </Form.Item>
-
-                <Form.Item>
-                    <Input
-                        name="adress"
-                        size="large"
-                        placeholder="Adress"
-                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                            setFormValue({
-                                ...formValue,
-                                adress: event.target.value,
-                            })
-                        }
-                        prefix={
-                            <FontAwesomeIcon
-                                icon={getIconByPrefixName(
-                                    "fas",
-                                    "address-book"
-                                )}
-                            />
-                        }
-                    />
-                </Form.Item>
-
-                <Form.Item>
-                    <Input
-                        name="city"
-                        size="large"
-                        placeholder="City"
-                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                            setFormValue({
-                                ...formValue,
-                                city: event.target.value,
-                            })
-                        }
-                        prefix={
-                            <FontAwesomeIcon
-                                icon={getIconByPrefixName("fas", "city")}
-                            />
-                        }
-                    />
-                </Form.Item>
             </Card>
 
             <Form.Item>

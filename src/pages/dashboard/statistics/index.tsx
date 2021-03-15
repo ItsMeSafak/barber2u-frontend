@@ -12,6 +12,14 @@ import { Card, Col, Layout, Row, Statistic } from "antd";
 
 import styles from "./styles.module.scss";
 
+/**
+ * This component renders the statistics page of a barber.
+ * The statistics consist of how much income a barber made from past months.
+ * A pie chart that indicates which service is chosen most often.
+ * TODO: Adjust data.
+ * 
+ * @returns {JSX} 
+ */
 const StatisticsPage: React.FC = () => {
     const data = [
         { month: "Jan", revenue: 200 },
