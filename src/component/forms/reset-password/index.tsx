@@ -52,6 +52,7 @@ const ResetPasswordForm: React.FC = () => {
                     ]}
                 >
                     <Input
+                        size="large"
                         prefix={
                             <FontAwesomeIcon
                                 color="#888"

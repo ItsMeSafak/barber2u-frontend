@@ -2,12 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Row, Col, Card, Button } from "antd";
+import { Row, Col, Card, Button, Layout } from "antd";
 
 import { getErrorStatus } from "../../asset/functions/error";
 import { getIconByPrefixName } from "../../asset/functions/icon";
 
 import styles from "./styles.module.scss";
+
+const { Content } = Layout;
 
 interface ComponentProps {
     code: number;
@@ -70,9 +72,11 @@ const ErrorPage: React.FC<ComponentProps> = (props) => {
     );
 
     return (
-        <Row className={styles.container} justify="center">
-            {renderError(getErrorStatus(code))}
-        </Row>
+        <Content className={styles.content}>
+            <Row className={styles.container} justify="center">
+                {renderError(getErrorStatus(code))}
+            </Row>
+        </Content>
     );
 };
 

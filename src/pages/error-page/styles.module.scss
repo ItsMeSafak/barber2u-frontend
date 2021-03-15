@@ -1,6 +1,11 @@
+.content {
+    display: flex;
+    align-items: center;
+}
+
 .container {
     text-align: center;
-    margin: auto 0;
+    width: 100%;
 
     .card {
         background-color: transparent;
