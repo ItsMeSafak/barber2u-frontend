@@ -4,12 +4,13 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Layout } from "antd";
 import { getCurrentUser } from "./services/auth-service";
 
+import ErrorPage from "./pages/error";
 import Dashboard from "./pages/dashboard";
-import ErrorPage from "./pages/error-page";
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
 import Signup from "./pages/singup";
 import SignIn from "./pages/signin";
+import HomePage from "./pages/home";
 
 const { Header, Footer } = Layout;
 
@@ -27,7 +28,7 @@ const App: React.FC = () => {
                 <Layout>
                     <Switch>
                         <Route path="/home">
-                            {user ? <Redirect to="/dashboard" /> : <Signup />}
+                            {user ? <Redirect to="/dashboard" /> : <HomePage />}
                         </Route>
                         <Route path="/dashboard">
                             {!user ? <Redirect to="/signin" /> : <Dashboard />}
