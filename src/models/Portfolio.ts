@@ -7,11 +7,7 @@ export default class Portfolio {
     id: number;
     items: PortfolioItem[];
 
-    /**
-     *
-     * @param {number} id Id of the portfolio.
-     * @param {PortfolioItem[]} items A list of portfolio items.
-     */
+    // eslint-disable-next-line require-jsdoc
     constructor(id: number, items: PortfolioItem[]) {
         this.id = id;
         this.items = items;

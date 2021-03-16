@@ -19,7 +19,7 @@ const WelcomeSection: React.FC = () => (
             <h2 className={styles.sectionDescription}>
                 {content.header2_text}
             </h2>
-            <Link to="/register">
+            <Link to="customer/signup">
                 <Button type="primary" shape="round" size="large">
                     {content.button_text}
                 </Button>
