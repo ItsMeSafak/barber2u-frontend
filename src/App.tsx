@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import { Layout } from "antd";
 import { getCurrentUser } from "./services/auth-service";
 
+import Signup from "./pages/singup";
+import SignIn from "./pages/signin";
+import HomePage from "./pages/home";
 import ErrorPage from "./pages/error";
 import Dashboard from "./pages/dashboard";
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
-import Signup from "./pages/singup";
-import SignIn from "./pages/signin";
-import HomePage from "./pages/home";
 
 const { Header, Footer } = Layout;
 
@@ -27,7 +27,7 @@ const App: React.FC = () => {
                 </Header>
                 <Layout>
                     <Switch>
-                        <Route path="/home">
+                        <Route exact path="/">
                             {user ? <Redirect to="/dashboard" /> : <HomePage />}
                         </Route>
                         <Route path="/dashboard">
