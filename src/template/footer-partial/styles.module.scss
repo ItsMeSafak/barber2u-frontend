@@ -1,0 +1,48 @@
+@import "../../index.scss";
+@import "../../asset/config.scss";
+
+.footer {
+    width: 100%;
+    background-color: $secondary-color;
+    color: $white-color;
+    text-align: left;
+
+    .container {
+        width: 100%;
+    }
+
+    .footerLogo {
+        font-size: 2rem;
+    }
+
+    .footerHeader {
+        @extend .underlined-text;
+        font-weight: bold;
+        font-size: 1rem;
+        padding-bottom: 4px;
+        margin-bottom: 8px;
+    }
+
+    ul {
+        padding: 0;
+
+        > li {
+            list-style-type: none;
+
+            a {
+                &:active {
+                    color: $primary-color;
+                }
+
+                &::before {
+                    content: ">";
+                    color: $primary-color;
+                }
+            }
+        }
+    }
+
+    .copyrightText {
+        text-align: center;
+    }
+}

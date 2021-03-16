@@ -1,0 +1,35 @@
+@import "../../../index.scss";
+@import "../../../asset/config.scss";
+
+.section {
+    text-align: center;
+    padding: 64px 16px;
+    background-image: url("../../../asset/images/picture-2.png");
+    background-size: cover;
+    position: relative;
+    object-fit: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: 0;
+    color: $light-grey-color;
+    font-size: 1rem;
+
+    &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: -99;
+    }
+
+    .sectionTitle {
+        @extend .underlined-text;
+        color: inherit;
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin: 48px 0;
+    }
+}

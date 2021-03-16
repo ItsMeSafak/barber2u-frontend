@@ -1,0 +1,22 @@
+@import "../../../asset/config.scss";
+
+.formTitle {
+    color: white;
+    text-decoration: underline;
+    text-underline-position: under;
+    font-size: 1.8rem;
+}
+
+.emailFormItem {
+    > div {
+        margin: 16px 0;
+    }
+}
+
+button.resetPasswordButton {
+    @extend .button-primary;
+}
+
+button.resetPasswordButtonGhost {
+    @extend .button-primary-ghost;
+}

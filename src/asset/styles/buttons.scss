@@ -1,0 +1,103 @@
+// Refer to https://ant.design/docs/spec/colors for the color palette.
+// Steps of choosing a color:
+//      Step 1: Choose a color code.
+//      Step 2: Choose another color code which is one level lower than the code in step 1.
+//      Step 3: Choose another color code which is one level higher than the code in step 1.
+
+// @Example:
+//      Step 1. #fa541c (Volcano-6)
+//      Step 2. #ff7a45 (Volcano-5)
+//      Step 3. #d4380d (Volcano-7)
+
+// Add it to the "$_buttons" and/or to "$_ghost-buttons" depending on your requirements.
+// Add it in the following order:
+//      <button name>: (
+//          #fa541c, (Volcano-6)
+//          #ff7a45, (Volcano-5)
+//          #d4380d, (Volcano-7)
+//      )
+
+// This can then be called within another SCSS (or styles.module.scss) file through
+// importing this file (or config.scss).
+// After that, it can be used through the "@extend" decoration.
+// @Example:
+//      Assuming that the "primary" tupple has been declared inside the "$_buttons",
+//      We can call this through the class name "button-primary".
+
+//      Notice that the "button" element has to be called in order to override the default styling.
+//      button.resetPasswordButton {
+//          @extend .button-primary;
+//      }
+
+// All the filled buttons that should have a background color.
+$_buttons: (
+    // primary: (
+    //     #2f54eb,
+    //     #1d39c4,
+    //     #597ef7,
+    // ),
+    primary: (#1890ff, #40a9ff, #096dd9)
+);
+
+// All the unfilled buttons that should not have a background color.
+$_ghost-buttons: (
+    primary: (
+        #1890ff,
+        #40a9ff,
+        #096dd9,
+    ),
+);
+
+/// This function is used to generate dynamic button class names,
+/// depending on the colors that have been declared in "$_buttons".
+/// This will fill the background color of the button and give its border a color (not transparent).
+/// @Example "@extend .button-primary".
+@each $element, $colors in $_buttons {
+    $_color: nth($colors, 1) !important;
+    $_hover: nth($colors, 2) !important;
+    $_active: nth($colors, 3) !important;
+
+    .button-#{$element} {
+        background-color: $_color;
+        border-color: $_color;
+
+        &:hover,
+        &:focus {
+            background-color: $_hover;
+            border-color: $_hover;
+        }
+
+        &:active,
+        &.active {
+            background-color: $_active;
+            border-color: $_active;
+        }
+    }
+}
+
+/// This function is used to generate dynamic button class names,
+/// depending on the colors that have been declared in "$_ghost-buttons".
+/// This will only give the button a text color and border a color (transparent).
+/// @Example "@extend .button-primary-ghost".
+@each $element, $colors in $_ghost-buttons {
+    $_color: nth($colors, 1) !important;
+    $_hover: nth($colors, 2) !important;
+    $_active: nth($colors, 3) !important;
+
+    .button-#{$element}-ghost {
+        color: $_color;
+        border-color: $_color;
+
+        &:hover,
+        &:focus {
+            color: $_hover;
+            border-color: $_hover;
+        }
+
+        &:active,
+        &.active {
+            color: $_active;
+            border-color: $_active;
+        }
+    }
+}

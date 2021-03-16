@@ -2,12 +2,16 @@ import React from "react";
 import {BrowserRouter} from "react-router-dom";
 import {Checkbox, Rate, Select, Slider} from "antd";
 import styles from "./styles.module.scss";
-import ListingItem from "../../components/listing-item";
+import ListingItem from "../../component/listing-item";
 import barberListings from "../../asset/listing_barbers.json";
 import {Barber} from "../../model/barber";
 
+/**
+ *
+ * @constructor
+ */
 const Listings: React.FC = () => {
-    const amountListings = barberListings.length
+    const amountListings = barberListings.length;
     const styleOptions = ["Styled", "Curled", "Bleached"];
     return (
         <BrowserRouter>
@@ -39,7 +43,7 @@ const Listings: React.FC = () => {
                 </div>
             </section>
         </BrowserRouter>
-    )
+    );
 };
 
 export default Listings;
