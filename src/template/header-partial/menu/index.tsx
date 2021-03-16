@@ -1,5 +1,5 @@
 import React from "react";
-import {Link, useHistory} from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Button } from "antd";
 import { logout } from "../../../services/auth-service";
 
@@ -41,10 +41,11 @@ const Menu: React.FC<ComponentProps> = (props) => {
                     <Link to={url}>
                         <Button
                             type={renderPillButton ? "primary" : "link"}
+                            className={
+                                renderPillButton ? styles.pillButton : ""
+                            }
                             shape={renderPillButton ? "round" : undefined}
-                            onClick={() => {
-
-                            }}
+                            onClick={() => {}}
                         >
                             {name}
                         </Button>

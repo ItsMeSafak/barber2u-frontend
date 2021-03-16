@@ -9,7 +9,6 @@ import { signIn } from "../../../services/auth-service";
 
 import styles from "./styles.module.scss";
 
-
 /**
  * This component renders a login form.
  * The form consists of input fields regarding the users information.

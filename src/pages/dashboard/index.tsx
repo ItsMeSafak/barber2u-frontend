@@ -46,6 +46,7 @@ const DashboardPage: React.FC = () => {
      * At the end, the event listener is removed so that unnecessary events are unloaded.
      */
     useEffect(() => {
+        handleMobileView();
         window.addEventListener("resize", handleMobileView);
         // Remove event listener if not being used.
         return () => window.removeEventListener("resize", handleMobileView);

@@ -39,6 +39,7 @@ const HeaderPartial: React.FC = () => {
     useEffect(() => {
         handleMobileView();
         window.addEventListener("resize", handleMobileView);
+
         // Remove event listener if not being used.
         return () => window.removeEventListener("resize", handleMobileView);
     }, [handleMobileView]);

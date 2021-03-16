@@ -18,7 +18,6 @@ import { signUp } from "../../../services/auth-service";
 import { getIconByPrefixName } from "../../../asset/functions/icon";
 import styles from "./styles.module.scss";
 
-
 /**
  * This component renders a signup form.
  * The form consists of input fields regarding the users information.

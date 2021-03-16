@@ -8,6 +8,7 @@ import {
 import {
     faBars,
     faCut,
+    faEnvelope,
     faExclamationTriangle,
     faCaretLeft,
     faCaretRight,
@@ -31,6 +32,7 @@ import {
 export const icons = {
     faCut,
     faBars,
+    faEnvelope,
     faExclamationTriangle,
     faCaretLeft,
     faCaretRight,

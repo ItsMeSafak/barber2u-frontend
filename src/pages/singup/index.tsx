@@ -9,12 +9,12 @@ import styles from "./styles.module.scss";
  * @returns {JSX}
  */
 const Signup: React.FC = () => (
-        <div className={styles.signup}>
-            <div className={`${styles.column} ${styles.signupImage}`} />
-            <div className={styles.column}>
-                <SignupForm />
-            </div>
+    <div className={styles.signup}>
+        <div className={`${styles.column} ${styles.signupImage}`} />
+        <div className={styles.column}>
+            <SignupForm />
         </div>
+    </div>
 );
 
 export default Signup;

@@ -2,7 +2,6 @@ import User from "../models/User";
 
 const API_URL = "http://localhost:8080/api";
 
-
 /**
  * This service file is responsible for every auth related function.
  *

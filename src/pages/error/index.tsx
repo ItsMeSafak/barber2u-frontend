@@ -2,12 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Row, Col, Card, Button } from "antd";
+import { Row, Col, Card, Button, Layout, Divider } from "antd";
 
 import { getErrorStatus } from "../../asset/functions/error";
 import { getIconByPrefixName } from "../../asset/functions/icon";
 
 import styles from "./styles.module.scss";
+
+const { Content } = Layout;
 
 interface ComponentProps {
     code: number;
@@ -43,8 +45,8 @@ const ErrorPage: React.FC<ComponentProps> = (props) => {
               }
             | undefined
     ) => (
-        <Card className={styles.card}>
-            <Col span={24}>
+        <Card className={styles.card} bordered={false}>
+            <Col>
                 <FontAwesomeIcon
                     icon={getIconByPrefixName(
                         error?.iconPrefix,
@@ -53,14 +55,19 @@ const ErrorPage: React.FC<ComponentProps> = (props) => {
                     color={error?.color}
                     size="6x"
                 />
-                <h2 className={styles.errorCode}>
-                    {code} - {error?.message}
-                </h2>
-            </Col>
-            <Col span={24}>
-                <h3 className={styles.errorMessage}>{error?.description}</h3>
+                <Divider orientation="center">
+                    <h2 className={styles.errorCode}>{code}</h2>
+                </Divider>
+                <h2 className={styles.errorMessage}>{error?.message}</h2>
+                <h3 className={styles.errorDescription}>
+                    {error?.description}
+                </h3>
                 <Link to={returnUrl}>
-                    <Button type="ghost" size="large">
+                    <Button
+                        className={styles.returnButton}
+                        type="ghost"
+                        size="large"
+                    >
                         Return
                     </Button>
                 </Link>
@@ -69,9 +76,11 @@ const ErrorPage: React.FC<ComponentProps> = (props) => {
     );
 
     return (
-        <Row className={styles.container} justify="center">
-            {renderError(getErrorStatus(code))}
-        </Row>
+        <Content className={styles.content}>
+            <Row className={styles.container} justify="center">
+                {renderError(getErrorStatus(code))}
+            </Row>
+        </Content>
     );
 };
 

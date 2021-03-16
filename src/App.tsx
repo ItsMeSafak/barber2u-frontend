@@ -8,9 +8,10 @@ import Signup from "./pages/singup";
 import SignIn from "./pages/signin";
 import HomePage from "./pages/home";
 import ErrorPage from "./pages/error";
-import Dashboard from "./pages/dashboard";
+import DashboardPage from "./pages/dashboard";
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
+import ResetPasswordPage from "./pages/reset-password";
 
 const { Header, Footer } = Layout;
 
@@ -31,13 +32,24 @@ const App: React.FC = () => {
                             {user ? <Redirect to="/dashboard" /> : <HomePage />}
                         </Route>
                         <Route path="/dashboard">
-                            {!user ? <Redirect to="/signin" /> : <Dashboard />}
+                            {!user ? (
+                                <Redirect to="/signin" />
+                            ) : (
+                                <DashboardPage />
+                            )}
                         </Route>
                         <Route path="/signin">
                             {user ? <Redirect to="/dashboard" /> : <SignIn />}
                         </Route>
                         <Route path="/customer/signUp">
                             {user ? <Redirect to="/dashboard" /> : <Signup />}
+                        </Route>
+                        <Route path="/reset-password">
+                            {user ? (
+                                <Redirect to="/dashboard" />
+                            ) : (
+                                <ResetPasswordPage />
+                            )}
                         </Route>
                         <Route
                             component={() => (
