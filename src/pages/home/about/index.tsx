@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Button, Col, Row } from "antd";
 
-import content from "../../../asset/content/homepage/homepage_about.json";
+import { PLACEHOLDER_TEXT } from "../../../assets/constants";
 
 import styles from "./styles.module.scss";
 
@@ -16,13 +16,13 @@ import styles from "./styles.module.scss";
 const AboutSection: React.FC = () => (
     <Row id="about" className={styles.section} justify="center">
         <Col xs={24}>
-            <h2 className={styles.sectionTitle}>{content.header_text}</h2>
+            <h2 className={styles.sectionTitle}>About</h2>
         </Col>
         <Col xs={24} lg={12}>
-            <p>{content.paragraph_text}</p>
+            <p>{PLACEHOLDER_TEXT}</p>
             <Link to="/about">
                 <Button type="primary" shape="round" size="large">
-                    {content.button_text}
+                    Get to know us
                 </Button>
             </Link>
         </Col>

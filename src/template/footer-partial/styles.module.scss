@@ -28,14 +28,21 @@
 
         > li {
             list-style-type: none;
+        }
+    }
+
+    .footerLinks {
+        > li {
+            padding: 2px 0;
 
             a {
                 &:active {
                     color: $primary-color;
                 }
 
-                &::before {
+                &:before {
                     content: ">";
+                    margin-right: 8px;
                     color: $primary-color;
                 }
             }

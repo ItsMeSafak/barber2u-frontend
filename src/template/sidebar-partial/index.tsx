@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { getIconByPrefixName } from "../../asset/functions/icon";
+import { getIconByPrefixName } from "../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
 

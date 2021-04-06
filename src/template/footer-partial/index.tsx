@@ -1,12 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
 
-import { Button, Col, Row } from "antd";
+import { Col, Row } from "antd";
 
-import LogoComponent from "../../component/logo";
+import MenuItems from "../../components/menu-items";
+import LogoComponent from "../../components/logo";
 
-import navbar from "../../asset/navbar_mapping.json";
-import contactInformation from "../../asset/content/contact_information.json";
+import { NavbarContext } from "../../contexts/navbar-context";
+
+import {
+    CONTACT_DETAILS_ADDRESS,
+    CONTACT_DETAILS_EMAIL_ADDRESS,
+    CONTACT_DETAILS_PHONE_NUMBER,
+} from "../../assets/constants";
 
 import styles from "./styles.module.scss";
 
@@ -16,17 +21,7 @@ import styles from "./styles.module.scss";
  * @returns {JSX}
  */
 const FooterPartial: React.FC = () => {
-    /**
-     * Render the links inside the footer
-     */
-    const renderLinks = () =>
-        navbar.map((link) => (
-            <li key={link.name}>
-                <Link to={link.url}>
-                    <Button type="link">{link.name}</Button>
-                </Link>
-            </li>
-        ));
+    const { menuItems } = useContext(NavbarContext);
 
     return (
         <footer className={styles.footer}>
@@ -37,15 +32,15 @@ const FooterPartial: React.FC = () => {
                 <Col xs={24} sm={7} lg={5} className={styles.footerContainer}>
                     <ul>
                         <div className={styles.footerHeader}>Contact</div>
-                        <li>Phone: {contactInformation.phone}</li>
-                        <li>Email: {contactInformation.email}</li>
-                        <li>Address: {contactInformation.address}</li>
+                        <li>Phone: {CONTACT_DETAILS_PHONE_NUMBER}</li>
+                        <li>Email: {CONTACT_DETAILS_EMAIL_ADDRESS}</li>
+                        <li>Address: {CONTACT_DETAILS_ADDRESS}</li>
                     </ul>
                 </Col>
                 <Col xs={24} sm={7} lg={5}>
-                    <ul>
+                    <ul className={styles.footerLinks}>
                         <div className={styles.footerHeader}>Navigation</div>
-                        {renderLinks()}
+                        <MenuItems menuType="footer" menuItems={menuItems} />
                     </ul>
                 </Col>
                 <Col className={styles.copyrightText} xs={24}>

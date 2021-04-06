@@ -1,4 +1,4 @@
-import Style from "./Style";
+import Style from "./enums/Style";
 
 /**
  * The portfolio item is a model that consists of an id, style and image.

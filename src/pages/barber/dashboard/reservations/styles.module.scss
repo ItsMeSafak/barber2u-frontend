@@ -1,0 +1,37 @@
+@import "../../../../asset/config.scss";
+
+.reservations {
+    .header {
+        background-color: $primary-color;
+        width: 100%;
+        font-size: 30px;
+        font-weight: bold;
+        color: $white-color;
+        display: flex;
+        border-radius: 20px;
+        padding: 10px;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        .arrow {
+            cursor: pointer;
+        }
+    }
+
+    .card {
+        box-shadow: $shadow;
+
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            color: $primary-color;
+        }
+        .price {
+            font-size: $header-size-3;
+            font-weight: bold;
+            text-align: right;
+            color: $green-color;
+        }
+    }
+}
