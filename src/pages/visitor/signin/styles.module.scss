@@ -1,4 +1,4 @@
-@import "../../../asset/config.scss";
+@import "../../../assets/config.scss";
 
 .signin {
     background-color: $light-grey-color;
@@ -12,7 +12,7 @@
 }
 
 .signInImage {
-    background-image: url("../../../asset/images/pexels-photo-2775269.png");
+    background-image: url("../../../assets/images/pexels-photo-2775269.png");
     background-size: cover;
     background-position: center;
     position: relative;
