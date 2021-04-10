@@ -1,4 +1,4 @@
-@import "../../asset/config.scss";
+@import "../../assets/config.scss";
 
 .content {
     display: flex;
@@ -9,25 +9,7 @@
     text-align: center;
     width: 100%;
 
-    .card {
-        background-color: transparent;
-
-        .errorCode {
-            font-size: 2rem;
-            font-weight: 600;
-        }
-
-        .errorMessage {
-            font-size: 1.5rem;
-        }
-
-        .errorDescription {
-            font-size: 1.2rem;
-            margin: 25px;
-        }
-
-        .returnButton {
-            @extend .button-primary-ghost;
-        }
+    .returnButton {
+        @extend .button-primary-ghost;
     }
 }

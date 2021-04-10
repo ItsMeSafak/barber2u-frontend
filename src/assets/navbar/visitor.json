@@ -1,0 +1,57 @@
+[
+    {
+        "id": "#welcome",
+        "url": "/",
+        "name": "Home",
+        "icon": [],
+        "isNavbarMenu": true,
+        "isFooterMenu": true,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDropdownMenu": false
+    },
+    {
+        "id": "#how-it-works",
+        "url": "/",
+        "name": "How it works",
+        "icon": [],
+        "isNavbarMenu": true,
+        "isFooterMenu": true,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDropdownMenu": false
+    },
+    {
+        "id": "#about",
+        "url": "/",
+        "name": "About",
+        "icon": [],
+        "isNavbarMenu": true,
+        "isFooterMenu": true,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDropdownMenu": false
+    },
+    {
+        "id": "#contact",
+        "url": "/",
+        "name": "Contact",
+        "icon": [],
+        "isNavbarMenu": true,
+        "isFooterMenu": true,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDropdownMenu": false
+    },
+    {
+        "id": "",
+        "url": "/signin",
+        "name": "Sign in",
+        "icon": [],
+        "isNavbarMenu": true,
+        "isFooterMenu": true,
+        "isPillButton": true,
+        "isMobileMenu": true,
+        "isDropdownMenu": false
+    }
+]

@@ -1,0 +1,24 @@
+[
+    {
+        "id": "",
+        "url": "/moderator",
+        "name": "Dashboard",
+        "icon": ["fas", "chart-line"],
+        "isNavbarMenu": false,
+        "isFooterMenu": true,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDropdownMenu": true
+    },
+    {
+        "id": "signout",
+        "url": "",
+        "name": "Sign out",
+        "icon": ["fas", "sign-out-alt"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDropdownMenu": true
+    }
+]

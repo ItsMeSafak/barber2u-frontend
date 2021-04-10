@@ -1,69 +1,95 @@
-import React, { useState } from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import React from "react";
+import { CookiesProvider } from "react-cookie";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { Layout } from "antd";
-import { getCurrentUser } from "./services/auth-service";
 
-import Signup from "./pages/singup";
-import SignIn from "./pages/signin";
+import Role from "./models/enums/Role";
+
 import HomePage from "./pages/home";
 import ErrorPage from "./pages/error";
-import DashboardPage from "./pages/dashboard";
+import SignupPage from "./pages/visitor/signup";
+import SigninPage from "./pages/visitor/signin";
+import ResetPasswordPage from "./pages/visitor/reset-password";
+import BarberDashboardPage from "./pages/barber/dashboard";
+import CustomerDashboardPage from "./pages/customer/dashboard";
+
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
-import ResetPasswordPage from "./pages/reset-password";
+import ProtectedRoute from "./routes/protected-route";
+
+import { AuthProvider } from "./contexts/auth-context";
+import { NavbarProvider } from "./contexts/navbar-context";
 
 const { Header, Footer } = Layout;
 
 // eslint-disable-next-line require-jsdoc
-const App: React.FC = () => {
-    const [user] = useState(getCurrentUser());
-    const errorCode = 404;
-
-    return (
-        <Layout className="layoutContainer">
-            <BrowserRouter>
-                <Header className="header">
-                    <HeaderPartial />
-                </Header>
-                <Layout>
-                    <Switch>
-                        <Route exact path="/">
-                            {user ? <Redirect to="/dashboard" /> : <HomePage />}
-                        </Route>
-                        <Route path="/dashboard">
-                            {!user ? (
-                                <Redirect to="/signin" />
-                            ) : (
-                                <DashboardPage />
-                            )}
-                        </Route>
-                        <Route path="/signin">
-                            {user ? <Redirect to="/dashboard" /> : <SignIn />}
-                        </Route>
-                        <Route path="/customer/signUp">
-                            {user ? <Redirect to="/dashboard" /> : <Signup />}
-                        </Route>
-                        <Route path="/reset-password">
-                            {user ? (
-                                <Redirect to="/dashboard" />
-                            ) : (
-                                <ResetPasswordPage />
-                            )}
-                        </Route>
-                        <Route
-                            component={() => (
-                                <ErrorPage code={errorCode} returnUrl="home" />
-                            )}
-                        />
-                    </Switch>
-                </Layout>
-                <Footer className="footer">
-                    <FooterPartial />
-                </Footer>
-            </BrowserRouter>
-        </Layout>
-    );
-};
+const App: React.FC = () => (
+    <BrowserRouter>
+        <CookiesProvider>
+            <AuthProvider>
+                <NavbarProvider>
+                    <Layout className="layoutContainer">
+                        <Header className="header">
+                            <HeaderPartial />
+                        </Header>
+                        <Layout>
+                            <Switch>
+                                <ProtectedRoute
+                                    exact
+                                    allowedRoles={[]}
+                                    path="/"
+                                    component={HomePage}
+                                />
+                                <ProtectedRoute
+                                    allowedRoles={[]}
+                                    path="/signin"
+                                    component={SigninPage}
+                                />
+                                <ProtectedRoute
+                                    allowedRoles={[]}
+                                    path="/customer/signup"
+                                    component={SignupPage}
+                                />
+                                <ProtectedRoute
+                                    allowedRoles={[]}
+                                    path="/reset-password"
+                                    component={ResetPasswordPage}
+                                />
+                                <ProtectedRoute
+                                    exact
+                                    allowedRoles={[Role.Barber]}
+                                    path="/barber"
+                                    component={BarberDashboardPage}
+                                />
+                                <ProtectedRoute
+                                    exact
+                                    allowedRoles={[Role.Customer]}
+                                    path="/customer"
+                                    component={CustomerDashboardPage}
+                                />
+                                <Route
+                                    exact
+                                    path="/503"
+                                    component={() => (
+                                        <ErrorPage code={503} returnUrl="/" />
+                                    )}
+                                />
+                                <Route
+                                    component={() => (
+                                        <ErrorPage code={404} returnUrl="/" />
+                                    )}
+                                />
+                            </Switch>
+                        </Layout>
+                        <Footer className="footer">
+                            <FooterPartial />
+                        </Footer>
+                    </Layout>
+                </NavbarProvider>
+            </AuthProvider>
+        </CookiesProvider>
+    </BrowserRouter>
+);
 
 export default App;

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Button, Row } from "antd";
 
-import content from "../../../asset/content/homepage/homepage_welcome.json";
+import { APP_SLOGAN_1, APP_SLOGAN_2 } from "../../../assets/constants";
 
 import styles from "./styles.module.scss";
 
@@ -15,13 +15,11 @@ import styles from "./styles.module.scss";
 const WelcomeSection: React.FC = () => (
     <Row id="welcome" className={styles.section} justify="center">
         <div className={styles.container}>
-            <h1 className={styles.sectionTitle}>{content.header1_text}</h1>
-            <h2 className={styles.sectionDescription}>
-                {content.header2_text}
-            </h2>
+            <h1 className={styles.sectionTitle}>{APP_SLOGAN_1}</h1>
+            <h2 className={styles.sectionDescription}>{APP_SLOGAN_2}</h2>
             <Link to="customer/signup">
                 <Button type="primary" shape="round" size="large">
-                    {content.button_text}
+                    Create an account now!
                 </Button>
             </Link>
         </div>

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-import { icons } from "./asset/functions/icon";
+import { icons } from "./assets/functions/icon";
 
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";

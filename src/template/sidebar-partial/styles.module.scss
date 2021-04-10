@@ -1,4 +1,4 @@
-@import "../../asset/config.scss";
+@import "../../assets/config.scss";
 
 .sidebar {
     min-height: 100vh;
@@ -51,7 +51,7 @@
                     position: absolute;
                     //filter: invert(64%) sepia(94%) saturate(6749%) hue-rotate(172deg) brightness(95%) contrast(83%);
                     content: "";
-                    background: url(../../asset/arrow.svg) no-repeat;
+                    background: url(../../assets/arrow.svg) no-repeat;
                     width: 50px;
                     right: 0;
                     top: 0;

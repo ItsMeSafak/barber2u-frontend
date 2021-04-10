@@ -1,4 +1,4 @@
-import Style from "./Style";
+import Style from "./enums/Style";
 
 /**
  * The reservation is model that consists of an id, style, date, locationa and a price.

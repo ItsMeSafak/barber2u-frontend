@@ -2,7 +2,7 @@ import React from "react";
 
 import { Carousel, Col, Row } from "antd";
 
-import reviews from "../../../asset/content/homepage/homepage_reviews.json";
+import { PLACEHOLDER_TEXT } from "../../../assets/constants";
 
 import styles from "./styles.module.scss";
 
@@ -16,12 +16,12 @@ const ReviewSection: React.FC = () => {
      * Rendering the reviews content data inside the carousel
      */
     const renderReviews = () =>
-        reviews.map(({ id, author, message }) => (
-            <Row key={id} justify="center">
+        [1, 2, 3, 4, 5, 6].map((index) => (
+            <Row key={index} justify="center">
                 <Col className={styles.review} xs={24} lg={12}>
                     <p>
-                        <q>{message}</q>
-                        <span>- {author}</span>
+                        <q>{PLACEHOLDER_TEXT}</q>
+                        <span>- Anonymous</span>
                     </p>
                 </Col>
             </Row>
@@ -35,7 +35,7 @@ const ReviewSection: React.FC = () => {
                     draggable
                     className={styles.carousel}
                 >
-                    {reviews && renderReviews()}
+                    {renderReviews()}
                 </Carousel>
             </Col>
         </Row>

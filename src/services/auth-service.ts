@@ -1,88 +1,103 @@
-import User from "../models/User";
+import axios from "axios";
 
-const API_URL = "http://localhost:8080/api";
+const API_URL = "http://localhost:8080/api/auth";
+
+interface APIAuthResponse {
+    data: {
+        email: string;
+        id: string;
+        roles: Array<string>;
+        token: string;
+        type: string;
+    };
+    message: string;
+    status: number;
+    success: boolean;
+}
 
 /**
- * This service file is responsible for every auth related function.
+ * This function handles the login API request.
+ * TODO: create Auth-interceptor (Mehmet)
  *
+ * @param {string} email The user email input.
+ * @param {string} password The user password input.
+ * @returns {Promise<APIAuthResponse>}
  */
+export const signIn = (
+    email: string,
+    password: string
+): Promise<APIAuthResponse> =>
+    new Promise<APIAuthResponse>((resolve, reject) =>
+        axios
+            .post(`${API_URL}/signin`, {
+                email,
+                password,
+            })
+            .then(
+                (response) => {
+                    if (response.status === 200) {
+                        resolve(response.data);
+                    } else {
+                        reject(
+                            new Error(
+                                "Something went wrong while trying to call 'signIn'..."
+                            )
+                        );
+                    }
+                },
+                (error) => {
+                    reject(new Error(error.message));
+                }
+            )
+    );
 
 /**
- * This functions does the sign in request to the backend.
+ * This function handles the register API request.
  *
- * @returns {JSON} response with JWT, data and response code
- * @param userEmail
- * @param userPassword
+ * @param {Object} formValues The register form values.
+ * @returns {Promise<APIAuthResponse>}
  */
-export const signIn = async (userEmail: string, userPassword: string) => {
-    let response: Response | null = null;
-    try {
-        response = await fetch(`${API_URL}/auth/signin`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: userEmail,
-                password: userPassword,
-            }),
-        });
-    } catch (error) {
-        console.log("Empty");
-    }
-    return response?.json();
-};
-
-/**
- * This functions does the sign up request to the backend.
- *
- * @param User Object
- * @returns The result of the request
- */
-export const signUp = async (user: User) => {
-    let response: Response | null = null;
-    try {
-        response = await fetch(`${API_URL}/auth/signup`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(user),
-        });
-    } catch (error) {
-        console.log("Empty");
-    }
-    return response?.json();
-};
-
-/**
- * This function removes the user from the localstorage the moment he logged out
- */
-export const logout = () => {
-    localStorage.removeItem("user");
-};
+export const signUp = (formValues: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    zipCode: string;
+    address: string;
+    phoneNumber: string;
+}): Promise<APIAuthResponse> =>
+    new Promise<APIAuthResponse>((resolve, reject) =>
+        axios
+            .post(`${API_URL}/signup`, {
+                ...formValues,
+            })
+            .then(
+                (response) => {
+                    if (response.status === 200) {
+                        resolve(response.data);
+                    } else {
+                        reject(
+                            new Error(
+                                "Something went wrong while trying to call 'signUp'..."
+                            )
+                        );
+                    }
+                },
+                (error) => {
+                    reject(new Error(error.message));
+                }
+            )
+    );
 
 /**
  * This function is used for authenticating when trying to reach the backend.
  * You might need your jwt token for some functions in the backend.
  */
 export const authHeader = () => {
-    const user = JSON.parse(<string>localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem("user") as string);
     if (user && user.accessToken) {
         // return { Authorization: 'Bearer ' + user.accessToken }; // for Spring Boot back-end
         return { "x-access-token": user.accessToken };
     }
     return {};
 };
-
-/**
- * This function is responsible for retrieving the user from the localstorage.
- */
-export const getCurrentUser = () =>
-    JSON.parse(<string>localStorage.getItem("user"));
-
-/**
- * This function is responsible for retrieving the user from the localstorage.
- */
-export const isSignedIn = () =>
-    JSON.parse(<string>localStorage.getItem("user")) !== null;
