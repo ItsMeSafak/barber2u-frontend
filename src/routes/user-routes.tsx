@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { NavbarContext } from "../contexts/navbar-context";
 import ErrorPage from "../pages/error";
+
+import { NavbarContext } from "../contexts/navbar-context";
 
 interface ComponentProps {
     components: Array<React.FC>;
