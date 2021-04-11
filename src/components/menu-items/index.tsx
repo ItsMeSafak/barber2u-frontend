@@ -159,6 +159,7 @@ const MenuItems: React.FC<ComponentProps> = (props) => {
                               withIcon: false,
                           })
                         : renderLinkMenuItem({
+                              id,
                               url,
                               name,
                               icon,
@@ -185,6 +186,7 @@ const MenuItems: React.FC<ComponentProps> = (props) => {
             .map(({ id, url, name, icon }) => (
                 <Menu.Item key={id} onClick={getCallbackFunctionById(id)}>
                     {renderLinkMenuItem({
+                        id,
                         url,
                         name,
                         icon,
@@ -237,7 +239,11 @@ const MenuItems: React.FC<ComponentProps> = (props) => {
     }) => {
         const { id, url, name, icon, withIcon } = menuItemProps;
         return (
-            <HashLink smooth to={`${url}/${id}`}>
+            <HashLink
+                smooth
+                to={`${url}/${id}`}
+                onClick={getCallbackFunctionById(id)}
+            >
                 {withIcon && renderIcon(icon)}
                 <span>{name}</span>
             </HashLink>
@@ -251,14 +257,15 @@ const MenuItems: React.FC<ComponentProps> = (props) => {
      * @returns {JSX}
      */
     const renderLinkMenuItem = (menuItemProps: {
+        id: string;
         url: string;
         name: string;
         icon: string[];
         withIcon: boolean;
     }) => {
-        const { url, name, icon, withIcon } = menuItemProps;
+        const { id, url, name, icon, withIcon } = menuItemProps;
         return (
-            <Link to={url}>
+            <Link to={url} onClick={getCallbackFunctionById(id)}>
                 {withIcon && renderIcon(icon)}
                 <span>{name}</span>
             </Link>
