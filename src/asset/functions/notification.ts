@@ -14,7 +14,7 @@ export const showNotification = (
     description: string,
     httpStatus?: number,
     notificationType?: string
-) => {
+): void => {
     const modifiedMessage = httpStatus
         ? `[${httpStatus}] - ${message}`
         : message;

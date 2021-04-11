@@ -2,7 +2,7 @@ import React from "react";
 
 import { Carousel, Col, Row } from "antd";
 
-import { PLACEHOLDER_TEXT } from "../../../assets/constants";
+import { PLACEHOLDER_TEXT } from "../../../../assets/constants";
 
 import styles from "./styles.module.scss";
 

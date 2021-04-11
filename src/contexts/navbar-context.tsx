@@ -26,6 +26,7 @@ interface ContextProps {
         isFooterMenu: boolean;
         isMobileMenu: boolean;
         isPillButton: boolean;
+        isDrawerMenu: boolean;
         isDropdownMenu: boolean;
     }> | null;
     setMenuItems: (
@@ -38,6 +39,7 @@ interface ContextProps {
             isFooterMenu: boolean;
             isMobileMenu: boolean;
             isPillButton: boolean;
+            isDrawerMenu: boolean;
             isDropdownMenu: boolean;
         }>
     ) => void;
@@ -89,8 +91,8 @@ export const NavbarProvider: React.FC = (props) => {
             setMenuItems(getMenuItemsByUserRole(Role.Customer));
         if (isRoleIncluded(Role.Barber))
             setMenuItems(getMenuItemsByUserRole(Role.Barber));
-        if (isRoleIncluded(Role.Customer))
-            setMenuItems(getMenuItemsByUserRole(Role.Customer));
+        if (isRoleIncluded(Role.Moderator))
+            setMenuItems(getMenuItemsByUserRole(Role.Moderator));
     }, [
         roles,
         menuItems,

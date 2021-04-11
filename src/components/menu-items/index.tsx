@@ -10,7 +10,7 @@ import { getIconByPrefixName } from "../../assets/functions/icon";
 import styles from "./styles.module.scss";
 
 interface ComponentProps {
-    menuType: "navbar" | "dropdown" | "drawer" | "footer";
+    menuType: "navbar" | "dropdown" | "drawer" | "footer" | "sidebar";
     menuItems: Array<{
         id: string;
         url: string;
@@ -20,6 +20,7 @@ interface ComponentProps {
         isFooterMenu: boolean;
         isMobileMenu: boolean;
         isPillButton: boolean;
+        isDrawerMenu: boolean;
         isDropdownMenu: boolean;
     }> | null;
     style?: Record<string, unknown>;
@@ -100,15 +101,12 @@ const MenuItems: React.FC<ComponentProps> = (props) => {
                     icon,
                     withIcon: withIcon(icon),
                 };
-                const callback = props.functions
-                    ?.filter(({ key }) => key === id)
-                    .map(({ functionCallback }) => functionCallback)[0];
 
-                if (isHashLink(id) && callback) {
+                if (isHashLink(id)) {
                     return (
                         <Menu.Item
                             key={`${url}-${id}-${name}`}
-                            onClick={callback}
+                            onClick={getCallbackFunctionById(id)}
                         >
                             {withIcon(icon) && renderIcon(icon)}
                             <span>{name}</span>
@@ -124,49 +122,6 @@ const MenuItems: React.FC<ComponentProps> = (props) => {
                     </Menu.Item>
                 );
             });
-
-    /**
-     * This function renders a hashlink of a menu item.
-     *
-     * @param {Object} menuItemProps The menu item properties.
-     * @returns {JSX}
-     */
-    const renderHashLinkMenuItem = (menuItemProps: {
-        id: string;
-        url: string;
-        name: string;
-        icon: string[];
-        withIcon: boolean;
-    }) => {
-        const { id, url, name, icon, withIcon } = menuItemProps;
-        return (
-            <HashLink smooth to={`${url}/${id}`}>
-                {withIcon && renderIcon(icon)}
-                <span>{name}</span>
-            </HashLink>
-        );
-    };
-
-    /**
-     * This function renders a regular link of a menu item.
-     *
-     * @param {Object} menuItemProps The menu item properties.
-     * @returns {JSX}
-     */
-    const renderLinkMenuItem = (menuItemProps: {
-        url: string;
-        name: string;
-        icon: string[];
-        withIcon: boolean;
-    }) => {
-        const { url, name, icon, withIcon } = menuItemProps;
-        return (
-            <Link to={url}>
-                {withIcon && renderIcon(icon)}
-                <span>{name}</span>
-            </Link>
-        );
-    };
 
     /**
      * This function renders the icon.
@@ -227,22 +182,88 @@ const MenuItems: React.FC<ComponentProps> = (props) => {
     const renderDropdownMenuItems = () =>
         menuItems
             ?.filter(({ isDropdownMenu }) => isDropdownMenu)
-            .map(({ id, url, name, icon }) => {
-                const callback = props.functions
-                    ?.filter(({ key }) => key === id)
-                    .map(({ functionCallback }) => functionCallback)[0];
+            .map(({ id, url, name, icon }) => (
+                <Menu.Item key={id} onClick={getCallbackFunctionById(id)}>
+                    {renderLinkMenuItem({
+                        url,
+                        name,
+                        icon,
+                        withIcon: withIcon(icon),
+                    })}
+                </Menu.Item>
+            ));
 
-                return (
-                    <Menu.Item key={id} onClick={callback}>
-                        {renderLinkMenuItem({
-                            url,
-                            name,
-                            icon,
-                            withIcon: withIcon(icon),
-                        })}
-                    </Menu.Item>
-                );
-            });
+    /**
+     * This function renders the sidebar menu.
+     *
+     * @returns {JSX}
+     */
+    const renderSidebarMenu = () => (
+        <Menu mode="inline" selectable={false}>
+            {renderSidebarMenuItems()}
+        </Menu>
+    );
+
+    /**
+     * This function renders the sidebar menu items.
+     *
+     * @returns {JSX}
+     */
+    const renderSidebarMenuItems = () =>
+        menuItems
+            ?.filter(({ isDrawerMenu }) => isDrawerMenu)
+            .map(({ id, url, name, icon }) => (
+                <Menu.Item
+                    key={id}
+                    onClick={getCallbackFunctionById(id)}
+                    icon={renderIcon(icon)}
+                >
+                    <Link to={url}>{name}</Link>
+                </Menu.Item>
+            ));
+
+    /**
+     * This function renders a hashlink of a menu item.
+     *
+     * @param {Object} menuItemProps The menu item properties.
+     * @returns {JSX}
+     */
+    const renderHashLinkMenuItem = (menuItemProps: {
+        id: string;
+        url: string;
+        name: string;
+        icon: string[];
+        withIcon: boolean;
+    }) => {
+        const { id, url, name, icon, withIcon } = menuItemProps;
+        return (
+            <HashLink smooth to={`${url}/${id}`}>
+                {withIcon && renderIcon(icon)}
+                <span>{name}</span>
+            </HashLink>
+        );
+    };
+
+    /**
+     * This function renders a regular link of a menu item.
+     *
+     * @param {Object} menuItemProps The menu item properties.
+     * @returns {JSX}
+     */
+    const renderLinkMenuItem = (menuItemProps: {
+        url: string;
+        name: string;
+        icon: string[];
+        withIcon: boolean;
+    }) => {
+        const { url, name, icon, withIcon } = menuItemProps;
+        return (
+            <Link to={url}>
+                {withIcon && renderIcon(icon)}
+                <span>{name}</span>
+            </Link>
+        );
+    };
 
     /**
      * This function checks whether a link requires a hashlink or not.
@@ -250,7 +271,7 @@ const MenuItems: React.FC<ComponentProps> = (props) => {
      * @param {string} id The id of the navbar menu item.
      * @returns {boolean}
      */
-    const isHashLink = (id: string) => id !== "";
+    const isHashLink = (id: string) => id !== "" && id.startsWith("#");
 
     /**
      * This function modifies the url of a given navbar menu item.
@@ -260,6 +281,17 @@ const MenuItems: React.FC<ComponentProps> = (props) => {
      * @returns {boolean}
      */
     const modifiedUrl = (url: string) => (url === "/" ? "" : url);
+
+    /**
+     * This function retrieves the correct callback function for the desired menu item by id.
+     *
+     * @param {string} id The menu item id.
+     * @returns {Function}
+     */
+    const getCallbackFunctionById = (id: string) =>
+        props.functions
+            ?.filter(({ key }) => key === id)
+            .map(({ functionCallback }) => functionCallback)[0];
 
     /**
      * This function checks whether a menu item icon exists.
@@ -275,6 +307,7 @@ const MenuItems: React.FC<ComponentProps> = (props) => {
             {menuType === "navbar" && renderNavbarMenuItems()}
             {menuType === "footer" && renderFooterMenuItems()}
             {menuType === "dropdown" && renderDropdownMenu()}
+            {menuType === "sidebar" && renderSidebarMenu()}
         </>
     );
 };

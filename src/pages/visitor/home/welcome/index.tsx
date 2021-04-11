@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Button, Row } from "antd";
 
-import { APP_SLOGAN_1, APP_SLOGAN_2 } from "../../../assets/constants";
+import { APP_SLOGAN_1, APP_SLOGAN_2 } from "../../../../assets/constants";
 
 import styles from "./styles.module.scss";
 

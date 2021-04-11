@@ -6,13 +6,14 @@ import { Layout } from "antd";
 
 import Role from "./models/enums/Role";
 
-import HomePage from "./pages/home";
+import HomePage from "./pages/visitor/home";
 import ErrorPage from "./pages/error";
 import SignupPage from "./pages/visitor/signup";
 import SigninPage from "./pages/visitor/signin";
 import ResetPasswordPage from "./pages/visitor/reset-password";
 import BarberDashboardPage from "./pages/barber/dashboard";
 import CustomerDashboardPage from "./pages/customer/dashboard";
+import ModeratorDashboardPage from "./pages/moderator/dashboard";
 
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
@@ -57,16 +58,19 @@ const App: React.FC = () => (
                                     component={ResetPasswordPage}
                                 />
                                 <ProtectedRoute
-                                    exact
                                     allowedRoles={[Role.Barber]}
                                     path="/barber"
                                     component={BarberDashboardPage}
                                 />
                                 <ProtectedRoute
-                                    exact
                                     allowedRoles={[Role.Customer]}
                                     path="/customer"
                                     component={CustomerDashboardPage}
+                                />
+                                <ProtectedRoute
+                                    allowedRoles={[Role.Moderator]}
+                                    path="/moderator"
+                                    component={ModeratorDashboardPage}
                                 />
                                 <Route
                                     exact
