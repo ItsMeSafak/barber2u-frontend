@@ -17,7 +17,7 @@ interface ComponentProps extends CardProps {
 /**
  * This component is used to render a generic card with image and its description.
  * It extends the Card component properties so that these properties can be used too.
- * 
+ *
  * @param {Object} props Component properties.
  * @returns {JSX}
  */
