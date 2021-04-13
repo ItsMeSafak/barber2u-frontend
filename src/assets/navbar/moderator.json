@@ -1,13 +1,14 @@
 [
     {
-        "id": "",
+        "id": "moderator",
         "url": "/moderator",
         "name": "Dashboard",
-        "icon": ["fas", "chart-line"],
+        "icon": ["fas", "chart-pie"],
         "isNavbarMenu": false,
         "isFooterMenu": true,
         "isMobileMenu": true,
         "isPillButton": false,
+        "isDrawerMenu": true,
         "isDropdownMenu": true
     },
     {
@@ -19,6 +20,19 @@
         "isFooterMenu": false,
         "isMobileMenu": true,
         "isPillButton": false,
+        "isDrawerMenu": false,
         "isDropdownMenu": true
+    },
+    {
+        "id": "settings",
+        "url": "/moderator/settings",
+        "name": "Settings",
+        "icon": ["fas", "cog"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": false,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
     }
 ]

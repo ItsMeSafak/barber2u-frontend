@@ -81,7 +81,11 @@ const HeaderPartial: React.FC = () => {
      */
     const renderNavbarMenu = () => (
         <ul className={isMobile ? styles.navbarMobile : styles.navbarDesktop}>
-            <MenuItems menuType="navbar" menuItems={menuItems} />
+            <MenuItems
+                menuType="navbar"
+                menuItems={menuItems}
+                functions={functions}
+            />
             {authenticated && renderUserAvatarWithDropdown()}
         </ul>
     );

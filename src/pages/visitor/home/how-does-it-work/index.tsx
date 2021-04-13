@@ -2,7 +2,10 @@ import React from "react";
 
 import { Card, Col, Image, Row } from "antd";
 
-import { PLACEHOLDER_IMAGE, PLACEHOLDER_TEXT } from "../../../assets/constants";
+import {
+    PLACEHOLDER_IMAGE,
+    PLACEHOLDER_TEXT,
+} from "../../../../assets/constants";
 
 import styles from "./styles.module.scss";
 

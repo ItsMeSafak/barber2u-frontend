@@ -14,7 +14,7 @@ export const showNotification = (
     description: string,
     httpStatus?: number,
     notificationType?: string
-) => {
+): void => {
     const modifiedMessageStatus =
         (!message && httpStatus && httpStatus >= 200 && httpStatus < 300
             ? "Success"

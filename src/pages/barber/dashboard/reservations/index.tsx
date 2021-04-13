@@ -13,10 +13,6 @@ import styles from "./styles.module.scss";
 
 const { Content } = Layout;
 
-interface ComponentProps {
-    reservationItems: Reservation[];
-}
-
 /**
  * This component renders the reservations page on the dashboard for the customer.
  * The component consists of reservation items that the customer has made in the past and future.
@@ -24,13 +20,36 @@ interface ComponentProps {
  * @param {Object} props Component properties.
  * @returns {JSX}
  */
-const ReservationsPage: React.FC<ComponentProps> = (props) => {
-    const { reservationItems } = props;
+const ReservationsPage: React.FC = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date().getUTCMonth());
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [reservation, setReservation] = useState(
         new Reservation(0, Style.Curly, "", "", 0)
     );
+
+    const reservationItems: Reservation[] = [
+        {
+            id: 1,
+            date: "2012-04-23",
+            style: Style.Curly,
+            location: "Amsterdam",
+            price: 20.0,
+        },
+        {
+            id: 2,
+            date: "2012-04-23",
+            style: Style.Styled,
+            location: "Amsterdam",
+            price: 16.2,
+        },
+        {
+            id: 3,
+            date: "2012-04-23",
+            style: Style.Yee,
+            location: "Amsterdam",
+            price: 20.1,
+        },
+    ];
 
     /**
      * This function returns the index number of the previous month.

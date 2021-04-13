@@ -17,8 +17,8 @@ const { Content } = Layout;
  * @param props Component properties.
  * @returns {JSX}
  */
-const CustomerDashboardPage: React.FC = () => {
-    // The customer dashboard sidebar components to be loaded.
+const ModeratorDashboardPage: React.FC = () => {
+    // The moderator dashboard sidebar components to be loaded.
     const components: React.FC[] = [StatisticsPage, SettingsPage];
 
     return (
@@ -31,4 +31,4 @@ const CustomerDashboardPage: React.FC = () => {
     );
 };
 
-export default CustomerDashboardPage;
+export default ModeratorDashboardPage;
