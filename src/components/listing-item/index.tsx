@@ -6,6 +6,16 @@ import DateTimePicker from "../datetimepicker";
 
 const { TabPane } = Tabs;
 // TODO check map keys
+
+// TODO give services a time value, in order to calculate the required time for the timepicker
+// TODO showing prices of a service inside the service dropdownlist
+// TODO summary of your appointment request, such as total price, selected services and datetime
+// TODO provide the DateTimePicker component with the time value as a parameter
+// TODO custom daypicker(with icon), in order to select another day outside the shown weekdays
+// TODO replacing OpeningsTime list variable to json object list or API call result
+// TODO carousel for the time cards inside the Timepicker
+// TODO Axios api post call to create appointment
+
 /**
  *
  * @param barber

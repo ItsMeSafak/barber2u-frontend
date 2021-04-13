@@ -86,7 +86,10 @@ const DateTimePicker: React.FC<{ timePeriod: number }> = ({ timePeriod }) => {
         });
 
     const [selectedDay, setSelectedDay] = useState(weekDays[0]);
-    const [selectedTime, setSelectedTime] = useState(openingsTime[1]); // TODO  no correct default value
+
+    // TODO set a correct default value for selectedTime. openingsTime[1] is temp.
+    //  Correct default value should be the first openingsTime from the first weekDays list item.
+    const [selectedTime, setSelectedTime] = useState(openingsTime[1]);
 
     /**
      *
@@ -140,8 +143,7 @@ const DateTimePicker: React.FC<{ timePeriod: number }> = ({ timePeriod }) => {
                         {weekDayAbbreviations[day.weekday()]}
                     </Col>
                 ))}
-                {/* <Col className={styles.dayPicker}>CUSTOM</Col> */
-                /* TODO In case we want to use a custom datepicker */}
+                {/* <Col className={styles.dayPicker}>CUSTOM</Col> */ }
             </Row>
             <Row gutter={[16, 24]} align="middle">
                 {getTimes(timePeriod).map((day) => {
@@ -174,11 +176,11 @@ const DateTimePicker: React.FC<{ timePeriod: number }> = ({ timePeriod }) => {
                     );
                 })}
             </Row>
+            {/* TODO temp row to check data */}
             <Row>
                 Selected: from {selectedTime.startTime.calendar()} to{" "}
                 {selectedTime.endTime.calendar()}{" "}
             </Row>
-            {/* TODO temp row to check data */}
         </div>
     );
 };
