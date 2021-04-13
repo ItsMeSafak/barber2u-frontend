@@ -102,18 +102,6 @@ const MenuItems: React.FC<ComponentProps> = (props) => {
                     withIcon: withIcon(icon),
                 };
 
-                if (isHashLink(id)) {
-                    return (
-                        <Menu.Item
-                            key={`${url}-${id}-${name}`}
-                            onClick={getCallbackFunctionById(id)}
-                        >
-                            {withIcon(icon) && renderIcon(icon)}
-                            <span>{name}</span>
-                        </Menu.Item>
-                    );
-                }
-
                 return (
                     <Menu.Item key={`${url}-${id}-${name}`}>
                         {isHashLink(id)

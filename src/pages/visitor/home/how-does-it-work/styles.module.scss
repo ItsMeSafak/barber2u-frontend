@@ -3,49 +3,18 @@
 
 .section {
     text-align: center;
-    padding: 64px 16px;
+    padding: 1rem;
     font-size: 1rem;
+    min-height: 100vh;
 
     .sectionTitle {
         @extend .underlined-text;
         font-size: 2.5rem;
         font-weight: 600;
-        margin: 48px 0;
+        margin: 5rem 0 2rem 0;
     }
 
-    .cardContainer {
-        * {
-            margin: auto;
-        }
-
-        .card {
-            background-color: transparent;
-            border: none;
-            max-width: 400px;
-
-            img {
-                height: 250px;
-                width: 250px;
-                margin-bottom: 16px;
-            }
-
-            .step {
-                height: 48px;
-                width: 48px;
-                background-color: $primary-color;
-                border-radius: 50px;
-                margin-bottom: 16px;
-
-                span {
-                    font-size: 2rem;
-                    color: $light-grey-color;
-                }
-            }
-
-            .stepDescription {
-                text-align: justify;
-                padding: 25px;
-            }
-        }
+    .cardCol {
+        margin: 1rem 0;
     }
 }
