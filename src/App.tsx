@@ -57,13 +57,11 @@ const App: React.FC = () => (
                                     component={ResetPasswordPage}
                                 />
                                 <ProtectedRoute
-                                    exact
-                                    allowedRoles={[Role.Barber]}
+                                    allowedRoles={[Role.Customer, Role.Barber]}
                                     path="/barber"
                                     component={BarberDashboardPage}
                                 />
                                 <ProtectedRoute
-                                    exact
                                     allowedRoles={[Role.Customer]}
                                     path="/customer"
                                     component={CustomerDashboardPage}
