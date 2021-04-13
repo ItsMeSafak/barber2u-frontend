@@ -1,19 +1,12 @@
-import { useHistory } from "react-router-dom";
 import React, { ChangeEvent, useState } from "react";
+import { useHistory } from "react-router-dom";
 
-import { Button, Form, Input, notification } from "antd";
+import { Button, Form, Input } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faAddressBook,
-    faAt,
-    faCity,
-    faIdCard,
-    faKey,
-    faMobileAlt,
-} from "@fortawesome/free-solid-svg-icons";
 
 import { signUp } from "../../../services/auth-service";
 
+import { showNotification } from "../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
@@ -46,20 +39,6 @@ const SignupForm: React.FC = () => {
     });
 
     /**
-     * This function handles the antd notification which will be shown the moment the credentials are wrong.
-     */
-    const openNotificationWithIcon = (
-        message: string | number,
-        description: string
-    ) => {
-        notification.error({
-            message,
-            description,
-            placement: "bottomRight",
-        });
-    };
-
-    /**
      * This function handles the signup.
      * Once succesfully registered, the user will be redirected to the login page.
      */
@@ -72,13 +51,13 @@ const SignupForm: React.FC = () => {
 
         // If request is not OK, handle errors with notification.
         const { status, message } = response;
-        if (!(response.status === 200)) {
-            openNotificationWithIcon(status, message);
+        if (!(status === 200)) {
+            showNotification(undefined, message, status);
             return;
         }
 
         // If request is OK, redirect user to login page.
-        openNotificationWithIcon(status, message);
+        showNotification(undefined, message, status);
         history.push("/signin");
     };
 
@@ -124,7 +103,12 @@ const SignupForm: React.FC = () => {
                                 lastName: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faIdCard} />}
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName("fas", "id-card")}
+                                size="sm"
+                            />
+                        }
                     />
                 </Form.Item>
 
@@ -140,7 +124,12 @@ const SignupForm: React.FC = () => {
                                 email: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faAt} />}
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName("fas", "at")}
+                                size="sm"
+                            />
+                        }
                     />
                 </Form.Item>
 
@@ -156,7 +145,12 @@ const SignupForm: React.FC = () => {
                                 password: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faKey} />}
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName("fas", "key")}
+                                size="sm"
+                            />
+                        }
                     />
                 </Form.Item>
 
@@ -171,7 +165,12 @@ const SignupForm: React.FC = () => {
                                 phoneNumber: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faMobileAlt} />}
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName("fas", "mobile-alt")}
+                                size="sm"
+                            />
+                        }
                     />
                 </Form.Item>
 
@@ -186,7 +185,15 @@ const SignupForm: React.FC = () => {
                                 address: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faAddressBook} />}
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName(
+                                    "fas",
+                                    "address-book"
+                                )}
+                                size="sm"
+                            />
+                        }
                     />
                 </Form.Item>
 
@@ -201,7 +208,12 @@ const SignupForm: React.FC = () => {
                                 zipCode: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faCity} />}
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName("fas", "city")}
+                                size="sm"
+                            />
+                        }
                     />
                 </Form.Item>
 
