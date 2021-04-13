@@ -1,10 +1,12 @@
 import React from "react";
-import {BrowserRouter} from "react-router-dom";
-import {Checkbox, Rate, Select, Slider} from "antd";
+import { BrowserRouter } from "react-router-dom";
+import { Button, Col, Row, Select } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./styles.module.scss";
 import ListingItem from "../../component/listing-item";
 import barberListings from "../../asset/listing_barbers.json";
-import {Barber} from "../../model/barber";
+import { Barber } from "../../models/barber";
+import { getIconByPrefixName } from "../../asset/functions/icon";
 
 /**
  *
@@ -12,22 +14,51 @@ import {Barber} from "../../model/barber";
  */
 const Listings: React.FC = () => {
     const amountListings = barberListings.length;
-    const styleOptions = ["Styled", "Curled", "Bleached"];
     return (
         <BrowserRouter>
             <section>
-                <h1 className={styles.amountBarbers}>Found {amountListings} local barbers</h1>
+                <h1 className={styles.amountBarbers}>
+                    Found <span>{amountListings}</span> local barbers
+                </h1>
             </section>
             <section className={styles.mainSection}>
-                <div className={styles.filterContainer}>
+                <Col span={24}>
+                    <Row justify="space-between" align="middle">
+                        <div>
+                            <Button className={styles.hamburgerMenu} ghost>
+                                <FontAwesomeIcon
+                                    icon={getIconByPrefixName("fas", "bars")}
+                                    size="lg"
+                                />
+                            </Button>
+                        </div>
+                        <div>
+                            <span>Sort By: </span>
+                            <Select defaultValue="recommended">
+                                <option value="recommended">Recommended</option>
+                                <option value="ascending">
+                                    Price ascending
+                                </option>
+                                <option value="descending">
+                                    Price descending
+                                </option>
+                            </Select>
+                        </div>
+                    </Row>
+                    <Row>
+                        <ListingItem barber={barberListings[0] as Barber} />
+                        <ListingItem barber={barberListings[1] as Barber} />
+                    </Row>
+                </Col>
+                {/* <div className={styles.filterContainer}>
                     <span>Price range:</span>
                     <Slider range/>
                     <span>Rating:</span>
                     <Rate/>
                     <span>Style</span>
                     <Checkbox.Group className={styles.checkboxGroup} options={styleOptions}/>
-                </div>
-                <div className={styles.contentContainer}>
+                </div> */}
+                {/* <div className={styles.contentContainer}>
                     <div className={styles.sortContainer}>
                         <span>Sort By:</span>
                         <Select defaultValue="recommended">
@@ -40,7 +71,7 @@ const Listings: React.FC = () => {
                         <ListingItem barber={barberListings[0] as Barber}/>
                         <ListingItem barber={barberListings[1] as Barber}/>
                     </div>
-                </div>
+                </div> */}
             </section>
         </BrowserRouter>
     );

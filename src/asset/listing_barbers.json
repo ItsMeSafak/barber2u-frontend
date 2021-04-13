@@ -1,74 +1,82 @@
 [
-  {
-    "name": "Ask Ketchum",
-    "imageUrl": "https://mlf1uiqlwwxd.i.optimole.com/p_290zI-JTrfN2Ep/w:auto/h:auto/q:auto/https://dutchhumandevelopmentacademy.nl/wp-content/uploads/2016/12/profile-img.jpg",
-    "rate": 2,
-    "reservation": {
-      "service": [
-        "Styled",
-        "Bleached",
-        "Curled"
-      ]
-    },
-    "portfolio": [
-      {
-        "name": "Styled",
-        "imageUrls": [
-          "https://pbs.twimg.com/media/Er5wIXIVgAE8kER.png",
-          "https://img.youtube.com/vi/s_VgDxBq5Oc/mqdefault.jpg",
-          "https://pm1.narvii.com/6800/d1d3ed3606012fc0dcc126b6fdc5260a0b626cecv2_hq.jpg"
+    {
+        "name": "Ask Ketchum",
+        "imageUrl": "https://mlf1uiqlwwxd.i.optimole.com/p_290zI-JTrfN2Ep/w:auto/h:auto/q:auto/https://dutchhumandevelopmentacademy.nl/wp-content/uploads/2016/12/profile-img.jpg",
+        "rate": 2.5,
+        "reservation": {
+            "service": ["Styled", "Bleached", "Curled"]
+        },
+        "portfolio": [
+            {
+                "name": "Styled",
+                "imageUrls": [
+                    "https://www.zanolliovens.com/wp-content/uploads/2016/04/default-placeholder.png",
+                    "https://www.zanolliovens.com/wp-content/uploads/2016/04/default-placeholder.png",
+                    "https://www.zanolliovens.com/wp-content/uploads/2016/04/default-placeholder.png"
+                ]
+            },
+            {
+                "name": "Curled",
+                "imageUrls": [
+                    "https://www.zanolliovens.com/wp-content/uploads/2016/04/default-placeholder.png",
+                    "https://www.zanolliovens.com/wp-content/uploads/2016/04/default-placeholder.png",
+                    "https://www.zanolliovens.com/wp-content/uploads/2016/04/default-placeholder.png"
+                ]
+            },
+            {
+                "name": "Bleached",
+                "imageUrls": [
+                    "https://www.zanolliovens.com/wp-content/uploads/2016/04/default-placeholder.png",
+                    "https://www.zanolliovens.com/wp-content/uploads/2016/04/default-placeholder.png",
+                    "https://www.zanolliovens.com/wp-content/uploads/2016/04/default-placeholder.png"
+                ]
+            }
+        ],
+        "reviews": [
+            {
+                "author": "Franklin Yee-Yee",
+                "rate": 2,
+                "created_on": "Monday, 1 January 1970",
+                "description": "TRASH BARBER. Gives you yee-yee *ass haircut"
+            },
+            {
+                "author": "Michel Yee-Yee",
+                "rate": 2.5,
+                "created_on": "Monday, 1 January 1970",
+                "description": "TRASH BARBER. Gives you yee-yee *ass haircut"
+            }
         ]
-      }
-    ],
-    "reviews": [
-      {
-        "author": "Franklin Yee-Yee",
-        "rate": 2,
-        "created_on": "Monday, 1 January 1970",
-        "description": "Trash barber, would not cut like my cut G."
-      },
-      {
-        "author": "Michel Yee-Yee",
-        "rate": 2,
-        "created_on": "Monday, 1 January 1970",
-        "description": "Trash barber, would not cut like my cut G."
-      }
-    ]
-  },
-  {
-    "name": "Rock Ketchum",
-    "imageUrl": "https://mlf1uiqlwwxd.i.optimole.com/p_290zI-JTrfN2Ep/w:auto/h:auto/q:auto/https://dutchhumandevelopmentacademy.nl/wp-content/uploads/2016/12/profile-img.jpg",
-    "rate": 2,
-    "reservation": {
-      "service": [
-        "Styled",
-        "Bleached",
-        "Curled"
-      ]
     },
-    "portfolio": [
-      {
-        "name": "Styled",
-        "imageUrls": [
-          "https://pbs.twimg.com/media/Er5wIXIVgAE8kER.png",
-          "https://img.youtube.com/vi/s_VgDxBq5Oc/mqdefault.jpg",
-          "https://pm1.narvii.com/6800/d1d3ed3606012fc0dcc126b6fdc5260a0b626cecv2_hq.jpg"
+    {
+        "name": "Rock Ketchum",
+        "imageUrl": "https://mlf1uiqlwwxd.i.optimole.com/p_290zI-JTrfN2Ep/w:auto/h:auto/q:auto/https://dutchhumandevelopmentacademy.nl/wp-content/uploads/2016/12/profile-img.jpg",
+        "rate": 2,
+        "reservation": {
+            "service": ["Styled", "Bleached", "Curled"]
+        },
+        "portfolio": [
+            {
+                "name": "Styled",
+                "imageUrls": [
+                    "https://www.zanolliovens.com/wp-content/uploads/2016/04/default-placeholder.png",
+                    "https://www.zanolliovens.com/wp-content/uploads/2016/04/default-placeholder.png",
+                    "https://www.zanolliovens.com/wp-content/uploads/2016/04/default-placeholder.png"
+                ]
+            }
+        ],
+        "reviews": [
+            {
+                "author": "Franklin Yee-Yee",
+                "rate": 2,
+                "created_on": "Monday, 1 January 1970",
+                "description": "Trash barber, would not cut like my cut G."
+            },
+            {
+                "author": "Michel Yee-Yee",
+                "rate": 1.5,
+                "created_on": "Monday, 1 January 1970",
+                "description": "Trash barber, would not cut like my cut G."
+            }
         ]
-      }
-    ],
-    "reviews": [
-      {
-        "author": "Franklin Yee-Yee",
-        "rate": 2,
-        "created_on": "Monday, 1 January 1970",
-        "description": "Trash barber, would not cut like my cut G."
-      },
-      {
-        "author": "Michel Yee-Yee",
-        "rate": 2,
-        "created_on": "Monday, 1 January 1970",
-        "description": "Trash barber, would not cut like my cut G."
-      }
-    ]
-  }
+    }
 ]

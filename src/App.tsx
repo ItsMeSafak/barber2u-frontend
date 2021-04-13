@@ -32,7 +32,7 @@ const App: React.FC = () => {
                         <Route exact path="/">
                             {user ? <Redirect to="/dashboard" /> : <HomePage />}
                         </Route>
-                        <Route path='/listings' component={Listings} />
+                        <Route path="/listings" component={Listings} />
                         <Route path="/dashboard">
                             {!user ? (
                                 <Redirect to="/signin" />
