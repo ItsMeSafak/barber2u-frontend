@@ -1,0 +1,9 @@
+@import "../../assets/config.scss";
+
+.pillButton {
+    @extend .button-primary;
+}
+
+.menuLabelIcon {
+    margin-right: 15px;
+}

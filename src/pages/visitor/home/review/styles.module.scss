@@ -1,0 +1,44 @@
+@import "../../../../assets/config.scss";
+
+.reviews {
+    text-align: center;
+    padding: 64px 16px;
+    background-color: $light-grey-color;
+
+    .carousel {
+        > div > div {
+            display: flex;
+            align-items: center;
+        }
+
+        ul {
+            position: relative;
+
+            li,
+            li.slick-active {
+                margin: 0 8px;
+
+                button {
+                    height: 8px;
+                    background-color: $primary-color !important;
+                }
+            }
+        }
+    }
+
+    .review {
+        margin: auto;
+
+        p {
+            padding: 32px 0;
+            min-height: 200px;
+            font-size: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 0;
+        }
+    }
+}

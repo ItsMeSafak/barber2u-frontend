@@ -2,10 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Row, Col, Card, Button, Layout, Divider } from "antd";
+import { Row, Button, Layout, Result, Divider, Badge } from "antd";
 
-import { getErrorStatus } from "../../asset/functions/error";
-import { getIconByPrefixName } from "../../asset/functions/icon";
+import { getErrorStatus } from "../../assets/functions/error";
+import { getIconByPrefixName } from "../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
 
@@ -32,6 +32,9 @@ const ErrorPage: React.FC<ComponentProps> = (props) => {
 
     /**
      * This function renders the actual error details.
+     *
+     * @param {Object} error The error properties.
+     * @returns {JSX}
      */
     const renderError = (
         error:
@@ -45,34 +48,65 @@ const ErrorPage: React.FC<ComponentProps> = (props) => {
               }
             | undefined
     ) => (
-        <Card className={styles.card} bordered={false}>
-            <Col>
+        <Result
+            icon={renderIcon(error?.color, error?.iconPrefix, error?.iconName)}
+            title={renderTitle(error?.message)}
+            subTitle={error?.description}
+            extra={renderExtraDetails}
+        />
+    );
+
+    /**
+     * This function renders the actual icon.
+     *
+     * @param {string | undefined} color The color of the icon.
+     * @param {string | undefined} prefix The prefix of the icon.
+     * @param {string | undefined} name The name of the icon.
+     * @returns {JSX}
+     */
+    const renderIcon = (
+        color: string | undefined,
+        prefix: string | undefined,
+        name: string | undefined
+    ) => (
+        <Badge
+            offset={[3, -3]}
+            count={
                 <FontAwesomeIcon
-                    icon={getIconByPrefixName(
-                        error?.iconPrefix,
-                        error?.iconName
-                    )}
-                    color={error?.color}
-                    size="6x"
+                    icon={getIconByPrefixName("fas", "exclamation-triangle")}
+                    color={color}
+                    size="2x"
                 />
-                <Divider orientation="center">
-                    <h2 className={styles.errorCode}>{code}</h2>
-                </Divider>
-                <h2 className={styles.errorMessage}>{error?.message}</h2>
-                <h3 className={styles.errorDescription}>
-                    {error?.description}
-                </h3>
-                <Link to={returnUrl}>
-                    <Button
-                        className={styles.returnButton}
-                        type="ghost"
-                        size="large"
-                    >
-                        Return
-                    </Button>
-                </Link>
-            </Col>
-        </Card>
+            }
+        >
+            <FontAwesomeIcon
+                icon={getIconByPrefixName(prefix, name)}
+                size="5x"
+            />
+        </Badge>
+    );
+
+    /**
+     * This function renders the error title.
+     *
+     * @param {string | undefined} message
+     * @returns {JSX}
+     */
+    const renderTitle = (message: string | undefined) => (
+        <>
+            <Divider>
+                <h2>{code}</h2>
+            </Divider>
+            {message}
+        </>
+    );
+
+    const renderExtraDetails = (
+        <Link to={returnUrl}>
+            <Button className={styles.returnButton} type="ghost">
+                Return Home
+            </Button>
+        </Link>
     );
 
     return (

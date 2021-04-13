@@ -1,96 +1,56 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import { Layout, Menu } from "antd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Layout } from "antd";
 
-import { getIconByPrefixName } from "../../asset/functions/icon";
+import MenuItems from "../../components/menu-items";
+
+import { NavbarContext } from "../../contexts/navbar-context";
+
+import { WIDTH_SCREEN_LG } from "../../assets/constants";
 
 import styles from "./styles.module.scss";
 
 const { Sider } = Layout;
 
-interface ComponentProps {
-    baseUrl?: string;
-    isMobile?: boolean;
-    items?: Array<{
-        url: string;
-        name: string;
-        iconPrefix: string;
-        iconName: string;
-    }>;
-}
-
 /**
  * This component renders the sidebar partial with items that navigate to components within the dashboard.
  *
- * @param {Object} props Component properties.
  * @returns {JSX}
  */
-const SidebarPartial: React.FC<ComponentProps> = (props) => {
-    const { baseUrl, isMobile, items } = props;
-    const currentUrl =
-        window.location.pathname.split("/")[2] === null
-            ? "/"
-            : `/${window.location.pathname.split("/")[2]}`;
-    const [currentPath, setCurrentPath] = useState(currentUrl);
+const SidebarPartial: React.FC = () => {
+    const { menuItems } = useContext(NavbarContext);
+
+    const [isMobile, setMobile] = useState(false);
 
     /**
-     * This function renders all the menu items in the sidebar.
-     *
-     * @param {Array<{ url: string, name: string, iconPrefix: string, iconName: string}>} menuItems Menu items to be rendered.
-     * @returns {JSX}
+     * This function checks whether the window screen width reaches a breakpoint.
+     * If so, the mobile state is set to true.
      */
-    const renderMenuItems = (
-        menuItems: Array<{
-            url: string;
-            name: string;
-            iconPrefix: string;
-            iconName: string;
-        }>
-    ) =>
-        menuItems.map((menuItem) => (
-            <Menu.Item
-                key={menuItem.url === "" ? "/" : menuItem.url}
-                icon={
-                    <FontAwesomeIcon
-                        icon={getIconByPrefixName(
-                            menuItem.iconPrefix,
-                            menuItem.iconName
-                        )}
-                    />
-                }
-            >
-                <NavLink
-                    to={`${baseUrl}${menuItem.url}`}
-                    onClick={(evt) =>
-                        setCurrentPath(menuItem.url === "" ? "/" : menuItem.url)
-                    }
-                >
-                    {menuItem.name}
-                </NavLink>
-            </Menu.Item>
-        ));
+    const handleMobileView = useCallback(() => {
+        setMobile(window.innerWidth <= WIDTH_SCREEN_LG);
+    }, []);
+
+    /**
+     * This function checks whether the window size has been adjusted.
+     * Whenever the window width reaches a specific width, the hamburger menu is then visible.
+     * The function gets executed by default whenever the window has been loaded.
+     * At the end, the event listener is removed so that unnecessary events are unloaded.
+     */
+    useEffect(() => {
+        handleMobileView();
+        window.addEventListener("resize", handleMobileView);
+        // Remove event listener if not being used.
+        return () => window.removeEventListener("resize", handleMobileView);
+    }, [handleMobileView]);
 
     return (
-        <>
-            <Layout
-                className={`${styles.side} ${
-                    isMobile ? styles.sidebarMobile : styles.sideBarDesktop
-                }`}
-            >
-                <Sider>
-                    <Menu
-                        mode="inline"
-                        className={styles.sidebar}
-                        selectedKeys={[currentPath]}
-                        inlineCollapsed={isMobile}
-                    >
-                        {items && renderMenuItems(items)}
-                    </Menu>
-                </Sider>
-            </Layout>
-        </>
+        <Sider
+            className={styles.sidebar}
+            style={{ backgroundColor: "#fff" }}
+            collapsed={isMobile}
+        >
+            <MenuItems menuType="sidebar" menuItems={menuItems} />
+        </Sider>
     );
 };
 

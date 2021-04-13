@@ -3,10 +3,10 @@ import { BrowserRouter } from "react-router-dom";
 import { Button, Col, Row, Select } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./styles.module.scss";
-import ListingItem from "../../component/listing-item";
-import barberListings from "../../asset/listing_barbers.json";
+import ListingItem from "../../components/listing-item";
+import barberListings from "../../assets/listing/listing_barbers.json";
 import { Barber } from "../../models/barber";
-import { getIconByPrefixName } from "../../asset/functions/icon";
+import { getIconByPrefixName } from "../../assets/functions/icon";
 
 /**
  *

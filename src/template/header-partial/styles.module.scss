@@ -1,3 +1,5 @@
+@import "../../assets/config.scss";
+
 .logo {
     color: #fff;
     margin: 0;
@@ -7,4 +9,49 @@
     cursor: pointer;
     outline: none;
     margin: 0;
+}
+
+.navbar {
+    li {
+        padding: 8px 16px;
+        margin: 0 4px;
+        list-style-type: none;
+
+        a button {
+            text-decoration: none;
+            color: $white-color;
+            font-weight: 600;
+        }
+    }
+}
+
+.navbarMobile {
+    @extend .navbar;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+
+    > li {
+        padding: 0;
+    }
+}
+
+.navbarDesktop {
+    @extend .navbar;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+}
+
+.pillButton {
+    @extend .button-primary;
+}
+
+button.userDropdownButton {
+    color: white;
+
+    span:first-child {
+        margin: 0 15px;
+    }
 }

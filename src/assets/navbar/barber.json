@@ -1,0 +1,86 @@
+[
+    {
+        "id": "barber",
+        "url": "/barber",
+        "name": "Dashboard",
+        "icon": ["fas", "chart-pie"],
+        "isNavbarMenu": false,
+        "isFooterMenu": true,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": true
+    },
+    {
+        "id": "signout",
+        "url": "",
+        "name": "Sign out",
+        "icon": ["fas", "sign-out-alt"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDrawerMenu": false,
+        "isDropdownMenu": true
+    },
+    {
+        "id": "schedule",
+        "url": "/barber/schedule",
+        "name": "Schedule",
+        "icon": ["fas", "calendar-alt"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": false,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
+    },
+    {
+        "id": "portfolio",
+        "url": "/barber/portfolio",
+        "name": "Portfolio",
+        "icon": ["fas", "camera"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": false,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
+    },
+    {
+        "id": "services",
+        "url": "/barber/services",
+        "name": "Services",
+        "icon": ["fas", "cut"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": false,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
+    },
+    {
+        "id": "reservations",
+        "url": "/barber/reservations",
+        "name": "Reservations",
+        "icon": ["fas", "calendar"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": false,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
+    },
+    {
+        "id": "settings",
+        "url": "/barber/settings",
+        "name": "Settings",
+        "icon": ["fas", "cog"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": false,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
+    }
+]

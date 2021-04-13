@@ -1,0 +1,38 @@
+[
+    {
+        "id": "moderator",
+        "url": "/moderator",
+        "name": "Dashboard",
+        "icon": ["fas", "chart-pie"],
+        "isNavbarMenu": false,
+        "isFooterMenu": true,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": true
+    },
+    {
+        "id": "signout",
+        "url": "",
+        "name": "Sign out",
+        "icon": ["fas", "sign-out-alt"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDrawerMenu": false,
+        "isDropdownMenu": true
+    },
+    {
+        "id": "settings",
+        "url": "/moderator/settings",
+        "name": "Settings",
+        "icon": ["fas", "cog"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": false,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
+    }
+]
