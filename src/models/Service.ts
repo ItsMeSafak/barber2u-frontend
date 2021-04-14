@@ -1,9 +1,10 @@
+import CardItem from "./CardItem";
 import Style from "./Style";
 
 /**
  * The service is a model that consists of an id, style, description and a price.
  */
-export default class Service {
+export default class Service implements CardItem {
     id: number;
     style: Style;
     description: string;

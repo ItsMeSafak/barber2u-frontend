@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Layout, Button, Divider, Row } from "antd";
 
-import ServiceCard from "../../../component/card";
+import CardComponent from "../../../component/card";
 
 import Style from "../../../models/Style";
 import Portfolio from "../../../models/Portfolio";
@@ -84,7 +84,7 @@ const PortfolioPage: React.FC<ComponentProps> = (props) => {
                 Cancel
             </Button>
             <Row gutter={[20, 20]}>
-                <ServiceCard portfolioItem={emptyIItem()} newItem={newItem} />
+                <CardComponent cardItem={emptyIItem()} />
             </Row>
         </>
     );
@@ -102,10 +102,9 @@ const PortfolioPage: React.FC<ComponentProps> = (props) => {
         portfolioObject.items.map((portfolioItem) => {
             if (portfolioItem.style === style)
                 return (
-                    <ServiceCard
+                    <CardComponent
                         key={portfolioItem.id}
-                        portfolioItem={portfolioItem}
-                        newItem={false}
+                        cardItem={portfolioItem}
                     />
                 );
             return null;

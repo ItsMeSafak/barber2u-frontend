@@ -2,14 +2,14 @@ import React, { useState } from "react";
 
 import { Card, Col, Select } from "antd";
 
-import PortfolioItem from "../../models/PortfolioItem";
-import styles from "../../pages/dashboard/portfolio/styles.module.scss";
-
 import Style from "../../models/Style";
+import CardItem from "../../models/CardItem";
+
+import styles from "./styles.module.scss";
+
 
 interface ComponentProps {
-    portfolioItem: PortfolioItem;
-    newItem: boolean;
+    cardItem: CardItem;
 }
 
 const { Option } = Select;
@@ -21,17 +21,24 @@ const { Option } = Select;
  * @param {Object} props Component properties.
  * @returns {JSX}
  */
-const ServiceCard: React.FC<ComponentProps> = (props) => {
-    const { portfolioItem, newItem } = props;
+const CardComponent: React.FC<ComponentProps> = (props) => {
+    const { cardItem } = props;
     const [isEditing, setIsEditing] = useState(0);
 
+    /**
+     * This function renders the content of a card.
+     */
+    const renderCardContent = ()=> {
+        
+    };
+
     return (
-        <Col key={portfolioItem.id} xs={24} sm={12} lg={8}>
+        <Col key={cardItem.id} xs={24} sm={12} lg={8}>
             <Card className={styles.card}>
-                {isEditing === portfolioItem.id ? (
+                {isEditing === cardItem.id ? (
                     <Select
                         className={styles.dropdown}
-                        defaultValue={portfolioItem.style}
+                        defaultValue={cardItem.style}
                     >
                         {Object.keys(Style).map((style) => (
                             <Option key={style} value={style}>
@@ -40,11 +47,11 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
                         ))}
                     </Select>
                 ) : (
-                    <h2 className={styles.header}>{portfolioItem.style}</h2>
+                    <h2 className={styles.header}>{cardItem.style}</h2>
                 )}
             </Card>
         </Col>
     );
 };
 
-export default ServiceCard;
+export default CardComponent;

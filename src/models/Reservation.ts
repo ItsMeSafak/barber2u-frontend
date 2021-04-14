@@ -1,9 +1,10 @@
+import CardItem from "./CardItem";
 import Style from "./Style";
 
 /**
  * The reservation is model that consists of an id, style, date, locationa and a price.
  */
-export default class Reservation {
+export default class Reservation implements CardItem {
     id: number;
     style: Style;
     date: string;

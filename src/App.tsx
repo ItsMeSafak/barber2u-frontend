@@ -32,11 +32,7 @@ const App: React.FC = () => {
                             {user ? <Redirect to="/dashboard" /> : <HomePage />}
                         </Route>
                         <Route path="/dashboard">
-                            {!user ? (
-                                <Redirect to="/signin" />
-                            ) : (
                                 <DashboardPage />
-                            )}
                         </Route>
                         <Route path="/signin">
                             {user ? <Redirect to="/dashboard" /> : <SignIn />}
