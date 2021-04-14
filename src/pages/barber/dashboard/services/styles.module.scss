@@ -21,11 +21,19 @@
         .header {
             font-size: $header-size-2;
             font-weight: bold;
-            color: $primary-color;
+
+            .certificateOn {
+                color: $primary-color;
+            }
+
+            .certificateOff {
+                color: $grey-color;
+            }
         }
 
         .description {
             margin-bottom: 20px;
+            width: 100%;
         }
 
         .price {
@@ -33,6 +41,19 @@
             font-weight: bold;
             color: $green-color;
             float: right;
+        }
+
+        .switch {
+            float: right;
+        }
+
+        .time {
+            font-size: $header-size-3;
+
+            span {
+                color: $primary-color;
+                font-weight: bold;
+            }
         }
 
         .inputPrice {

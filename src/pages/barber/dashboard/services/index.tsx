@@ -8,11 +8,12 @@ import {
     InputNumber,
     Layout,
     Row,
-    Select,
     Tooltip,
     Input,
+    Switch,
 } from "antd";
 import {
+    faCertificate,
     faCheck,
     faEdit,
     faPlus,
@@ -26,7 +27,6 @@ import Service from "../../../../models/Service";
 
 import styles from "./styles.module.scss";
 
-const { Option } = Select;
 const { Content } = Layout;
 const { TextArea } = Input;
 
@@ -72,21 +72,21 @@ const ServiceCardComponent: React.FC<CardProps> = (props) => {
             >
                 {isEditing === serviceDetail.id ? (
                     <>
-                        <Select
+                        <Input 
                             className={styles.dropdown}
+                            placeholder="Style"
                             defaultValue={serviceDetail.style}
-                        >
-                            {Object.keys(Style).map((style) => (
-                                <Option key={style} value={style}>
-                                    {style}
-                                </Option>
-                            ))}
-                        </Select>
+                        />
                         <TextArea
                             className={styles.description}
-                            value={serviceDetail.description}
+                            defaultValue={serviceDetail.description}
                             placeholder="Description"
                             autoSize={{ maxRows: 10 }}
+                        />
+                        <InputNumber
+                            className={styles.description}
+                            defaultValue={serviceDetail.timeEstimation}
+                            placeholder="Minutes"
                         />
                         <InputNumber
                             className={styles.inputPrice}
@@ -116,13 +116,16 @@ const ServiceCardComponent: React.FC<CardProps> = (props) => {
                                         }
                                     />
                                 </Tooltip>
+                                <Switch className={styles.switch} checkedChildren="Open" unCheckedChildren="Closed" defaultChecked={serviceDetail.isEnabled} />
                             </>
                         )}
                     </>
                 ) : (
                     <>
-                        <h2 className={styles.header}>{serviceDetail.style}</h2>
+                        <h2 className={styles.header}>{serviceDetail.style} <FontAwesomeIcon className={serviceDetail.isEnabled ? styles.certificateOn : styles.certificateOff} 
+                        icon={faCertificate}/></h2>
                         <p>{serviceDetail.description}</p>
+                        <p className={styles.time}><span>{serviceDetail.timeEstimation}</span> minutes</p>
                         <span className={styles.price}>
                             &euro; {serviceDetail.price.toFixed(2)},-
                         </span>
@@ -149,6 +152,8 @@ const ServicesPage: React.FC = () => {
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
             price: 20.0,
+            timeEstimation: 30,
+            isEnabled: true
         },
         {
             id: 2,
@@ -156,6 +161,8 @@ const ServicesPage: React.FC = () => {
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
             price: 10.15,
+            timeEstimation: 45,
+            isEnabled: false
         },
         {
             id: 3,
@@ -163,6 +170,8 @@ const ServicesPage: React.FC = () => {
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
             price: 12.5,
+            timeEstimation: 60,
+            isEnabled: true
         },
     ];
 
@@ -171,7 +180,7 @@ const ServicesPage: React.FC = () => {
      *
      * @returns {Service}
      */
-    const emptyService = () => new Service(0, Style.Curly, "", 0.0);
+    const emptyService = () => new Service(0, "", "", 0.0, 0, true);
 
     return (
         <div className={styles.services}>
