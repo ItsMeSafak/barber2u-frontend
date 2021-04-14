@@ -76,3 +76,34 @@
         display: none;
     }
 }
+
+// Date Time Picker
+.dateTimePicker {
+    .dayPicker {
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        cursor: pointer;
+
+        &.dayPickerActive {
+            border: solid 1px $primary-color;
+            border-radius: 25px;
+        }
+    }
+
+    .cards {
+        border-color: $primary-color;
+        cursor: pointer;
+
+        > div:first-child {
+            border-bottom-color: $white-color;
+            font-weight: bold;
+        }
+
+        &.cardsActive > div:first-child {
+            background-color: rgba($primary-color, 0.5);
+            border-bottom-color: $primary-color;
+        }
+    }
+}
