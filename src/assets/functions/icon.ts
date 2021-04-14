@@ -43,7 +43,6 @@ export const icons = {
     faCaretLeft,
     faCaretRight,
     faIdCard,
-    faAt,
     faKey,
     faMobileAlt,
     faAddressBook,

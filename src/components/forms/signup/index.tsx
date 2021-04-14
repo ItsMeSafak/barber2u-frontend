@@ -5,7 +5,7 @@ import { Button, Form, Input, notification } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faAddressBook,
-    faAt,
+    faEnvelope,
     faCity,
     faIdCard,
     faKey,
@@ -140,7 +140,7 @@ const SignupForm: React.FC = () => {
                                 email: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faAt} />}
+                        prefix={<FontAwesomeIcon icon={faEnvelope} />}
                     />
                 </Form.Item>
 
