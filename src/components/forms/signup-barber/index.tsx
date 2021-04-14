@@ -1,20 +1,9 @@
 import React, { ChangeEvent, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-import { Button, Form, Input, notification, Steps } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faAddressBook,
-    faEnvelope,
-    faCity,
-    faIdCard,
-    faKey,
-    faMobileAlt,
-    faArrowRight,
-    faArrowLeft,
-    faFileInvoiceDollar,
-    faBuilding,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { Button, Form, Input, notification, Steps } from "antd";
 
 import { signUp } from "../../../services/auth-service";
 
@@ -54,16 +43,84 @@ const SignupFormBarber: React.FC = () => {
         btwNumber: "",
     });
 
+    const formInputs = [
+        {
+            step: 1,
+            name: "firstName",
+            value: formValue.firstName,
+            placeholder: "Firstname",
+            icon: ["fas", "id-card"],
+        },
+        {
+            step: 1,
+            name: "lastName",
+            value: formValue.lastName,
+            placeholder: "Lastname",
+            icon: ["fas", "id-card"],
+        },
+        {
+            step: 1,
+            name: "email",
+            value: formValue.email,
+            placeholder: "Email",
+            icon: ["fas", "envelope"],
+        },
+        {
+            step: 1,
+            name: "password",
+            value: formValue.password,
+            placeholder: "Password",
+            icon: ["fas", "key"],
+        },
+        {
+            step: 1,
+            name: "phoneNumber",
+            value: formValue.phoneNumber,
+            placeholder: "Phone number",
+            icon: ["fas", "mobile-alt"],
+        },
+        {
+            step: 1,
+            name: "address",
+            value: formValue.address,
+            placeholder: "Address",
+            icon: ["fas", "address-book"],
+        },
+        {
+            step: 1,
+            name: "zipCode",
+            value: formValue.zipCode,
+            placeholder: "ZIP Code",
+            icon: ["fas", "city"],
+        },
+        {
+            step: 2,
+            name: "kvk",
+            value: formValue.kvk,
+            placeholder: "KvK",
+            icon: ["fas", "building"],
+        },
+        {
+            step: 2,
+            name: "btwNumber",
+            value: formValue.btwNumber,
+            placeholder: "BTW Number",
+            icon: ["fas", "file-invoice-dollar"],
+        },
+    ];
+
     useEffect(() => {
         setFormValue(formValue);
     }, [formValue]);
 
     /**
-     * 
-     * @param event 
-     * @returns 
+     * TODO...
+     * @param key
+     * @returns
      */
-    const onChangeEvent = (key: string) => (event: ChangeEvent<HTMLInputElement>) =>
+    const onChangeEvent = (key: string) => (
+        event: ChangeEvent<HTMLInputElement>
+    ) =>
         setFormValue({
             ...formValue,
             [key]: event.target.value,
@@ -111,7 +168,8 @@ const SignupFormBarber: React.FC = () => {
      *
      * @returns {boolean}
      */
-    const isEnabled = () => Object.values(formValue).every((o) => o !== "");
+    const isEnabled = () =>
+        Object.values(formValue).every((input) => input !== "");
 
     /**
      * next step for the steps counter
@@ -130,159 +188,244 @@ const SignupFormBarber: React.FC = () => {
     };
 
     /**
-     * This is the first form that the user will see when entering the sign up page
+     * TODO...
+     * @param headingText
+     * @param stepNumber
+     * @returns
      */
-    const firstStepForm = () => (
+    const renderForm = (headingText: string, stepNumber: number) => (
         <div className={styles.signupForm}>
-            <h2>Sign up barber</h2>
+            <h2>{headingText}</h2>
             <Form>
-                <Form.Item>
-                    <Input
-                        name="firstname"
-                        size="large"
-                        placeholder="Firstname"
-                        value={formValue.firstName}
-                        onChange={onChangeEvent("firstName")}
-                        prefix={
-                            <FontAwesomeIcon
-                                icon={getIconByPrefixName("fas", "id-card")}
-                                size="sm"
+                {formInputs
+                    .filter(({ step }) => step === stepNumber)
+                    .map(({ name, value, placeholder, icon }) => (
+                        <Form.Item key={name}>
+                            <Input
+                                name={name}
+                                size="large"
+                                placeholder={placeholder}
+                                value={value}
+                                onChange={onChangeEvent(name)}
+                                prefix={
+                                    <FontAwesomeIcon
+                                        icon={getIconByPrefixName(
+                                            icon[0],
+                                            icon[1]
+                                        )}
+                                        size="sm"
+                                    />
+                                }
                             />
-                        }
-                    />
-                </Form.Item>
-
-                <Form.Item>
-                    <Input
-                        name="lastname"
-                        size="large"
-                        placeholder="Lastname"
-                        value={formValue.lastName}
-                        onChange={onChangeEvent("lastName")}
-                        prefix={<FontAwesomeIcon icon={faIdCard} />}
-                    />
-                </Form.Item>
-
-                <Form.Item>
-                    <Input
-                        name="email"
-                        type="email"
-                        size="large"
-                        placeholder="Email"
-                        value={formValue.email}
-                        onChange={onChangeEvent("email")}
-                        prefix={<FontAwesomeIcon icon={faEnvelope} />}
-                    />
-                </Form.Item>
-
-                <Form.Item>
-                    <Input
-                        name="password"
-                        type="password"
-                        size="large"
-                        placeholder="Password"
-                        value={formValue.password}
-                        onChange={onChangeEvent("password")}
-                        prefix={<FontAwesomeIcon icon={faKey} />}
-                    />
-                </Form.Item>
-
-                <Form.Item>
-                    <Input
-                        name="phoneNumber"
-                        size="large"
-                        placeholder="PhoneNumber"
-                        value={formValue.phoneNumber}
-                        onChange={onChangeEvent("phoneNumber")}
-                        prefix={<FontAwesomeIcon icon={faMobileAlt} />}
-                    />
-                </Form.Item>
-
-                <Form.Item>
-                    <Input
-                        name="address"
-                        size="large"
-                        placeholder="Address"
-                        value={formValue.address}
-                        onChange={onChangeEvent("address")}
-                        prefix={<FontAwesomeIcon icon={faAddressBook} />}
-                    />
-                </Form.Item>
-
-                <Form.Item>
-                    <Input
-                        name="zipCode"
-                        size="large"
-                        placeholder="Zip code"
-                        value={formValue.zipCode}
-                        onChange={onChangeEvent("zipCode")}
-                        prefix={<FontAwesomeIcon icon={faCity} />}
-                    />
-                </Form.Item>
+                        </Form.Item>
+                    ))}
+                {formInputs[formInputs.length - 1].step === stepNumber && (
+                    <Form.Item>
+                        <Button
+                            block
+                            type="primary"
+                            shape="round"
+                            htmlType="submit"
+                            className={styles.saveButton}
+                            disabled={!isEnabled()}
+                            onClick={handleSignUp}
+                        >
+                            Sign Up
+                        </Button>
+                    </Form.Item>
+                )}
             </Form>
         </div>
     );
 
     /**
+     * This is the first form that the user will see when entering the sign up page
+     */
+    //  const firstStepForm = () => (
+    //     <div className={styles.signupForm}>
+    //         <h2>Sign up barber</h2>
+    //             <Form>
+    //                 <Form.Item>
+    //                     <Input
+    //                         name="firstname"
+    //                         size="large"
+    //                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
+    //                             setFormValue({
+    //                                 ...formValue,
+    //                                 firstName: event.target.value,
+    //                             })
+    //                         }
+    //                         placeholder="Firstname"
+    //                         prefix={
+    //                             <FontAwesomeIcon
+    //                                 icon={getIconByPrefixName("fas", "id-card")}
+    //                                 size="sm"
+    //                             />
+    //                         }
+    //                     />
+    //                 </Form.Item>
+
+    //                 <Form.Item>
+    //                     <Input
+    //                         name="lastname"
+    //                         size="large"
+    //                         placeholder="Lastname"
+    //                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
+    //                             setFormValue({
+    //                                 ...formValue,
+    //                                 lastName: event.target.value,
+    //                             })
+    //                         }
+    //                         prefix={<FontAwesomeIcon icon={faIdCard} />}
+    //                     />
+    //                 </Form.Item>
+
+    //                 <Form.Item>
+    //                     <Input
+    //                         name="email"
+    //                         type="email"
+    //                         size="large"
+    //                         placeholder="Email"
+    //                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
+    //                             setFormValue({
+    //                                 ...formValue,
+    //                                 email: event.target.value,
+    //                             })
+    //                         }
+    //                         prefix={<FontAwesomeIcon icon={faEnvelope} />}
+    //                     />
+    //                 </Form.Item>
+
+    //                 <Form.Item>
+    //                     <Input
+    //                         name="password"
+    //                         type="password"
+    //                         size="large"
+    //                         placeholder="Password"
+    //                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
+    //                             setFormValue({
+    //                                 ...formValue,
+    //                                 password: event.target.value,
+    //                             })
+    //                         }
+    //                         prefix={<FontAwesomeIcon icon={faKey} />}
+    //                     />
+    //                 </Form.Item>
+
+    //                 <Form.Item>
+    //                     <Input
+    //                         name="phoneNumber"
+    //                         size="large"
+    //                         placeholder="PhoneNumber"
+    //                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
+    //                             setFormValue({
+    //                                 ...formValue,
+    //                                 phoneNumber: event.target.value,
+    //                             })
+    //                         }
+    //                         prefix={<FontAwesomeIcon icon={faMobileAlt} />}
+    //                     />
+    //                 </Form.Item>
+
+    //                 <Form.Item>
+    //                     <Input
+    //                         name="address"
+    //                         size="large"
+    //                         placeholder="Address"
+    //                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
+    //                             setFormValue({
+    //                                 ...formValue,
+    //                                 address: event.target.value,
+    //                             })
+    //                         }
+    //                         prefix={<FontAwesomeIcon icon={faAddressBook} />}
+    //                     />
+    //                 </Form.Item>
+
+    //                 <Form.Item>
+    //                     <Input
+    //                         name="zipCode"
+    //                         size="large"
+    //                         placeholder="Zip code"
+    //                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
+    //                             setFormValue({
+    //                                 ...formValue,
+    //                                 zipCode: event.target.value,
+    //                             })
+    //                         }
+    //                         prefix={<FontAwesomeIcon icon={faCity} />}
+    //                     />
+    //                 </Form.Item>
+    //             </Form>
+    //         </div>
+    //     );
+
+    /**
      * This is the second form where the user should add additional information
      */
-    const secondStepForm = () => (
-        <div className={styles.signupForm}>
-            <h2>Almost done</h2>
-            <Form>
-                <Form.Item>
-                    <Input
-                        name="kvk"
-                        size="large"
-                        placeholder="Kvk number"
-                        value={formValue.kvk}
-                        onChange={onChangeEvent("kvk")}
-                        prefix={<FontAwesomeIcon icon={faBuilding} />}
-                    />
-                </Form.Item>
+    // const secondStepForm = () => (
+    //     <div className={styles.signupForm}>
+    //         <h2>Almost done</h2>
+    //         <Form>
+    //             <Form.Item>
+    //                 <Input
+    //                     name="kvk"
+    //                     size="large"
+    //                     placeholder="Kvk number"
+    //                     value={formValue.kvk}
+    //                     onChange={onChangeEvent("kvk")}
+    //                     prefix={<FontAwesomeIcon icon={faBuilding} />}
+    //                 />
+    //             </Form.Item>
 
-                <Form.Item>
-                    <Input
-                        name="btwNumber"
-                        size="large"
-                        placeholder="BTW number"
-                        value={formValue.btwNumber}
-                        onChange={onChangeEvent("btwNumber")}
-                        prefix={<FontAwesomeIcon icon={faFileInvoiceDollar} />}
-                    />
-                </Form.Item>
+    //             <Form.Item>
+    //                 <Input
+    //                     name="btwNumber"
+    //                     size="large"
+    //                     placeholder="BTW number"
+    //                     value={formValue.btwNumber}
+    //                     onChange={onChangeEvent("btwNumber")}
+    //                     prefix={<FontAwesomeIcon icon={faFileInvoiceDollar} />}
+    //                 />
+    //             </Form.Item>
 
-                <Form.Item>
-                    <Button
-                        type="primary"
-                        block
-                        shape="round"
-                        htmlType="submit"
-                        className={styles.saveButton}
-                        disabled={!isEnabled()}
-                        onClick={handleSignUp}
-                    >
-                        Sign Up
-                        </Button>
-                </Form.Item>
-            </Form>
-        </div>
-    );
+    //             <Form.Item>
+    //                 <Button
+    //                     type="primary"
+    //                     block
+    //                     shape="round"
+    //                     htmlType="submit"
+    //                     className={styles.saveButton}
+    //                     disabled={!isEnabled()}
+    //                     onClick={handleSignUp}
+    //                 >
+    //                     Sign Up
+    //                     </Button>
+    //             </Form.Item>
+    //         </Form>
+    //     </div>
+    // );
 
     const stepsForm = [
         {
-            content: firstStepForm(),
-            title: "Register barber"
+            // content: firstStepForm(),
+            content: renderForm("Sign up Barber", 1),
+            title: "Register barber",
         },
         {
-            content: secondStepForm(),
-            title: "Almost done"
-        }
+            // content: secondStepForm(),
+            content: renderForm("Almost done", 2),
+            title: "Almost done",
+        },
     ];
 
     return (
         <>
-            <Steps className={styles.positionForm} current={activeStep} style={{ width: 350 }}>
+            <Steps
+                className={styles.positionForm}
+                current={activeStep}
+                style={{ width: 350 }}
+            >
                 {stepsForm.map(({ title }) => (
                     <Steps.Step key={title} title={title} />
                 ))}
@@ -294,14 +437,16 @@ const SignupFormBarber: React.FC = () => {
                         className={styles.positionRightArrow}
                         icon={faArrowRight}
                         size="2x"
-                        onClick={() => next()} />
+                        onClick={() => next()}
+                    />
                 )}
                 {activeStep > 0 && (
                     <FontAwesomeIcon
                         className={styles.positionLeftArrow}
                         icon={faArrowLeft}
                         size="2x"
-                        onClick={() => prev()} />
+                        onClick={() => prev()}
+                    />
                 )}
             </div>
         </>

@@ -29,6 +29,8 @@ import {
     faChartLine,
     faServer,
     faFileAlt,
+    faBuilding,
+    faFileInvoiceDollar,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -58,6 +60,8 @@ export const icons = {
     faChartLine,
     faServer,
     faFileAlt,
+    faBuilding,
+    faFileInvoiceDollar,
 };
 
 /**
