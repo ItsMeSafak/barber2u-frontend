@@ -90,6 +90,23 @@
             border: solid 1px $primary-color;
             border-radius: 25px;
         }
+
+        .antdDatepicker {
+            padding: 0;
+            & > div {
+                height: 30px;
+                width: 30px;
+                display: flex;
+                justify-content: center;
+                & > input {
+                    display: none;
+                }
+                & > span {
+                    margin-left: 0;
+                    color: black;
+                }
+            }
+        }
     }
 
     .cards {
