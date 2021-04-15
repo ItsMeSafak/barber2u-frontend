@@ -11,7 +11,6 @@ import {
     Select,
     DatePicker,
 } from "antd";
-import { SelectValue } from "antd/es/select";
 
 import moment, { Moment } from "moment";
 
@@ -19,17 +18,33 @@ import { Barber } from "../../models/barber";
 import MomentRange from "../../models/MomentRange";
 
 import styles from "./styles.module.scss";
+import Service2 from "../../models/Service2";
 
 const { TabPane } = Tabs;
 // TODO check map keys (model key & values check in case they are not sync with DB)
 
-// TODO give services a time value, in order to calculate the required time for the timepicker
-// TODO showing prices of a service inside the service dropdownlist
-// TODO summary of your appointment request, such as total price, selected services and datetime
 // TODO replacing OpeningsTime list variable to json object list or API call result
 // TODO carousel for the time cards inside the Timepicker
 // TODO Axios api post call to create appointment
 // TODO remove static openingstimes json values
+
+// TODO optimize code so small components are functions instead of big chunk on components inside the render part.
+
+// TODO (optional) change the time picker slots to the custom generic card component
+
+/* TODO Optimize the execute order of the code. Currently quick&dirty:
+ *   1. Calculate weekdays based on openingtimes.
+ *   2. Findfirstimemoment based on openingstimes.
+ *   3. Calculate time required based on selected service times.
+ *   4. Show time slots based on required time
+ *   While it should be:
+ *   1. Calculate time required base on selected service time.
+ *   2. Calculate time slots based on required time.
+ *   3. Show the weekdays based on #2 results
+ *   4. Show time slots based on required time
+ *   5. FindFirstTimemoment based on first time slot.
+ *   This should fix the bugs of which it sometimes does not pick a default slot
+ * */
 
 /**
  * A Item component for the Barber listing page and gives an overview of the barber information, such as: services,
@@ -49,7 +64,13 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
     /**
      * State for the selected barber services.
      */
-    const [selectedServices, setSelectedServices] = useState([] as SelectValue);
+    const [selectedServices, setSelectedServices] = useState<Service2[]>([]);
+
+    /**
+     * State for the time required in order to complete all the services on time.
+     * Metric of the time in in Meters.
+     */
+    const [timeRequired, setTimeRequired] = useState<number>(0);
 
     /**
      * State for the custom DatePicker in the DayPicker Row
@@ -58,11 +79,20 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
         moment().startOf("day").add(7, "day")
     );
 
-    // TODO Remove when services are requested and calculate the time period bases on the services.
     /**
-     * The amount of time needed for the total appointment.
+     * On saving selected services, also calculated the time period required.
+     * @param services
      */
-    const TIME_PERIOD = 60;
+    const onSelectedServices = (services: Service2[]) => {
+        setSelectedServices(services);
+
+        // Calculate the time required
+        let time = 0;
+        services.forEach((x) => {
+            time += x.time;
+        });
+        setTimeRequired(time);
+    };
 
     /**
      * Toggle the collapse state of the barber bottom container
@@ -111,7 +141,7 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
         ),
         new MomentRange(
             moment("2021-04-21 08:00:00"),
-            moment("2021-04-21 09:00:00")
+            moment("2021-04-21 18:00:00")
         ),
         new MomentRange(
             moment("2021-04-22 08:00:00"),
@@ -189,9 +219,8 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
     /**
      * Filter the list of times that the Barber is open and split all the times based on the period,
      * so the customer can select a time without interfering with another time.
-     * @param period A period in minutes
      */
-    const getTimes = (period: number) => {
+    const getTimes = () => {
         // Initial of a list in which start and end times are saved.
         const times: MomentRange[] = [];
 
@@ -212,15 +241,25 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
                     .duration(day.end.diff(day.start))
                     .asMinutes();
 
-                // TODO (optional) better naming for 'amount'
                 // The amount that the period fits in the time difference
-                const amount = timeDifferenceInMinutes / period;
+                let timePeriod = timeDifferenceInMinutes;
+                let numberOfSlots = 1;
+                if (timeRequired !== 0) {
+                    timePeriod = timeRequired;
+                    numberOfSlots = timeDifferenceInMinutes / timePeriod;
+                }
 
                 // loop over the start time for exact the amount
-                for (let i = 0; i < amount; i++) {
-                    const endTime = startTime.clone().add(period, "minutes");
-                    times.push(new MomentRange(startTime, endTime));
-                    startTime = endTime;
+                for (let i = 0; i < numberOfSlots; i++) {
+                    const endTime = startTime
+                        .clone()
+                        .add(timePeriod, "minutes");
+
+                    // Only allow time slots if they fit within the availability.
+                    if (endTime.isSameOrBefore(day.end)) {
+                        times.push(new MomentRange(startTime, endTime));
+                        startTime = endTime;
+                    }
                 }
             });
 
@@ -259,6 +298,40 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
         )
             return EVENING_STRING;
         return "";
+    };
+
+    /** --------------------- Services -------------------- */
+    const services = [
+        new Service2(0, "Bald cut", "Going all the way bald", 9.99, 15, true),
+        new Service2(
+            1,
+            "Short hair cut",
+            "Just your monthly cut",
+            14.99,
+            15,
+            true
+        ),
+        new Service2(2, "Fade cut", "0 to 2 side cut", 9.99, 15, true),
+        new Service2(3, "Combo cut", "Hair with Beard cut", 22.99, 30, true),
+        new Service2(
+            4,
+            "Yee-Yee *ss cut",
+            "Only made for Groove Street",
+            99.99,
+            120,
+            true
+        ),
+    ];
+
+    /**
+     * Get the total price of the selected services
+     */
+    const calculateTotalPrice = () => {
+        let totalPrice = 0;
+        selectedServices.forEach((service) => {
+            totalPrice += service.price;
+        });
+        return totalPrice;
     };
 
     return (
@@ -313,26 +386,46 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
                             <Row>
                                 <Select
                                     mode="multiple"
+                                    maxTagCount="responsive"
                                     className={styles.selectBox}
                                     placeholder="Select a service"
-                                    onChange={(value) => {
-                                        setSelectedServices(value);
+                                    onChange={(selected) => {
+                                        const serviceList: Service2[] = [];
+                                        (selected as []).forEach(
+                                            (serviceName) => {
+                                                const serviceFound = services.find(
+                                                    (service) =>
+                                                        service.name ===
+                                                        serviceName
+                                                );
+                                                if (serviceFound) {
+                                                    serviceList.push(
+                                                        serviceFound
+                                                    );
+                                                }
+                                            }
+                                        );
+                                        onSelectedServices(serviceList);
                                     }}
                                 >
-                                    {barber.reservation.service.map((value) => (
+                                    {services.map((service) => (
                                         <Select.Option
-                                            value={value}
-                                            key={value}
+                                            value={service.name}
+                                            key={service.id}
                                         >
-                                            <Row justify="space-between">
-                                                <Col>{value}</Col>
-                                                <Col>&euro; 0.00</Col>
+                                            <Row
+                                                justify="space-between"
+                                                gutter={16}
+                                            >
+                                                <Col>{service.name}</Col>
+                                                <Col>
+                                                    &euro; {service.price}
+                                                </Col>
                                             </Row>
                                         </Select.Option>
                                     ))}
                                 </Select>
                             </Row>
-                            <Row>Selected: {selectedServices}</Row>
                             <Row>Availability:</Row>
                             <Row>
                                 <div className={styles.dateTimePicker}>
@@ -388,7 +481,6 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
                                                 }
                                                 onChange={(date) => {
                                                     if (date) {
-                                                        console.log(date);
                                                         onSelectedDay(date);
                                                         setCustomDatePickerValue(
                                                             date
@@ -400,7 +492,7 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
                                     </Row>
                                     <Row gutter={[16, 24]} align="middle">
                                         {selectedTime &&
-                                            getTimes(TIME_PERIOD).map((day) => (
+                                            getTimes().map((day) => (
                                                 <Col key={day.start.valueOf()}>
                                                     <Card
                                                         className={`${
@@ -450,6 +542,27 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
                                         )}
                                     </Row>
                                 </div>
+                            </Row>
+                            {/* // TODO Style/make the summary prettier */}
+                            <Row>
+                                <h2>Summary:</h2>
+                            </Row>
+                            <Row>
+                                Services selected:
+                                <ul>
+                                    {selectedServices.map((service) => (
+                                        <li key={service.id}>{service.name}</li>
+                                    ))}
+                                </ul>
+                            </Row>
+                            <Row>
+                                Total price: &euro; {calculateTotalPrice()}
+                            </Row>
+                            <Row>Time required: {timeRequired} minutes</Row>
+                            <Row>
+                                Selected DateTime from{" "}
+                                {selectedTime?.start.calendar()} to{" "}
+                                {selectedTime?.end.calendar()}
                             </Row>
                             <Row justify="end">
                                 <Col>
