@@ -126,42 +126,42 @@ const SignupFormBarber: React.FC = () => {
             [key]: event.target.value,
         });
 
-    /**
-     * This function handles the antd notification which will be shown the moment the credentials are wrong.
-     */
-    const openNotificationWithIcon = (
-        message: string | number,
-        description: string
-    ) => {
-        notification.error({
-            message,
-            description,
-            placement: "bottomRight",
-        });
-    };
+    // /**
+    //  * This function handles the antd notification which will be shown the moment the credentials are wrong.
+    //  */
+    // const openNotificationWithIcon = (
+    //     message: string | number,
+    //     description: string
+    // ) => {
+    //     notification.error({
+    //         message,
+    //         description,
+    //         placement: "bottomRight",
+    //     });
+    // };
 
     /**
      * This function handles the signup.
      * Once succesfully registered, the user will be redirected to the login page.
      */
-    const handleSignUp = async () => {
-        // Handle sigup, if API is unavailable, redirect to 503 page.
-        const response = await signUp(formValue).catch(() =>
-            history.push("/503")
-        );
-        if (!response) return;
+    // const handleSignUp = async () => {
+    //     // Handle sigup, if API is unavailable, redirect to 503 page.
+    //     const response = await signUp(formValue).catch(() =>
+    //         history.push("/503")
+    //     );
+    //     if (!response) return;
 
-        // If request is not OK, handle errors with notification.
-        const { status, message } = response;
-        if (!(response.status === 200)) {
-            openNotificationWithIcon(status, message);
-            return;
-        }
+    //     // If request is not OK, handle errors with notification.
+    //     const { status, message } = response;
+    //     if (!(response.status === 200)) {
+    //         openNotificationWithIcon(status, message);
+    //         return;
+    //     }
 
-        // If request is OK, redirect user to login page.
-        openNotificationWithIcon(status, message);
-        history.push("/signin");
-    };
+    //     // If request is OK, redirect user to login page.
+    //     openNotificationWithIcon(status, message);
+    //     history.push("/signin");
+    // };
 
     /**
      * This method checks if some of the fields have a filled in value or not.
@@ -191,52 +191,56 @@ const SignupFormBarber: React.FC = () => {
      * TODO...
      * @param headingText
      * @param stepNumber
-     * @returns
+     * @returns {JSX}
      */
-    const renderForm = (headingText: string, stepNumber: number) => (
-        <div className={styles.signupForm}>
-            <h2>{headingText}</h2>
-            <Form>
-                {formInputs
-                    .filter(({ step }) => step === stepNumber)
-                    .map(({ name, value, placeholder, icon }) => (
-                        <Form.Item key={name}>
-                            <Input
-                                name={name}
-                                size="large"
-                                placeholder={placeholder}
-                                value={value}
-                                onChange={onChangeEvent(name)}
-                                prefix={
-                                    <FontAwesomeIcon
-                                        icon={getIconByPrefixName(
-                                            icon[0],
-                                            icon[1]
-                                        )}
-                                        size="sm"
-                                    />
-                                }
-                            />
+    const renderForm = (headingText: string, stepNumber: number) => {
+        const lastFormStep =
+            formInputs[formInputs.length - 1].step === stepNumber;
+        return (
+            <div className={styles.signupForm}>
+                <h2>{headingText}</h2>
+                <Form>
+                    {formInputs
+                        .filter(({ step }) => step === stepNumber)
+                        .map(({ name, value, placeholder, icon }) => (
+                            <Form.Item key={name}>
+                                <Input
+                                    name={name}
+                                    size="large"
+                                    placeholder={placeholder}
+                                    value={value}
+                                    onChange={onChangeEvent(name)}
+                                    prefix={
+                                        <FontAwesomeIcon
+                                            icon={getIconByPrefixName(
+                                                icon[0],
+                                                icon[1]
+                                            )}
+                                            size="sm"
+                                        />
+                                    }
+                                />
+                            </Form.Item>
+                        ))}
+                    {lastFormStep && (
+                        <Form.Item>
+                            <Button
+                                block
+                                type="primary"
+                                shape="round"
+                                htmlType="submit"
+                                className={styles.saveButton}
+                                disabled={!isEnabled()}
+                                // onClick={handleSignUp}
+                            >
+                                Sign Up
+                            </Button>
                         </Form.Item>
-                    ))}
-                {formInputs[formInputs.length - 1].step === stepNumber && (
-                    <Form.Item>
-                        <Button
-                            block
-                            type="primary"
-                            shape="round"
-                            htmlType="submit"
-                            className={styles.saveButton}
-                            disabled={!isEnabled()}
-                            onClick={handleSignUp}
-                        >
-                            Sign Up
-                        </Button>
-                    </Form.Item>
-                )}
-            </Form>
-        </div>
-    );
+                    )}
+                </Form>
+            </div>
+        );
+    };
 
     /**
      * This is the first form that the user will see when entering the sign up page
