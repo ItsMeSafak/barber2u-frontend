@@ -14,11 +14,11 @@ import {
 
 import moment, { Moment } from "moment";
 
+import Service2 from "../../models/Service2";
 import { Barber } from "../../models/barber";
 import MomentRange from "../../models/MomentRange";
 
 import styles from "./styles.module.scss";
-import Service2 from "../../models/Service2";
 
 const { TabPane } = Tabs;
 // TODO check map keys (model key & values check in case they are not sync with DB)
@@ -334,6 +334,208 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
         return totalPrice;
     };
 
+    /**
+     * Render the select box of which all the barber services are displayed with
+     * their pricing. The user is able to select multiple services and the value
+     * is stored in the state {@link selectedServices}.
+     */
+    const renderServiceSelectBox = () => (
+        <Select
+            mode="multiple"
+            maxTagCount="responsive"
+            className={styles.selectBox}
+            placeholder="Select a service"
+            onChange={(selected) => {
+                const serviceList: Service2[] = [];
+                (selected as []).forEach((serviceName) => {
+                    const serviceFound = services.find(
+                        (service) => service.name === serviceName
+                    );
+                    if (serviceFound) {
+                        serviceList.push(serviceFound);
+                    }
+                });
+                onSelectedServices(serviceList);
+            }}
+        >
+            {services.map((service) => (
+                <Select.Option value={service.name} key={service.id}>
+                    <Row justify="space-between" gutter={16}>
+                        <Col>{service.name}</Col>
+                        <Col>&euro; {service.price}</Col>
+                    </Row>
+                </Select.Option>
+            ))}
+        </Select>
+    );
+
+    /**
+     * Render the day picker selector, so the user can pick a day the within
+     * next 7 days the barber is available. The value is stores in the state
+     * {@link selectedDay}
+     */
+    const renderDayPicker = () =>
+        weekDays.map((day) => (
+            <Col
+                key={day.day()}
+                className={`
+                    ${styles.dayPicker} 
+                    ${
+                        selectedDay.isSame(day, "day")
+                            ? styles.dayPickerActive
+                            : ""
+                    }
+                `}
+                onClick={() => onSelectedDay(day)}
+            >
+                {weekDayAbbreviations[day.weekday()]}
+            </Col>
+        ));
+
+    /**
+     * Render the custom day picker, that is displayed as a calender icon which
+     * opens a datepicker component. The user can this way select a day outside
+     * the 7 days already displayed in the {@link renderDayPicker}. The value
+     * is stored in the state {@link selectedDay}
+     */
+    const renderCustomDayPicker = () => (
+        <Col
+            className={`
+                ${styles.dayPicker} 
+                ${
+                    selectedDay.isSame(customDatePickerValue, "day")
+                        ? styles.dayPickerActive
+                        : ""
+                }
+            `}
+        >
+            <DatePicker
+                className={styles.antdDatepicker}
+                bordered={false}
+                allowClear={false}
+                inputReadOnly
+                defaultValue={customDatePickerValue}
+                onClick={() => onSelectedDay(customDatePickerValue)}
+                onChange={(date) => {
+                    if (date) {
+                        onSelectedDay(date);
+                        setCustomDatePickerValue(date);
+                    }
+                }}
+            />
+        </Col>
+    );
+
+    /**
+     * Render the time picker, that is displaying multiple slots of the
+     * availability from the barber. The slots are calculated by the required
+     * time needed for your selected services. If a service required time is
+     * bigger than a timeslot, the timeslot will not be show.
+     * The timeslots are based on the day selected in the @link renderDayPicker}
+     * or {@link renderCustomDayPicker}.
+     * The selected time is stored in the state {@link selectedTime}
+     */
+    const renderTimePicker = () =>
+        selectedTime &&
+        getTimes().map((day) => (
+            <Col key={day.start.valueOf()}>
+                <Card
+                    className={`
+                        ${styles.cards} 
+                        ${
+                            day.start.isSame(selectedTime.start)
+                                ? styles.cardsActive
+                                : ""
+                        }
+                    `}
+                    title={getPartOfTheDayString(day.start)}
+                    size={
+                        !day.start.isSame(selectedTime.start)
+                            ? "small"
+                            : "default"
+                    }
+                    onClick={() => setSelectedTime(day)}
+                >
+                    <p>{day.start.format("D MMMM")}</p>
+                    <p>
+                        {day.start.format("HH:mm")} - {day.end.format("HH:mm")}
+                    </p>
+                </Card>
+            </Col>
+        ));
+
+    /**
+     * TODO Style/make the summary prettier
+     * Render the summary, so the user can get an overview of the selected
+     * services, the total cost, the time required to fulfil the services,
+     * the selected day and time.
+     */
+    const renderSummary = () => (
+        <Col>
+            <Row><h2>Summary:</h2></Row>
+            <Row>Services selected:
+                <ul>
+                    {selectedServices.map((service) => (
+                        <li key={service.id}>{service.name}</li>
+                    ))}
+                </ul>
+            </Row>
+            <Row>Total price: &euro; {calculateTotalPrice()}</Row>
+            <Row>Time required: {timeRequired} minutes</Row>
+            <Row>
+                Selected DateTime from{" "}
+                {selectedTime?.start.calendar()} to{" "}
+                {selectedTime?.end.calendar()}
+            </Row>
+        </Col>
+    );
+
+    /**
+     * Render the portfolio, so examples of work can be shown in multiple
+     * images grouped in the service name
+     */
+    const renderPortfolio = () =>
+        barber.portfolio.map((service) => (
+            <Col key={service.name}>
+                <Row className={styles.serviceName}>{service.name}</Row>
+                <Row>
+                    {service.imageUrls.map((imageUrl) => (
+                        <Col key={imageUrl} className={styles.portfolioImage}>
+                            <Image
+                                width={PORTFOLIO_IMAGE_WIDTH}
+                                src={imageUrl}
+                            />
+                        </Col>
+                    ))}
+                </Row>
+            </Col>
+        ));
+
+    /**
+     * Render the reviews, so everyone can share their opinion and experiences
+     * with the barber and other users.
+     */
+    const renderReviews = () =>
+        barber.reviews.map((review) => (
+            <div key={barber.name} className={styles.reviewContainer}>
+                <Row>
+                    <Col span={12} className={styles.reviewAuthor}>
+                        {review.author}
+                    </Col>
+                    <Col span={12} className={styles.reviewRate}>
+                        <Rate
+                            disabled
+                            allowHalf
+                            className={styles.rating}
+                            defaultValue={review.rate}
+                        />
+                    </Col>
+                </Row>
+                <Row className={styles.createdOn}>{review.created_on}</Row>
+                <Row>"{review.description}"</Row>
+            </div>
+        ));
+
     return (
         <Col className={styles.container}>
             <Row className={styles.containerTop}>
@@ -383,158 +585,16 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
                             key="1"
                         >
                             <Row>Service:</Row>
-                            <Row>
-                                <Select
-                                    mode="multiple"
-                                    maxTagCount="responsive"
-                                    className={styles.selectBox}
-                                    placeholder="Select a service"
-                                    onChange={(selected) => {
-                                        const serviceList: Service2[] = [];
-                                        (selected as []).forEach(
-                                            (serviceName) => {
-                                                const serviceFound = services.find(
-                                                    (service) =>
-                                                        service.name ===
-                                                        serviceName
-                                                );
-                                                if (serviceFound) {
-                                                    serviceList.push(
-                                                        serviceFound
-                                                    );
-                                                }
-                                            }
-                                        );
-                                        onSelectedServices(serviceList);
-                                    }}
-                                >
-                                    {services.map((service) => (
-                                        <Select.Option
-                                            value={service.name}
-                                            key={service.id}
-                                        >
-                                            <Row
-                                                justify="space-between"
-                                                gutter={16}
-                                            >
-                                                <Col>{service.name}</Col>
-                                                <Col>
-                                                    &euro; {service.price}
-                                                </Col>
-                                            </Row>
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Row>
+                            <Row>{renderServiceSelectBox()}</Row>
                             <Row>Availability:</Row>
                             <Row>
                                 <div className={styles.dateTimePicker}>
                                     <Row>
-                                        {weekDays.map((day) => (
-                                            <Col
-                                                key={day.day()}
-                                                className={`${
-                                                    styles.dayPicker
-                                                } ${
-                                                    selectedDay.isSame(
-                                                        day,
-                                                        "day"
-                                                    )
-                                                        ? styles.dayPickerActive
-                                                        : ""
-                                                }`}
-                                                onClick={() =>
-                                                    onSelectedDay(day)
-                                                }
-                                            >
-                                                {
-                                                    weekDayAbbreviations[
-                                                        day.weekday()
-                                                    ]
-                                                }
-                                            </Col>
-                                        ))}
-                                        <Col
-                                            className={`${styles.dayPicker} ${
-                                                selectedDay.isSame(
-                                                    customDatePickerValue,
-                                                    "day"
-                                                )
-                                                    ? styles.dayPickerActive
-                                                    : ""
-                                            }`}
-                                        >
-                                            <DatePicker
-                                                className={
-                                                    styles.antdDatepicker
-                                                }
-                                                bordered={false}
-                                                allowClear={false}
-                                                inputReadOnly
-                                                defaultValue={
-                                                    customDatePickerValue
-                                                }
-                                                onClick={() =>
-                                                    onSelectedDay(
-                                                        customDatePickerValue
-                                                    )
-                                                }
-                                                onChange={(date) => {
-                                                    if (date) {
-                                                        onSelectedDay(date);
-                                                        setCustomDatePickerValue(
-                                                            date
-                                                        );
-                                                    }
-                                                }}
-                                            />
-                                        </Col>
+                                        {renderDayPicker()}
+                                        {renderCustomDayPicker()}
                                     </Row>
                                     <Row gutter={[16, 24]} align="middle">
-                                        {selectedTime &&
-                                            getTimes().map((day) => (
-                                                <Col key={day.start.valueOf()}>
-                                                    <Card
-                                                        className={`${
-                                                            styles.cards
-                                                        } ${
-                                                            day.start.isSame(
-                                                                selectedTime.start
-                                                            )
-                                                                ? styles.cardsActive
-                                                                : ""
-                                                        }`}
-                                                        title={getPartOfTheDayString(
-                                                            day.start
-                                                        )}
-                                                        size={
-                                                            !day.start.isSame(
-                                                                selectedTime.start
-                                                            )
-                                                                ? "small"
-                                                                : "default"
-                                                        }
-                                                        onClick={() =>
-                                                            setSelectedTime(day)
-                                                        }
-                                                    >
-                                                        <p>
-                                                            {day.start.format(
-                                                                "D MMMM"
-                                                            )}
-                                                        </p>
-                                                        <p>
-                                                            {day.start.format(
-                                                                "HH:mm"
-                                                            )}{" "}
-                                                            -{" "}
-                                                            {day.end.format(
-                                                                "HH:mm"
-                                                            )}
-                                                        </p>
-                                                    </Card>
-                                                </Col>
-                                            ))}
+                                        {renderTimePicker()}
 
                                         {/* TODO replace this error message with not allowing the custom datepicker to pick dates that are not available */}
                                         {!selectedTime && (
@@ -543,97 +603,23 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
                                     </Row>
                                 </div>
                             </Row>
-                            {/* // TODO Style/make the summary prettier */}
-                            <Row>
-                                <h2>Summary:</h2>
-                            </Row>
-                            <Row>
-                                Services selected:
-                                <ul>
-                                    {selectedServices.map((service) => (
-                                        <li key={service.id}>{service.name}</li>
-                                    ))}
-                                </ul>
-                            </Row>
-                            <Row>
-                                Total price: &euro; {calculateTotalPrice()}
-                            </Row>
-                            <Row>Time required: {timeRequired} minutes</Row>
-                            <Row>
-                                Selected DateTime from{" "}
-                                {selectedTime?.start.calendar()} to{" "}
-                                {selectedTime?.end.calendar()}
-                            </Row>
+                            <Row>{renderSummary()}</Row>
                             <Row justify="end">
-                                <Col>
-                                    <Button type="primary">Reserve</Button>
-                                </Col>
+                                <Col><Button type="primary">Reserve</Button></Col>
                             </Row>
                         </TabPane>
                         <TabPane
                             tab={<div className={styles.tab}>Portfolio</div>}
                             key="2"
                         >
-                            {barber.portfolio.map((service) => (
-                                <Col key={service.name}>
-                                    <Row className={styles.serviceName}>
-                                        {service.name}
-                                    </Row>
-                                    <Row>
-                                        {service.imageUrls.map((imageUrl) => (
-                                            <Col
-                                                key={imageUrl}
-                                                className={
-                                                    styles.portfolioImage
-                                                }
-                                            >
-                                                <Image
-                                                    width={
-                                                        PORTFOLIO_IMAGE_WIDTH
-                                                    }
-                                                    src={imageUrl}
-                                                />
-                                            </Col>
-                                        ))}
-                                    </Row>
-                                </Col>
-                            ))}
+                            {renderPortfolio()}
                         </TabPane>
                         <TabPane
                             tab={<div className={styles.tab}>Reviews</div>}
                             key="3"
                         >
                             <Col>
-                                {barber.reviews.map((review) => (
-                                    <div
-                                        key={barber.name}
-                                        className={styles.reviewContainer}
-                                    >
-                                        <Row>
-                                            <Col
-                                                span={12}
-                                                className={styles.reviewAuthor}
-                                            >
-                                                {review.author}
-                                            </Col>
-                                            <Col
-                                                span={12}
-                                                className={styles.reviewRate}
-                                            >
-                                                <Rate
-                                                    disabled
-                                                    allowHalf
-                                                    className={styles.rating}
-                                                    defaultValue={review.rate}
-                                                />
-                                            </Col>
-                                        </Row>
-                                        <Row className={styles.createdOn}>
-                                            {review.created_on}
-                                        </Row>
-                                        <Row>"{review.description}"</Row>
-                                    </div>
-                                ))}
+                                {renderReviews()}
                             </Col>
                         </TabPane>
                     </Tabs>
