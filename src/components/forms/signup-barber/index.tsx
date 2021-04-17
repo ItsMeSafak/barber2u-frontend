@@ -68,26 +68,27 @@ const SignupFormBarber: React.FC = () => {
         {
             step: 1,
             name: "password",
+            type: "password",
             value: formValue.password,
             placeholder: "Password",
             icon: ["fas", "key"],
         },
         {
-            step: 1,
+            step: 2,
             name: "phoneNumber",
             value: formValue.phoneNumber,
             placeholder: "Phone number",
             icon: ["fas", "mobile-alt"],
         },
         {
-            step: 1,
+            step: 2,
             name: "address",
             value: formValue.address,
             placeholder: "Address",
             icon: ["fas", "address-book"],
         },
         {
-            step: 1,
+            step: 2 ,
             name: "zipCode",
             value: formValue.zipCode,
             placeholder: "ZIP Code",
@@ -107,6 +108,30 @@ const SignupFormBarber: React.FC = () => {
             placeholder: "BTW Number",
             icon: ["fas", "file-invoice-dollar"],
         },
+        {
+            step: 3,
+            name: "style",
+            placeholder: "Fill in your expertise for example fade",
+            icon: ["fas", "cut"]
+        },
+        {
+            step: 3,
+            name: "description",
+            placeholder: "Description",
+            icon: ["fas", "clipboard"]
+        },
+        {
+            step: 3,
+            name: "price",
+            placeholder: "Price of the service",
+            icon: ["fas", "euro-sign"]
+        },
+        {
+            step: 3,
+            name: "time",
+            placeholder: "Estimated time in minutes for service",
+            icon: ["fas", "clock"]
+        }
     ];
 
     useEffect(() => {
@@ -188,7 +213,6 @@ const SignupFormBarber: React.FC = () => {
     };
 
     /**
-     * TODO...
      * @param headingText
      * @param stepNumber
      * @returns {JSX}
@@ -202,9 +226,10 @@ const SignupFormBarber: React.FC = () => {
                 <Form>
                     {formInputs
                         .filter(({ step }) => step === stepNumber)
-                        .map(({ name, value, placeholder, icon }) => (
+                        .map(({ name, type, value, placeholder, icon }) => (
                             <Form.Item key={name}>
                                 <Input
+                                    type={type}
                                     name={name}
                                     size="large"
                                     placeholder={placeholder}
@@ -242,216 +267,53 @@ const SignupFormBarber: React.FC = () => {
         );
     };
 
-    /**
-     * This is the first form that the user will see when entering the sign up page
-     */
-    //  const firstStepForm = () => (
-    //     <div className={styles.signupForm}>
-    //         <h2>Sign up barber</h2>
-    //             <Form>
-    //                 <Form.Item>
-    //                     <Input
-    //                         name="firstname"
-    //                         size="large"
-    //                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
-    //                             setFormValue({
-    //                                 ...formValue,
-    //                                 firstName: event.target.value,
-    //                             })
-    //                         }
-    //                         placeholder="Firstname"
-    //                         prefix={
-    //                             <FontAwesomeIcon
-    //                                 icon={getIconByPrefixName("fas", "id-card")}
-    //                                 size="sm"
-    //                             />
-    //                         }
-    //                     />
-    //                 </Form.Item>
-
-    //                 <Form.Item>
-    //                     <Input
-    //                         name="lastname"
-    //                         size="large"
-    //                         placeholder="Lastname"
-    //                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
-    //                             setFormValue({
-    //                                 ...formValue,
-    //                                 lastName: event.target.value,
-    //                             })
-    //                         }
-    //                         prefix={<FontAwesomeIcon icon={faIdCard} />}
-    //                     />
-    //                 </Form.Item>
-
-    //                 <Form.Item>
-    //                     <Input
-    //                         name="email"
-    //                         type="email"
-    //                         size="large"
-    //                         placeholder="Email"
-    //                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
-    //                             setFormValue({
-    //                                 ...formValue,
-    //                                 email: event.target.value,
-    //                             })
-    //                         }
-    //                         prefix={<FontAwesomeIcon icon={faEnvelope} />}
-    //                     />
-    //                 </Form.Item>
-
-    //                 <Form.Item>
-    //                     <Input
-    //                         name="password"
-    //                         type="password"
-    //                         size="large"
-    //                         placeholder="Password"
-    //                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
-    //                             setFormValue({
-    //                                 ...formValue,
-    //                                 password: event.target.value,
-    //                             })
-    //                         }
-    //                         prefix={<FontAwesomeIcon icon={faKey} />}
-    //                     />
-    //                 </Form.Item>
-
-    //                 <Form.Item>
-    //                     <Input
-    //                         name="phoneNumber"
-    //                         size="large"
-    //                         placeholder="PhoneNumber"
-    //                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
-    //                             setFormValue({
-    //                                 ...formValue,
-    //                                 phoneNumber: event.target.value,
-    //                             })
-    //                         }
-    //                         prefix={<FontAwesomeIcon icon={faMobileAlt} />}
-    //                     />
-    //                 </Form.Item>
-
-    //                 <Form.Item>
-    //                     <Input
-    //                         name="address"
-    //                         size="large"
-    //                         placeholder="Address"
-    //                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
-    //                             setFormValue({
-    //                                 ...formValue,
-    //                                 address: event.target.value,
-    //                             })
-    //                         }
-    //                         prefix={<FontAwesomeIcon icon={faAddressBook} />}
-    //                     />
-    //                 </Form.Item>
-
-    //                 <Form.Item>
-    //                     <Input
-    //                         name="zipCode"
-    //                         size="large"
-    //                         placeholder="Zip code"
-    //                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
-    //                             setFormValue({
-    //                                 ...formValue,
-    //                                 zipCode: event.target.value,
-    //                             })
-    //                         }
-    //                         prefix={<FontAwesomeIcon icon={faCity} />}
-    //                     />
-    //                 </Form.Item>
-    //             </Form>
-    //         </div>
-    //     );
-
-    /**
-     * This is the second form where the user should add additional information
-     */
-    // const secondStepForm = () => (
-    //     <div className={styles.signupForm}>
-    //         <h2>Almost done</h2>
-    //         <Form>
-    //             <Form.Item>
-    //                 <Input
-    //                     name="kvk"
-    //                     size="large"
-    //                     placeholder="Kvk number"
-    //                     value={formValue.kvk}
-    //                     onChange={onChangeEvent("kvk")}
-    //                     prefix={<FontAwesomeIcon icon={faBuilding} />}
-    //                 />
-    //             </Form.Item>
-
-    //             <Form.Item>
-    //                 <Input
-    //                     name="btwNumber"
-    //                     size="large"
-    //                     placeholder="BTW number"
-    //                     value={formValue.btwNumber}
-    //                     onChange={onChangeEvent("btwNumber")}
-    //                     prefix={<FontAwesomeIcon icon={faFileInvoiceDollar} />}
-    //                 />
-    //             </Form.Item>
-
-    //             <Form.Item>
-    //                 <Button
-    //                     type="primary"
-    //                     block
-    //                     shape="round"
-    //                     htmlType="submit"
-    //                     className={styles.saveButton}
-    //                     disabled={!isEnabled()}
-    //                     onClick={handleSignUp}
-    //                 >
-    //                     Sign Up
-    //                     </Button>
-    //             </Form.Item>
-    //         </Form>
-    //     </div>
-    // );
-
     const stepsForm = [
         {
-            // content: firstStepForm(),
             content: renderForm("Sign up Barber", 1),
             title: "Register barber",
         },
         {
-            // content: secondStepForm(),
             content: renderForm("Almost done", 2),
             title: "Almost done",
         },
+        {
+            content: renderForm("Almost done", 3),
+            title: "Almost done",
+        }
     ];
 
     return (
         <>
             <Steps
+                size="small"
                 className={styles.positionForm}
                 current={activeStep}
-                style={{ width: 350 }}
+                style={{ width: 600 }}
             >
                 {stepsForm.map(({ title }) => (
                     <Steps.Step key={title} title={title} />
                 ))}
             </Steps>
-            <div className="steps-content">{stepsForm[activeStep].content}</div>
-            <div className="steps-action">
-                {activeStep < stepsForm.length - 1 && (
-                    <FontAwesomeIcon
-                        className={styles.positionRightArrow}
-                        icon={faArrowRight}
-                        size="2x"
-                        onClick={() => next()}
-                    />
-                )}
-                {activeStep > 0 && (
-                    <FontAwesomeIcon
-                        className={styles.positionLeftArrow}
-                        icon={faArrowLeft}
-                        size="2x"
-                        onClick={() => prev()}
-                    />
-                )}
+            <div className={styles.stepsContent}>
+                {stepsForm[activeStep].content}
+                <div className={styles.stepsAction}>
+                    {activeStep < stepsForm.length - 1 && (
+                        <FontAwesomeIcon
+                            className={styles.positionRightArrow}
+                            icon={faArrowRight}
+                            size="2x"
+                            onClick={() => next()}
+                        />
+                    )}
+                    {activeStep > 0 && (
+                        <FontAwesomeIcon
+                            className={styles.positionLeftArrow}
+                            icon={faArrowLeft}
+                            size="2x"
+                            onClick={() => prev()}
+                        />
+                    )}
+                </div>
             </div>
         </>
     );

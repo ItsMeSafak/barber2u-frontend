@@ -31,6 +31,9 @@ import {
     faFileAlt,
     faBuilding,
     faFileInvoiceDollar,
+    faEuroSign,
+    faClipboard,
+    faClock
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -62,6 +65,9 @@ export const icons = {
     faFileAlt,
     faBuilding,
     faFileInvoiceDollar,
+    faEuroSign,
+    faClipboard,
+    faClock
 };
 
 /**
