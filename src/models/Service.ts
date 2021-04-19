@@ -4,7 +4,7 @@ import Style from "./enums/Style";
  * The service is a model that consists of an id, style, description and a price.
  */
 export default class Service {
-    id = 0;
+    id = "";
     name: string;
     description: string;
     price: number;

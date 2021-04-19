@@ -21,7 +21,7 @@ const { Option } = Select;
  * @param {Object} props Component properties.
  * @returns {JSX}
  */
-const ServiceCard: React.FC<ComponentProps> = (props) => {
+const PortfolioCard: React.FC<ComponentProps> = (props) => {
     const { portfolioItem, newItem } = props;
     const [isEditing, setIsEditing] = useState(0);
 
@@ -47,4 +47,4 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
     );
 };
 
-export default ServiceCard;
+export default PortfolioCard;
