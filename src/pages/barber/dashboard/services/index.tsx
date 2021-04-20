@@ -39,6 +39,7 @@ const ServicesPage: React.FC = () => {
         isUpdated,
         isDeleted,
         isNewService,
+        serviceDetail,
         formValues,
         setIsNewService,
     } = useContext(ServiceContext);
@@ -160,7 +161,8 @@ const ServicesPage: React.FC = () => {
     useEffect(() => {
         fetchServices(accessToken, user?.getEmail);
         console.log("test");
-    }, [isUpdated, isDeleted]);
+        console.log(isUpdated);
+    }, [isUpdated, isDeleted, serviceDetail]);
 
     return (
         <ServiceProvider>

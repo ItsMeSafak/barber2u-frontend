@@ -28,7 +28,7 @@ interface FormProps {
 const NewServiceForm: React.FC<FormProps> = (props) => {
     const { serviceDetail } = props;
     const { accessToken } = useContext(AuthContext);
-    const { isNewService, formValues, setIsUpdated, setFormValues, setIsEditingId } = useContext(ServiceContext);
+    const { isNewService, formValues, setIsUpdated, setFormValues, setIsEditingId, setServiceDetail } = useContext(ServiceContext);
 
     const [isActive, setIsActive] = useState(serviceDetail.active);
 
@@ -64,21 +64,26 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
      * This function updates the current service.
      */
     const updateCurrentService = async () => {
+        const tempService = { ...serviceDetail };
+
         if (formValues) {
-            serviceDetail.name = formValues.name;
-            serviceDetail.description = formValues.description;
-            serviceDetail.time = formValues.time;
-            serviceDetail.price = formValues.price;
-            serviceDetail.active = isActive;
+            tempService.name = formValues.name;
+            tempService.description = formValues.description;
+            tempService.time = formValues.time;
+            tempService.price = formValues.price;
+            tempService.active = isActive;
         }
 
-        const response = await updateService(accessToken, serviceDetail);
+        const response = await updateService(accessToken, tempService);
 
         // If request is not OK, handle errors with notification.
         const { status, message } = response;
         if (!(status === 200)) showNotification(undefined, message, status);
         else showNotification(undefined, message, status);
-        setIsUpdated(true);
+
+        const tempBoolean = true;
+        setServiceDetail(tempService);
+        setIsUpdated(tempBoolean);
     };
 
     useEffect(() => {

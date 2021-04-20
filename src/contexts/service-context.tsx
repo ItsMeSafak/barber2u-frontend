@@ -1,4 +1,5 @@
 import React, { createContext, useMemo, useState } from "react";
+import Service from "../models/Service";
 
 interface ContextProps {
     isCreated: boolean | null;
@@ -6,17 +7,20 @@ interface ContextProps {
     isDeleted: boolean | null;
     isEditingId: string | null;
     isNewService: boolean | null;
+    serviceDetail: Service | null;
     formValues: {
         name: string;
         description: string;
         price: number;
         time: number
     };
+    listOfServices: Service[] | null;
     setIsCreated: (isCreated: boolean) => void;
     setIsUpdated: (isUpdated: boolean) => void;
     setIsDeleted: (isDeleted: boolean) => void;
     setIsEditingId: (isEditingId: string) => void;
     setIsNewService: (isNewServiceValue: boolean) => void;
+    setServiceDetail: (serviceDetail: Service) => void;
     setFormValues: (
         formValues: {
             name: string;
@@ -25,6 +29,7 @@ interface ContextProps {
             time: number
         }
     ) => void;
+    setListOfServices: (services: Service[]) => void;
 }
 
 const contextDefaultValues: ContextProps = {
@@ -33,18 +38,22 @@ const contextDefaultValues: ContextProps = {
     isDeleted: false,
     isEditingId: "",
     isNewService: false,
+    serviceDetail: null,
     formValues: {
         name: "",
         description: "",
         price: 0,
         time: 0
     },
+    listOfServices: [],
     setIsCreated: () => { },
     setIsUpdated: () => { },
     setIsDeleted: () => { },
     setIsEditingId: () => { },
     setIsNewService: () => { },
+    setServiceDetail: () => { },
     setFormValues: () => { },
+    setListOfServices: () => { }
 };
 
 export const ServiceContext = createContext<ContextProps>(contextDefaultValues);
@@ -66,7 +75,9 @@ export const ServiceProvider: React.FC = (props) => {
     const [isDeleted, setIsDeleted] = useState(contextDefaultValues.isDeleted);
     const [isEditingId, setIsEditingId] = useState(contextDefaultValues.isEditingId);
     const [isNewService, setIsNewService] = useState(contextDefaultValues.isNewService);
+    const [serviceDetail, setServiceDetail] = useState(contextDefaultValues.serviceDetail);
     const [formValues, setFormValues] = useState(contextDefaultValues.formValues);
+    const [listOfServices, setListOfServices] = useState(contextDefaultValues.listOfServices);
 
     const providerValues = useMemo(
         () => ({
@@ -75,26 +86,34 @@ export const ServiceProvider: React.FC = (props) => {
             isDeleted,
             isEditingId,
             isNewService,
+            serviceDetail,
             formValues,
+            listOfServices,
             setIsCreated,
             setIsUpdated,
             setIsDeleted,
             setIsEditingId,
             setIsNewService,
-            setFormValues
+            setServiceDetail,
+            setFormValues,
+            setListOfServices
         }),
         [isCreated,
             isUpdated,
             isDeleted,
             isEditingId,
             isNewService,
+            serviceDetail,
             formValues,
+            listOfServices,
             setIsCreated,
             setIsUpdated,
             setIsDeleted,
             setIsEditingId,
             setIsNewService,
-            setFormValues]
+            setServiceDetail,
+            setFormValues,
+            setListOfServices]
     );
 
     return (
