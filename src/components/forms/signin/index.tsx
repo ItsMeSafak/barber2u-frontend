@@ -58,9 +58,9 @@ const SigninForm: React.FC = () => {
         if (!response.data) return;
 
         // If request is OK, handle authentication.
-        const { token, roles } = response.data;
-        const user = new User(email, "John", "Doe", "1111AA", "31610101010");
-        setUser(user);
+        const { roles, token, user } = response.data;
+        const { firstName, lastName, phoneNumber, zipCode } = user;
+        setUser(new User(email, firstName, lastName, zipCode, phoneNumber));
         setRoles(roles);
         setAccessToken(token);
         setRefreshToken("REFRESHTOKEN-TODO");

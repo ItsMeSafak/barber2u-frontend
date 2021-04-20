@@ -4,11 +4,21 @@ const API_URL = "http://localhost:8080/api/auth";
 
 interface APIAuthResponse {
     data: {
-        email: string;
-        id: string;
         roles: Array<string>;
         token: string;
         type: string;
+        user: {
+            id: string;
+            email: string;
+            firstName: string;
+            lastName: string;
+            phoneNumber: string;
+            zipCode: string;
+            image: string;
+            isActive: boolean;
+            isVerified: boolean;
+            roles: Array<{ id: string; name: string }>;
+        };
     };
     message: string;
     status: number;
@@ -88,16 +98,3 @@ export const signUp = (formValues: {
                 }
             )
     );
-
-/**
- * This function is used for authenticating when trying to reach the backend.
- * You might need your jwt token for some functions in the backend.
- */
-export const authHeader = () => {
-    const user = JSON.parse(localStorage.getItem("user") as string);
-    if (user && user.accessToken) {
-        // return { Authorization: 'Bearer ' + user.accessToken }; // for Spring Boot back-end
-        return { "x-access-token": user.accessToken };
-    }
-    return {};
-};
