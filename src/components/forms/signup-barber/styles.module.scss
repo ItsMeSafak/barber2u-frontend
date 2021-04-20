@@ -1,3 +1,5 @@
+@import "../../../assets/config.scss";
+
 .signupForm {
     width: 80%;
     position: absolute;
@@ -21,18 +23,21 @@
 
 .positionForm {
     position: absolute;
-    top: 6%;
-    left: 10%;
+    left: 50%;
+    top: 10%;
+    transform: translate(-50%, -50%);
 }
 
-.positionRightArrow {
-    top: 50%;
-    left: 93%;
-    position: absolute;
+.nextButton {
+    width: 20%;
+    float: right;
+    margin: -9px 0 12px 0;
+    background: $primary-color;
 }
 
-.positionLeftArrow {
-    top: 50%;
-    right: 93%;
-    position: absolute;
+.prevButton {
+    width: 20%;
+    float: left;
+    margin: -9px 0 12px 0;
+    background: $primary-color;
 }

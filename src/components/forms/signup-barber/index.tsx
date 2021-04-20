@@ -218,8 +218,13 @@ const SignupFormBarber: React.FC = () => {
      * @returns {JSX}
      */
     const renderForm = (headingText: string, stepNumber: number) => {
+        const firstFormStep =
+            formInputs[formInputs.length - 1].step > stepNumber;
+        const secondFormStep =
+            stepNumber > 1;
         const lastFormStep =
             formInputs[formInputs.length - 1].step === stepNumber;
+
         return (
             <div className={styles.signupForm}>
                 <h2>{headingText}</h2>
@@ -247,8 +252,29 @@ const SignupFormBarber: React.FC = () => {
                                 />
                             </Form.Item>
                         ))}
-                    {lastFormStep && (
-                        <Form.Item>
+
+                    <Form.Item >
+                        {firstFormStep && (
+                            <Button
+                                onClick={() => next()}
+                                className={styles.nextButton}
+                                type="primary"
+                                shape="round"
+                            >
+                                Next
+                            </Button>
+                        )}
+                        {secondFormStep && (
+                            <Button
+                                onClick={() => prev()}
+                                className={styles.prevButton}
+                                type="primary"
+                                shape="round"
+                            >
+                                Previous
+                            </Button>
+                        )}
+                        {lastFormStep && (
                             <Button
                                 block
                                 type="primary"
@@ -260,8 +286,8 @@ const SignupFormBarber: React.FC = () => {
                             >
                                 Sign Up
                             </Button>
-                        </Form.Item>
-                    )}
+                        )}
+                    </Form.Item>
                 </Form>
             </div>
         );
@@ -296,24 +322,6 @@ const SignupFormBarber: React.FC = () => {
             </Steps>
             <div className={styles.stepsContent}>
                 {stepsForm[activeStep].content}
-                <div className={styles.stepsAction}>
-                    {activeStep < stepsForm.length - 1 && (
-                        <FontAwesomeIcon
-                            className={styles.positionRightArrow}
-                            icon={faArrowRight}
-                            size="2x"
-                            onClick={() => next()}
-                        />
-                    )}
-                    {activeStep > 0 && (
-                        <FontAwesomeIcon
-                            className={styles.positionLeftArrow}
-                            icon={faArrowLeft}
-                            size="2x"
-                            onClick={() => prev()}
-                        />
-                    )}
-                </div>
             </div>
         </>
     );
