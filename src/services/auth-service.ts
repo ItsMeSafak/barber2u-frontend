@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/auth";
-
 interface APIAuthResponse {
     data: {
         roles: Array<string>;
@@ -27,7 +25,6 @@ interface APIAuthResponse {
 
 /**
  * This function handles the login API request.
- * TODO: create Auth-interceptor (Mehmet)
  *
  * @param {string} email The user email input.
  * @param {string} password The user password input.
@@ -39,7 +36,7 @@ export const signIn = (
 ): Promise<APIAuthResponse> =>
     new Promise<APIAuthResponse>((resolve, reject) =>
         axios
-            .post(`${API_URL}/signin`, {
+            .post("auth/signin", {
                 email,
                 password,
             })
@@ -78,7 +75,7 @@ export const signUp = (formValues: {
 }): Promise<APIAuthResponse> =>
     new Promise<APIAuthResponse>((resolve, reject) =>
         axios
-            .post(`${API_URL}/signup`, {
+            .post("auth/signup/customer", {
                 ...formValues,
             })
             .then(
