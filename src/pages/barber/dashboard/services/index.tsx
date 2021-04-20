@@ -14,11 +14,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Service from "../../../../models/Service";
 
-import styles from "./styles.module.scss";
 import { showNotification } from "../../../../assets/functions/notification";
-import { createNewService, deleteService, getAllServices } from "../../../../services/services-service";
-import { AuthContext } from "../../../../contexts/auth-context";
+
+import { createNewService, getAllServices } from "../../../../services/services-service";
+
 import ServiceCard from "../../../../components/card-service";
+
+import { AuthContext } from "../../../../contexts/auth-context";
+import { ServiceProvider, ServiceContext } from "../../../../contexts/service-context";
+
+import styles from "./styles.module.scss";
 
 const { Content } = Layout;
 
@@ -30,20 +35,15 @@ const { Content } = Layout;
  */
 const ServicesPage: React.FC = () => {
     const { user, accessToken } = useContext(AuthContext);
+    const {
+        isUpdated,
+        isDeleted,
+        isNewService,
+        formValues,
+        setIsNewService,
+    } = useContext(ServiceContext);
 
-    const [newService, setNewService] = useState(false);
     const [services, setServices] = useState<Service[]>([]);
-    const [formValue, setFormValue] = useState<{
-        name: string;
-        description: string;
-        price: number;
-        time: number
-    }>({
-        name: "",
-        description: "",
-        price: 0,
-        time: 0
-    });
 
     /**
      * This function sends a request to the backend, where we add a new service to the barber services.
@@ -68,8 +68,8 @@ const ServicesPage: React.FC = () => {
      * Depending on if its a new service, it either creates a new service or edits one.
      */
     const initService = () => {
-        if (newService) {
-            const initialService = new Service(formValue.name, formValue.description, formValue.price, formValue.time, true);
+        if (isNewService && formValues) {
+            const initialService = new Service(formValues.name, formValues.description, formValues.price, formValues.time, true);
             addService(accessToken, initialService, user?.getEmail);
         }
     };
@@ -92,10 +92,6 @@ const ServicesPage: React.FC = () => {
         setServices(response.data as Service[]);
     };
 
-    useEffect(() => {
-        fetchServices(accessToken, user?.getEmail);
-    }, []);
-
     /**
      * This function create a new (and empty) instance of a service.
      *
@@ -104,89 +100,93 @@ const ServicesPage: React.FC = () => {
     const emptyService = () => new Service("", "", 0.0, 0, true);
 
     /**
-     * This function is a callback that gets triggered everytime a change is made to the form in the child component.
+     * This fucntion renders the add button for creating a new service.
      * 
-     * @param data form data
+     * @returns {JSX}
      */
-    const formCallback = (data: { name: string; description: string; price: number; time: number; }) => {
-        setFormValue(data);
-    };
+    const renderAddButton = () => (
+        <Button
+            className={styles.addBtn}
+            type="primary"
+            icon={<FontAwesomeIcon icon={faPlus} />}
+            size="large"
+            onClick={() =>
+                setIsNewService(true)
+            }
+        >
+            Add new service
+        </Button>
+    );
 
     /**
-     * Test
+     * This fucnction renders a new service card, that can be created or canceled.
+     * @returns {JSX}
      */
-    const deletedCallback = (isDeleted: boolean) => {
-        if (isDeleted) fetchServices(accessToken, user?.getEmail);
-    };
+    const renderNewServiceCard = () => (
+        <>
+            <Button
+                className={`${styles.addBtn} ${styles.saveBtn}`}
+                type="primary"
+                icon={<FontAwesomeIcon icon={faCheck} />}
+                size="large"
+                onClick={() => {
+                    initService();
+                    setIsNewService(false);
+                }
+                }
+            >
+                Save
+                            </Button>
+            <Button
+                className={styles.addBtn}
+                danger
+                type="primary"
+                icon={<FontAwesomeIcon icon={faTimes} />}
+                size="large"
+                onClick={() =>
+                    setIsNewService(false)
+                }
+            >
+                Cancel
+                            </Button>
+            <Row gutter={[20, 20]}>
+                <ServiceCard
+                    serviceDetail={emptyService()}
+                />
+            </Row>
+        </>
+    );
+
+    useEffect(() => {
+        fetchServices(accessToken, user?.getEmail);
+        console.log("test");
+    }, [isUpdated, isDeleted]);
 
     return (
-        <div className={styles.services}>
-            <Layout>
-                <Content>
-                    <h1 className={styles.title}>Services</h1>
-                    {!newService ? (
-                        <Button
-                            className={styles.addBtn}
-                            type="primary"
-                            icon={<FontAwesomeIcon icon={faPlus} />}
-                            size="large"
-                            onClick={() =>
-                                setNewService((prevState) => !prevState)
-                            }
-                        >
-                            Add new service
-                        </Button>
-                    ) : (
-                        <>
-                            <Button
-                                className={`${styles.addBtn} ${styles.saveBtn}`}
-                                type="primary"
-                                icon={<FontAwesomeIcon icon={faCheck} />}
-                                size="large"
-                                onClick={() => {
-                                    initService();
-                                    setNewService((prevState) => !prevState);
-                                }
-                                }
-                            >
-                                Save
-                            </Button>
-                            <Button
-                                className={styles.addBtn}
-                                danger
-                                type="primary"
-                                icon={<FontAwesomeIcon icon={faTimes} />}
-                                size="large"
-                                onClick={() =>
-                                    setNewService((prevState) => !prevState)
-                                }
-                            >
-                                Cancel
-                            </Button>
-                            <Row gutter={[20, 20]}>
-                                <ServiceCard
-                                    serviceDetail={emptyService()}
-                                    newService={newService}
-                                    callback={formCallback}
-                                />
-                            </Row>
-                        </>
-                    )}
-                    <Divider />
-                    <Row gutter={[20, 20]}>
-                        {services &&
-                            services.map((service) => (
-                                <ServiceCard
-                                    key={service.id}
-                                    serviceDetail={service}
-                                    newService={false}
-                                    serviceDeleted={deletedCallback}
-                                />
-                            ))}
-                    </Row>
-                </Content>
-            </Layout>
-        </div>
+        <ServiceProvider>
+            <div className={styles.services}>
+                <Layout>
+                    <Content>
+                        <h1 className={styles.title}>Services</h1>
+                        {!isNewService ? (
+                            renderAddButton()
+                        ) : (
+                            renderNewServiceCard()
+                        )}
+                        <Divider />
+                        <Row gutter={[20, 20]}>
+                            {services &&
+                                services.map((service) => (
+                                    <ServiceCard
+                                        key={service.id}
+                                        serviceDetail={service}
+                                    />
+                                ))}
+                        </Row>
+                    </Content>
+                </Layout>
+            </div >
+        </ServiceProvider >
     );
 };
 

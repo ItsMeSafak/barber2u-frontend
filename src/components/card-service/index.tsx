@@ -1,21 +1,24 @@
 import React, { useContext, useState } from "react";
 
-import { Button, Card, Col, Popover, Select } from "antd";
-import { faCertificate, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Card, Col, Popover } from "antd";
+import { faCertificate, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+
+import Service from "../../models/Service";
+
+import NewServiceForm from "../forms/new-service";
+
+import { deleteService } from "../../services/services-service";
+
+import { showNotification } from "../../assets/functions/notification";
+
+import { AuthContext } from "../../contexts/auth-context";
+import { ServiceContext } from "../../contexts/service-context";
 
 import styles from "./styles.module.scss";
-import Service from "../../models/Service";
-import NewServiceForm from "../forms/new-service";
-import { deleteService } from "../../services/services-service";
-import { AuthContext } from "../../contexts/auth-context";
-import { showNotification } from "../../assets/functions/notification";
 
 interface ComponentProps {
     serviceDetail: Service;
-    newService: boolean;
-    callback?: (formData: { name: string; description: string; price: number; time: number; }) => void;
-    serviceDeleted?: (isDeleted: boolean) => void;
 }
 /**
  * This component renders the service card for the services page,
@@ -26,9 +29,10 @@ interface ComponentProps {
  * @returns {JSX}
  */
 const ServiceCard: React.FC<ComponentProps> = (props) => {
-    const { serviceDetail, newService, callback, serviceDeleted } = props;
+    const { serviceDetail } = props;
     const { accessToken } = useContext(AuthContext);
-    const [isEditing, setIsEditing] = useState("");
+    const { isEditingId, isNewService, setIsEditingId, setIsDeleted } = useContext(ServiceContext);
+
     const [confirmDelete, setConfirmDelete] = useState(false);
 
 
@@ -53,7 +57,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
         <FontAwesomeIcon
             key="edit"
             icon={faEdit}
-            onClick={() => setIsEditing(serviceDetail.id)}
+            onClick={() => setIsEditingId(serviceDetail.id)}
         />,
     ];
 
@@ -61,23 +65,23 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
      * This function deletes the current service.
      */
     const deleteCurrentService = async () => {
-        if (serviceDeleted) serviceDeleted(true);
         const response = await deleteService(accessToken, serviceDetail.id);
 
         // If request is not OK, handle errors with notification.
         const { status, message } = response;
         if (!(status === 200)) showNotification(undefined, message, status);
         else showNotification(undefined, message, status);
+        setIsDeleted(true);
     };
 
     return (
         <Col key={serviceDetail.id} xs={24} sm={12} lg={8} xl={8}>
             <Card
                 className={styles.card}
-                actions={!newService ? actions() : []}
+                actions={!isNewService ? actions() : []}
             >
-                {isEditing === serviceDetail.id ? (
-                    <NewServiceForm serviceDetail={serviceDetail} newService={newService} callback={callback} />
+                {isEditingId === serviceDetail.id ? (
+                    <NewServiceForm serviceDetail={serviceDetail} />
                 ) : (
                     <>
                         <h2 className={styles.header}>{serviceDetail.name} <FontAwesomeIcon className={serviceDetail.active ? styles.certificateOn : styles.certificateOff}

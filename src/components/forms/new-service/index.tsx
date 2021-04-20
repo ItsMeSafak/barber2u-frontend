@@ -1,21 +1,23 @@
-import React, { ChangeEvent, useContext, useState } from "react";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form, Input, Button, Switch, Tooltip, InputNumber } from "antd";
-import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 
 import TextArea from "antd/lib/input/TextArea";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Form, Input, Button, Switch, Tooltip, InputNumber } from "antd";
+
 import Service from "../../../models/Service";
 
-import styles from "./styles.module.scss";
 import { updateService } from "../../../services/services-service";
-import { AuthContext } from "../../../contexts/auth-context";
+
 import { showNotification } from "../../../assets/functions/notification";
+
+import { AuthContext } from "../../../contexts/auth-context";
+import { ServiceContext } from "../../../contexts/service-context";
+
+import styles from "./styles.module.scss";
 
 interface FormProps {
     serviceDetail: Service;
-    newService: boolean;
-    callback?: (formData: { name: string; description: string; price: number; time: number; }) => void;
 }
 
 /**
@@ -24,21 +26,11 @@ interface FormProps {
  * @returns {JSX}
  */
 const NewServiceForm: React.FC<FormProps> = (props) => {
-    const { serviceDetail, newService, callback } = props;
+    const { serviceDetail } = props;
     const { accessToken } = useContext(AuthContext);
-    const [isActive, setIsActive] = useState(serviceDetail.active);
+    const { isNewService, formValues, setIsUpdated, setFormValues, setIsEditingId } = useContext(ServiceContext);
 
-    const [formValue, setFormValue] = useState<{
-        name: string;
-        description: string;
-        price: number;
-        time: number
-    }>({
-        name: "",
-        description: "",
-        price: 0,
-        time: 0
-    });
+    const [isActive, setIsActive] = useState(serviceDetail.active);
 
     /**
      * This function sets the form value for number typed inputs.
@@ -47,11 +39,11 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
      */
     const onNumberChange = (key: string) =>
         (value: number) => {
-            setFormValue({
-                ...formValue,
-                [key]: value
-            });
-            if (callback) callback(formValue);
+            if (formValues)
+                setFormValues({
+                    ...formValues,
+                    [key]: value
+                });
         };
 
     /**
@@ -61,22 +53,24 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
      */
     const onInputChange = (key: string) =>
         (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-            setFormValue({
-                ...formValue,
-                [key]: event.target.value
-            });
-            if (callback) callback(formValue);
+            if (formValues)
+                setFormValues({
+                    ...formValues,
+                    [key]: event.target.value
+                });
         };
 
     /**
-     * test
+     * This function updates the current service.
      */
     const updateCurrentService = async () => {
-        serviceDetail.name = formValue.name;
-        serviceDetail.description = formValue.description;
-        serviceDetail.time = formValue.time;
-        serviceDetail.price = formValue.price;
-        serviceDetail.active = isActive;
+        if (formValues) {
+            serviceDetail.name = formValues.name;
+            serviceDetail.description = formValues.description;
+            serviceDetail.time = formValues.time;
+            serviceDetail.price = formValues.price;
+            serviceDetail.active = isActive;
+        }
 
         const response = await updateService(accessToken, serviceDetail);
 
@@ -84,7 +78,12 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
         const { status, message } = response;
         if (!(status === 200)) showNotification(undefined, message, status);
         else showNotification(undefined, message, status);
+        setIsUpdated(true);
     };
+
+    useEffect(() => {
+        setFormValues({ name: serviceDetail.name, description: serviceDetail.description, time: serviceDetail.time, price: serviceDetail.price });
+    }, []);
 
     return (
         <>
@@ -127,14 +126,17 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     />
                 </Form.Item>
             </Form>
-            { !newService &&
+            { !isNewService &&
                 <>
                     <Tooltip title="Save">
                         <Button
                             className={styles.confirmButton}
                             type="primary"
                             shape="circle"
-                            onClick={() => updateCurrentService()}
+                            onClick={() => {
+                                setIsEditingId("");
+                                updateCurrentService();
+                            }}
                             icon={
                                 <FontAwesomeIcon icon={faCheck} />
                             }
@@ -145,6 +147,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                             type="primary"
                             danger
                             shape="circle"
+                            onClick={() => setIsEditingId("")}
                             icon={
                                 <FontAwesomeIcon icon={faTimes} />
                             }

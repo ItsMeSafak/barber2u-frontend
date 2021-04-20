@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import { Card, Col, Select } from "antd";
 
-import PortfolioItem from "../../models/PortfolioItem";
 import Style from "../../models/enums/Style";
+import PortfolioItem from "../../models/PortfolioItem";
 
 import styles from "./styles.module.scss";
 

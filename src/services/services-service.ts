@@ -1,11 +1,10 @@
 import axios from "axios";
 
-import APIResponse from "../models/APIResponse";
 import Service from "../models/Service";
-
-const API_URL = "http://localhost:8080/api/services";
+import APIResponse from "../models/APIResponse";
 
 const AUTH_HEADER = "Authorization";
+const API_URL = "http://localhost:8080/api/services";
 
 /**
  * This function fetches the services.
