@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Form, Input } from "antd";
 
-import SettingsInputs from "../../../assets/settings_inputs.json";
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
@@ -35,9 +34,45 @@ const SettingsForm: React.FC = () => {
 
     const inputFieldValues: Array<{
         name: string;
-        placeHolder: string;
+        placeholder: string;
         icon: string;
-    }> = SettingsInputs;
+    }> = [
+        {
+            name: "firstname",
+            placeholder: "Firstname",
+            icon: "id-card",
+        },
+        {
+            name: "lastname",
+            placeholder: "Lastname",
+            icon: "id-card",
+        },
+        {
+            name: "email",
+            placeholder: "Email",
+            icon: "at",
+        },
+        {
+            name: "password",
+            placeholder: "Password",
+            icon: "key",
+        },
+        {
+            name: "phone",
+            placeholder: "Phone",
+            icon: "mobile-alt",
+        },
+        {
+            name: "address",
+            placeholder: "Address",
+            icon: "address-book",
+        },
+        {
+            name: "city",
+            placeholder: "City",
+            icon: "city",
+        },
+    ];
 
     /**
      * This method checks if some of the fields have a filled in value or not.
@@ -53,7 +88,7 @@ const SettingsForm: React.FC = () => {
      * @returns {JSX}
      */
     const renderInputFields = () =>
-        inputFieldValues.map(({ name, placeHolder, icon }) => (
+        inputFieldValues.map(({ name, placeholder, icon }) => (
             <Form.Item key={name}>
                 <Input
                     name={name}
@@ -64,10 +99,11 @@ const SettingsForm: React.FC = () => {
                             name: event.target.value,
                         })
                     }
-                    placeholder={placeHolder}
+                    placeholder={placeholder}
                     prefix={
                         <FontAwesomeIcon
                             icon={getIconByPrefixName("fas", icon)}
+                            size="sm"
                         />
                     }
                 />

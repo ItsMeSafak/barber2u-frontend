@@ -33,6 +33,7 @@ import {
     faEuroSign,
     faClipboard,
     faClock,
+    faLock,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -67,6 +68,7 @@ export const icons = {
     faEuroSign,
     faClipboard,
     faClock,
+    faLock,
 };
 
 /**

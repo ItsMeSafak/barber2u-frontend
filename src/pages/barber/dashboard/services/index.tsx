@@ -30,10 +30,6 @@ const { Option } = Select;
 const { Content } = Layout;
 const { TextArea } = Input;
 
-interface ComponentProps {
-    services: Service[];
-}
-
 interface CardProps {
     serviceDetail: Service;
     newService: boolean;
@@ -113,7 +109,7 @@ const ServiceCardComponent: React.FC<CardProps> = (props) => {
                                     <Button
                                         type="primary"
                                         danger
-                                        onClick={(evt) => setIsEditing(0)}
+                                        onClick={() => setIsEditing(0)}
                                         shape="circle"
                                         icon={
                                             <FontAwesomeIcon icon={faTimes} />
@@ -143,9 +139,32 @@ const ServiceCardComponent: React.FC<CardProps> = (props) => {
  * @param {Object} props Component properties.
  * @returns {JSX}
  */
-const ServicesPage: React.FC<ComponentProps> = (props) => {
-    const { services } = props;
+const ServicesPage: React.FC = () => {
     const [newService, setNewService] = useState(false);
+
+    const servicesMockData: Service[] = [
+        {
+            id: 1,
+            style: Style.Curly,
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+            price: 20.0,
+        },
+        {
+            id: 2,
+            style: Style.Styled,
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+            price: 10.15,
+        },
+        {
+            id: 3,
+            style: Style.Yee,
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+            price: 12.5,
+        },
+    ];
 
     /**
      * This function create a new (and empty) instance of a service.
@@ -190,7 +209,7 @@ const ServicesPage: React.FC<ComponentProps> = (props) => {
                                 type="primary"
                                 icon={<FontAwesomeIcon icon={faTimes} />}
                                 size="large"
-                                onClick={(evt) =>
+                                onClick={() =>
                                     setNewService((prevState) => !prevState)
                                 }
                             >
@@ -206,8 +225,8 @@ const ServicesPage: React.FC<ComponentProps> = (props) => {
                     )}
                     <Divider />
                     <Row gutter={[20, 20]}>
-                        {services &&
-                            services.map((service) => (
+                        {servicesMockData &&
+                            servicesMockData.map((service) => (
                                 <ServiceCardComponent
                                     key={service.id}
                                     serviceDetail={service}

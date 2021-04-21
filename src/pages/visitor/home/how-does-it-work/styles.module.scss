@@ -1,0 +1,20 @@
+@import "../../../../index.scss";
+@import "../../../../assets/config.scss";
+
+.section {
+    text-align: center;
+    padding: 1rem;
+    font-size: 1rem;
+    min-height: 100vh;
+
+    .sectionTitle {
+        @extend .underlined-text;
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin: 5rem 0 2rem 0;
+    }
+
+    .cardCol {
+        margin: 1rem 0;
+    }
+}

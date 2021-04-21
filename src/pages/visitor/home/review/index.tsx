@@ -2,7 +2,7 @@ import React from "react";
 
 import { Carousel, Col, Row } from "antd";
 
-import { PLACEHOLDER_TEXT } from "../../../assets/constants";
+import { PLACEHOLDER_TEXT } from "../../../../assets/constants";
 
 import styles from "./styles.module.scss";
 
@@ -28,7 +28,7 @@ const ReviewSection: React.FC = () => {
         ));
 
     return (
-        <Row id="reviews" className={styles.reviews} justify="center">
+        <Row id="reviews" className={styles.section} justify="center">
             <Col span={24}>
                 <Carousel
                     autoplay={false}

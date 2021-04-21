@@ -4,20 +4,24 @@ import { IconType } from "antd/lib/notification";
 /**
  * This function shows the notification with given properties.
  *
- * @param {string} message The title of the notification.
+ * @param {string | undefined} message The title of the notification.
  * @param {string} description The description of the notification.
  * @param {number | undefined} httpStatus The HTTP status code that has to be shown.
  * @param {string | undefined} notificationType The notification type.
  */
 export const showNotification = (
-    message: string,
+    message: string | undefined,
     description: string,
     httpStatus?: number,
     notificationType?: string
-) => {
+): void => {
+    const modifiedMessageStatus =
+        (!message && httpStatus && httpStatus >= 200 && httpStatus < 300
+            ? "Success"
+            : "Error") || null;
     const modifiedMessage = httpStatus
-        ? `[${httpStatus}] - ${message}`
-        : message;
+        ? `[${httpStatus}] - ${message || modifiedMessageStatus}`
+        : message || modifiedMessageStatus;
     const modifiedHttpStatusType =
         httpStatus && retrieveTypeFromHttpCode(httpStatus);
 

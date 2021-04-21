@@ -36,7 +36,16 @@ const StatisticsPage: React.FC = () => {
         <Layout className={styles.statistics}>
             <Content>
                 <Row gutter={[20, 20]}>
-                    <Col sm={24} lg={12}>
+                    <Col xs={24}>
+                        <Card className={styles.card}>
+                            <Statistic
+                                title="Account Balance (CNY)"
+                                value={112893}
+                                precision={2}
+                            />
+                        </Card>
+                    </Col>
+                    <Col xs={24} lg={12}>
                         <Card className={styles.card}>
                             <Chart data={data}>
                                 <ArgumentAxis />
@@ -49,7 +58,7 @@ const StatisticsPage: React.FC = () => {
                             </Chart>
                         </Card>
                     </Col>
-                    <Col sm={24} lg={12}>
+                    <Col xs={24} lg={12}>
                         <Card className={styles.card}>
                             <Chart data={data}>
                                 <PieSeries
@@ -58,15 +67,6 @@ const StatisticsPage: React.FC = () => {
                                 />
                                 <Animation />
                             </Chart>
-                        </Card>
-                    </Col>
-                    <Col sm={12} lg={8}>
-                        <Card className={styles.card}>
-                            <Statistic
-                                title="Account Balance (CNY)"
-                                value={112893}
-                                precision={2}
-                            />
                         </Card>
                     </Col>
                 </Row>

@@ -14,21 +14,36 @@ import styles from "./styles.module.scss";
 
 const { Content } = Layout;
 
-interface ComponentProps {
-    portfolio: Portfolio;
-}
-
 /**
  * This component renders the protfolio page, consisting of portfolio cards/items.
  *
  * @param {Object} props Component properties.
  * @returns {JSX}
  */
-const PortfolioPage: React.FC<ComponentProps> = (props) => {
-    const { portfolio } = props;
+const PortfolioPage: React.FC = () => {
     const [newItem, setNewItem] = useState(false);
 
-    const allStylesAvailable = portfolio.items.map((item) => item.style);
+    const portfolioMockData = new Portfolio(1, [
+        {
+            id: 1,
+            style: Style.Curly,
+            image: "",
+        },
+        {
+            id: 2,
+            style: Style.Styled,
+            image: "",
+        },
+        {
+            id: 3,
+            style: Style.Yee,
+            image: "",
+        },
+    ]);
+
+    const allStylesAvailable = portfolioMockData.items.map(
+        (item) => item.style
+    );
 
     /**
      * This function creates a new (and empty) instance of a portfolio item.
@@ -123,7 +138,8 @@ const PortfolioPage: React.FC<ComponentProps> = (props) => {
             <div className={styles.styleRow} key={style}>
                 <h2 className={styles.header}>{style}</h2>
                 <Row gutter={[20, 20]}>
-                    {portfolio && renderPortfolioItems(portfolio, style)}
+                    {portfolioMockData &&
+                        renderPortfolioItems(portfolioMockData, style)}
                 </Row>
             </div>
         ));

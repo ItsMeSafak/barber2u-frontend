@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useContext, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 
-import { faKey, faAt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Form, Input, notification } from "antd";
 
@@ -9,6 +8,9 @@ import User from "../../../models/User";
 
 import { signIn } from "../../../services/auth-service";
 import { AuthContext } from "../../../contexts/auth-context";
+
+import { showNotification } from "../../../assets/functions/notification";
+import { getIconByPrefixName } from "../../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
 
@@ -38,21 +40,6 @@ const SignInForm: React.FC = () => {
     const history = useHistory();
 
     /**
-     * TODO: make generic notification component (Mehmet)
-     * This function handles the antd notification which will be shown the moment the credentials are wrong.
-     */
-    const openNotificationWithIcon = (
-        message: string | number,
-        description: string
-    ) => {
-        notification.error({
-            message,
-            description,
-            placement: "bottomRight",
-        });
-    };
-
-    /**
      * This function handles the signin action and stores the user data into cookies using the auth context.
      * It will redirect the user to the correct page when logged in succesfully.
      */
@@ -67,14 +54,13 @@ const SignInForm: React.FC = () => {
 
         // If request is not OK, handle errors with notification.
         const { status, message } = response;
-        if (!(response.status === 200))
-            openNotificationWithIcon(status, message);
+        if (!(status === 200)) showNotification(undefined, message, status);
         if (!response.data) return;
 
         // If request is OK, handle authentication.
-        const { token, roles } = response.data;
-        const user = new User(email, "John", "Doe", "1111AA", "31610101010");
-        setUser(user);
+        const { roles, token, user } = response.data;
+        const { firstName, lastName, phoneNumber, zipCode } = user;
+        setUser(new User(email, firstName, lastName, zipCode, phoneNumber));
         setRoles(roles);
         setAccessToken(token);
         setRefreshToken("REFRESHTOKEN-TODO");
@@ -97,7 +83,12 @@ const SignInForm: React.FC = () => {
                                 email: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faAt} />}
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName("fas", "at")}
+                                size="sm"
+                            />
+                        }
                     />
                 </Form.Item>
 
@@ -113,7 +104,12 @@ const SignInForm: React.FC = () => {
                                 password: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faKey} />}
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName("fas", "key")}
+                                size="sm"
+                            />
+                        }
                     />
                 </Form.Item>
 

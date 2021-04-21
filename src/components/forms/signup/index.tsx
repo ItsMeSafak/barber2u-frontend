@@ -1,7 +1,7 @@
 import { useHistory } from "react-router-dom";
 import React, { ChangeEvent, useState } from "react";
 
-import { Button, Form, Input, notification } from "antd";
+import { Button, Form, Input } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faAddressBook,
@@ -14,6 +14,7 @@ import {
 
 import { signUp } from "../../../services/auth-service";
 
+import { showNotification } from "../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
@@ -46,20 +47,6 @@ const SignupForm: React.FC = () => {
     });
 
     /**
-     * This function handles the antd notification which will be shown the moment the credentials are wrong.
-     */
-    const openNotificationWithIcon = (
-        message: string | number,
-        description: string
-    ) => {
-        notification.error({
-            message,
-            description,
-            placement: "bottomRight",
-        });
-    };
-
-    /**
      * This function handles the signup.
      * Once succesfully registered, the user will be redirected to the login page.
      */
@@ -72,13 +59,13 @@ const SignupForm: React.FC = () => {
 
         // If request is not OK, handle errors with notification.
         const { status, message } = response;
-        if (!(response.status === 200)) {
-            openNotificationWithIcon(status, message);
+        if (!(status === 200)) {
+            showNotification(undefined, message, status);
             return;
         }
 
         // If request is OK, redirect user to login page.
-        openNotificationWithIcon(status, message);
+        showNotification(undefined, message, status);
         history.push("/signin");
     };
 
