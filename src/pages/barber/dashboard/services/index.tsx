@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 
 import {
     Button,
@@ -7,10 +7,7 @@ import {
     Modal,
     Row
 } from "antd";
-import {
-    faCheck,
-    faPlus, faTimes
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Service from "../../../../models/Service";
@@ -20,12 +17,12 @@ import { showNotification } from "../../../../assets/functions/notification";
 import { createNewService, getAllServices, updateService } from "../../../../services/services-service";
 
 import ServiceCard from "../../../../components/card-service";
+import NewServiceForm from "../../../../components/forms/new-service";
 
 import { AuthContext } from "../../../../contexts/auth-context";
 import { ServiceContext } from "../../../../contexts/service-context";
 
 import styles from "./styles.module.scss";
-import NewServiceForm from "../../../../components/forms/new-service";
 
 const { Content } = Layout;
 
@@ -37,8 +34,8 @@ const { Content } = Layout;
  */
 const ServicesPage: React.FC = () => {
     const { user } = useContext(AuthContext);
-
-    const { serviceDetail, listOfServices, isNewService, formValues, isDeleted, setServiceDetail, setListOfServices, setIsNewService } = useContext(ServiceContext);
+    const { serviceDetail, listOfServices, isNewService, formValues, isDeleted,
+        setServiceDetail, setListOfServices, setIsNewService } = useContext(ServiceContext);
 
     /**
      * This function sends a request to the backend, where we add a new service to the barber services.
@@ -48,12 +45,11 @@ const ServicesPage: React.FC = () => {
      * @param {string} barber barber email 
      */
     const addService = async () => {
-        updateCurrentServiceOnForm();
+        changeCurrentService();
         if (serviceDetail) {
             const response = await createNewService(serviceDetail);
             setServiceDetail(null);
 
-            // If request is not OK, handle errors with notification.
             const { status, message } = response;
             if (!(status === 200)) showNotification(undefined, message, status);
             else showNotification(undefined, message, status);
@@ -68,16 +64,18 @@ const ServicesPage: React.FC = () => {
     const emptyService = () => new Service("", "", 0.0, 0, true);
 
     /**
-     * Test
+     * This function renders the modal for creatingf a new service. 
+     * @returns {JSX}
      */
     const renderNewServiceModal = () => (
         <Modal
             title="Creating a new service"
             centered
+            okButtonProps={{ disabled: checkFormValues() }}
             visible={serviceDetail !== null}
             onOk={() => addService()}
             onCancel={() => setServiceDetail(null)}
-            width={1000} >
+            width={800} >
             <NewServiceForm serviceDetail={serviceDetail} />
         </Modal>
     );
@@ -102,9 +100,9 @@ const ServicesPage: React.FC = () => {
     );
 
     /**
-     * Test
+     * This function updates the service detail based on the form values.
      */
-    const updateCurrentServiceOnForm = () => {
+    const changeCurrentService = () => {
         if (formValues && serviceDetail) {
             serviceDetail.name = formValues.name;
             serviceDetail.description = formValues.description;
@@ -116,11 +114,12 @@ const ServicesPage: React.FC = () => {
     };
 
     /**
-     * Test
+     * This function updates the current service on the list.
      */
-    const changeCurrentService = async () => {
+    const updateCurrentService = async () => {
         if (serviceDetail) {
-            updateCurrentServiceOnForm();
+            changeCurrentService();
+            console.log(serviceDetail);
             const response = await updateService(serviceDetail);
             setServiceDetail(null);
 
@@ -152,6 +151,13 @@ const ServicesPage: React.FC = () => {
         console.log("Services fetched");
     };
 
+    /**
+     * This function checks if either the description or name are empty strings.
+     * 
+     * @returns {boolean}
+     */
+    const checkFormValues = () => formValues.description == "" || formValues.name == "";
+
     useEffect(() => {
         fetchServices();
     }, [serviceDetail, isDeleted]);
@@ -165,10 +171,11 @@ const ServicesPage: React.FC = () => {
         <Modal
             title="Service details"
             centered
+            okButtonProps={{ disabled: checkFormValues() }}
             visible={serviceDetail !== null}
-            onOk={() => changeCurrentService()}
+            onOk={() => updateCurrentService()}
             onCancel={() => setServiceDetail(null)}
-            width={1000} >
+            width={800} >
             <NewServiceForm serviceDetail={serviceDetail} />
         </Modal>
     );

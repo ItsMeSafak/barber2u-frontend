@@ -1,15 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Card, Col, Modal } from "antd";
-import { faCertificate, faEdit, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCertificate, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import Service from "../../models/Service";
 
-import styles from "./styles.module.scss";
 import { ServiceContext } from "../../contexts/service-context";
+
 import { deleteService } from "../../services/services-service";
+
 import { showNotification } from "../../assets/functions/notification";
+
+import styles from "./styles.module.scss";
 
 interface ComponentProps {
     serviceDetail: Service;
@@ -54,7 +57,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
     ];
 
     /**
-     * Test
+     * This function creates a warnign modal for deleting the current service.
      */
     const warningModal = () => {
         Modal.warning({
@@ -67,13 +70,12 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
     };
 
     /**
-     * This function deletes the current service.
+     * This function deletes the current service on the list.
      */
     const deleteCurrentService = async () => {
         const response = await deleteService(serviceDetail?.id);
         setIsDeleted(true);
 
-        // If request is not OK, handle errors with notification.
         const { status, message } = response;
         if (!(status === 200)) showNotification(undefined, message, status);
         else showNotification(undefined, message, status);

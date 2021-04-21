@@ -1,17 +1,13 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 
 import TextArea from "antd/lib/input/TextArea";
-import { Form, Input, Switch, InputNumber, Button, Modal } from "antd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Form, Input, Switch, InputNumber } from "antd";
+
 import Service from "../../../models/Service";
 
 import { ServiceContext } from "../../../contexts/service-context";
 
 import styles from "./styles.module.scss";
-import { deleteService } from "../../../services/services-service";
-import { showNotification } from "../../../assets/functions/notification";
-
 
 interface FormProps {
     serviceDetail: Service | null;
@@ -24,10 +20,7 @@ interface FormProps {
  */
 const NewServiceForm: React.FC<FormProps> = (props) => {
     const { serviceDetail } = props;
-    const { isNewService, formValues, setServiceDetail, setFormValues } = useContext(ServiceContext);
-
-    console.log("kkkk", serviceDetail);
-
+    const { isNewService, formValues, setFormValues } = useContext(ServiceContext);
     const [active, setActive] = useState(isNewService ? true : serviceDetail!.active);
 
     /**
@@ -60,7 +53,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
         };
 
     /**
-     * Test
+     * This fucntion sets the active value in the form values object.
      */
     const changeActiveness = () => {
         setActive((prevState) => !prevState);
@@ -84,8 +77,8 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     <Input
                         name="name"
                         className={styles.dropdown}
-                        placeholder="Style"
                         defaultValue={serviceDetail?.name}
+                        placeholder="Style"
                         onChange={onInputChange("name")}
                     />
                 </Form.Item>
@@ -119,8 +112,8 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 </Form.Item>
             </Form>
             { !isNewService &&
-                <Switch className={styles.switch} checkedChildren="Open" onClick={() => changeActiveness()}
-                    unCheckedChildren="Closed" defaultChecked={active} />
+                <Switch className={styles.switch} checkedChildren="Active" onClick={() => changeActiveness()}
+                    unCheckedChildren="Inactive" defaultChecked={active} />
             }
         </>
     );

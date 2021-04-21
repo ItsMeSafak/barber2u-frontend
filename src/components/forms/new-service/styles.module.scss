@@ -1,13 +1,5 @@
 @import "../../../assets/config.scss";
 
-.inputPrice {
-    width: 100%;
-}
-
-.inputTime {
-    width: 100%;
-}
-
 .switch {
     margin-bottom: 20px;
     display: block;
@@ -15,6 +7,15 @@
 
 .confirmButton {
     margin-right: 10px;
+}
+
+.inputTime {
+    width: 100%;
+}
+
+.inputPrice {
+    width: 100%;
+    border-bottom: 2px solid $dark-blue-color;
 }
 
 .deleteBtn {
