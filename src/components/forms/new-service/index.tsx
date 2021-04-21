@@ -1,18 +1,17 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 
 import TextArea from "antd/lib/input/TextArea";
-import { Form, Input, Switch, InputNumber } from "antd";
-
+import { Form, Input, Switch, InputNumber, Button, Modal } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import Service from "../../../models/Service";
 
-import { updateService } from "../../../services/services-service";
-
-import { showNotification } from "../../../assets/functions/notification";
-
-import { AuthContext } from "../../../contexts/auth-context";
 import { ServiceContext } from "../../../contexts/service-context";
 
 import styles from "./styles.module.scss";
+import { deleteService } from "../../../services/services-service";
+import { showNotification } from "../../../assets/functions/notification";
+
 
 interface FormProps {
     serviceDetail: Service | null;
@@ -25,10 +24,11 @@ interface FormProps {
  */
 const NewServiceForm: React.FC<FormProps> = (props) => {
     const { serviceDetail } = props;
-    const { accessToken } = useContext(AuthContext);
-    const { isCreated, isNewService, formValues, isUpdated, setIsUpdated, setFormValues, setIsEditingId, setServiceDetail } = useContext(ServiceContext);
+    const { isNewService, formValues, setServiceDetail, setFormValues } = useContext(ServiceContext);
 
-    const [isActive, setIsActive] = useState(serviceDetail!.active);
+    console.log("kkkk", serviceDetail);
+
+    const [active, setActive] = useState(isNewService ? true : serviceDetail!.active);
 
     /**
      * This function sets the form value for number typed inputs.
@@ -60,32 +60,22 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
         };
 
     /**
-     * This function updates the current service.
+     * Test
      */
-    const updateCurrentService = async () => {
-        if (formValues && serviceDetail) {
-            serviceDetail.name = formValues.name;
-            serviceDetail.description = formValues.description;
-            serviceDetail.time = formValues.time;
-            serviceDetail.price = formValues.price;
-            serviceDetail.active = isActive;
-
-
-            const response = await updateService(serviceDetail);
-
-            // If request is not OK, handle errors with notification.
-            const { status, message } = response;
-            if (!(status === 200)) showNotification(undefined, message, status);
-            else showNotification(undefined, message, status);
-
-            const tempBoolean = true;
-            setIsUpdated(tempBoolean);
-        }
+    const changeActiveness = () => {
+        setActive((prevState) => !prevState);
+        setFormValues({
+            ...formValues,
+            isActive: active
+        });
     };
 
     useEffect(() => {
-        if (serviceDetail) setFormValues({ name: serviceDetail.name, description: serviceDetail.description, time: serviceDetail.time, price: serviceDetail.price });
-    }, []);
+        if (serviceDetail) {
+            setFormValues({ name: serviceDetail.name, description: serviceDetail.description, time: serviceDetail.time, price: serviceDetail.price, isActive: active });
+            console.log("effect", formValues);
+        }
+    }, [serviceDetail]);
 
     return (
         <>
@@ -129,8 +119,8 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 </Form.Item>
             </Form>
             { !isNewService &&
-                <Switch className={styles.switch} checkedChildren="Open" onClick={() => setIsActive((prevState) => !prevState)}
-                    unCheckedChildren="Closed" defaultChecked={isActive} />
+                <Switch className={styles.switch} checkedChildren="Open" onClick={() => changeActiveness()}
+                    unCheckedChildren="Closed" defaultChecked={active} />
             }
         </>
     );

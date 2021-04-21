@@ -9,9 +9,16 @@
 }
 
 .switch {
-    float: right;
+    margin-bottom: 20px;
+    display: block;
 }
 
 .confirmButton {
     margin-right: 10px;
+}
+
+.deleteBtn {
+    padding-top: 20px;
+    display: block;
+    margin-bottom: 20px;
 }

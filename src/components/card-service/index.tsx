@@ -1,13 +1,15 @@
 import React, { useContext, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Card, Col } from "antd";
-import { faCertificate, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { Card, Col, Modal } from "antd";
+import { faCertificate, faEdit, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import Service from "../../models/Service";
 
 import styles from "./styles.module.scss";
 import { ServiceContext } from "../../contexts/service-context";
+import { deleteService } from "../../services/services-service";
+import { showNotification } from "../../assets/functions/notification";
 
 interface ComponentProps {
     serviceDetail: Service;
@@ -22,7 +24,7 @@ interface ComponentProps {
  */
 const ServiceCard: React.FC<ComponentProps> = (props) => {
     const { serviceDetail } = props;
-    const { setServiceDetail } = useContext(ServiceContext);
+    const { setServiceDetail, setIsNewService, setIsDeleted } = useContext(ServiceContext);
 
     /**
      * This function renders the actions a card can have.
@@ -37,22 +39,45 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
             key="edit"
             className={styles.editAction}
             icon={faEdit}
-            onClick={() => setServiceDetail(serviceDetail)}
+            onClick={() => {
+                setIsNewService(false);
+                setServiceDetail(serviceDetail);
+            }
+            }
+        />,
+        <FontAwesomeIcon
+            key="delete"
+            className={styles.editAction}
+            icon={faTrash}
+            onClick={() => warningModal()}
         />
     ];
 
     /**
+     * Test
+     */
+    const warningModal = () => {
+        Modal.warning({
+            centered: true,
+            title: "Delete service",
+            content: "Are you sure you want to delete this service?",
+            okCancel: true,
+            onOk: deleteCurrentService
+        });
+    };
+
+    /**
      * This function deletes the current service.
      */
-    // const deleteCurrentService = async () => {
-    //     const response = await deleteService(accessToken, serviceDetail.id);
+    const deleteCurrentService = async () => {
+        const response = await deleteService(serviceDetail?.id);
+        setIsDeleted(true);
 
-    //     // If request is not OK, handle errors with notification.
-    //     const { status, message } = response;
-    //     if (!(status === 200)) showNotification(undefined, message, status);
-    //     else showNotification(undefined, message, status);
-    //     setIsDeleted(true);
-    // };
+        // If request is not OK, handle errors with notification.
+        const { status, message } = response;
+        if (!(status === 200)) showNotification(undefined, message, status);
+        else showNotification(undefined, message, status);
+    };
 
     return (
         <Col key={serviceDetail.id} xs={24} sm={12} lg={8} xl={8}>

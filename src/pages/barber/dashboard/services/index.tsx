@@ -22,7 +22,7 @@ import { createNewService, getAllServices, updateService } from "../../../../ser
 import ServiceCard from "../../../../components/card-service";
 
 import { AuthContext } from "../../../../contexts/auth-context";
-import { ServiceProvider, ServiceContext } from "../../../../contexts/service-context";
+import { ServiceContext } from "../../../../contexts/service-context";
 
 import styles from "./styles.module.scss";
 import NewServiceForm from "../../../../components/forms/new-service";
@@ -36,9 +36,9 @@ const { Content } = Layout;
  * @returns {JSX}
  */
 const ServicesPage: React.FC = () => {
-    const { user, accessToken } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
-    const { serviceDetail, listOfServices, isNewService, formValues, setServiceDetail, setIsUpdated, setIsNewService } = useContext(ServiceContext);
+    const { serviceDetail, listOfServices, isNewService, formValues, isDeleted, setServiceDetail, setListOfServices, setIsNewService } = useContext(ServiceContext);
 
     /**
      * This function sends a request to the backend, where we add a new service to the barber services.
@@ -47,45 +47,18 @@ const ServicesPage: React.FC = () => {
      * @param {Service} service service created
      * @param {string} barber barber email 
      */
-    // const addService = async (token: string | null, service?: Service, barber?: string) => {
-    //     // Handle sigin, if API is unavailable, redirect to 503 page.
-    //     const response = await createNewService(token, service);
-    //     fetchServices(accessToken, user?.getEmail);
+    const addService = async () => {
+        updateCurrentServiceOnForm();
+        if (serviceDetail) {
+            const response = await createNewService(serviceDetail);
+            setServiceDetail(null);
 
-    //     // If request is not OK, handle errors with notification.
-    //     const { status, message } = response;
-    //     if (!(status === 200)) showNotification(undefined, message, status);
-    //     else showNotification(undefined, message, status);
-    // };
-
-    /**
-     * This function gets called by the tooltip when editing a service.
-     * Depending on if its a new service, it either creates a new service or edits one.
-     */
-    // const initService = () => {
-    //     if (isNewService && formValues) {
-    //         const initialService = new Service(formValues.name, formValues.description, formValues.price, formValues.time, true);
-    //         addService(accessToken, initialService, user?.getEmail);
-    //     }
-    // };
-
-    /**
-     * This function fetches the services using the getAllServices function from services-service
-     * 
-     * @param {string} barber the email of the barber 
-     */
-    // const fetchServices = async (token: string | null, barber?: string) => {
-    //     // Handle sigin, if API is unavailable, redirect to 503 page.
-    //     const response = await getAllServices(token, barber);
-
-    //     // If request is not OK, handle errors with notification.
-    //     const { status, message } = response;
-    //     if (!(status === 200)) showNotification(undefined, message, status);
-    //     if (!response.data) return;
-
-    //     // If request is OK, handle authentication.
-    //     setServices(response.data as Service[]);
-    // };
+            // If request is not OK, handle errors with notification.
+            const { status, message } = response;
+            if (!(status === 200)) showNotification(undefined, message, status);
+            else showNotification(undefined, message, status);
+        }
+    };
 
     /**
      * This function create a new (and empty) instance of a service.
@@ -93,6 +66,21 @@ const ServicesPage: React.FC = () => {
      * @returns {Service}
      */
     const emptyService = () => new Service("", "", 0.0, 0, true);
+
+    /**
+     * Test
+     */
+    const renderNewServiceModal = () => (
+        <Modal
+            title="Creating a new service"
+            centered
+            visible={serviceDetail !== null}
+            onOk={() => addService()}
+            onCancel={() => setServiceDetail(null)}
+            width={1000} >
+            <NewServiceForm serviceDetail={serviceDetail} />
+        </Modal>
+    );
 
     /**
      * This fucntion renders the add button for creating a new service.
@@ -105,72 +93,34 @@ const ServicesPage: React.FC = () => {
             type="primary"
             icon={<FontAwesomeIcon icon={faPlus} />}
             size="large"
-            onClick={() =>
-                setIsNewService(true)
-            }
-        >
+            onClick={() => {
+                setServiceDetail(emptyService());
+                setIsNewService(true);
+            }}>
             Add new service
         </Button>
     );
 
     /**
-     * This fucnction renders a new service card, that can be created or canceled.
-     * @returns {JSX}
-     */
-    // const renderNewServiceCard = () => (
-    //     <>
-    //         <Button
-    //             className={`${styles.addBtn} ${styles.saveBtn}`}
-    //             type="primary"
-    //             icon={<FontAwesomeIcon icon={faCheck} />}
-    //             size="large"
-    //             onClick={() => {
-    //                 initService();
-    //                 setIsNewService(false);
-    //             }
-    //             }
-    //         >
-    //             Save
-    //                         </Button>
-    //         <Button
-    //             className={styles.addBtn}
-    //             danger
-    //             type="primary"
-    //             icon={<FontAwesomeIcon icon={faTimes} />}
-    //             size="large"
-    //             onClick={() =>
-    //                 setIsNewService(false)
-    //             }
-    //         >
-    //             Cancel
-    //                         </Button>
-    //         <Row gutter={[20, 20]}>
-    //             <ServiceCard
-    //                 serviceDetail={emptyService()}
-    //             />
-    //         </Row>
-    //     </>
-    // );
-
-    /**
-     * Test
-     * @param visibility 
-     */
-    // const editCallback = (serviceEntity: Service | null) => {
-    //     setServiceDetail(serviceEntity);
-    // };
-
-    /**
      * Test
      */
-    const changeCurrentService = async () => {
+    const updateCurrentServiceOnForm = () => {
         if (formValues && serviceDetail) {
             serviceDetail.name = formValues.name;
             serviceDetail.description = formValues.description;
             serviceDetail.time = formValues.time;
             serviceDetail.price = formValues.price;
+            serviceDetail.active = formValues.isActive;
             setServiceDetail({ ...serviceDetail });
+        }
+    };
 
+    /**
+     * Test
+     */
+    const changeCurrentService = async () => {
+        if (serviceDetail) {
+            updateCurrentServiceOnForm();
             const response = await updateService(serviceDetail);
             setServiceDetail(null);
 
@@ -181,6 +131,30 @@ const ServicesPage: React.FC = () => {
             console.log("Service updated");
         }
     };
+
+    /**
+     * This function fetches the services using the getAllServices function from services-service
+     * 
+     * @param {string} barber the email of the barber 
+     */
+    const fetchServices = async () => {
+        // Handle sigin, if API is unavailable, redirect to 503 page.
+        const response = await getAllServices(user?.getEmail);
+
+        // If request is not OK, handle errors with notification.
+        const { status, message } = response;
+        if (!(status === 200)) showNotification(undefined, message, status);
+        if (!response.data) return;
+
+        // If request is OK, handle authentication.
+        setListOfServices(response.data as Service[]);
+
+        console.log("Services fetched");
+    };
+
+    useEffect(() => {
+        fetchServices();
+    }, [serviceDetail, isDeleted]);
 
     /**
      * This function renders the modal of a service.
@@ -204,12 +178,7 @@ const ServicesPage: React.FC = () => {
             <Layout>
                 <Content>
                     <h1 className={styles.title}>Services</h1>
-                    {!isNewService ? (
-                        renderAddButton()
-                    ) : (
-                        // renderNewServiceCard()
-                        <span>Sample text</span>
-                    )}
+                    {renderAddButton()}
                     <Divider />
                     <Row gutter={[20, 20]}>
                         {listOfServices &&
@@ -222,9 +191,11 @@ const ServicesPage: React.FC = () => {
                     </Row>
                 </Content>
             </Layout>
-            {serviceDetail && renderModal()}
+            {serviceDetail && !isNewService && renderModal()}
+            {isNewService && renderNewServiceModal()}
         </div >
     );
 };
 
 export default ServicesPage;
+

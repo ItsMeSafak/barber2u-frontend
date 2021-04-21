@@ -16,6 +16,7 @@ interface ContextProps {
         description: string;
         price: number;
         time: number
+        isActive: boolean;
     };
     listOfServices: Service[] | null;
     setIsCreated: (isCreated: boolean) => void;
@@ -29,11 +30,13 @@ interface ContextProps {
             name: string;
             description: string;
             price: number;
-            time: number
+            time: number;
+            isActive: boolean;
         }
     ) => void;
     setListOfServices: (services: Service[]) => void;
 }
+
 
 const contextDefaultValues: ContextProps = {
     isCreated: false,
@@ -46,7 +49,8 @@ const contextDefaultValues: ContextProps = {
         name: "",
         description: "",
         price: 0,
-        time: 0
+        time: 0,
+        isActive: false
     },
     listOfServices: [],
     setIsCreated: () => { },
@@ -73,8 +77,6 @@ export const ServiceContext = createContext<ContextProps>(contextDefaultValues);
 export const ServiceProvider: React.FC = (props) => {
     const { children } = props;
 
-    const { accessToken, user } = useContext(AuthContext);
-
     const [isCreated, setIsCreated] = useState(contextDefaultValues.isCreated);
     const [isUpdated, setIsUpdated] = useState(contextDefaultValues.isUpdated);
     const [isDeleted, setIsDeleted] = useState(contextDefaultValues.isDeleted);
@@ -83,31 +85,6 @@ export const ServiceProvider: React.FC = (props) => {
     const [serviceDetail, setServiceDetail] = useState(contextDefaultValues.serviceDetail);
     const [formValues, setFormValues] = useState(contextDefaultValues.formValues);
     const [listOfServices, setListOfServices] = useState(contextDefaultValues.listOfServices);
-
-    /**
-     * This function fetches the services using the getAllServices function from services-service
-     * 
-     * @param {string} barber the email of the barber 
-     */
-    const fetchServices = useCallback(async () => {
-        // Handle sigin, if API is unavailable, redirect to 503 page.
-        const response = await getAllServices(user?.getEmail);
-
-        // If request is not OK, handle errors with notification.
-        const { status, message } = response;
-        if (!(status === 200)) showNotification(undefined, message, status);
-        if (!response.data) return;
-
-        // If request is OK, handle authentication.
-        setListOfServices(response.data as Service[]);
-
-        console.log("Services fetched");
-    }, [listOfServices]);
-
-    useEffect(() => {
-        if (accessToken) fetchServices();
-        console.log("Use effect triggered");
-    }, []);
 
     const providerValues = useMemo(
         () => ({
