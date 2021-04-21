@@ -22,7 +22,7 @@ import { TempBarber } from "../../models/TempBarber";
 import { AuthContext } from "../../contexts/auth-context";
 
 import {
-    fetchBarberAvailability, fetchBarberAvailabilityRange,
+    fetchBarberAvailabilityRange,
     fetchBarberListing,
 } from "../../services/listing-service";
 
@@ -37,20 +37,6 @@ const { TabPane } = Tabs;
 // TODO Axios api post call to create appointment
 
 // TODO (optional) change the time picker slots to the custom generic card component
-
-/* TODO Optimize the execute order of the code. Currently quick&dirty:
- *   1. Calculate weekdays based on openingtimes.
- *   2. Findfirstimemoment based on openingstimes.
- *   3. Calculate time required based on selected service times.
- *   4. Show time slots based on required time
- *   While it should be:
- *   1. Calculate time required base on selected service time.
- *   2. Calculate time slots based on required time.
- *   3. Show the weekdays based on #2 results
- *   4. Show time slots based on required time
- *   5. FindFirstTimemoment based on first time slot.
- *   This should fix the bugs of which it sometimes does not pick a default slot
- * */
 
 /**
  * A Item component for the Barber listing page and gives an overview of the barber information, such as: services,
@@ -100,26 +86,6 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     );
 
     /**
-     * On saving selected services, also calculated the time period required.
-     * @param selectedServicesList
-     */
-    const onSelectedServices = (selectedServicesList: Service2[]) => {
-        setSelectedServices(selectedServicesList);
-
-        // Calculate the time required
-        let time = 0;
-        selectedServicesList.forEach((x) => {
-            time += x.time;
-        });
-        setTimeRequired(time);
-
-        getAvailability(
-            barber.getUser.getEmail,
-            time
-        );
-    };
-
-    /**
      * Toggle the collapse state of the barber bottom container
      */
     const toggleCollapse = () => {
@@ -159,13 +125,14 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     /**
      * State for the selected day in the day picker
      */
-    const [selectedDay, setSelectedDay] = useState<Moment>(moment);
+    const [selectedDay, setSelectedDay] = useState<Moment | undefined>();
 
     /**
      * It finds the first next available time on the same day as the selected day
      * @param day The selected day
      */
-    const findFirstTimeMoment = (day: Moment) =>
+    const findFirstTimeMoment = (day: Moment | undefined) =>
+        day &&
         availability.find(
             (x) =>
                 x.startTime.isSame(day, "day") &&
@@ -180,22 +147,14 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     );
 
     /**
-     *  On selecting a day in the daypicker row, set the new value in the state and select the time card,
-     *  in case the time in the same day has time available.
-     * @param day The selected day
-     */
-    const onSelectedDay = (day: Moment) => {
-        setSelectedDay(day);
-        setSelectedTime(findFirstTimeMoment(day));
-    };
-
-    /**
      * Filter the list of times that the Barber is open and split all the times based on the period,
      * so the customer can select a time without interfering with another time.
      */
     const getTimes = () => {
         // Initial of a list in which start and end times are saved.
         const times: MomentRange[] = [];
+
+        if (!selectedDay) return times;
 
         // Filter and map based on the opening times, so the times can be saved in the times list.
         availability
@@ -275,11 +234,10 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
 
     /**
      * Fetch the barber listing data from the server with the listing service.
-     * @param email email of the barber
      */
-    const getListing = async (email: string) => {
+    const getListing = async () => {
         if (accessToken)
-            await fetchBarberListing(accessToken, email)
+            await fetchBarberListing(accessToken, barber.getUser.getEmail)
                 .then((response) => {
                     setServices(response.data.services);
                 })
@@ -290,17 +248,13 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
 
     /**
      * Fetch the barber listing data from the server with the listing service.
-     * @param email email of the barber
      * @param time time required for an availability timeslot
      */
-    const getAvailability = async (
-        email: string,
-        time: number
-    ) => {
+    const getAvailability = async (time: number) => {
         if (accessToken)
             await fetchBarberAvailabilityRange(
                 accessToken,
-                email,
+                barber.getUser.getEmail,
                 time,
                 moment().format("YYYY-MM-DD"),
                 moment().add(7, "day").format("YYYY-MM-DD")
@@ -330,21 +284,36 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      * get refreshed.
      */
     useEffect(() => {
-        getListing(barber.getUser.getEmail);
-        getAvailability(
-            barber.getUser.getEmail,
-            timeRequired
-        );
+        getListing();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accessToken]);
 
+    /**
+     * Every time the selected services changes:
+     * - Calculated the time period required.
+     * - Fetch the availabilities with the new time required.
+     */
     useEffect(() => {
-        getAvailability(
-            barber.getUser.getEmail,
-            timeRequired
-        );
+        // TODO (optional) check if it is easier to sum. something like list.sum()
+        // Calculate the time required
+        let time = 0;
+        selectedServices.forEach((x) => {
+            time += x.time;
+        });
+        setTimeRequired(time);
+
+        getAvailability(time);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedServices]);
+
+    /**
+     * Every time the selected day changes:
+     * - Set the first available timeslot.
+     */
+    useEffect(() => {
+        setSelectedTime(findFirstTimeMoment(selectedDay));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedDay]);
 
     /**
      * Get the total price of the selected services
@@ -362,7 +331,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      * their pricing. The user is able to select multiple services and the value
      * is stored in the state {@link selectedServices}.
      */
-    const renderServiceSelectBox = () => (
+    const renderServiceSelect = () => (
         <Select
             mode="multiple"
             maxTagCount="responsive"
@@ -378,7 +347,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                         serviceList.push(serviceFound);
                     }
                 });
-                onSelectedServices(serviceList);
+                setSelectedServices(serviceList);
             }}
         >
             {services.map((service) => (
@@ -398,18 +367,19 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      * {@link selectedDay}
      */
     const renderDayPicker = () =>
+        weekDays.length > 0 &&
         weekDays.map((day) => (
             <Col
                 key={day.day()}
                 className={`
                     ${styles.dayPicker} 
                     ${
-                        selectedDay.isSame(day, "day")
+                        selectedDay?.isSame(day, "day")
                             ? styles.dayPickerActive
                             : ""
                     }
                 `}
-                onClick={() => onSelectedDay(day)}
+                onClick={() => setSelectedDay(day)}
             >
                 {weekDayAbbreviations[day.weekday()]}
             </Col>
@@ -421,33 +391,34 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      * the 7 days already displayed in the {@link renderDayPicker}. The value
      * is stored in the state {@link selectedDay}
      */
-    const renderCustomDayPicker = () => (
-        <Col
-            className={`
+    const renderCustomDayPicker = () =>
+        weekDays.length > 0 && (
+            <Col
+                className={`
                 ${styles.dayPicker} 
                 ${
-                    selectedDay.isSame(customDatePickerValue, "day")
+                    selectedDay?.isSame(customDatePickerValue, "day")
                         ? styles.dayPickerActive
                         : ""
                 }
             `}
-        >
-            <DatePicker
-                className={styles.antdDatepicker}
-                bordered={false}
-                allowClear={false}
-                inputReadOnly
-                defaultValue={customDatePickerValue}
-                onClick={() => onSelectedDay(customDatePickerValue)}
-                onChange={(date) => {
-                    if (date) {
-                        onSelectedDay(date);
-                        setCustomDatePickerValue(date);
-                    }
-                }}
-            />
-        </Col>
-    );
+            >
+                <DatePicker
+                    className={styles.antdDatepicker}
+                    bordered={false}
+                    allowClear={false}
+                    inputReadOnly
+                    defaultValue={customDatePickerValue}
+                    onClick={() => setSelectedDay(customDatePickerValue)}
+                    onChange={(date) => {
+                        if (date) {
+                            setSelectedDay(date);
+                            setCustomDatePickerValue(date);
+                        }
+                    }}
+                />
+            </Col>
+        );
 
     /**
      * Render the time picker, that is displaying multiple slots of the
@@ -613,7 +584,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                             key="1"
                         >
                             <Row>Service:</Row>
-                            <Row>{renderServiceSelectBox()}</Row>
+                            <Row>{renderServiceSelect()}</Row>
                             <Row>Availability:</Row>
                             <Row>
                                 <div className={styles.dateTimePicker}>
