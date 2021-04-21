@@ -1,5 +1,8 @@
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { showNotification } from "../assets/functions/notification";
 import Service from "../models/Service";
+import { getAllServices, updateService } from "../services/services-service";
+import { AuthContext } from "./auth-context";
 
 interface ContextProps {
     isCreated: boolean | null;
@@ -20,7 +23,7 @@ interface ContextProps {
     setIsDeleted: (isDeleted: boolean) => void;
     setIsEditingId: (isEditingId: string) => void;
     setIsNewService: (isNewServiceValue: boolean) => void;
-    setServiceDetail: (serviceDetail: Service) => void;
+    setServiceDetail: (serviceDetail: Service | null) => void;
     setFormValues: (
         formValues: {
             name: string;
@@ -70,6 +73,8 @@ export const ServiceContext = createContext<ContextProps>(contextDefaultValues);
 export const ServiceProvider: React.FC = (props) => {
     const { children } = props;
 
+    const { accessToken, user } = useContext(AuthContext);
+
     const [isCreated, setIsCreated] = useState(contextDefaultValues.isCreated);
     const [isUpdated, setIsUpdated] = useState(contextDefaultValues.isUpdated);
     const [isDeleted, setIsDeleted] = useState(contextDefaultValues.isDeleted);
@@ -78,6 +83,31 @@ export const ServiceProvider: React.FC = (props) => {
     const [serviceDetail, setServiceDetail] = useState(contextDefaultValues.serviceDetail);
     const [formValues, setFormValues] = useState(contextDefaultValues.formValues);
     const [listOfServices, setListOfServices] = useState(contextDefaultValues.listOfServices);
+
+    /**
+     * This function fetches the services using the getAllServices function from services-service
+     * 
+     * @param {string} barber the email of the barber 
+     */
+    const fetchServices = useCallback(async () => {
+        // Handle sigin, if API is unavailable, redirect to 503 page.
+        const response = await getAllServices(user?.getEmail);
+
+        // If request is not OK, handle errors with notification.
+        const { status, message } = response;
+        if (!(status === 200)) showNotification(undefined, message, status);
+        if (!response.data) return;
+
+        // If request is OK, handle authentication.
+        setListOfServices(response.data as Service[]);
+
+        console.log("Services fetched");
+    }, [listOfServices]);
+
+    useEffect(() => {
+        if (accessToken) fetchServices();
+        console.log("Use effect triggered");
+    }, []);
 
     const providerValues = useMemo(
         () => ({
@@ -115,8 +145,6 @@ export const ServiceProvider: React.FC = (props) => {
             setFormValues,
             setListOfServices]
     );
-
-    console.log(formValues);
 
     return (
         <ServiceContext.Provider value={providerValues}>

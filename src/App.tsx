@@ -37,6 +37,7 @@ const App: React.FC = () => {
     // Axios interceptor - Request.
     axios.interceptors.request.use(
         (request) => {
+            request.headers.Authorization = `Bearer ${accessToken}`;
             request.baseURL = BASE_URL;
             // TODO:
             //      - Handle new access tokens.

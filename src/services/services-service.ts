@@ -3,8 +3,7 @@ import axios from "axios";
 import Service from "../models/Service";
 import APIResponse from "../models/APIResponse";
 
-const AUTH_HEADER = "Authorization";
-const API_URL = "http://localhost:8080/api/services";
+const API_URL = "/services";
 
 /**
  * This function fetches the services.
@@ -13,11 +12,9 @@ const API_URL = "http://localhost:8080/api/services";
  * @returns {Promise<APIResponse>}
  */
 export const getAllServices = (
-    token: string | null,
     barber?: string
 ): Promise<APIResponse> =>
     new Promise<APIResponse>((resolve, reject) => {
-        axios.defaults.headers.common[AUTH_HEADER] = `Bearer ${token}`;
         axios
             .post(`${API_URL}/getAll`, {
                 barber,
@@ -48,11 +45,9 @@ export const getAllServices = (
  * @returns {Promise<APIResponse>}
  */
 export const createNewService = (
-    token: string | null,
     service?: Service
 ): Promise<APIResponse> =>
     new Promise<APIResponse>((resolve, reject) => {
-        axios.defaults.headers.common[AUTH_HEADER] = `Bearer ${token}`;
         axios
             .post(`${API_URL}/create`, service)
             .then(
@@ -80,11 +75,9 @@ export const createNewService = (
 * @returns {Promise<APIResponse>}
 */
 export const deleteService = (
-    token: string | null,
     id?: string
 ): Promise<APIResponse> =>
     new Promise<APIResponse>((resolve, reject) => {
-        axios.defaults.headers.common[AUTH_HEADER] = `Bearer ${token}`;
         axios
             .delete(`${API_URL}/delete/${id}`)
             .then(
@@ -112,11 +105,9 @@ export const deleteService = (
 * @returns {Promise<APIResponse>}
 */
 export const updateService = (
-    token: string | null,
     service?: Service
 ): Promise<APIResponse> =>
     new Promise<APIResponse>((resolve, reject) => {
-        axios.defaults.headers.common[AUTH_HEADER] = `Bearer ${token}`;
         axios
             .post(`${API_URL}/update`, service
             )

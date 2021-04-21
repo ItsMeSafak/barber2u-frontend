@@ -30,9 +30,6 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
 
     const [isActive, setIsActive] = useState(serviceDetail!.active);
 
-    console.log(isUpdated);
-    setIsUpdated(true);
-
     /**
      * This function sets the form value for number typed inputs.
      * 
@@ -74,7 +71,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
             serviceDetail.active = isActive;
 
 
-            const response = await updateService(accessToken, serviceDetail);
+            const response = await updateService(serviceDetail);
 
             // If request is not OK, handle errors with notification.
             const { status, message } = response;

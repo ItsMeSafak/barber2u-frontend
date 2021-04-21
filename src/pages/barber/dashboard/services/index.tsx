@@ -17,7 +17,7 @@ import Service from "../../../../models/Service";
 
 import { showNotification } from "../../../../assets/functions/notification";
 
-import { createNewService, getAllServices } from "../../../../services/services-service";
+import { createNewService, getAllServices, updateService } from "../../../../services/services-service";
 
 import ServiceCard from "../../../../components/card-service";
 
@@ -38,12 +38,7 @@ const { Content } = Layout;
 const ServicesPage: React.FC = () => {
     const { user, accessToken } = useContext(AuthContext);
 
-    const { isCreated, isUpdated, isDeleted, isNewService, formValues, setIsNewService, setIsCreated } = useContext(ServiceContext);
-
-    const [services, setServices] = useState<Service[]>([]);
-    const [serviceDetail, setServiceDetail] = useState<Service | null>(null);
-
-    console.log(isUpdated);
+    const { serviceDetail, listOfServices, isNewService, formValues, setServiceDetail, setIsUpdated, setIsNewService } = useContext(ServiceContext);
 
     /**
      * This function sends a request to the backend, where we add a new service to the barber services.
@@ -52,16 +47,16 @@ const ServicesPage: React.FC = () => {
      * @param {Service} service service created
      * @param {string} barber barber email 
      */
-    const addService = async (token: string | null, service?: Service, barber?: string) => {
-        // Handle sigin, if API is unavailable, redirect to 503 page.
-        const response = await createNewService(token, service);
-        fetchServices(accessToken, user?.getEmail);
+    // const addService = async (token: string | null, service?: Service, barber?: string) => {
+    //     // Handle sigin, if API is unavailable, redirect to 503 page.
+    //     const response = await createNewService(token, service);
+    //     fetchServices(accessToken, user?.getEmail);
 
-        // If request is not OK, handle errors with notification.
-        const { status, message } = response;
-        if (!(status === 200)) showNotification(undefined, message, status);
-        else showNotification(undefined, message, status);
-    };
+    //     // If request is not OK, handle errors with notification.
+    //     const { status, message } = response;
+    //     if (!(status === 200)) showNotification(undefined, message, status);
+    //     else showNotification(undefined, message, status);
+    // };
 
     /**
      * This function gets called by the tooltip when editing a service.
@@ -79,18 +74,18 @@ const ServicesPage: React.FC = () => {
      * 
      * @param {string} barber the email of the barber 
      */
-    const fetchServices = async (token: string | null, barber?: string) => {
-        // Handle sigin, if API is unavailable, redirect to 503 page.
-        const response = await getAllServices(token, barber);
+    // const fetchServices = async (token: string | null, barber?: string) => {
+    //     // Handle sigin, if API is unavailable, redirect to 503 page.
+    //     const response = await getAllServices(token, barber);
 
-        // If request is not OK, handle errors with notification.
-        const { status, message } = response;
-        if (!(status === 200)) showNotification(undefined, message, status);
-        if (!response.data) return;
+    //     // If request is not OK, handle errors with notification.
+    //     const { status, message } = response;
+    //     if (!(status === 200)) showNotification(undefined, message, status);
+    //     if (!response.data) return;
 
-        // If request is OK, handle authentication.
-        setServices(response.data as Service[]);
-    };
+    //     // If request is OK, handle authentication.
+    //     setServices(response.data as Service[]);
+    // };
 
     /**
      * This function create a new (and empty) instance of a service.
@@ -161,15 +156,30 @@ const ServicesPage: React.FC = () => {
      * Test
      * @param visibility 
      */
-    const editCallback = (serviceEntity: Service | null) => {
-        setServiceDetail(serviceEntity);
-    };
+    // const editCallback = (serviceEntity: Service | null) => {
+    //     setServiceDetail(serviceEntity);
+    // };
 
     /**
      * Test
      */
-    const updateCurrentService = () => {
-        console.log(formValues);
+    const changeCurrentService = async () => {
+        if (formValues && serviceDetail) {
+            serviceDetail.name = formValues.name;
+            serviceDetail.description = formValues.description;
+            serviceDetail.time = formValues.time;
+            serviceDetail.price = formValues.price;
+            setServiceDetail({ ...serviceDetail });
+
+            const response = await updateService(serviceDetail);
+            setServiceDetail(null);
+
+            // If request is not OK, handle errors with notification.
+            const { status, message } = response;
+            if (!(status === 200)) showNotification(undefined, message, status);
+            else showNotification(undefined, message, status);
+            console.log("Service updated");
+        }
     };
 
     /**
@@ -182,17 +192,12 @@ const ServicesPage: React.FC = () => {
             title="Service details"
             centered
             visible={serviceDetail !== null}
-            onOk={() => updateCurrentService()}
+            onOk={() => changeCurrentService()}
             onCancel={() => setServiceDetail(null)}
             width={1000} >
             <NewServiceForm serviceDetail={serviceDetail} />
         </Modal>
     );
-
-    useEffect(() => {
-        fetchServices(accessToken, user?.getEmail);
-        console.log("cancer");
-    }, [isUpdated, isDeleted, serviceDetail]);
 
     return (
         <div className={styles.services}>
@@ -207,12 +212,11 @@ const ServicesPage: React.FC = () => {
                     )}
                     <Divider />
                     <Row gutter={[20, 20]}>
-                        {services &&
-                            services.map((service) => (
+                        {listOfServices &&
+                            listOfServices.map((service) => (
                                 <ServiceCard
                                     key={service.id}
                                     serviceDetail={service}
-                                    editCallback={editCallback}
                                 />
                             ))}
                     </Row>

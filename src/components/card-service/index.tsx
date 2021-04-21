@@ -7,10 +7,10 @@ import { faCertificate, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Service from "../../models/Service";
 
 import styles from "./styles.module.scss";
+import { ServiceContext } from "../../contexts/service-context";
 
 interface ComponentProps {
     serviceDetail: Service;
-    editCallback: (serviceEntity: Service | null) => void;
 }
 /**
  * This component renders the service card for the services page,
@@ -21,7 +21,8 @@ interface ComponentProps {
  * @returns {JSX}
  */
 const ServiceCard: React.FC<ComponentProps> = (props) => {
-    const { serviceDetail, editCallback } = props;
+    const { serviceDetail } = props;
+    const { setServiceDetail } = useContext(ServiceContext);
 
     /**
      * This function renders the actions a card can have.
@@ -36,7 +37,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
             key="edit"
             className={styles.editAction}
             icon={faEdit}
-            onClick={() => editCallback(serviceDetail)}
+            onClick={() => setServiceDetail(serviceDetail)}
         />
     ];
 
