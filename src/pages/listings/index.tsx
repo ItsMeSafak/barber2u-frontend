@@ -64,35 +64,34 @@ const Listings: React.FC = () => {
     /**
      * Render the header that displays the total amount of barbers.
      */
-    const renderTotalBarbersHeader = () =>
+    const renderTotalBarbersHeader = () => (
         <h1 className={styles.amountBarbers}>
             Found <span>{barbers.length}</span> local barbers
-        </h1>;
+        </h1>
+    );
 
     /**
      * Render the hamburger button that should open the filter drawer.
      */
-    const renderFilterHamburger = () =>
+    const renderFilterHamburger = () => (
         <Button className={styles.hamburgerMenu} ghost>
             <FontAwesomeIcon
                 icon={getIconByPrefixName("fas", "bars")}
                 size="lg"
             />
-        </Button>;
+        </Button>
+    );
 
     /**
      * Render the select box used to sort the listing items.
      */
-    const renderSortBySelect = () =>
+    const renderSortBySelect = () => (
         <Select defaultValue="recommended">
             <option value="recommended">Recommended</option>
-            <option value="ascending">
-                Price ascending
-            </option>
-            <option value="descending">
-                Price descending
-            </option>
-        </Select>;
+            <option value="ascending">Price ascending</option>
+            <option value="descending">Price descending</option>
+        </Select>
+    );
 
     /**
      * Render all the barber listing items.
@@ -109,23 +108,17 @@ const Listings: React.FC = () => {
 
     return (
         <BrowserRouter>
-            <section>
-                {renderTotalBarbersHeader()}
-            </section>
+            <section>{renderTotalBarbersHeader()}</section>
             <section className={styles.mainSection}>
                 <Col span={24}>
                     <Row justify="space-between" align="middle">
-                        <div>
-                            {renderFilterHamburger()}
-                        </div>
+                        <div>{renderFilterHamburger()}</div>
                         <div>
                             <span>Sort By: </span>
                             {renderSortBySelect()}
                         </div>
                     </Row>
-                    <Row>
-                        {renderListingItems()}
-                    </Row>
+                    <Row>{renderListingItems()}</Row>
                 </Col>
                 {/* <div className={styles.filterContainer}>
                     <span>Price range:</span>
