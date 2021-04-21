@@ -1,8 +1,10 @@
-import React from "react";
+import React, {useCallback, useEffect, useState} from "react";
 
-import { Layout, Row, Card, Col } from "antd";
+import { Layout } from "antd";
 
 import ResetPasswordForm from "../../../components/forms/reset-password";
+
+import { WIDTH_SCREEN_LG } from "../../../assets/constants";
 
 import styles from "./styles.module.scss";
 
@@ -13,16 +15,58 @@ const { Content } = Layout;
  *
  * @returns {JSX}
  */
-const ResetPasswordPage: React.FC = () => (
-    <Content className={styles.content}>
-        <Row className={styles.container} justify="center">
-            <Col xs={20} sm={15} lg={10} xl={6}>
-                <Card className={styles.card} bordered={false}>
-                    <ResetPasswordForm />
-                </Card>
-            </Col>
-        </Row>
-    </Content>
-);
+const ResetPasswordPage: React.FC = () => {
+    const [isMobile, setMobile] = useState(false);
+
+    /**
+     * This function checks whether the window screen width reaches a breakpoint.
+     * If so, the mobile state is set to true.
+     */
+    const handleMobileView = useCallback(() => {
+        setMobile(window.innerWidth <= WIDTH_SCREEN_LG);
+    }, []);
+
+    /**
+     * This function checks if the window size has been adjusted
+     */
+    useEffect(() => {
+        handleMobileView();
+        window.addEventListener("resize", handleMobileView);
+        // Remove event listener if not being used.
+        return () => window.removeEventListener("resize", handleMobileView);
+    }, [handleMobileView]);
+
+    /**
+     * Default form
+     */
+    const renderDefaultResetPassword = () => (
+        <div className={styles.resetPassword}>
+            <div className={`${styles.column} ${styles.resetPasswordImage}`} />
+            <div className={styles.column}>
+                <ResetPasswordForm />
+            </div>
+        </div>
+    );
+
+    /**
+     * Default form
+     */
+    const renderMobileResetPassword = () => (
+        <div className={styles.mobileResetPassword}>
+            <ResetPasswordForm />
+        </div>
+    );
+
+    return (
+        <Content>
+            {isMobile ?
+                renderMobileResetPassword():
+                renderDefaultResetPassword()
+            }
+        </Content>
+    );
+
+};
+
 
 export default ResetPasswordPage;

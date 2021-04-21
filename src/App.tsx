@@ -50,6 +50,11 @@ const App: React.FC = () => (
                                 <ProtectedRoute
                                     allowedRoles={[]}
                                     path="/customer/signup"
+                                    component={SignupPage}
+                                />
+                                <ProtectedRoute
+                                    allowedRoles={[]}
+                                    path="/barber/signup"
                                     component={SignupPageBarber}
                                 />
                                 <ProtectedRoute

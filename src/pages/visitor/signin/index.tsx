@@ -13,7 +13,7 @@ const { Content } = Layout;
  *
  * @returns {JSX}
  */
-const SigninPage: React.FC = () => {
+const SignInPage: React.FC = () => {
     const [isMobile, setMobile] = useState(false);
 
     /**
@@ -57,4 +57,4 @@ const SigninPage: React.FC = () => {
     );
 };
 
-export default SigninPage;
+export default SignInPage;

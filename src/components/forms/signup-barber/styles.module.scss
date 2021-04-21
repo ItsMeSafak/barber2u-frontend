@@ -23,6 +23,5 @@
 
 .nextButton,
 .prevButton {
-    // background: $primary-color;
     @extend .button-primary;
 }

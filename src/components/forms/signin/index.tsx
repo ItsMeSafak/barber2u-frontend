@@ -18,7 +18,7 @@ import styles from "./styles.module.scss";
  *
  * @returns {JSX}
  */
-const SigninForm: React.FC = () => {
+const SignInForm: React.FC = () => {
     const {
         setUser,
         setRoles,
@@ -150,4 +150,4 @@ const SigninForm: React.FC = () => {
     );
 };
 
-export default SigninForm;
+export default SignInForm;
