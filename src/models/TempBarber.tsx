@@ -1,4 +1,4 @@
-export interface Barber {
+export interface TempBarber {
     name: string;
     imageUrl: string;
     rate: number;

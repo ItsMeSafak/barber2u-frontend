@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
     Col,
@@ -14,9 +14,16 @@ import {
 
 import moment, { Moment } from "moment";
 
+import Barber from "../../models/Barber";
 import Service2 from "../../models/Service2";
-import { Barber } from "../../models/barber";
 import MomentRange from "../../models/MomentRange";
+import { TempBarber } from "../../models/TempBarber";
+
+import { AuthContext } from "../../contexts/auth-context";
+
+import { fetchBarberListing } from "../../services/listing-service";
+
+import { showNotification } from "../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
@@ -27,8 +34,6 @@ const { TabPane } = Tabs;
 // TODO carousel for the time cards inside the Timepicker
 // TODO Axios api post call to create appointment
 // TODO remove static openingstimes json values
-
-// TODO optimize code so small components are functions instead of big chunk on components inside the render part.
 
 // TODO (optional) change the time picker slots to the custom generic card component
 
@@ -50,9 +55,18 @@ const { TabPane } = Tabs;
  * A Item component for the Barber listing page and gives an overview of the barber information, such as: services,
  * pricing, availability, portfolio, reviews and rating.
  * @param barber The user object of the barber
+ * @param tempBarber The temporary user object of a barber from json data.
  * @constructor
  */
-const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
+const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
+    barber,
+    tempBarber,
+}) => {
+    /**
+     * The access token for using the API requests.
+     */
+    const { accessToken } = useContext(AuthContext);
+
     const PROFILE_IMAGE_WIDTH = 150;
     const PORTFOLIO_IMAGE_WIDTH = 200;
 
@@ -60,6 +74,11 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
      * State for collapsing the bottom container of the barber container
      */
     const [collapsed, setCollapsed] = useState(false);
+
+    /**
+     * State for the selected barber services.
+     */
+    const [services, setServices] = useState<Service2[]>([]);
 
     /**
      * State for the selected barber services.
@@ -81,14 +100,14 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
 
     /**
      * On saving selected services, also calculated the time period required.
-     * @param services
+     * @param selectedServicesList
      */
-    const onSelectedServices = (services: Service2[]) => {
-        setSelectedServices(services);
+    const onSelectedServices = (selectedServicesList: Service2[]) => {
+        setSelectedServices(selectedServicesList);
 
         // Calculate the time required
         let time = 0;
-        services.forEach((x) => {
+        selectedServicesList.forEach((x) => {
             time += x.time;
         });
         setTimeRequired(time);
@@ -300,28 +319,30 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
         return "";
     };
 
-    /** --------------------- Services -------------------- */
-    const services = [
-        new Service2(0, "Bald cut", "Going all the way bald", 9.99, 15, true),
-        new Service2(
-            1,
-            "Short hair cut",
-            "Just your monthly cut",
-            14.99,
-            15,
-            true
-        ),
-        new Service2(2, "Fade cut", "0 to 2 side cut", 9.99, 15, true),
-        new Service2(3, "Combo cut", "Hair with Beard cut", 22.99, 30, true),
-        new Service2(
-            4,
-            "Yee-Yee *ss cut",
-            "Only made for Groove Street",
-            99.99,
-            120,
-            true
-        ),
-    ];
+    /**
+     *
+     * @param email
+     */
+    const getListing = async (email: string) => {
+        if (accessToken)
+            await fetchBarberListing(accessToken, email)
+                .then((response) => {
+                    setServices(response.data.services);
+                })
+                .catch((error) =>
+                    showNotification(undefined, error.message, error.status)
+                );
+    };
+
+    /**
+     * Fetch the barber listing everytime on load of the component. The
+     * accessToken is refreshed after the page is loaded, so the barbers should
+     * get refreshed.
+     */
+    useEffect(() => {
+        getListing(barber.getUser.getEmail);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [accessToken]);
 
     /**
      * Get the total price of the selected services
@@ -472,8 +493,11 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
      */
     const renderSummary = () => (
         <Col>
-            <Row><h2>Summary:</h2></Row>
-            <Row>Services selected:
+            <Row>
+                <h2>Summary:</h2>
+            </Row>
+            <Row>
+                Services selected:
                 <ul>
                     {selectedServices.map((service) => (
                         <li key={service.id}>{service.name}</li>
@@ -483,8 +507,7 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
             <Row>Total price: &euro; {calculateTotalPrice()}</Row>
             <Row>Time required: {timeRequired} minutes</Row>
             <Row>
-                Selected DateTime from{" "}
-                {selectedTime?.start.calendar()} to{" "}
+                Selected DateTime from {selectedTime?.start.calendar()} to{" "}
                 {selectedTime?.end.calendar()}
             </Row>
         </Col>
@@ -495,7 +518,7 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
      * images grouped in the service name
      */
     const renderPortfolio = () =>
-        barber.portfolio.map((service) => (
+        tempBarber.portfolio.map((service) => (
             <Col key={service.name}>
                 <Row className={styles.serviceName}>{service.name}</Row>
                 <Row>
@@ -516,8 +539,8 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
      * with the barber and other users.
      */
     const renderReviews = () =>
-        barber.reviews.map((review) => (
-            <div key={barber.name} className={styles.reviewContainer}>
+        tempBarber.reviews.map((review) => (
+            <div key={tempBarber.name} className={styles.reviewContainer}>
                 <Row>
                     <Col span={12} className={styles.reviewAuthor}>
                         {review.author}
@@ -542,21 +565,23 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
                 <Col>
                     <Image
                         width={PROFILE_IMAGE_WIDTH}
-                        src={barber.imageUrl}
+                        src={tempBarber.imageUrl}
                         preview={false}
                         className={styles.profileImage}
                     />
                 </Col>
                 <Col className={styles.containerTopContent}>
                     <Row>
-                        <span className={styles.barberName}>{barber.name}</span>
+                        <span className={styles.barberName}>
+                            {barber.getUser.getFullNameWithInitial}
+                        </span>
                     </Row>
                     <Row>
                         <Rate
                             disabled
                             allowHalf
                             className={styles.rating}
-                            defaultValue={barber.rate}
+                            defaultValue={tempBarber.rate}
                         />
                     </Row>
                     <Row>
@@ -605,7 +630,9 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
                             </Row>
                             <Row>{renderSummary()}</Row>
                             <Row justify="end">
-                                <Col><Button type="primary">Reserve</Button></Col>
+                                <Col>
+                                    <Button type="primary">Reserve</Button>
+                                </Col>
                             </Row>
                         </TabPane>
                         <TabPane
@@ -618,9 +645,7 @@ const ListingItem: React.FC<{ barber: Barber }> = ({ barber }) => {
                             tab={<div className={styles.tab}>Reviews</div>}
                             key="3"
                         >
-                            <Col>
-                                {renderReviews()}
-                            </Col>
+                            <Col>{renderReviews()}</Col>
                         </TabPane>
                     </Tabs>
                 </Col>

@@ -59,7 +59,7 @@ const App: React.FC = () => (
                                     component={ResetPasswordPage}
                                 />
                                 <ProtectedRoute
-                                    allowedRoles={[]}
+                                    allowedRoles={[Role.Customer, Role.Barber]}
                                     path="/listings"
                                     component={ListingPage}
                                 />

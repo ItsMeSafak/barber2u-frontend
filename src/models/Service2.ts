@@ -25,4 +25,9 @@ export default class Service2 {
         this.time = time;
         this.active = active;
     }
+
+    // eslint-disable-next-line require-jsdoc
+    static fromJSON(json: Service2 | null): Service2 {
+        return Object.assign(Object.create(Service2.prototype), json);
+    }
 }
