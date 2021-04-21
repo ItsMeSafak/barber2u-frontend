@@ -160,7 +160,7 @@ export const fetchBarberAvailabilityRange = (
                 barber: email,
                 duration,
                 startDate,
-                endDate
+                endDate,
             })
             .then(
                 (response) => {

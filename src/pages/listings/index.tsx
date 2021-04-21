@@ -10,10 +10,9 @@ import { TempBarber } from "../../models/TempBarber";
 
 import ListingItem from "../../components/listing-item";
 
-import { showNotification } from "../../assets/functions/notification";
-
 import { getIconByPrefixName } from "../../assets/functions/icon";
 import barberListings from "../../assets/listing/listing_barbers.json";
+import { showNotification } from "../../assets/functions/notification";
 
 import { AuthContext } from "../../contexts/auth-context";
 

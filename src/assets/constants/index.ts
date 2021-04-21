@@ -65,8 +65,28 @@ export const MONTH_NAMES = [
     "December",
 ];
 
+// Week day abbreviations
+export const WEEK_DAY_ABBREVIATIONS = [
+    "Su",
+    "Mo",
+    "Tu",
+    "We",
+    "Th",
+    "Fr",
+    "Sa",
+];
+
+// Time of day string
+export const NIGHT_STRING = "Night";
+export const MORNING_STRING = "Morning";
+export const AFTERNOON_STRING = "Afternoon";
+export const EVENING_STRING = "Evening";
+
 // Placeholders.
 export const PLACEHOLDER_TEXT =
     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat unde iste, soluta est quasi expedita. Beatae soluta quo in eveniet! Quaerat accusamus eveniet quae mollitia sequi nobis fuga ut delectus.";
 export const PLACEHOLDER_IMAGE =
     "https://t3.ftcdn.net/jpg/02/68/55/60/360_F_268556012_c1WBaKFN5rjRxR2eyV33znK4qnYeKZjm.jpg";
+
+export const DATE_FORMAT = "YYYY-MM-DD";
+export const TIME_FORMAT = "hh:mm:ss";

@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import {
-    Col,
-    Row,
-    Tabs,
-    Card,
-    Rate,
-    Image,
     Button,
-    Select,
+    Card,
+    Col,
     DatePicker,
+    Image,
+    Rate,
+    Row,
+    Select,
+    Tabs,
 } from "antd";
 
 import moment, { Moment } from "moment";
@@ -25,16 +25,23 @@ import {
     fetchBarberAvailabilityRange,
     fetchBarberListing,
 } from "../../services/listing-service";
+import { sendCreateReservation } from "../../services/reservation-service";
 
+import {
+    AFTERNOON_STRING,
+    DATE_FORMAT,
+    EVENING_STRING,
+    MORNING_STRING,
+    NIGHT_STRING,
+    WEEK_DAY_ABBREVIATIONS,
+} from "../../assets/constants";
 import { showNotification } from "../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
 const { TabPane } = Tabs;
-// TODO check map keys (model key & values check in case they are not sync with DB)
 
 // TODO carousel for the time cards inside the Timepicker
-// TODO Axios api post call to create appointment
 
 // TODO (optional) change the time picker slots to the custom generic card component
 
@@ -60,7 +67,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     /**
      * State for collapsing the bottom container of the barber container
      */
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState<boolean>(false);
 
     /**
      * State for the selected barber services.
@@ -86,18 +93,9 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     );
 
     /**
-     * Toggle the collapse state of the barber bottom container
+     * State for the availability timeslots
      */
-    const toggleCollapse = () => {
-        setCollapsed(!collapsed);
-    };
-
     const [availability, setAvailability] = useState<MomentRange[]>([]);
-
-    /**
-     * The abbreviations of the weekday names
-     */
-    const weekDayAbbreviations = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
     /**
      * The weekdays for the daypicker selector
@@ -154,6 +152,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
         // Initial of a list in which start and end times are saved.
         const times: MomentRange[] = [];
 
+        // If a day is not selected, return empty timeslots
         if (!selectedDay) return times;
 
         // Filter and map based on the opening times, so the times can be saved in the times list.
@@ -165,7 +164,6 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                     x.startTime.isSameOrAfter(moment())
             )
             .forEach((day) => {
-                // TODO (optional) check if this line still works if removed/code optimized
                 let startTime = day.startTime.clone();
 
                 // The amount of minutes between the start time and end time.
@@ -174,7 +172,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                     .asMinutes();
 
                 // The amount that the period fits in the time difference
-                let timePeriod = timeDifferenceInMinutes;
+                let timePeriod: number = timeDifferenceInMinutes;
                 let numberOfSlots = 1;
                 if (timeRequired !== 0) {
                     timePeriod = timeRequired;
@@ -204,12 +202,6 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      * @param day A moment of the day of which the part will be found
      */
     const getPartOfTheDayString = (day: Moment) => {
-        // The strings of the parts of the day
-        const NIGHT_STRING = "Night";
-        const MORNING_STRING = "Morning";
-        const AFTERNOON_STRING = "Afternoon";
-        const EVENING_STRING = "Evening";
-
         // Moment clones of the parts of the day
         const NIGHT_MOMENT = day.clone().startOf("day");
         const MORNING_MOMENT = day.clone().startOf("day").add(6, "hour");
@@ -256,8 +248,8 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 accessToken,
                 barber.getUser.getEmail,
                 time,
-                moment().format("YYYY-MM-DD"),
-                moment().add(7, "day").format("YYYY-MM-DD")
+                moment().format(DATE_FORMAT),
+                moment().add(7, "day").format(DATE_FORMAT)
             )
                 .then((response) => {
                     setAvailability(response.data);
@@ -272,6 +264,29 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                             );
                         }
                     }
+                })
+                .catch((error) =>
+                    showNotification(undefined, error.message, error.status)
+                );
+    };
+
+    /**
+     * Create a reservation request via the reservation service to the server.
+     */
+    const createReservation = async () => {
+        if (accessToken && selectedTime)
+            await sendCreateReservation(
+                accessToken,
+                barber.getUser.getEmail,
+                selectedServices,
+                selectedTime
+            )
+                .then((response) => {
+                    showNotification(
+                        undefined,
+                        response.message,
+                        response.status
+                    );
                 })
                 .catch((error) =>
                     showNotification(undefined, error.message, error.status)
@@ -294,12 +309,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      * - Fetch the availabilities with the new time required.
      */
     useEffect(() => {
-        // TODO (optional) check if it is easier to sum. something like list.sum()
-        // Calculate the time required
-        let time = 0;
-        selectedServices.forEach((x) => {
-            time += x.time;
-        });
+        const time = calculateTimeRequired();
         setTimeRequired(time);
 
         getAvailability(time);
@@ -316,15 +326,20 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     }, [selectedDay]);
 
     /**
+     * Get the total time required of the selected services
+     */
+    const calculateTimeRequired = () =>
+        selectedServices
+            .map((service) => service.time)
+            .reduce((x, y) => x + y, 0);
+
+    /**
      * Get the total price of the selected services
      */
-    const calculateTotalPrice = () => {
-        let totalPrice = 0;
-        selectedServices.forEach((service) => {
-            totalPrice += service.price;
-        });
-        return totalPrice;
-    };
+    const calculateTotalPrice = () =>
+        selectedServices
+            .map((service) => service.price)
+            .reduce((x, y) => x + y, 0);
 
     /**
      * Render the select box of which all the barber services are displayed with
@@ -381,7 +396,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 `}
                 onClick={() => setSelectedDay(day)}
             >
-                {weekDayAbbreviations[day.weekday()]}
+                {WEEK_DAY_ABBREVIATIONS[day.weekday()]}
             </Col>
         ));
 
@@ -431,7 +446,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      */
     const renderTimePicker = () =>
         selectedTime &&
-        getTimes().map((day) => (
+        getTimes().map((day: MomentRange) => (
             <Col key={day.startTime.valueOf()}>
                 <Card
                     className={`
@@ -473,7 +488,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
             <Row>
                 Services selected:
                 <ul>
-                    {selectedServices.map((service) => (
+                    {selectedServices.map((service: Service2) => (
                         <li key={service.id}>{service.name}</li>
                     ))}
                 </ul>
@@ -485,6 +500,15 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 {selectedTime?.endTime.calendar()}
             </Row>
         </Col>
+    );
+
+    /**
+     * Render the reserve button that will send an appointment request.
+     */
+    const renderReserveButton = () => (
+        <Button type="primary" onClick={createReservation}>
+            Reserve
+        </Button>
     );
 
     /**
@@ -560,7 +584,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                     </Row>
                     <Row>
                         <Button
-                            onClick={toggleCollapse}
+                            onClick={() => setCollapsed(!collapsed)}
                             className={
                                 collapsed
                                     ? "ant-btn-secundary"
@@ -587,26 +611,25 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                             <Row>{renderServiceSelect()}</Row>
                             <Row>Availability:</Row>
                             <Row>
-                                <div className={styles.dateTimePicker}>
+                                <Col className={styles.dateTimePicker}>
                                     <Row>
                                         {renderDayPicker()}
                                         {renderCustomDayPicker()}
                                     </Row>
                                     <Row gutter={[16, 24]} align="middle">
                                         {renderTimePicker()}
-
+                                    </Row>
+                                    <Row>
                                         {/* TODO replace this error message with not allowing the custom datepicker to pick dates that are not available */}
-                                        {!selectedTime && (
+                                        {weekDays.length === 0 && (
                                             <p>There are no available times.</p>
                                         )}
                                     </Row>
-                                </div>
+                                </Col>
                             </Row>
                             <Row>{renderSummary()}</Row>
                             <Row justify="end">
-                                <Col>
-                                    <Button type="primary">Reserve</Button>
-                                </Col>
+                                <Col>{renderReserveButton()}</Col>
                             </Row>
                         </TabPane>
                         <TabPane
