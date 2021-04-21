@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { Layout } from "antd";
 
@@ -59,14 +59,11 @@ const ResetPasswordPage: React.FC = () => {
 
     return (
         <Content>
-            {isMobile ?
-                renderMobileResetPassword():
-                renderDefaultResetPassword()
-            }
+            {isMobile
+                ? renderMobileResetPassword()
+                : renderDefaultResetPassword()}
         </Content>
     );
-
 };
-
 
 export default ResetPasswordPage;

@@ -59,7 +59,10 @@ const ResetPasswordForm: React.FC = () => {
                             prefix={
                                 <FontAwesomeIcon
                                     color="#888"
-                                    icon={getIconByPrefixName("fas", "envelope")}
+                                    icon={getIconByPrefixName(
+                                        "fas",
+                                        "envelope"
+                                    )}
                                     size="sm"
                                 />
                             }

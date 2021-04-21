@@ -13,7 +13,6 @@ import {
     faCaretLeft,
     faCaretRight,
     faIdCard,
-    faAt,
     faKey,
     faMobileAlt,
     faAddressBook,

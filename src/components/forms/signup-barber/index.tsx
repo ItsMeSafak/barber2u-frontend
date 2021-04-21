@@ -2,10 +2,7 @@ import React, { ChangeEvent, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Button, Col, Form, Input, notification, Row, Steps } from "antd";
-
-import { signUp } from "../../../services/auth-service";
 
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 
