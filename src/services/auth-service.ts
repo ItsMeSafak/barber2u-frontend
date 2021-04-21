@@ -97,8 +97,9 @@ export const signUp = (formValues: {
     );
 
 /**
- * TODO...
- * @returns
+ * This function retrieves the current logged in user profile details.
+ *
+ * @returns {Promise<APIAuthResponse>}
  */
 export const fetchProfile = (): Promise<APIAuthResponse> =>
     new Promise<APIAuthResponse>((resolve, reject) =>
