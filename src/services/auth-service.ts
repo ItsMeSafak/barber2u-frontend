@@ -1,25 +1,22 @@
 import axios from "axios";
 
-import User from "../models/User";
-
 interface APIAuthResponse {
     data: {
         roles: Array<string>;
         token: string;
         type: string;
         user: {
-            id: string,
-            firstName: string,
-            lastName: string,
-            email: string,
-            phoneNumber: string,
-            address: string,
-            zipCode: string,
-            roles: Array<{ id: string, name: string }>,
-            isActive: boolean,
-            isVerified: boolean
-        }
-        // user: User;
+            id: string;
+            firstName: string;
+            lastName: string;
+            email: string;
+            phoneNumber: string;
+            address: string;
+            zipCode: string;
+            roles: Array<{ id: string; name: string }>;
+            isActive: boolean;
+            isVerified: boolean;
+        };
     };
     message: string;
     status: number;

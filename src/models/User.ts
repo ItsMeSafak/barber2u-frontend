@@ -10,7 +10,7 @@ export default class User {
     private phoneNumber: string;
     private address: string;
     private zipCode: string;
-    private roles: Array<{ id: string, name: string }>;
+    private roles: Array<{ id: string; name: string }>;
     private isActive: boolean;
     private isVerified: boolean;
 
@@ -23,7 +23,7 @@ export default class User {
         phoneNumber: string,
         address: string,
         zipCode: string,
-        roles: Array<{ id: string, name: string }>,
+        roles: Array<{ id: string; name: string }>,
         isActive: boolean,
         isVerified: boolean
     ) {
@@ -69,6 +69,18 @@ export default class User {
         return this.firstName.charAt(0).toUpperCase();
     }
 
+    // eslint-disable-next-line require-jsdoc
+    get getRoles(): Array<{ id: string; name: string }> {
+        return this.roles;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get getRoleNames(): Array<string> {
+        return this.roles.map(({ name }) => name);
+        // return this.roles.map(role => [role.name].reduce((accumulator, key) => ({ ...accumulator, [key]: role[key]}), {}));
+    }
+
+    // TODO: REMOVE AFTER DONE..
     // eslint-disable-next-line require-jsdoc
     static fromJSON(json: User | null): User {
         return Object.assign(Object.create(User.prototype), json);

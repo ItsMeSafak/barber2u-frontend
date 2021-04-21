@@ -7,46 +7,34 @@ import React, {
 } from "react";
 import { useCookies } from "react-cookie";
 
-import axios from "axios";
-
 import User from "../models/User";
 
 import { fetchProfile } from "../services/auth-service";
 
-import {
-    USER_COOKIE,
-    USER_ROLES_COOKIE,
-    ACCESS_TOKEN_COOKIE,
-    REFRESH_TOKEN_COOKIE,
-    AUTHENTICATED_COOKIE,
-} from "../assets/constants";
+import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "../assets/constants";
 
 interface ContextProps {
     user: User | null;
-    // roles: Array<string> | null;
-    // accessToken: string | null;
-    // refreshToken: string | null;
-    // authenticated: boolean | null;
+    accessToken: string | null;
+    refreshToken: string | null;
+    authenticated: boolean;
     setUser: (user: User) => void;
-    // setRoles: (roles: Array<string> | null) => void;
-    // setAccessToken: (JWToken: string) => void;
-    // setRefreshToken: (refreshToken: string) => void;
-    // setAuthenticated: (authenticated: boolean) => void;
-    // setLogout: () => void;
+    setAccessToken: (token: string) => void;
+    setRefreshToken: (token: string) => void;
+    setAuthenticated: (authenticated: boolean) => void;
+    logout: () => void;
 }
 
 const contextDefaultValues: ContextProps = {
     user: null,
-    // roles: null,
-    // accessToken: null,
-    // refreshToken: null,
-    // authenticated: false,
+    accessToken: null,
+    refreshToken: null,
+    authenticated: false,
     setUser: () => { },
-    // setRoles: () => { },
-    // setAccessToken: () => { },
-    // setRefreshToken: () => { },
-    // setAuthenticated: () => { },
-    // setLogout: () => { },
+    setAccessToken: () => { },
+    setRefreshToken: () => { },
+    setAuthenticated: () => { },
+    logout: () => { },
 };
 
 export const AuthenticationContext = createContext<ContextProps>(
@@ -64,76 +52,117 @@ export const AuthenticationProvider: React.FC = (props) => {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     const { children } = props;
 
+    const [cookies, setCookie, removeCookie] = useCookies();
     const [user, setUser] = useState(contextDefaultValues.user);
+    const [accessToken, setAccessToken] = useState(
+        cookies[ACCESS_TOKEN_COOKIE] || contextDefaultValues.accessToken
+    );
+    const [refreshToken, setRefreshToken] = useState(
+        cookies[REFRESH_TOKEN_COOKIE] || contextDefaultValues.refreshToken
+    );
+    const [authenticated, setAuthenticated] = useState(
+        contextDefaultValues.authenticated
+    );
+
+    const saveDataInCookieAndState = useCallback(
+        (
+            cookieName: string,
+            stateName: boolean | string | User | null,
+            stateFunction: (value: any) => void
+        ) => {
+            const cookie = cookies[cookieName];
+            if (stateName && !cookie)
+                setCookie(cookieName, stateName, { path: "/" });
+            if (!stateName && cookie) stateFunction(cookie);
+        },
+        [cookies, setCookie]
+    );
+
+    const setUserObject = useCallback((data) => {
+        const userObject = Object.setPrototypeOf(data, User.prototype);
+        setUser(userObject);
+    }, []);
+
+    const saveAccessTokenInCookieIfNotExist = useCallback(() => {
+        saveDataInCookieAndState(
+            ACCESS_TOKEN_COOKIE,
+            accessToken,
+            setAccessToken
+        );
+    }, [saveDataInCookieAndState, accessToken]);
+
+    const saveRefreshTokenInCookieIfNotExist = useCallback(() => {
+        saveDataInCookieAndState(
+            REFRESH_TOKEN_COOKIE,
+            refreshToken,
+            setRefreshToken
+        );
+    }, [saveDataInCookieAndState, refreshToken]);
+
+    const deleteUserDataFromCookieAndState = useCallback(() => {
+        removeCookie(ACCESS_TOKEN_COOKIE);
+        removeCookie(REFRESH_TOKEN_COOKIE);
+        setUser(null);
+        setAccessToken(null);
+        setRefreshToken(null);
+        setAuthenticated(false);
+    }, [removeCookie]);
+
 
     useEffect(() => {
-        // console.log({ test: fetchProfile() });
-        // fetchProfile().then(({ data }) => {
-        //     setUser(data as unknown as User);
-        //     // console.log(data);
-        //     console.log({ data });
-
-        //     setTimeout(() => console.log(user), 1000);
-
-        // });
-
         /**
-         * 
+         * This function retrieves the current logged in user profile details.
+         * It saves the details into the user state.
          */
         const fetchUser = async () => {
             const response = await fetchProfile();
-            // const {
-            //     getEmail
-            // } = response.data.user;
-            console.log({ response });
-            setUser(new User(...response));
-            const u = response.data as unknown as User;
-            console.log(u.getEmail);
+            setUserObject(response.data);
         };
 
-        fetchUser();
-    }, []);
+        // If access token exists, send fetch request.
+        if (accessToken) fetchUser();
+    }, [accessToken, setUserObject]);
 
     useEffect(() => {
-        console.log(user);
+        saveAccessTokenInCookieIfNotExist();
+        saveRefreshTokenInCookieIfNotExist();
+    }, [
+        accessToken,
+        refreshToken,
+        authenticated,
+        saveAccessTokenInCookieIfNotExist,
+        saveRefreshTokenInCookieIfNotExist,
+    ]);
 
-    }, [user]);
-
-    // const providerValues = useMemo(
-    //     () => ({
-    //         user: User.fromJSON(user),
-    //         roles,
-    //         accessToken,
-    //         refreshToken,
-    //         authenticated,
-    //         setUser,
-    //         setRoles,
-    //         setAccessToken,
-    //         setRefreshToken,
-    //         setAuthenticated,
-    //         setLogout: () => deleteUserDataFromCookieAndState(),
-    //     }),
-    //     [
-    //         user,
-    //         roles,
-    //         accessToken,
-    //         refreshToken,
-    //         authenticated,
-    //         setUser,
-    //         setRoles,
-    //         setAccessToken,
-    //         setRefreshToken,
-    //         setAuthenticated,
-    //         deleteUserDataFromCookieAndState,
-    //     ]
-    // );
+    useEffect(() => {
+        const isAuthenticated =
+            user != null && accessToken != null && refreshToken != null;
+        setAuthenticated(isAuthenticated);
+    }, [user, accessToken, refreshToken]);
 
     const providerValues = useMemo(
         () => ({
             user,
-            setUser,
+            accessToken,
+            refreshToken,
+            authenticated,
+            setUser: (userObject: User) => setUserObject(userObject),
+            setAccessToken,
+            setRefreshToken,
+            setAuthenticated,
+            logout: () => deleteUserDataFromCookieAndState(),
         }),
-        [user, setUser]
+        [
+            user,
+            accessToken,
+            refreshToken,
+            authenticated,
+            setUserObject,
+            setAccessToken,
+            setRefreshToken,
+            setAuthenticated,
+            deleteUserDataFromCookieAndState,
+        ]
     );
 
     return (
