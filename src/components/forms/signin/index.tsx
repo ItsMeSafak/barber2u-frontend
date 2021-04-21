@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useContext, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 import { faKey, faAt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -121,11 +121,33 @@ const SigninForm: React.FC = () => {
                     <Button
                         type="primary"
                         htmlType="submit"
+                        shape="round"
                         className={styles.signInButton}
                         onClick={handleSignIn}
                     >
                         Sign In
                     </Button>
+                </Form.Item>
+                <Form.Item>
+                    <Link to="customer/signup">
+                        <Button
+                            type="primary"
+                            shape="round"
+                            ghost
+                            className={styles.signUpButton}
+                        >
+                            Create an account
+                        </Button>
+                    </Link>
+                </Form.Item>
+                <Form.Item>
+                    <Link to="reset-password">
+                        <p
+                            className={styles.resetButton}
+                        >
+                            Reset password
+                        </p>
+                    </Link>
                 </Form.Item>
             </Form>
         </div>

@@ -1,6 +1,6 @@
 @import "../../../assets/config.scss";
 
-.signin {
+.signIn {
     background-color: $light-grey-color;
     display: flex;
 }
@@ -26,4 +26,14 @@
     width: 100%;
     height: 100%;
     background-color: rgba($color: #252525, $alpha: 0.25);
+}
+
+.mobileSignIn {
+    background-image: url("../../../assets/images/pexels-photo-2775269.png");
+    display: flex;
+    height: 100vh;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    position: relative;
 }

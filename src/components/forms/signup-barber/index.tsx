@@ -253,7 +253,7 @@ const SignupFormBarber: React.FC = () => {
                             </Form.Item>
                         ))}
 
-                    <Form.Item >
+                    <Form.Item>
                         {firstFormStep && (
                             <Button
                                 onClick={() => next()}
@@ -314,7 +314,7 @@ const SignupFormBarber: React.FC = () => {
                 size="small"
                 className={styles.positionForm}
                 current={activeStep}
-                style={{ width: 600 }}
+                style={{ width: 450 }}
             >
                 {stepsForm.map(({ title }) => (
                     <Steps.Step key={title} title={title} />

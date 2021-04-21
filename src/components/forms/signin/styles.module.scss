@@ -11,18 +11,32 @@
     text-align: center;
 
     h2 {
-        color: #fff;
         text-align: center;
-        text-decoration: underline #21a4c9;
-        // border-bottom: 2px solid #21a4c9;
+        color: white;
+        text-decoration: underline;
+        text-underline-position: under;
+        font-size: 1.8rem;
     }
 }
 
-:global(.ant-form-item:not(:last-child) .ant-form-item-control-input) {
+:global(.ant-form-item .ant-form-item-control-input-content .ant-input-affix-wrapper) {
     border-bottom: 2px solid #21a4c9;
 }
 
 .notificationStyling {
     height: 30%;
     width: 30%;
+}
+
+.signInButton {
+    width: 100%;
+    border-bottom: none;
+}
+
+.signUpButton {
+    width: 100%;
+}
+
+.resetButton {
+    float: right;
 }
