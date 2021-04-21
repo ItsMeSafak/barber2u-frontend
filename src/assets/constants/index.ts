@@ -16,6 +16,14 @@ export const ERROR_STATUSES: Array<{
     iconName: string;
 }> = [
     {
+        code: 401,
+        message: "Unauthorized",
+        description: "The page you tried to visit is authorized!",
+        color: "red",
+        iconPrefix: "fas",
+        iconName: "lock",
+    },
+    {
         code: 404,
         message: "Page Not Found",
         description: "The page you tried to visit does not exist!",
@@ -48,6 +56,9 @@ export const USER_ROLES_COOKIE = `${PACKAGE_NAME}userRoles`;
 export const ACCESS_TOKEN_COOKIE = `${PACKAGE_NAME}accessToken`;
 export const REFRESH_TOKEN_COOKIE = `${PACKAGE_NAME}refreshToken`;
 export const AUTHENTICATED_COOKIE = `${PACKAGE_NAME}authenticated`;
+
+// API.
+export const BASE_URL = "http://localhost:8080/api";
 
 // Month names.
 export const MONTH_NAMES = [
