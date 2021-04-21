@@ -3,30 +3,45 @@
  */
 export default class User {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
+    private id: string;
     private firstName: string;
     private lastName: string;
     private email: string;
-    private zipCode: string;
     private phoneNumber: string;
+    private address: string;
+    private zipCode: string;
+    private roles: Array<{ id: string, name: string }>;
+    private isActive: boolean;
+    private isVerified: boolean;
 
     // eslint-disable-next-line require-jsdoc
     constructor(
-        email: string,
+        id: string,
         firstName: string,
         lastName: string,
+        email: string,
+        phoneNumber: string,
+        address: string,
         zipCode: string,
-        phoneNumber: string
+        roles: Array<{ id: string, name: string }>,
+        isActive: boolean,
+        isVerified: boolean
     ) {
-        this.email = email;
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.zipCode = zipCode;
+        this.email = email;
         this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.zipCode = zipCode;
+        this.roles = roles;
+        this.isActive = isActive;
+        this.isVerified = isVerified;
     }
 
     // eslint-disable-next-line require-jsdoc
-    set setEmail(value: string) {
-        this.email = value;
+    set setFirstName(value: string) {
+        this.firstName = value;
     }
 
     // eslint-disable-next-line require-jsdoc

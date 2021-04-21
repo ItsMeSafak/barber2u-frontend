@@ -1,22 +1,25 @@
 import axios from "axios";
 
+import User from "../models/User";
+
 interface APIAuthResponse {
     data: {
         roles: Array<string>;
         token: string;
         type: string;
         user: {
-            id: string;
-            email: string;
-            firstName: string;
-            lastName: string;
-            phoneNumber: string;
-            zipCode: string;
-            image: string;
-            isActive: boolean;
-            isVerified: boolean;
-            roles: Array<{ id: string; name: string }>;
-        };
+            id: string,
+            firstName: string,
+            lastName: string,
+            email: string,
+            phoneNumber: string,
+            address: string,
+            zipCode: string,
+            roles: Array<{ id: string, name: string }>,
+            isActive: boolean,
+            isVerified: boolean
+        }
+        // user: User;
     };
     message: string;
     status: number;
@@ -94,4 +97,28 @@ export const signUp = (formValues: {
                     reject(new Error(error.message));
                 }
             )
+    );
+
+/**
+ * TODO...
+ * @returns
+ */
+export const fetchProfile = (): Promise<APIAuthResponse> =>
+    new Promise<APIAuthResponse>((resolve, reject) =>
+        axios.get("/auth/profile").then(
+            (response) => {
+                if (response.status === 200) {
+                    resolve(response.data);
+                } else {
+                    reject(
+                        new Error(
+                            "Something went wrong while trying to call 'fetchProfile'..."
+                        )
+                    );
+                }
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        )
     );
