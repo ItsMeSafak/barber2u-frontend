@@ -17,23 +17,12 @@
     }
 }
 
-.positionForm {
-    position: absolute;
-    left: 50%;
-    top: 10%;
-    transform: translate(-50%, -50%);
+.stepsContainer {
+    width: 100%;
 }
 
-.nextButton {
-    width: 20%;
-    float: right;
-    margin: -9px 0 12px 0;
-    background: $primary-color;
-}
-
+.nextButton,
 .prevButton {
-    width: 20%;
-    float: left;
-    margin: -9px 0 12px 0;
-    background: $primary-color;
+    // background: $primary-color;
+    @extend .button-primary;
 }

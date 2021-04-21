@@ -39,9 +39,9 @@ const SignupPage: React.FC = () => {
      */
     const renderSignup = () => (
         <div className={styles.signup}>
-            <div className={`${styles.column} ${styles.signupImage}`}/>
+            <div className={`${styles.column} ${styles.signupImage}`} />
             <div className={styles.column}>
-                <SignupForm/>
+                <SignupForm />
             </div>
         </div>
     );
@@ -51,15 +51,11 @@ const SignupPage: React.FC = () => {
      */
     const renderMobileSignup = () => (
         <div className={styles.mobileSignup}>
-            <SignupForm/>
+            <SignupForm />
         </div>
     );
-    
-    return (
-        <Content>
-            {Mobile ? renderMobileSignup() : renderSignup()}
-        </Content>
-    );
+
+    return <Content>{Mobile ? renderMobileSignup() : renderSignup()}</Content>;
 };
 
 export default SignupPage;

@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 
-import {Layout} from "antd";
+import { Layout } from "antd";
 import SignupFormBarber from "../../../components/forms/signup-barber";
 
 import styles from "./styles.module.scss";
-import {WIDTH_SCREEN_LG} from "../../../assets/constants";
+import { WIDTH_SCREEN_LG } from "../../../assets/constants";
 
 const { Content } = Layout;
 
@@ -62,6 +62,5 @@ const SignupPageBarber: React.FC = () => {
         </Content>
     );
 };
-
 
 export default SignupPageBarber;

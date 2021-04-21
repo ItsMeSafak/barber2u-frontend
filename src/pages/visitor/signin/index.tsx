@@ -52,10 +52,8 @@ const SigninPage: React.FC = () => {
         </div>
     );
 
-    return  (
-        <Content>
-            {isMobile ? renderMobileSignIn() : renderSignIn()}
-        </Content>
+    return (
+        <Content>{isMobile ? renderMobileSignIn() : renderSignIn()}</Content>
     );
 };
 

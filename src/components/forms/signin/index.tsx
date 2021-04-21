@@ -142,11 +142,7 @@ const SigninForm: React.FC = () => {
                 </Form.Item>
                 <Form.Item>
                     <Link to="reset-password">
-                        <p
-                            className={styles.resetButton}
-                        >
-                            Reset password
-                        </p>
+                        <p className={styles.resetButton}>Reset password</p>
                     </Link>
                 </Form.Item>
             </Form>

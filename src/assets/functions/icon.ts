@@ -33,7 +33,7 @@ import {
     faFileInvoiceDollar,
     faEuroSign,
     faClipboard,
-    faClock
+    faClock,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -67,7 +67,7 @@ export const icons = {
     faFileInvoiceDollar,
     faEuroSign,
     faClipboard,
-    faClock
+    faClock,
 };
 
 /**

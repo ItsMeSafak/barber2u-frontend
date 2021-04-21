@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { Button, Form, Input, notification, Steps } from "antd";
+import { Button, Col, Form, Input, notification, Row, Steps } from "antd";
 
 import { signUp } from "../../../services/auth-service";
 
@@ -88,7 +88,7 @@ const SignupFormBarber: React.FC = () => {
             icon: ["fas", "address-book"],
         },
         {
-            step: 2 ,
+            step: 2,
             name: "zipCode",
             value: formValue.zipCode,
             placeholder: "ZIP Code",
@@ -112,26 +112,26 @@ const SignupFormBarber: React.FC = () => {
             step: 3,
             name: "style",
             placeholder: "Fill in your expertise for example fade",
-            icon: ["fas", "cut"]
+            icon: ["fas", "cut"],
         },
         {
             step: 3,
             name: "description",
             placeholder: "Description",
-            icon: ["fas", "clipboard"]
+            icon: ["fas", "clipboard"],
         },
         {
             step: 3,
             name: "price",
             placeholder: "Price of the service",
-            icon: ["fas", "euro-sign"]
+            icon: ["fas", "euro-sign"],
         },
         {
             step: 3,
             name: "time",
             placeholder: "Estimated time in minutes for service",
-            icon: ["fas", "clock"]
-        }
+            icon: ["fas", "clock"],
+        },
     ];
 
     useEffect(() => {
@@ -220,8 +220,7 @@ const SignupFormBarber: React.FC = () => {
     const renderForm = (headingText: string, stepNumber: number) => {
         const firstFormStep =
             formInputs[formInputs.length - 1].step > stepNumber;
-        const secondFormStep =
-            stepNumber > 1;
+        const secondFormStep = stepNumber > 1;
         const lastFormStep =
             formInputs[formInputs.length - 1].step === stepNumber;
 
@@ -254,39 +253,50 @@ const SignupFormBarber: React.FC = () => {
                         ))}
 
                     <Form.Item>
-                        {firstFormStep && (
-                            <Button
-                                onClick={() => next()}
-                                className={styles.nextButton}
-                                type="primary"
-                                shape="round"
-                            >
-                                Next
-                            </Button>
-                        )}
-                        {secondFormStep && (
-                            <Button
-                                onClick={() => prev()}
-                                className={styles.prevButton}
-                                type="primary"
-                                shape="round"
-                            >
-                                Previous
-                            </Button>
-                        )}
-                        {lastFormStep && (
-                            <Button
-                                block
-                                type="primary"
-                                shape="round"
-                                htmlType="submit"
-                                className={styles.saveButton}
-                                disabled={!isEnabled()}
-                                // onClick={handleSignUp}
-                            >
-                                Sign Up
-                            </Button>
-                        )}
+                        <Row>
+                            <Col xs={10} md={8}>
+                                {secondFormStep && (
+                                    <Button
+                                        onClick={() => prev()}
+                                        className={styles.prevButton}
+                                        type="primary"
+                                        shape="round"
+                                        block
+                                    >
+                                        Previous
+                                    </Button>
+                                )}
+                            </Col>
+                            <Col xs={4} md={8} />
+                            {firstFormStep && (
+                                <Col xs={10} md={8}>
+                                    <Button
+                                        onClick={() => next()}
+                                        className={styles.nextButton}
+                                        type="primary"
+                                        shape="round"
+                                        block
+                                    >
+                                        Next
+                                    </Button>
+                                </Col>
+                            )}
+                            <Col xs={10} md={8}>
+                                {lastFormStep && (
+                                    <Button
+                                        block
+                                        type="primary"
+                                        shape="round"
+                                        htmlType="submit"
+                                        className={styles.saveButton}
+                                        disabled={!isEnabled()}
+                                        // onClick={handleSignUp}
+                                    >
+                                        Sign Up
+                                    </Button>
+                                )}
+                            </Col>
+                        </Row>
                     </Form.Item>
                 </Form>
             </div>
@@ -296,30 +306,34 @@ const SignupFormBarber: React.FC = () => {
     const stepsForm = [
         {
             content: renderForm("Sign up Barber", 1),
-            title: "Register barber",
+            title: "Account",
         },
         {
             content: renderForm("Almost done", 2),
-            title: "Almost done",
+            title: "Personal",
         },
         {
             content: renderForm("Almost done", 3),
-            title: "Almost done",
-        }
+            title: "Services",
+        },
     ];
 
     return (
         <>
-            <Steps
-                size="small"
-                className={styles.positionForm}
-                current={activeStep}
-                style={{ width: 450 }}
-            >
-                {stepsForm.map(({ title }) => (
-                    <Steps.Step key={title} title={title} />
-                ))}
-            </Steps>
+            <Row className={styles.stepsContainer}>
+                <Col span={24}>
+                    <Steps
+                        size="default"
+                        className={styles.positionForm}
+                        current={activeStep}
+                        type="navigation"
+                    >
+                        {stepsForm.map(({ title }) => (
+                            <Steps.Step key={title} title={title} />
+                        ))}
+                    </Steps>
+                </Col>
+            </Row>
             <div className={styles.stepsContent}>
                 {stepsForm[activeStep].content}
             </div>
