@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { CookiesProvider } from "react-cookie";
+import { CookiesProvider, useCookies } from "react-cookie";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import axios from "axios";
@@ -24,15 +24,15 @@ import ProtectedRoute from "./routes/protected-route";
 import { AuthContext } from "./contexts/auth-context";
 import { NavbarProvider } from "./contexts/navbar-context";
 
-import { BASE_URL } from "./assets/constants";
+import { ACCESS_TOKEN_COOKIE, BASE_URL } from "./assets/constants";
 
 const { Header, Footer } = Layout;
 
 // eslint-disable-next-line require-jsdoc
 const App: React.FC = () => {
-    const { accessToken } = useContext(AuthContext);
+    const [cookies] = useCookies();
 
-    axios.defaults.headers.Authorization = `Bearer ${accessToken}`;
+    axios.defaults.headers.Authorization = `Bearer ${cookies[ACCESS_TOKEN_COOKIE]}`;
 
     // Axios interceptor - Request.
     axios.interceptors.request.use(
