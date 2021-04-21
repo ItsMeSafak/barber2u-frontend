@@ -21,7 +21,10 @@ import { TempBarber } from "../../models/TempBarber";
 
 import { AuthContext } from "../../contexts/auth-context";
 
-import { fetchBarberListing } from "../../services/listing-service";
+import {
+    fetchBarberAvailability, fetchBarberAvailabilityRange,
+    fetchBarberListing,
+} from "../../services/listing-service";
 
 import { showNotification } from "../../assets/functions/notification";
 
@@ -30,10 +33,8 @@ import styles from "./styles.module.scss";
 const { TabPane } = Tabs;
 // TODO check map keys (model key & values check in case they are not sync with DB)
 
-// TODO replacing OpeningsTime list variable to json object list or API call result
 // TODO carousel for the time cards inside the Timepicker
 // TODO Axios api post call to create appointment
-// TODO remove static openingstimes json values
 
 // TODO (optional) change the time picker slots to the custom generic card component
 
@@ -111,6 +112,11 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
             time += x.time;
         });
         setTimeRequired(time);
+
+        getAvailability(
+            barber.getUser.getEmail,
+            time
+        );
     };
 
     /**
@@ -120,61 +126,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
         setCollapsed(!collapsed);
     };
 
-    /** --------------------- Date Time Picker -------------------- */
-    const openingsTime = [
-        new MomentRange(
-            moment("2021-04-15 08:00:00"),
-            moment("2021-04-15 09:00:00")
-        ),
-        new MomentRange(
-            moment("2021-04-15 22:00:00"),
-            moment("2021-04-15 23:00:00")
-        ),
-        new MomentRange(
-            moment("2021-04-16 08:00:00"),
-            moment("2021-04-16 09:00:00")
-        ),
-        new MomentRange(
-            moment("2021-04-17 08:00:00"),
-            moment("2021-04-17 09:00:00")
-        ),
-        new MomentRange(
-            moment("2021-04-17 12:00:00"),
-            moment("2021-04-17 13:00:00")
-        ),
-        new MomentRange(
-            moment("2021-04-17 18:00:00"),
-            moment("2021-04-17 20:00:00")
-        ),
-        new MomentRange(
-            moment("2021-04-18 08:00:00"),
-            moment("2021-04-18 09:00:00")
-        ),
-        new MomentRange(
-            moment("2021-04-19 08:00:00"),
-            moment("2021-04-19 09:00:00")
-        ),
-        new MomentRange(
-            moment("2021-04-20 08:00:00"),
-            moment("2021-04-20 09:00:00")
-        ),
-        new MomentRange(
-            moment("2021-04-21 08:00:00"),
-            moment("2021-04-21 18:00:00")
-        ),
-        new MomentRange(
-            moment("2021-04-22 08:00:00"),
-            moment("2021-04-22 09:00:00")
-        ),
-        new MomentRange(
-            moment("2021-04-23 08:00:00"),
-            moment("2021-04-23 09:00:00")
-        ),
-        new MomentRange(
-            moment("2021-04-24 08:00:00"),
-            moment("2021-04-24 09:00:00")
-        ),
-    ];
+    const [availability, setAvailability] = useState<MomentRange[]>([]);
 
     /**
      * The abbreviations of the weekday names
@@ -184,9 +136,9 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     /**
      * The weekdays for the daypicker selector
      */
-    const weekDays = openingsTime
+    const weekDays = availability
         // Map all the times to the start of the day
-        .map((x) => x.start)
+        .map((x) => x.startTime)
         // Remove the duplicates
         .filter(
             (x, index, self) =>
@@ -207,15 +159,17 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     /**
      * State for the selected day in the day picker
      */
-    const [selectedDay, setSelectedDay] = useState<Moment>(weekDays[0]);
+    const [selectedDay, setSelectedDay] = useState<Moment>(moment);
 
     /**
      * It finds the first next available time on the same day as the selected day
      * @param day The selected day
      */
     const findFirstTimeMoment = (day: Moment) =>
-        openingsTime.find(
-            (x) => x.start.isSame(day, "day") && x.start.isSameOrAfter(moment())
+        availability.find(
+            (x) =>
+                x.startTime.isSame(day, "day") &&
+                x.startTime.isSameOrAfter(moment())
         );
 
     /**
@@ -244,20 +198,20 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
         const times: MomentRange[] = [];
 
         // Filter and map based on the opening times, so the times can be saved in the times list.
-        openingsTime
+        availability
             // Filter the opening times', so that only the times of the selected day are mapped.
             .filter(
                 (x) =>
-                    selectedDay.isSame(x.start, "day") &&
-                    x.start.isSameOrAfter(moment())
+                    selectedDay.isSame(x.startTime, "day") &&
+                    x.startTime.isSameOrAfter(moment())
             )
             .forEach((day) => {
                 // TODO (optional) check if this line still works if removed/code optimized
-                let startTime = day.start.clone();
+                let startTime = day.startTime.clone();
 
                 // The amount of minutes between the start time and end time.
                 const timeDifferenceInMinutes = moment
-                    .duration(day.end.diff(day.start))
+                    .duration(day.endTime.diff(day.startTime))
                     .asMinutes();
 
                 // The amount that the period fits in the time difference
@@ -275,7 +229,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                         .add(timePeriod, "minutes");
 
                     // Only allow time slots if they fit within the availability.
-                    if (endTime.isSameOrBefore(day.end)) {
+                    if (endTime.isSameOrBefore(day.endTime)) {
                         times.push(new MomentRange(startTime, endTime));
                         startTime = endTime;
                     }
@@ -320,8 +274,8 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     };
 
     /**
-     *
-     * @param email
+     * Fetch the barber listing data from the server with the listing service.
+     * @param email email of the barber
      */
     const getListing = async (email: string) => {
         if (accessToken)
@@ -335,14 +289,62 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     };
 
     /**
+     * Fetch the barber listing data from the server with the listing service.
+     * @param email email of the barber
+     * @param time time required for an availability timeslot
+     */
+    const getAvailability = async (
+        email: string,
+        time: number
+    ) => {
+        if (accessToken)
+            await fetchBarberAvailabilityRange(
+                accessToken,
+                email,
+                time,
+                moment().format("YYYY-MM-DD"),
+                moment().add(7, "day").format("YYYY-MM-DD")
+            )
+                .then((response) => {
+                    setAvailability(response.data);
+                    // if there is at least 1 availability
+                    if (response.data.length >= 1) {
+                        if (!selectedDay) {
+                            setSelectedDay(response.data[0].startTime);
+                        }
+                        if (!selectedTime) {
+                            setSelectedTime(
+                                findFirstTimeMoment(response.data[0].startTime)
+                            );
+                        }
+                    }
+                })
+                .catch((error) =>
+                    showNotification(undefined, error.message, error.status)
+                );
+    };
+
+    /**
      * Fetch the barber listing everytime on load of the component. The
      * accessToken is refreshed after the page is loaded, so the barbers should
      * get refreshed.
      */
     useEffect(() => {
         getListing(barber.getUser.getEmail);
+        getAvailability(
+            barber.getUser.getEmail,
+            timeRequired
+        );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accessToken]);
+
+    useEffect(() => {
+        getAvailability(
+            barber.getUser.getEmail,
+            timeRequired
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedServices]);
 
     /**
      * Get the total price of the selected services
@@ -459,27 +461,28 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     const renderTimePicker = () =>
         selectedTime &&
         getTimes().map((day) => (
-            <Col key={day.start.valueOf()}>
+            <Col key={day.startTime.valueOf()}>
                 <Card
                     className={`
                         ${styles.cards} 
                         ${
-                            day.start.isSame(selectedTime.start)
+                            day.startTime.isSame(selectedTime.startTime)
                                 ? styles.cardsActive
                                 : ""
                         }
                     `}
-                    title={getPartOfTheDayString(day.start)}
+                    title={getPartOfTheDayString(day.startTime)}
                     size={
-                        !day.start.isSame(selectedTime.start)
+                        !day.startTime.isSame(selectedTime.startTime)
                             ? "small"
                             : "default"
                     }
                     onClick={() => setSelectedTime(day)}
                 >
-                    <p>{day.start.format("D MMMM")}</p>
+                    <p>{day.startTime.format("D MMMM")}</p>
                     <p>
-                        {day.start.format("HH:mm")} - {day.end.format("HH:mm")}
+                        {day.startTime.format("HH:mm")} -{" "}
+                        {day.endTime.format("HH:mm")}
                     </p>
                 </Card>
             </Col>
@@ -507,8 +510,8 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
             <Row>Total price: &euro; {calculateTotalPrice()}</Row>
             <Row>Time required: {timeRequired} minutes</Row>
             <Row>
-                Selected DateTime from {selectedTime?.start.calendar()} to{" "}
-                {selectedTime?.end.calendar()}
+                Selected DateTime from {selectedTime?.startTime.calendar()} to{" "}
+                {selectedTime?.endTime.calendar()}
             </Row>
         </Col>
     );
