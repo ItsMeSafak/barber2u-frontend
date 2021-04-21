@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { CookiesProvider, useCookies } from "react-cookie";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
@@ -21,7 +21,6 @@ import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
 import ProtectedRoute from "./routes/protected-route";
 
-import { AuthContext } from "./contexts/auth-context";
 import { NavbarProvider } from "./contexts/navbar-context";
 
 import { ACCESS_TOKEN_COOKIE, BASE_URL } from "./assets/constants";

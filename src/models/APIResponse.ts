@@ -1,11 +1,18 @@
+import Service from "./Service";
+
+/**
+ * This class represents a generic API response consisting of data, a message, response status and if it was a success.
+ * TODO: Make use of a generic object data type.
+ */
 export default class APIResponse {
-    data: object;
+    data: Service[];
     message: string;
     status: number;
     success: boolean;
 
+    // eslint-disable-next-line require-jsdoc
     constructor(
-        data: object,
+        data: Service[],
         message: string,
         status: number,
         success: boolean

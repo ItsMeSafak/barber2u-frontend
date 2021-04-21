@@ -1,12 +1,6 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useCallback } from "react";
 
-import {
-    Button,
-    Divider,
-    Layout,
-    Modal,
-    Row
-} from "antd";
+import { Button, Divider, Layout, Modal, Row } from "antd";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -14,7 +8,11 @@ import Service from "../../../../models/Service";
 
 import { showNotification } from "../../../../assets/functions/notification";
 
-import { createNewService, getAllServices, updateService } from "../../../../services/services-service";
+import {
+    createNewService,
+    getAllServices,
+    updateService,
+} from "../../../../services/services-service";
 
 import ServiceCard from "../../../../components/card-service";
 import NewServiceForm from "../../../../components/forms/new-service";
@@ -34,15 +32,24 @@ const { Content } = Layout;
  */
 const ServicesPage: React.FC = () => {
     const { user } = useContext(AuthContext);
-    const { serviceDetail, listOfServices, isNewService, formValues, isDeleted,
-        setServiceDetail, setListOfServices, setIsNewService } = useContext(ServiceContext);
+    const {
+        serviceDetail,
+        listOfServices,
+        isNewService,
+        formValues,
+        isDeleted,
+        setServiceDetail,
+        setListOfServices,
+        setIsNewService,
+        setIsDeleted
+    } = useContext(ServiceContext);
 
     /**
      * This function sends a request to the backend, where we add a new service to the barber services.
-     * 
-     * @param {string} token token we received when logged in 
+     *
+     * @param {string} token token we received when logged in
      * @param {Service} service service created
-     * @param {string} barber barber email 
+     * @param {string} barber barber email
      */
     const addService = async () => {
         changeCurrentService();
@@ -64,7 +71,7 @@ const ServicesPage: React.FC = () => {
     const emptyService = () => new Service("", "", 0.0, 0, true);
 
     /**
-     * This function renders the modal for creatingf a new service. 
+     * This function renders the modal for creatingf a new service.
      * @returns {JSX}
      */
     const renderNewServiceModal = () => (
@@ -75,14 +82,15 @@ const ServicesPage: React.FC = () => {
             visible={serviceDetail !== null}
             onOk={() => addService()}
             onCancel={() => setServiceDetail(null)}
-            width={800} >
+            width={800}
+        >
             <NewServiceForm serviceDetail={serviceDetail} />
         </Modal>
     );
 
     /**
      * This fucntion renders the add button for creating a new service.
-     * 
+     *
      * @returns {JSX}
      */
     const renderAddButton = () => (
@@ -94,7 +102,8 @@ const ServicesPage: React.FC = () => {
             onClick={() => {
                 setServiceDetail(emptyService());
                 setIsNewService(true);
-            }}>
+            }}
+        >
             Add new service
         </Button>
     );
@@ -119,52 +128,43 @@ const ServicesPage: React.FC = () => {
     const updateCurrentService = async () => {
         if (serviceDetail) {
             changeCurrentService();
-            console.log(serviceDetail);
             const response = await updateService(serviceDetail);
             setServiceDetail(null);
-
-            // If request is not OK, handle errors with notification.
             const { status, message } = response;
             if (!(status === 200)) showNotification(undefined, message, status);
             else showNotification(undefined, message, status);
-            console.log("Service updated");
         }
     };
 
     /**
      * This function fetches the services using the getAllServices function from services-service
-     * 
-     * @param {string} barber the email of the barber 
+     *
+     * @param {string} barber the email of the barber
      */
-    const fetchServices = async () => {
-        // Handle sigin, if API is unavailable, redirect to 503 page.
+    const fetchServices = useCallback(async () => {
         const response = await getAllServices(user?.getEmail);
-
-        // If request is not OK, handle errors with notification.
         const { status, message } = response;
         if (!(status === 200)) showNotification(undefined, message, status);
         if (!response.data) return;
-
-        // If request is OK, handle authentication.
-        setListOfServices(response.data as Service[]);
-
-        console.log("Services fetched");
-    };
+        setListOfServices(response.data);
+    }, [setListOfServices, user]);
 
     /**
      * This function checks if either the description or name are empty strings.
-     * 
+     *
      * @returns {boolean}
      */
-    const checkFormValues = () => formValues.description == "" || formValues.name == "";
+    const checkFormValues = () =>
+        formValues.description === "" || formValues.name === "";
 
     useEffect(() => {
         fetchServices();
-    }, [serviceDetail, isDeleted]);
+        setIsDeleted(false);
+    }, [serviceDetail, isDeleted, fetchServices, setIsDeleted]);
 
     /**
      * This function renders the modal of a service.
-     * 
+     *
      * @returns {JSX}
      */
     const renderModal = () => (
@@ -175,7 +175,8 @@ const ServicesPage: React.FC = () => {
             visible={serviceDetail !== null}
             onOk={() => updateCurrentService()}
             onCancel={() => setServiceDetail(null)}
-            width={800} >
+            width={800}
+        >
             <NewServiceForm serviceDetail={serviceDetail} />
         </Modal>
     );
@@ -200,9 +201,8 @@ const ServicesPage: React.FC = () => {
             </Layout>
             {serviceDetail && !isNewService && renderModal()}
             {isNewService && renderNewServiceModal()}
-        </div >
+        </div>
     );
 };
 
 export default ServicesPage;
-

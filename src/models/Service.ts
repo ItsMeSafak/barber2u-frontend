@@ -1,5 +1,3 @@
-import Style from "./enums/Style";
-
 /**
  * The service is a model that consists of an id, style, description and a price.
  */
@@ -9,7 +7,7 @@ export default class Service {
     description: string;
     price: number;
     time: number;
-    active: boolean;
+    active?: boolean;
 
     // eslint-disable-next-line require-jsdoc
     constructor(

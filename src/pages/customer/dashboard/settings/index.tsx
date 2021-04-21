@@ -1,10 +1,8 @@
 import React from "react";
 
-import styles from "./styles.module.scss";
-
 /**
- *
- * @returns
+ * Customer settings page.
+ * @returns {React.FC}
  */
 const SettingsPage: React.FC = () => (
     <>

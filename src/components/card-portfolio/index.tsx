@@ -22,8 +22,8 @@ const { Option } = Select;
  * @returns {JSX}
  */
 const PortfolioCard: React.FC<ComponentProps> = (props) => {
-    const { portfolioItem, newItem } = props;
-    const [isEditing, setIsEditing] = useState(0);
+    const { portfolioItem } = props;
+    const [isEditing] = useState(0);
 
     return (
         <Col key={portfolioItem.id} xs={24} sm={12} lg={8}>

@@ -2,7 +2,11 @@ import React, { useContext } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Card, Col, Modal } from "antd";
-import { faCertificate, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+    faCertificate,
+    faEdit,
+    faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 
 import Service from "../../models/Service";
 
@@ -27,7 +31,9 @@ interface ComponentProps {
  */
 const ServiceCard: React.FC<ComponentProps> = (props) => {
     const { serviceDetail } = props;
-    const { setServiceDetail, setIsNewService, setIsDeleted } = useContext(ServiceContext);
+    const { setServiceDetail, setIsNewService, setIsDeleted } = useContext(
+        ServiceContext
+    );
 
     /**
      * This function renders the actions a card can have.
@@ -45,15 +51,14 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
             onClick={() => {
                 setIsNewService(false);
                 setServiceDetail(serviceDetail);
-            }
-            }
+            }}
         />,
         <FontAwesomeIcon
             key="delete"
             className={styles.editAction}
             icon={faTrash}
             onClick={() => warningModal()}
-        />
+        />,
     ];
 
     /**
@@ -65,7 +70,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
             title: "Delete service",
             content: "Are you sure you want to delete this service?",
             okCancel: true,
-            onOk: deleteCurrentService
+            onOk: deleteCurrentService,
         });
     };
 
@@ -83,17 +88,25 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
 
     return (
         <Col key={serviceDetail.id} xs={24} sm={12} lg={8} xl={8}>
-            <Card
-                className={styles.card}
-                actions={actions()}
-            >
-                <h2 className={styles.header}>{serviceDetail.name} <FontAwesomeIcon className={serviceDetail.active ? styles.certificateOn : styles.certificateOff}
-                    icon={faCertificate} /></h2>
+            <Card className={styles.card} actions={actions()}>
+                <h2 className={styles.header}>
+                    {serviceDetail.name}{" "}
+                    <FontAwesomeIcon
+                        className={
+                            serviceDetail.active
+                                ? styles.certificateOn
+                                : styles.certificateOff
+                        }
+                        icon={faCertificate}
+                    />
+                </h2>
                 <p>{serviceDetail.description}</p>
-                <p className={styles.time}><span>{serviceDetail.time}</span> minutes</p>
+                <p className={styles.time}>
+                    <span>{serviceDetail.time}</span> minutes
+                </p>
                 <span className={styles.price}>
                     &euro; {serviceDetail.price.toFixed(2)},-
-                        </span>
+                </span>
             </Card>
         </Col>
     );

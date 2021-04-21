@@ -40,7 +40,6 @@ const BarberDashboardPage: React.FC = () => {
                     <UserRoutes components={components} />
                 </Content>
             </ServiceProvider>
-
         </Layout>
     );
 };

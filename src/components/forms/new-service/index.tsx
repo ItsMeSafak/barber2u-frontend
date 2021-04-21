@@ -20,37 +20,39 @@ interface FormProps {
  */
 const NewServiceForm: React.FC<FormProps> = (props) => {
     const { serviceDetail } = props;
-    const { isNewService, formValues, setFormValues } = useContext(ServiceContext);
-    const [active, setActive] = useState(isNewService ? true : serviceDetail!.active);
+    const { isNewService, formValues, setFormValues } = useContext(
+        ServiceContext
+    );
+    const [active, setActive] = useState(
+        isNewService ? true : serviceDetail?.active
+    );
 
     /**
      * This function sets the form value for number typed inputs.
-     * 
-     * @param {string} key name of the input 
+     *
+     * @param {string} key name of the input
      */
-    const onNumberChange = (key: string) =>
-        (value: number) => {
-            if (formValues)
-                console.log(formValues);
-            setFormValues({
-                ...formValues,
-                [key]: value
-            });
-        };
+    const onNumberChange = (key: string) => (value: number) => {
+        setFormValues({
+            ...formValues,
+            [key]: value,
+        });
+    };
 
     /**
      * This function sets the form value for string typed inputs.
-     * 
-     * @param {string} key name of the input 
+     *
+     * @param {string} key name of the input
      */
-    const onInputChange = (key: string) =>
-        (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-            if (formValues)
-                setFormValues({
-                    ...formValues,
-                    [key]: event.target.value
-                });
-        };
+    const onInputChange = (key: string) => (
+        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        if (formValues)
+            setFormValues({
+                ...formValues,
+                [key]: event.target.value,
+            });
+    };
 
     /**
      * This fucntion sets the active value in the form values object.
@@ -59,16 +61,21 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
         setActive((prevState) => !prevState);
         setFormValues({
             ...formValues,
-            isActive: active
+            isActive: active,
         });
     };
 
     useEffect(() => {
         if (serviceDetail) {
-            setFormValues({ name: serviceDetail.name, description: serviceDetail.description, time: serviceDetail.time, price: serviceDetail.price, isActive: active });
-            console.log("effect", formValues);
+            setFormValues({
+                name: serviceDetail.name,
+                description: serviceDetail.description,
+                time: serviceDetail.time,
+                price: serviceDetail.price,
+                isActive: active,
+            });
         }
-    }, [serviceDetail]);
+    }, [serviceDetail, setFormValues, active]);
 
     return (
         <>
@@ -111,10 +118,15 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     />
                 </Form.Item>
             </Form>
-            { !isNewService &&
-                <Switch className={styles.switch} checkedChildren="Active" onClick={() => changeActiveness()}
-                    unCheckedChildren="Inactive" defaultChecked={active} />
-            }
+            {!isNewService && (
+                <Switch
+                    className={styles.switch}
+                    checkedChildren="Active"
+                    onClick={() => changeActiveness()}
+                    unCheckedChildren="Inactive"
+                    defaultChecked={active}
+                />
+            )}
         </>
     );
 };
