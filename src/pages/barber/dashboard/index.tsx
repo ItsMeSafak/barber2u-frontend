@@ -12,6 +12,7 @@ import SidebarPartial from "../../../template/sidebar-partial";
 import ReservationsPage from "./reservations";
 
 import styles from "./styles.module.scss";
+import { ServiceProvider } from "../../../contexts/service-context";
 
 const { Content } = Layout;
 
@@ -34,9 +35,12 @@ const BarberDashboardPage: React.FC = () => {
     return (
         <Layout>
             <SidebarPartial />
-            <Content className={styles.content}>
-                <UserRoutes components={components} />
-            </Content>
+            <ServiceProvider>
+                <Content className={styles.content}>
+                    <UserRoutes components={components} />
+                </Content>
+            </ServiceProvider>
+
         </Layout>
     );
 };

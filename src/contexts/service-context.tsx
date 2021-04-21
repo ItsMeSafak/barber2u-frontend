@@ -116,6 +116,8 @@ export const ServiceProvider: React.FC = (props) => {
             setListOfServices]
     );
 
+    console.log(formValues);
+
     return (
         <ServiceContext.Provider value={providerValues}>
             {children}

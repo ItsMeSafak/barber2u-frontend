@@ -1,9 +1,7 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 
 import TextArea from "antd/lib/input/TextArea";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { Form, Input, Button, Switch, Tooltip, InputNumber } from "antd";
+import { Form, Input, Switch, InputNumber } from "antd";
 
 import Service from "../../../models/Service";
 
@@ -17,7 +15,7 @@ import { ServiceContext } from "../../../contexts/service-context";
 import styles from "./styles.module.scss";
 
 interface FormProps {
-    serviceDetail: Service;
+    serviceDetail: Service | null;
 }
 
 /**
@@ -28,9 +26,12 @@ interface FormProps {
 const NewServiceForm: React.FC<FormProps> = (props) => {
     const { serviceDetail } = props;
     const { accessToken } = useContext(AuthContext);
-    const { isNewService, formValues, setIsUpdated, setFormValues, setIsEditingId, setServiceDetail } = useContext(ServiceContext);
+    const { isCreated, isNewService, formValues, isUpdated, setIsUpdated, setFormValues, setIsEditingId, setServiceDetail } = useContext(ServiceContext);
 
-    const [isActive, setIsActive] = useState(serviceDetail.active);
+    const [isActive, setIsActive] = useState(serviceDetail!.active);
+
+    console.log(isUpdated);
+    setIsUpdated(true);
 
     /**
      * This function sets the form value for number typed inputs.
@@ -40,10 +41,11 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
     const onNumberChange = (key: string) =>
         (value: number) => {
             if (formValues)
-                setFormValues({
-                    ...formValues,
-                    [key]: value
-                });
+                console.log(formValues);
+            setFormValues({
+                ...formValues,
+                [key]: value
+            });
         };
 
     /**
@@ -64,30 +66,28 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
      * This function updates the current service.
      */
     const updateCurrentService = async () => {
-        const tempService = { ...serviceDetail };
+        if (formValues && serviceDetail) {
+            serviceDetail.name = formValues.name;
+            serviceDetail.description = formValues.description;
+            serviceDetail.time = formValues.time;
+            serviceDetail.price = formValues.price;
+            serviceDetail.active = isActive;
 
-        if (formValues) {
-            tempService.name = formValues.name;
-            tempService.description = formValues.description;
-            tempService.time = formValues.time;
-            tempService.price = formValues.price;
-            tempService.active = isActive;
+
+            const response = await updateService(accessToken, serviceDetail);
+
+            // If request is not OK, handle errors with notification.
+            const { status, message } = response;
+            if (!(status === 200)) showNotification(undefined, message, status);
+            else showNotification(undefined, message, status);
+
+            const tempBoolean = true;
+            setIsUpdated(tempBoolean);
         }
-
-        const response = await updateService(accessToken, tempService);
-
-        // If request is not OK, handle errors with notification.
-        const { status, message } = response;
-        if (!(status === 200)) showNotification(undefined, message, status);
-        else showNotification(undefined, message, status);
-
-        const tempBoolean = true;
-        setServiceDetail(tempService);
-        setIsUpdated(tempBoolean);
     };
 
     useEffect(() => {
-        setFormValues({ name: serviceDetail.name, description: serviceDetail.description, time: serviceDetail.time, price: serviceDetail.price });
+        if (serviceDetail) setFormValues({ name: serviceDetail.name, description: serviceDetail.description, time: serviceDetail.time, price: serviceDetail.price });
     }, []);
 
     return (
@@ -98,7 +98,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                         name="name"
                         className={styles.dropdown}
                         placeholder="Style"
-                        defaultValue={serviceDetail.name}
+                        defaultValue={serviceDetail?.name}
                         onChange={onInputChange("name")}
                     />
                 </Form.Item>
@@ -106,7 +106,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     <TextArea
                         name="description"
                         className={styles.description}
-                        defaultValue={serviceDetail.description}
+                        defaultValue={serviceDetail?.description}
                         placeholder="Description"
                         onChange={onInputChange("description")}
                         autoSize={{ maxRows: 10 }}
@@ -116,7 +116,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     <InputNumber
                         name="time"
                         className={styles.inputTime}
-                        defaultValue={serviceDetail.time}
+                        defaultValue={serviceDetail?.time}
                         onChange={onNumberChange("time")}
                         placeholder="Minutes"
                     />
@@ -125,42 +125,15 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     <InputNumber
                         name="price"
                         className={styles.inputPrice}
-                        defaultValue={serviceDetail.price}
+                        defaultValue={serviceDetail?.price}
                         formatter={(value) => `€ ${value}`}
                         onChange={onNumberChange("price")}
                     />
                 </Form.Item>
             </Form>
             { !isNewService &&
-                <>
-                    <Tooltip title="Save">
-                        <Button
-                            className={styles.confirmButton}
-                            type="primary"
-                            shape="circle"
-                            onClick={() => {
-                                setIsEditingId("");
-                                updateCurrentService();
-                            }}
-                            icon={
-                                <FontAwesomeIcon icon={faCheck} />
-                            }
-                        />
-                    </Tooltip>
-                    <Tooltip title="Cancel">
-                        <Button
-                            type="primary"
-                            danger
-                            shape="circle"
-                            onClick={() => setIsEditingId("")}
-                            icon={
-                                <FontAwesomeIcon icon={faTimes} />
-                            }
-                        />
-                    </Tooltip>
-                    <Switch className={styles.switch} checkedChildren="Open" onClick={() => setIsActive((prevState) => !prevState)}
-                        unCheckedChildren="Closed" defaultChecked={isActive} />
-                </>
+                <Switch className={styles.switch} checkedChildren="Open" onClick={() => setIsActive((prevState) => !prevState)}
+                    unCheckedChildren="Closed" defaultChecked={isActive} />
             }
         </>
     );
