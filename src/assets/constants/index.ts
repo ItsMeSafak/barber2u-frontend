@@ -40,6 +40,10 @@ export const ERROR_STATUSES: Array<{
         iconName: "server",
     },
 ];
+export const BARBER_LISTING_ERROR_MESSAGE =
+    "Something went wrong with retrieving the barber listing data";
+export const CREATE_RESERVATION_ERROR_MESSAGE =
+    "Something went wrong with creating your reservation";
 
 // String constants.
 export const PACKAGE_NAME = "com.barber2u.app.";
@@ -56,6 +60,13 @@ export const REFRESH_TOKEN_COOKIE = `${PACKAGE_NAME}refreshToken`;
 
 // API.
 export const BASE_URL = "http://localhost:8080/api";
+export const API_URL_BARBER = `${BASE_URL}/barbers`;
+export const API_URL_RESERVATION = `${BASE_URL}/reservation`;
+export const API_URL_CREATE_RESERVATION = `${API_URL_RESERVATION}/create`;
+export const API_URL_RESERVATION_AVAILABILITY = `${API_URL_RESERVATION}/availability`;
+export const API_URL_RESERVATION_AVAILABILITY_RANGE = `${API_URL_RESERVATION_AVAILABILITY}/range`;
+
+export const HTTP_STATUS_SUCCESS_CODE = 200;
 
 // Month names.
 export const MONTH_NAMES = [

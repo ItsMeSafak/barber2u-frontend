@@ -2,22 +2,14 @@ import axios from "axios";
 
 import Service2 from "../models/Service2";
 import MomentRange from "../models/MomentRange";
-import { DATE_FORMAT, TIME_FORMAT } from "../assets/constants";
 
-/**
- * HTTP status code for success
- */
-const HTTP_SUCCESS_CODE = 200;
-
-/**
- * API url for fetching reservation data from Barber
- */
-const API_URL_RESERVATION = "http://localhost:8080/api/reservation";
-
-/**
- * Error message for failing to get barber listing data
- */
-const ERROR_MESSAGE = "Something went wrong with creating your reservation";
+import {
+    HTTP_STATUS_SUCCESS_CODE,
+    DATE_FORMAT,
+    TIME_FORMAT,
+    API_URL_CREATE_RESERVATION,
+    CREATE_RESERVATION_ERROR_MESSAGE,
+} from "../assets/constants";
 
 /**
  * Response interface for the Barber items
@@ -41,7 +33,7 @@ export const sendCreateReservation = (
 ): Promise<APICreateReservationResponse> =>
     new Promise<APICreateReservationResponse>((resolve, reject) => {
         axios
-            .post(`${API_URL_RESERVATION}/create`, {
+            .post(`${API_URL_CREATE_RESERVATION}`, {
                 barber: barberEmail,
                 services: services.map((service) => service.name),
                 date: date.startTime.format(DATE_FORMAT),
@@ -50,9 +42,9 @@ export const sendCreateReservation = (
             })
             .then(
                 (response) => {
-                    if (response.status === HTTP_SUCCESS_CODE) {
+                    if (response.status === HTTP_STATUS_SUCCESS_CODE) {
                         resolve(response.data);
-                    } else reject(new Error(ERROR_MESSAGE));
+                    } else reject(new Error(CREATE_RESERVATION_ERROR_MESSAGE));
                 },
                 (error) => {
                     reject(new Error(error.message));

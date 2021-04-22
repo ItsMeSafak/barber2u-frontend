@@ -122,14 +122,8 @@
         > div:first-child {
             background-color: rgba($primary-color, 0.5);
             border-bottom-color: $primary-color;
-            // border-bottom-color: $white-color;
             font-weight: bold;
         }
-
-        // &.cardsActive > div:first-child {
-        // background-color: rgba($primary-color, 0.5);
-        // border-bottom-color: $primary-color;
-        // }
     }
 }
 

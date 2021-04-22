@@ -7,26 +7,13 @@ import Barber from "../models/Barber";
 import Service2 from "../models/Service2";
 import MomentRange from "../models/MomentRange";
 
-/**
- * HTTP status code for success
- */
-const HTTP_SUCCESS_CODE = 200;
-
-/**
- * API url for fetching Barber related data
- */
-const API_URL_BARBER = "http://localhost:8080/api/barbers";
-
-/**
- * API url for fetching reservation data from Barber
- */
-const API_URL_RESERVATION = "http://localhost:8080/api/reservation";
-
-/**
- * Error message for failing to get barber listing data
- */
-const BARBER_LISTING_ERROR_MESSAGE =
-    "Something went wrong with retrieving the barber listing data";
+import {
+    API_URL_BARBER,
+    API_URL_RESERVATION_AVAILABILITY,
+    API_URL_RESERVATION_AVAILABILITY_RANGE,
+    BARBER_LISTING_ERROR_MESSAGE,
+    HTTP_STATUS_SUCCESS_CODE,
+} from "../assets/constants";
 
 /**
  * Response interface for the Barber items
@@ -65,7 +52,7 @@ export const fetchBarbers = (): Promise<APIBarbersResponse> =>
     new Promise<APIBarbersResponse>((resolve, reject) => {
         axios.post(`${API_URL_BARBER}`).then(
             (response) => {
-                if (response.status === HTTP_SUCCESS_CODE) {
+                if (response.status === HTTP_STATUS_SUCCESS_CODE) {
                     resolve(fixBarberObject(response.data));
                 } else reject(new Error(BARBER_LISTING_ERROR_MESSAGE));
             },
@@ -85,7 +72,7 @@ export const fetchBarberListing = (
     new Promise<APIBarberListingResponse>((resolve, reject) => {
         axios.post(`${API_URL_BARBER}/${email}/listing`).then(
             (response) => {
-                if (response.status === HTTP_SUCCESS_CODE)
+                if (response.status === HTTP_STATUS_SUCCESS_CODE)
                     resolve(fixBarberListingObject(response.data));
                 else reject(new Error(BARBER_LISTING_ERROR_MESSAGE));
             },
@@ -108,14 +95,14 @@ export const fetchBarberAvailability = (
 ): Promise<APIBarberAvailabilityResponse> =>
     new Promise<APIBarberAvailabilityResponse>((resolve, reject) => {
         axios
-            .post(`${API_URL_RESERVATION}/availability`, {
+            .post(`${API_URL_RESERVATION_AVAILABILITY}`, {
                 barber: email,
                 duration,
                 date,
             })
             .then(
                 (response) => {
-                    if (response.status === HTTP_SUCCESS_CODE) {
+                    if (response.status === HTTP_STATUS_SUCCESS_CODE) {
                         resolve(fixBarberAvailabilityObject(response.data));
                     } else reject(new Error(BARBER_LISTING_ERROR_MESSAGE));
                 },
@@ -140,7 +127,7 @@ export const fetchBarberAvailabilityRange = (
 ): Promise<APIBarberAvailabilityResponse> =>
     new Promise<APIBarberAvailabilityResponse>((resolve, reject) => {
         axios
-            .post(`${API_URL_RESERVATION}/availability/range`, {
+            .post(`${API_URL_RESERVATION_AVAILABILITY_RANGE}`, {
                 barber: email,
                 duration,
                 startDate,
@@ -148,7 +135,7 @@ export const fetchBarberAvailabilityRange = (
             })
             .then(
                 (response) => {
-                    if (response.status === HTTP_SUCCESS_CODE) {
+                    if (response.status === HTTP_STATUS_SUCCESS_CODE) {
                         resolve(fixBarberAvailabilityObject(response.data));
                     } else reject(new Error(BARBER_LISTING_ERROR_MESSAGE));
                 },
