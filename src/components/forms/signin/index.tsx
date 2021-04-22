@@ -118,7 +118,7 @@ const SignInForm: React.FC = () => {
                     </Button>
                 </Form.Item>
                 <Form.Item>
-                    <Link to="customer/signup">
+                    <Link to="signup">
                         <Button
                             type="primary"
                             shape="round"

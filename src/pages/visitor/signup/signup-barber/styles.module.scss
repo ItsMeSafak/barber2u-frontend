@@ -1,6 +1,6 @@
-.resetPassword {
+.signup {
+    background-color: #e1e1e1;
     display: flex;
-    align-items: center;
 }
 
 .column {
@@ -9,14 +9,14 @@
     position: relative;
 }
 
-.resetPasswordImage {
-    background-image: url("../../../assets/images/picture-5.jpg");
+.signupImage {
+    background-image: url("../../../../assets/images/picture-4.jpeg");
     background-size: cover;
     background-position: center;
     position: relative;
 }
 
-.resetPasswordImage::after {
+.signupImage::after {
     content: "";
     position: absolute;
     left: 0;
@@ -26,11 +26,11 @@
     background-color: rgba($color: #252525, $alpha: 0.25);
 }
 
-.mobileResetPassword {
+.mobileBarberSignup {
     display: flex;
     height: 100vh;
     min-height: 100vh;
-    background-image: url("../../../assets/images/picture-5.jpg");
+    background-image: url("../../../../assets/images/picture-4.jpeg");
     background-size: cover;
     background-position: center;
     position: relative;

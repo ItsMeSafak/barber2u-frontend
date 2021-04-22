@@ -34,6 +34,7 @@ import {
     faClipboard,
     faClock,
     faLock,
+    faUserTie,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -69,6 +70,7 @@ export const icons = {
     faClipboard,
     faClock,
     faLock,
+    faUserTie,
 };
 
 /**

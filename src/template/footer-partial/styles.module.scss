@@ -6,6 +6,7 @@
     background-color: $secondary-color;
     color: $white-color;
     text-align: left;
+    user-select: none;
 
     .container {
         width: 100%;
