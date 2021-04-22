@@ -6,8 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Service from "../../../../models/Service";
 
-import { showNotification } from "../../../../assets/functions/notification";
-
 import {
     createNewService,
     getAllServices,
@@ -19,6 +17,9 @@ import NewServiceForm from "../../../../components/forms/new-service";
 
 import { AuthContext } from "../../../../contexts/auth-context";
 import { ServiceContext } from "../../../../contexts/service-context";
+
+import { RESPONSE_OK } from "../../../../assets/constants";
+import { showNotification } from "../../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
@@ -131,7 +132,7 @@ const ServicesPage: React.FC = () => {
             const response = await updateService(serviceDetail);
             setServiceDetail(null);
             const { status, message } = response;
-            if (!(status === 200)) showNotification(undefined, message, status);
+            if (!(status === RESPONSE_OK)) showNotification(undefined, message, status);
             else showNotification(undefined, message, status);
         }
     };
@@ -144,7 +145,7 @@ const ServicesPage: React.FC = () => {
     const fetchServices = useCallback(async () => {
         const response = await getAllServices(user?.getEmail);
         const { status, message } = response;
-        if (!(status === 200)) showNotification(undefined, message, status);
+        if (!(status === RESPONSE_OK)) showNotification(undefined, message, status);
         if (!response.data) return;
         setListOfServices(response.data);
     }, [setListOfServices, user]);
@@ -181,6 +182,19 @@ const ServicesPage: React.FC = () => {
         </Modal>
     );
 
+    /**
+     * This function renders the service elements.
+     * 
+     * @returns {JSX}
+     */
+    const renderServices = () =>
+        listOfServices?.map((service) => (
+            <ServiceCard
+                key={service.id}
+                serviceDetail={service}
+            />
+        ));
+
     return (
         <div className={styles.services}>
             <Layout>
@@ -189,13 +203,7 @@ const ServicesPage: React.FC = () => {
                     {renderAddButton()}
                     <Divider />
                     <Row gutter={[20, 20]}>
-                        {listOfServices &&
-                            listOfServices.map((service) => (
-                                <ServiceCard
-                                    key={service.id}
-                                    serviceDetail={service}
-                                />
-                            ))}
+                        {renderServices()}
                     </Row>
                 </Content>
             </Layout>

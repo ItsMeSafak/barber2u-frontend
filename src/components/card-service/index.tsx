@@ -14,6 +14,7 @@ import { ServiceContext } from "../../contexts/service-context";
 
 import { deleteService } from "../../services/services-service";
 
+import { RESPONSE_OK } from "../../assets/constants";
 import { showNotification } from "../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
@@ -82,7 +83,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
         setIsDeleted(true);
 
         const { status, message } = response;
-        if (!(status === 200)) showNotification(undefined, message, status);
+        if (!(status === RESPONSE_OK)) showNotification(undefined, message, status);
         else showNotification(undefined, message, status);
     };
 

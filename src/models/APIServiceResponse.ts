@@ -4,7 +4,7 @@ import Service from "./Service";
  * This class represents a generic API response consisting of data, a message, response status and if it was a success.
  * TODO: Make use of a generic object data type.
  */
-export default class APIResponse {
+export default class APIServiceResponse {
     data: Service[];
     message: string;
     status: number;

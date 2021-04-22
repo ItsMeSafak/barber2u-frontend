@@ -15,31 +15,31 @@ export const ERROR_STATUSES: Array<{
     iconPrefix: string;
     iconName: string;
 }> = [
-    {
-        code: 401,
-        message: "Unauthorized",
-        description: "The page you tried to visit is authorized!",
-        color: "red",
-        iconPrefix: "fas",
-        iconName: "lock",
-    },
-    {
-        code: 404,
-        message: "Page Not Found",
-        description: "The page you tried to visit does not exist!",
-        color: "orange",
-        iconPrefix: "fas",
-        iconName: "file-alt",
-    },
-    {
-        code: 503,
-        message: "Service Unavailable",
-        description: "Service is currently not available, try again later!",
-        color: "red",
-        iconPrefix: "fas",
-        iconName: "server",
-    },
-];
+        {
+            code: 401,
+            message: "Unauthorized",
+            description: "The page you tried to visit is authorized!",
+            color: "red",
+            iconPrefix: "fas",
+            iconName: "lock",
+        },
+        {
+            code: 404,
+            message: "Page Not Found",
+            description: "The page you tried to visit does not exist!",
+            color: "orange",
+            iconPrefix: "fas",
+            iconName: "file-alt",
+        },
+        {
+            code: 503,
+            message: "Service Unavailable",
+            description: "Service is currently not available, try again later!",
+            color: "red",
+            iconPrefix: "fas",
+            iconName: "server",
+        },
+    ];
 
 // String constants.
 export const PACKAGE_NAME = "com.barber2u.app.";
@@ -59,6 +59,9 @@ export const AUTHENTICATED_COOKIE = `${PACKAGE_NAME}authenticated`;
 
 // API.
 export const BASE_URL = "http://localhost:8080/api";
+
+// Response codes
+export const RESPONSE_OK = 200;
 
 // Month names.
 export const MONTH_NAMES = [

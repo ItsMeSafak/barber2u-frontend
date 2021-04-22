@@ -6,6 +6,13 @@ import React, {
 
 import Service from "../models/Service";
 
+interface ServiceForm {
+    name: string;
+    description: string;
+    price: number;
+    time: number;
+    isActive?: boolean;
+}
 
 interface ContextProps {
     isCreated: boolean | null;
@@ -14,13 +21,7 @@ interface ContextProps {
     isEditingId: string | null;
     isNewService: boolean | null;
     serviceDetail: Service | null;
-    formValues: {
-        name: string;
-        description: string;
-        price: number;
-        time: number;
-        isActive?: boolean;
-    };
+    formValues: ServiceForm;
     listOfServices: Service[] | null;
     setIsCreated: (isCreated: boolean) => void;
     setIsUpdated: (isUpdated: boolean) => void;
@@ -28,13 +29,7 @@ interface ContextProps {
     setIsEditingId: (isEditingId: string) => void;
     setIsNewService: (isNewServiceValue: boolean) => void;
     setServiceDetail: (serviceDetail: Service | null) => void;
-    setFormValues: (formValues: {
-        name: string;
-        description: string;
-        price: number;
-        time: number;
-        isActive?: boolean;
-    }) => void;
+    setFormValues: (formValues: ServiceForm) => void;
     setListOfServices: (services: Service[]) => void;
 }
 

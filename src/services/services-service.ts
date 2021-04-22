@@ -1,7 +1,9 @@
 import axios from "axios";
 
+import { RESPONSE_OK } from "../assets/constants";
+
 import Service from "../models/Service";
-import APIResponse from "../models/APIResponse";
+import APIServiceResponse from "../models/APIServiceResponse";
 
 const API_URL = "/services";
 
@@ -9,17 +11,17 @@ const API_URL = "/services";
  * This function fetches the services.
  *
  * @param {string} barber email of the barber.
- * @returns {Promise<APIResponse>}
+ * @returns {Promise<APIServiceResponse>}
  */
-export const getAllServices = (barber?: string): Promise<APIResponse> =>
-    new Promise<APIResponse>((resolve, reject) => {
+export const getAllServices = (barber?: string): Promise<APIServiceResponse> =>
+    new Promise<APIServiceResponse>((resolve, reject) => {
         axios
             .post(`${API_URL}/getAll`, {
                 barber,
             })
             .then(
                 (response) => {
-                    if (response.status === 200) {
+                    if (response.status === RESPONSE_OK) {
                         resolve(response.data);
                     } else {
                         reject(
@@ -40,13 +42,13 @@ export const getAllServices = (barber?: string): Promise<APIResponse> =>
  * @param {string} token token we received when logged in
  * @param {Service} service service created
  * @param {string} barber barber email
- * @returns {Promise<APIResponse>}
+ * @returns {Promise<APIServiceResponse>}
  */
-export const createNewService = (service?: Service): Promise<APIResponse> =>
-    new Promise<APIResponse>((resolve, reject) => {
+export const createNewService = (service: Service): Promise<APIServiceResponse> =>
+    new Promise<APIServiceResponse>((resolve, reject) => {
         axios.post(`${API_URL}/create`, service).then(
             (response) => {
-                if (response.status === 200) {
+                if (response.status === RESPONSE_OK) {
                     resolve(response.data);
                 } else {
                     reject(
@@ -66,13 +68,13 @@ export const createNewService = (service?: Service): Promise<APIResponse> =>
  * This function deletes a service based on the id given.
  * @param {string} token token we received when logged in
  * @param {string} id service id
- * @returns {Promise<APIResponse>}
+ * @returns {Promise<APIServiceResponse>}
  */
-export const deleteService = (id?: string): Promise<APIResponse> =>
-    new Promise<APIResponse>((resolve, reject) => {
+export const deleteService = (id: string): Promise<APIServiceResponse> =>
+    new Promise<APIServiceResponse>((resolve, reject) => {
         axios.delete(`${API_URL}/delete/${id}`).then(
             (response) => {
-                if (response.status === 200) {
+                if (response.status === RESPONSE_OK) {
                     resolve(response.data);
                 } else {
                     reject(
@@ -92,13 +94,13 @@ export const deleteService = (id?: string): Promise<APIResponse> =>
  * This function updates a service.
  * @param {string} token token we received when logged in
  * @param {Service} service given service to be updated
- * @returns {Promise<APIResponse>}
+ * @returns {Promise<APIServiceResponse>}
  */
-export const updateService = (service?: Service): Promise<APIResponse> =>
-    new Promise<APIResponse>((resolve, reject) => {
+export const updateService = (service: Service): Promise<APIServiceResponse> =>
+    new Promise<APIServiceResponse>((resolve, reject) => {
         axios.post(`${API_URL}/update`, service).then(
             (response) => {
-                if (response.status === 200) {
+                if (response.status === RESPONSE_OK) {
                     resolve(response.data);
                 } else {
                     reject(
