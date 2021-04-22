@@ -68,6 +68,8 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
             });
     };
 
+    console.log("Form: ", serviceDetail);
+
     /**
      * This fucntion sets the active value in the form values object.
      */
@@ -80,47 +82,48 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
     };
 
     return (
-        <>
-            <Form>
-                <Form.Item>
-                    <Input
-                        name="name"
-                        className={styles.dropdown}
-                        defaultValue={serviceDetail?.name}
-                        placeholder="Style"
-                        onChange={onInputChange("name")}
-                    />
-                </Form.Item>
-                <Form.Item>
-                    <TextArea
-                        name="description"
-                        className={styles.description}
-                        defaultValue={serviceDetail?.description}
-                        placeholder="Description"
-                        onChange={onInputChange("description")}
-                        autoSize={{ maxRows: 10 }}
-                    />
-                </Form.Item>
-                <Form.Item>
-                    <InputNumber
-                        name="time"
-                        className={styles.inputTime}
-                        defaultValue={serviceDetail?.time}
-                        onChange={onNumberChange("time")}
-                        placeholder="Minutes"
-                    />
-                </Form.Item>
-                <Form.Item>
-                    <InputNumber
-                        name="price"
-                        className={styles.inputPrice}
-                        defaultValue={serviceDetail?.price}
-                        formatter={(value) => `${EURO_SYMBOL} ${value}`}
-                        onChange={onNumberChange("price")}
-                    />
-                </Form.Item>
-            </Form>
-            {!isNewService && (
+        <Form initialValues={{
+            name: serviceDetail?.name,
+            description: serviceDetail?.description,
+            time: serviceDetail?.time,
+            price: serviceDetail?.price,
+            active: serviceDetail?.active
+
+        }}>
+            <Form.Item name="name">
+                <Input
+                    name="name"
+                    className={styles.dropdown}
+                    placeholder="Style"
+                    onChange={onInputChange("name")}
+                />
+            </Form.Item>
+            <Form.Item name="description">
+                <TextArea
+                    name="description"
+                    className={styles.description}
+                    placeholder="Description"
+                    onChange={onInputChange("description")}
+                    autoSize={{ maxRows: 10 }}
+                />
+            </Form.Item>
+            <Form.Item name="time">
+                <InputNumber
+                    name="time"
+                    className={styles.inputTime}
+                    onChange={onNumberChange("time")}
+                    placeholder="Minutes"
+                />
+            </Form.Item>
+            <Form.Item name="price">
+                <InputNumber
+                    name="price"
+                    className={styles.inputPrice}
+                    formatter={(value) => `${EURO_SYMBOL} ${value}`}
+                    onChange={onNumberChange("price")}
+                />
+            </Form.Item>
+            <Form.Item name="active">
                 <Switch
                     className={styles.switch}
                     checkedChildren="Active"
@@ -128,8 +131,8 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     unCheckedChildren="Inactive"
                     defaultChecked={active}
                 />
-            )}
-        </>
+            </Form.Item>
+        </Form>
     );
 };
 

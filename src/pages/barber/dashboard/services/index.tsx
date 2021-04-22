@@ -84,13 +84,6 @@ const ServicesPage: React.FC = () => {
     };
 
     /**
-     * This function create a new (and empty) instance of a service.
-     *
-     * @returns {Service}
-     */
-    const emptyService = () => new Service("", "", "", 0.0, 0, true);
-
-    /**
      * This fucntion renders the add button for creating a new service.
      *
      * @returns {JSX}
@@ -146,6 +139,8 @@ const ServicesPage: React.FC = () => {
     const checkFormValues = () =>
         formValues.description === "" || formValues.name === "";
 
+    console.log("Service: ", serviceDetail);
+
     /**
      * This function renders the modal of a service.
      *
@@ -156,9 +151,12 @@ const ServicesPage: React.FC = () => {
             title="Service details"
             centered
             okButtonProps={{ disabled: checkFormValues() }}
-            visible={serviceDetail !== null || isNewService!}
+            visible={serviceDetail !== null}
             onOk={() => isNewService ? addService() : updateCurrentService()}
-            onCancel={() => setServiceDetail(null)}
+            onCancel={() => {
+                setServiceDetail(null);
+                setIsNewService(false);
+            }}
             width={800}
         >
             <NewServiceForm serviceDetail={serviceDetail} />

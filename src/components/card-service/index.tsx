@@ -47,6 +47,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
             onClick={() => {
                 setIsNewService(false);
                 setServiceDetail(serviceDetail);
+                console.log(serviceDetail);
             }}
         />,
         <FontAwesomeIcon
