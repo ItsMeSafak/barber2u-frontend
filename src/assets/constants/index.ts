@@ -16,6 +16,14 @@ export const ERROR_STATUSES: Array<{
     iconName: string;
 }> = [
     {
+        code: 401,
+        message: "Unauthorized",
+        description: "The page you tried to visit is authorized!",
+        color: "red",
+        iconPrefix: "fas",
+        iconName: "lock",
+    },
+    {
         code: 404,
         message: "Page Not Found",
         description: "The page you tried to visit does not exist!",
@@ -43,11 +51,11 @@ export const CONTACT_DETAILS_PHONE_NUMBER = "0612-345678";
 export const CONTACT_DETAILS_EMAIL_ADDRESS = "info@barber2u.nl";
 
 // Cookies constants.
-export const USER_COOKIE = `${PACKAGE_NAME}user`;
-export const USER_ROLES_COOKIE = `${PACKAGE_NAME}userRoles`;
 export const ACCESS_TOKEN_COOKIE = `${PACKAGE_NAME}accessToken`;
 export const REFRESH_TOKEN_COOKIE = `${PACKAGE_NAME}refreshToken`;
-export const AUTHENTICATED_COOKIE = `${PACKAGE_NAME}authenticated`;
+
+// API.
+export const BASE_URL = "http://localhost:8080/api";
 
 // Month names.
 export const MONTH_NAMES = [
@@ -65,6 +73,12 @@ export const MONTH_NAMES = [
     "December",
 ];
 
+// Placeholders.
+export const PLACEHOLDER_TEXT =
+    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat unde iste, soluta est quasi expedita. Beatae soluta quo in eveniet! Quaerat accusamus eveniet quae mollitia sequi nobis fuga ut delectus.";
+export const PLACEHOLDER_IMAGE =
+    "https://t3.ftcdn.net/jpg/02/68/55/60/360_F_268556012_c1WBaKFN5rjRxR2eyV33znK4qnYeKZjm.jpg";
+
 // Week day abbreviations
 export const WEEK_DAY_ABBREVIATIONS = [
     "Su",
@@ -81,12 +95,6 @@ export const NIGHT_STRING = "Night";
 export const MORNING_STRING = "Morning";
 export const AFTERNOON_STRING = "Afternoon";
 export const EVENING_STRING = "Evening";
-
-// Placeholders.
-export const PLACEHOLDER_TEXT =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat unde iste, soluta est quasi expedita. Beatae soluta quo in eveniet! Quaerat accusamus eveniet quae mollitia sequi nobis fuga ut delectus.";
-export const PLACEHOLDER_IMAGE =
-    "https://t3.ftcdn.net/jpg/02/68/55/60/360_F_268556012_c1WBaKFN5rjRxR2eyV33znK4qnYeKZjm.jpg";
 
 export const DATE_FORMAT = "YYYY-MM-DD";
 export const TIME_FORMAT = "hh:mm:ss";

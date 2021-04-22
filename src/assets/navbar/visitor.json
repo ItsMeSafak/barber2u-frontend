@@ -36,18 +36,6 @@
         "isDropdownMenu": false
     },
     {
-        "id": "#contact",
-        "url": "/",
-        "name": "Contact",
-        "icon": [],
-        "isNavbarMenu": true,
-        "isFooterMenu": true,
-        "isMobileMenu": true,
-        "isPillButton": false,
-        "isDrawerMenu": false,
-        "isDropdownMenu": false
-    },
-    {
         "id": "",
         "url": "/signin",
         "name": "Sign in",

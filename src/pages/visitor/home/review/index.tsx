@@ -28,7 +28,7 @@ const ReviewSection: React.FC = () => {
         ));
 
     return (
-        <Row id="reviews" className={styles.reviews} justify="center">
+        <Row id="reviews" className={styles.section} justify="center">
             <Col span={24}>
                 <Carousel
                     autoplay={false}

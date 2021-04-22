@@ -1,14 +1,22 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/auth";
-
 interface APIAuthResponse {
     data: {
-        email: string;
-        id: string;
         roles: Array<string>;
         token: string;
         type: string;
+        user: {
+            id: string;
+            firstName: string;
+            lastName: string;
+            email: string;
+            phoneNumber: string;
+            address: string;
+            zipCode: string;
+            roles: Array<{ id: string; name: string }>;
+            isActive: boolean;
+            isVerified: boolean;
+        };
     };
     message: string;
     status: number;
@@ -17,7 +25,6 @@ interface APIAuthResponse {
 
 /**
  * This function handles the login API request.
- * TODO: create Auth-interceptor (Mehmet)
  *
  * @param {string} email The user email input.
  * @param {string} password The user password input.
@@ -29,7 +36,7 @@ export const signIn = (
 ): Promise<APIAuthResponse> =>
     new Promise<APIAuthResponse>((resolve, reject) =>
         axios
-            .post(`${API_URL}/signin`, {
+            .post("auth/signin", {
                 email,
                 password,
             })
@@ -68,7 +75,7 @@ export const signUp = (formValues: {
 }): Promise<APIAuthResponse> =>
     new Promise<APIAuthResponse>((resolve, reject) =>
         axios
-            .post(`${API_URL}/signup`, {
+            .post("auth/signup/customer", {
                 ...formValues,
             })
             .then(
@@ -90,14 +97,26 @@ export const signUp = (formValues: {
     );
 
 /**
- * This function is used for authenticating when trying to reach the backend.
- * You might need your jwt token for some functions in the backend.
+ * This function retrieves the current logged in user profile details.
+ *
+ * @returns {Promise<APIAuthResponse>}
  */
-export const authHeader = () => {
-    const user = JSON.parse(localStorage.getItem("user") as string);
-    if (user && user.accessToken) {
-        // return { Authorization: 'Bearer ' + user.accessToken }; // for Spring Boot back-end
-        return { "x-access-token": user.accessToken };
-    }
-    return {};
-};
+export const fetchProfile = (): Promise<APIAuthResponse> =>
+    new Promise<APIAuthResponse>((resolve, reject) =>
+        axios.get("/auth/profile").then(
+            (response) => {
+                if (response.status === 200) {
+                    resolve(response.data);
+                } else {
+                    reject(
+                        new Error(
+                            "Something went wrong while trying to call 'fetchProfile'..."
+                        )
+                    );
+                }
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        )
+    );

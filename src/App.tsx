@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CookiesProvider } from "react-cookie";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+
+import axios from "axios";
 
 import { Layout } from "antd";
 
@@ -20,16 +22,40 @@ import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
 import ProtectedRoute from "./routes/protected-route";
 
-import { AuthProvider } from "./contexts/auth-context";
 import { NavbarProvider } from "./contexts/navbar-context";
+import { AuthenticationContext } from "./contexts/authentication-context";
+
+import { BASE_URL } from "./assets/constants";
 
 const { Header, Footer } = Layout;
 
 // eslint-disable-next-line require-jsdoc
-const App: React.FC = () => (
-    <BrowserRouter>
-        <CookiesProvider>
-            <AuthProvider>
+const App: React.FC = () => {
+    const { accessToken } = useContext(AuthenticationContext);
+
+    axios.defaults.headers.Authorization = `Bearer ${accessToken}`;
+
+    // Axios interceptor - Request.
+    axios.interceptors.request.use(
+        (request) => {
+            request.baseURL = BASE_URL;
+            // TODO:
+            //      - Handle new access tokens.
+            //      - Handle refresh tokens.
+            return request;
+        },
+        (error) => Promise.reject(error)
+    );
+
+    // Axios interceptor - Response.
+    axios.interceptors.response.use(
+        (response) => response,
+        (error) => Promise.reject(error)
+    );
+
+    return (
+        <BrowserRouter>
+            <CookiesProvider>
                 <NavbarProvider>
                     <Layout className="layoutContainer">
                         <Header className="header">
@@ -86,6 +112,13 @@ const App: React.FC = () => (
                                     )}
                                 />
                                 <Route
+                                    exact
+                                    path="/401"
+                                    component={() => (
+                                        <ErrorPage code={401} returnUrl="/" />
+                                    )}
+                                />
+                                <Route
                                     component={() => (
                                         <ErrorPage code={404} returnUrl="/" />
                                     )}
@@ -97,9 +130,9 @@ const App: React.FC = () => (
                         </Footer>
                     </Layout>
                 </NavbarProvider>
-            </AuthProvider>
-        </CookiesProvider>
-    </BrowserRouter>
-);
+            </CookiesProvider>
+        </BrowserRouter>
+    );
+};
 
 export default App;
