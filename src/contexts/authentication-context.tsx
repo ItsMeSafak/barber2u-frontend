@@ -9,43 +9,37 @@ import { useCookies } from "react-cookie";
 
 import User from "../models/User";
 
-import {
-    USER_COOKIE,
-    USER_ROLES_COOKIE,
-    ACCESS_TOKEN_COOKIE,
-    REFRESH_TOKEN_COOKIE,
-    AUTHENTICATED_COOKIE,
-} from "../assets/constants";
+import { fetchProfile } from "../services/auth-service";
+
+import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "../assets/constants";
 
 interface ContextProps {
     user: User | null;
-    roles: Array<string> | null;
     accessToken: string | null;
     refreshToken: string | null;
-    authenticated: boolean | null;
+    authenticated: boolean;
     setUser: (user: User) => void;
-    setRoles: (roles: Array<string> | null) => void;
-    setAccessToken: (JWToken: string) => void;
-    setRefreshToken: (refreshToken: string) => void;
+    setAccessToken: (token: string) => void;
+    setRefreshToken: (token: string) => void;
     setAuthenticated: (authenticated: boolean) => void;
-    setLogout: () => void;
+    logout: () => void;
 }
 
 const contextDefaultValues: ContextProps = {
     user: null,
-    roles: null,
     accessToken: null,
     refreshToken: null,
     authenticated: false,
     setUser: () => {},
-    setRoles: () => {},
     setAccessToken: () => {},
     setRefreshToken: () => {},
     setAuthenticated: () => {},
-    setLogout: () => {},
+    logout: () => {},
 };
 
-export const AuthContext = createContext<ContextProps>(contextDefaultValues);
+export const AuthenticationContext = createContext<ContextProps>(
+    contextDefaultValues
+);
 
 /**
  * This provider is used to keep track of the authenticated user.
@@ -54,18 +48,17 @@ export const AuthContext = createContext<ContextProps>(contextDefaultValues);
  * @param {Object} props Component properties.
  * @returns {JSX}
  */
-export const AuthProvider: React.FC = (props) => {
+export const AuthenticationProvider: React.FC = (props) => {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     const { children } = props;
 
     const [cookies, setCookie, removeCookie] = useCookies();
     const [user, setUser] = useState(contextDefaultValues.user);
-    const [roles, setRoles] = useState(contextDefaultValues.roles);
     const [accessToken, setAccessToken] = useState(
-        contextDefaultValues.accessToken
+        cookies[ACCESS_TOKEN_COOKIE] || contextDefaultValues.accessToken
     );
     const [refreshToken, setRefreshToken] = useState(
-        contextDefaultValues.refreshToken
+        cookies[REFRESH_TOKEN_COOKIE] || contextDefaultValues.refreshToken
     );
     const [authenticated, setAuthenticated] = useState(
         contextDefaultValues.authenticated
@@ -74,7 +67,7 @@ export const AuthProvider: React.FC = (props) => {
     const saveDataInCookieAndState = useCallback(
         (
             cookieName: string,
-            stateName: boolean | string | string[] | User | null,
+            stateName: boolean | string | User | null,
             stateFunction: (value: any) => void
         ) => {
             const cookie = cookies[cookieName];
@@ -85,13 +78,10 @@ export const AuthProvider: React.FC = (props) => {
         [cookies, setCookie]
     );
 
-    const saveUserInCookieIfNotExist = useCallback(() => {
-        saveDataInCookieAndState(USER_COOKIE, user, setUser);
-    }, [saveDataInCookieAndState, user]);
-
-    const saveUserRolesInCookieIfNotExist = useCallback(() => {
-        saveDataInCookieAndState(USER_ROLES_COOKIE, roles, setRoles);
-    }, [saveDataInCookieAndState, roles]);
+    const setUserObject = useCallback((data) => {
+        const userObject = Object.setPrototypeOf(data, User.prototype);
+        setUser(userObject);
+    }, []);
 
     const saveAccessTokenInCookieIfNotExist = useCallback(() => {
         saveDataInCookieAndState(
@@ -109,63 +99,64 @@ export const AuthProvider: React.FC = (props) => {
         );
     }, [saveDataInCookieAndState, refreshToken]);
 
-    const saveAuthenticatedStateInCookieIfNotExist = useCallback(() => {
-        saveDataInCookieAndState(
-            AUTHENTICATED_COOKIE,
-            authenticated,
-            setAuthenticated
-        );
-    }, [saveDataInCookieAndState, authenticated]);
-
     const deleteUserDataFromCookieAndState = useCallback(() => {
-        removeCookie(USER_COOKIE);
-        removeCookie(USER_ROLES_COOKIE);
         removeCookie(ACCESS_TOKEN_COOKIE);
         removeCookie(REFRESH_TOKEN_COOKIE);
-        removeCookie(AUTHENTICATED_COOKIE);
         setUser(null);
-        setRoles(null);
         setAccessToken(null);
         setRefreshToken(null);
         setAuthenticated(false);
     }, [removeCookie]);
 
     useEffect(() => {
-        saveUserInCookieIfNotExist();
-        saveUserRolesInCookieIfNotExist();
+        /**
+         * This function retrieves the current logged in user profile details.
+         * It saves the details into the user state.
+         */
+        const fetchUser = async () => {
+            const response = await fetchProfile();
+            setUserObject(response.data);
+        };
+
+        // If access token exists, send fetch request.
+        if (accessToken) fetchUser();
+    }, [accessToken, setUserObject]);
+
+    useEffect(() => {
         saveAccessTokenInCookieIfNotExist();
         saveRefreshTokenInCookieIfNotExist();
-        saveAuthenticatedStateInCookieIfNotExist();
     }, [
-        saveUserInCookieIfNotExist,
-        saveUserRolesInCookieIfNotExist,
+        accessToken,
+        refreshToken,
+        authenticated,
         saveAccessTokenInCookieIfNotExist,
         saveRefreshTokenInCookieIfNotExist,
-        saveAuthenticatedStateInCookieIfNotExist,
     ]);
+
+    useEffect(() => {
+        const isAuthenticated =
+            user != null && accessToken != null && refreshToken != null;
+        setAuthenticated(isAuthenticated);
+    }, [user, accessToken, refreshToken]);
 
     const providerValues = useMemo(
         () => ({
-            user: User.fromJSON(user),
-            roles,
+            user,
             accessToken,
             refreshToken,
             authenticated,
-            setUser,
-            setRoles,
+            setUser: (userObject: User) => setUserObject(userObject),
             setAccessToken,
             setRefreshToken,
             setAuthenticated,
-            setLogout: () => deleteUserDataFromCookieAndState(),
+            logout: () => deleteUserDataFromCookieAndState(),
         }),
         [
             user,
-            roles,
             accessToken,
             refreshToken,
             authenticated,
-            setUser,
-            setRoles,
+            setUserObject,
             setAccessToken,
             setRefreshToken,
             setAuthenticated,
@@ -174,10 +165,10 @@ export const AuthProvider: React.FC = (props) => {
     );
 
     return (
-        <AuthContext.Provider value={providerValues}>
+        <AuthenticationContext.Provider value={providerValues}>
             {children}
-        </AuthContext.Provider>
+        </AuthenticationContext.Provider>
     );
 };
 
-export default AuthProvider;
+export default AuthenticationProvider;
