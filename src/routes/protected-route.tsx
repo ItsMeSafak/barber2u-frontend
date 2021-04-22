@@ -26,11 +26,22 @@ const ProtectedRoute: React.FC<ComponentProps> = (props) => {
      * @returns {JSX}
      */
     const renderComponent = () => {
-        if (authenticated && user && checkIfRoleIsAllowed(user.getRoleNames))
+        // If user is authenticated and the roles match the allowed roles
+        // or the user is not authenticated and the allowed roles (authorization) is empty (meaning that authorized users are not allowed to visit this component)
+        // then render the correct route.
+        if (
+            (authenticated &&
+                user &&
+                checkIfRoleIsAllowed(user.getRoleNames)) ||
+            (!authenticated && !user && !allowedRoles.length)
+        )
             return <Route path={path} exact={exact} component={component} />;
-        if (!authenticated && !allowedRoles.length)
-            return <Route path={path} exact={exact} component={component} />;
-        return redirectToCorrectRoute();
+
+        // If user is authenticated and the user does not match the allowed roles (thus not authorized to visit a component)
+        // redirect the user back to the root page depending on the role(s) the user has.
+        if (authenticated && user && !checkIfRoleIsAllowed(user.getRoleNames))
+            return redirectToCorrectRoute();
+        return <Route />;
     };
 
     /**
