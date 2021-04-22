@@ -91,24 +91,6 @@ const ServicesPage: React.FC = () => {
     const emptyService = () => new Service("", "", "", 0.0, 0, true);
 
     /**
-     * This function renders the modal for creatingf a new service.
-     * @returns {JSX}
-     */
-    const renderNewServiceModal = () => (
-        <Modal
-            title="Creating a new service"
-            centered
-            okButtonProps={{ disabled: checkFormValues() }}
-            visible={serviceDetail !== null}
-            onOk={() => addService()}
-            onCancel={() => setServiceDetail(null)}
-            width={800}
-        >
-            <NewServiceForm serviceDetail={serviceDetail} />
-        </Modal>
-    );
-
-    /**
      * This fucntion renders the add button for creating a new service.
      *
      * @returns {JSX}
@@ -120,7 +102,7 @@ const ServicesPage: React.FC = () => {
             icon={<FontAwesomeIcon icon={getIconByPrefixName("fas", "plus")} />}
             size="large"
             onClick={() => {
-                setServiceDetail(emptyService());
+                setServiceDetail(null);
                 setIsNewService(true);
             }}
         >
@@ -174,8 +156,8 @@ const ServicesPage: React.FC = () => {
             title="Service details"
             centered
             okButtonProps={{ disabled: checkFormValues() }}
-            visible={serviceDetail !== null}
-            onOk={() => updateCurrentService()}
+            visible={serviceDetail !== null || isNewService!}
+            onOk={() => isNewService ? addService() : updateCurrentService()}
             onCancel={() => setServiceDetail(null)}
             width={800}
         >
@@ -208,8 +190,7 @@ const ServicesPage: React.FC = () => {
                     </Row>
                 </Content>
             </Layout>
-            {serviceDetail && !isNewService && renderModal()}
-            {isNewService && renderNewServiceModal()}
+            {renderModal()}
         </div>
     );
 };

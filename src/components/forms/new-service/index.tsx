@@ -26,7 +26,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
         ServiceContext
     );
     const [active, setActive] = useState(
-        isNewService ? true : serviceDetail?.active
+        isNewService || serviceDetail?.active
     );
 
     useEffect(() => {
