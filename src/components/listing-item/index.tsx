@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
     Button,
@@ -40,9 +40,9 @@ import styles from "./styles.module.scss";
 
 const { TabPane } = Tabs;
 
-// TODO carousel for the time cards inside the Timepicker
-
 // TODO (optional) change the time picker slots to the custom generic card component
+// TODO Request just 1 day availability on daypicker onclick, instead of full week
+// TODO Request just a list of 1 available timeslot per day for the daypicker, instead of checking availabilities
 
 /**
  * A Item component for the Barber listing page and gives an overview of the barber information, such as: services,
@@ -86,6 +86,8 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
             // instead of a settings object
         ],
     };
+
+    const slickRef = useRef<Slider>(null);
 
     const PROFILE_IMAGE_WIDTH = 150;
     const PORTFOLIO_IMAGE_WIDTH = 200;
@@ -281,11 +283,13 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                     if (!selectedDay) {
                         setSelectedDay(response.data[0].startTime);
                     }
+                    console.log("time", selectedTime);
                     if (!selectedTime) {
                         setSelectedTime(
                             findFirstTimeMoment(response.data[0].startTime)
                         );
                     }
+                    resetSlick();
                 }
             })
             .catch((error) =>
@@ -316,6 +320,11 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     };
 
     /**
+     * Reset slick to first position
+     */
+    const resetSlick = () => slickRef.current?.slickGoTo(0);
+
+    /**
      * Fetch the barber listing everytime on load of the component. The
      * accessToken is refreshed after the page is loaded, so the barbers should
      * get refreshed.
@@ -344,6 +353,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      */
     useEffect(() => {
         setSelectedTime(findFirstTimeMoment(selectedDay));
+        resetSlick();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedDay]);
 
@@ -408,6 +418,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
         weekDays.map((day) => (
             <Col
                 key={day.day()}
+                flex={1}
                 className={`
                     ${styles.dayPicker} 
                     ${
@@ -431,6 +442,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     const renderCustomDayPicker = () =>
         weekDays.length > 0 && (
             <Col
+                flex={1}
                 className={`
                 ${styles.dayPicker} 
                 ${
@@ -632,7 +644,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                             <Row>Service:</Row>
                             <Row>{renderServiceSelect()}</Row>
                             <Row>Availability:</Row>
-                            <Row>
+                            <Row justify="center">
                                 <Col className={styles.dateTimePicker}>
                                     <Row>
                                         {renderDayPicker()}
@@ -641,12 +653,16 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                                 </Col>
                             </Row>
                             <div
-                                className={`${styles.slider} ${styles.dateTimePicker}`}
+                                className={`
+                                ${styles.slider} 
+                                ${styles.dateTimePicker}
+                            `}
                             >
-                                <Slider {...sliderSettings}>
+                                <Slider {...sliderSettings} ref={slickRef}>
                                     {renderTimePicker()}
-
-                                    {weekDays.length === 0 && (
+                                    {(!selectedDay ||
+                                        !selectedTime ||
+                                        weekDays.length === 0) && (
                                         <p>There are no available times.</p>
                                     )}
                                 </Slider>

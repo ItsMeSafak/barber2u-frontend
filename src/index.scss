@@ -81,3 +81,17 @@ code {
 .ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab:not(:last-of-type) {
     margin-right: 8px;
 }
+
+// React Slick Slider Carousel Arrows
+.slick-prev {
+    left: -42px;
+}
+
+.slick-next {
+    right: -32px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+    font-size: 32px;
+}
