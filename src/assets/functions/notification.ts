@@ -1,6 +1,8 @@
 import { notification } from "antd";
 import { IconType } from "antd/lib/notification";
 
+import { RESPONSE_OK } from "../constants";
+
 /**
  * This function shows the notification with given properties.
  *
@@ -16,7 +18,7 @@ export const showNotification = (
     notificationType?: string
 ): void => {
     const modifiedMessageStatus =
-        (!message && httpStatus && httpStatus >= 200 && httpStatus < 300
+        (!message && httpStatus && httpStatus >= RESPONSE_OK && httpStatus < 300
             ? "Success"
             : "Error") || null;
     const modifiedMessage = httpStatus
@@ -42,7 +44,7 @@ export const showNotification = (
  * @returns {string}
  */
 const retrieveTypeFromHttpCode = (httpCode: number) => {
-    if (httpCode >= 200 && httpCode < 300) return "success";
+    if (httpCode >= RESPONSE_OK && httpCode < 300) return "success";
     if (httpCode >= 300 && httpCode < 400) return "info";
     if (httpCode >= 400 && httpCode < 500) return "warning";
     return "error";

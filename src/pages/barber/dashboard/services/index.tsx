@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useCallback } from "react";
 
 import { Button, Divider, Layout, Modal, Row } from "antd";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Service from "../../../../models/Service";
@@ -20,6 +20,7 @@ import { ServiceContext } from "../../../../contexts/service-context";
 
 import { RESPONSE_OK } from "../../../../assets/constants";
 import { showNotification } from "../../../../assets/functions/notification";
+import { getIconByPrefixName } from "../../../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
 
@@ -46,6 +47,24 @@ const ServicesPage: React.FC = () => {
     } = useContext(ServiceContext);
 
     /**
+     * This function fetches the services using the getAllServices function from services-service
+     *
+     * @param {string} barber the email of the barber
+     */
+    const fetchServices = useCallback(async () => {
+        const response = await getAllServices(user?.getEmail);
+        const { status, message } = response;
+        if (!(status === RESPONSE_OK)) showNotification(undefined, message, status);
+        if (!response.data) return;
+        setListOfServices(response.data);
+    }, [setListOfServices, user]);
+
+    useEffect(() => {
+        fetchServices();
+        setIsDeleted(false);
+    }, [serviceDetail, isDeleted, fetchServices, setIsDeleted]);
+
+    /**
      * This function sends a request to the backend, where we add a new service to the barber services.
      *
      * @param {string} token token we received when logged in
@@ -59,7 +78,7 @@ const ServicesPage: React.FC = () => {
             setServiceDetail(null);
 
             const { status, message } = response;
-            if (!(status === 200)) showNotification(undefined, message, status);
+            if (!(status === RESPONSE_OK)) showNotification(undefined, message, status);
             else showNotification(undefined, message, status);
         }
     };
@@ -98,7 +117,7 @@ const ServicesPage: React.FC = () => {
         <Button
             className={styles.addBtn}
             type="primary"
-            icon={<FontAwesomeIcon icon={faPlus} />}
+            icon={<FontAwesomeIcon icon={getIconByPrefixName("fas", "plus")} />}
             size="large"
             onClick={() => {
                 setServiceDetail(emptyService());
@@ -138,30 +157,12 @@ const ServicesPage: React.FC = () => {
     };
 
     /**
-     * This function fetches the services using the getAllServices function from services-service
-     *
-     * @param {string} barber the email of the barber
-     */
-    const fetchServices = useCallback(async () => {
-        const response = await getAllServices(user?.getEmail);
-        const { status, message } = response;
-        if (!(status === RESPONSE_OK)) showNotification(undefined, message, status);
-        if (!response.data) return;
-        setListOfServices(response.data);
-    }, [setListOfServices, user]);
-
-    /**
      * This function checks if either the description or name are empty strings.
      *
      * @returns {boolean}
      */
     const checkFormValues = () =>
         formValues.description === "" || formValues.name === "";
-
-    useEffect(() => {
-        fetchServices();
-        setIsDeleted(false);
-    }, [serviceDetail, isDeleted, fetchServices, setIsDeleted]);
 
     /**
      * This function renders the modal of a service.

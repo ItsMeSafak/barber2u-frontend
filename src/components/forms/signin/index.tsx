@@ -9,6 +9,7 @@ import User from "../../../models/User";
 import { signIn } from "../../../services/auth-service";
 import { AuthContext } from "../../../contexts/auth-context";
 
+import { RESPONSE_OK } from "../../../assets/constants";
 import { showNotification } from "../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 
@@ -54,7 +55,7 @@ const SigninForm: React.FC = () => {
 
         // If request is not OK, handle errors with notification.
         const { status, message } = response;
-        if (!(status === 200)) showNotification(undefined, message, status);
+        if (!(status === RESPONSE_OK)) showNotification(undefined, message, status);
         if (!response.data) return;
 
         // If request is OK, handle authentication.

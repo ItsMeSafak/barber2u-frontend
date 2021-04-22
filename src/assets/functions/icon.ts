@@ -30,6 +30,10 @@ import {
     faServer,
     faFileAlt,
     faLock,
+    faTrash,
+    faCertificate,
+    faEdit,
+    faPlus
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -61,6 +65,10 @@ export const icons = {
     faServer,
     faFileAlt,
     faLock,
+    faTrash,
+    faCertificate,
+    faEdit,
+    faPlus
 };
 
 /**

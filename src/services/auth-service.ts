@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { RESPONSE_OK } from "../assets/constants";
+
 interface APIAuthResponse {
     data: {
         roles: Array<string>;
@@ -42,7 +44,7 @@ export const signIn = (
             })
             .then(
                 (response) => {
-                    if (response.status === 200) {
+                    if (response.status === RESPONSE_OK) {
                         resolve(response.data);
                     } else {
                         reject(
@@ -80,7 +82,7 @@ export const signUp = (formValues: {
             })
             .then(
                 (response) => {
-                    if (response.status === 200) {
+                    if (response.status === RESPONSE_OK) {
                         resolve(response.data);
                     } else {
                         reject(

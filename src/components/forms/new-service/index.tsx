@@ -7,6 +7,8 @@ import Service from "../../../models/Service";
 
 import { ServiceContext } from "../../../contexts/service-context";
 
+import { EURO_SYMBOL } from "../../../assets/constants";
+
 import styles from "./styles.module.scss";
 
 interface FormProps {
@@ -26,6 +28,18 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
     const [active, setActive] = useState(
         isNewService ? true : serviceDetail?.active
     );
+
+    useEffect(() => {
+        if (serviceDetail) {
+            setFormValues({
+                name: serviceDetail.name,
+                description: serviceDetail.description,
+                time: serviceDetail.time,
+                price: serviceDetail.price,
+                isActive: active,
+            });
+        }
+    }, [serviceDetail, setFormValues, active]);
 
     /**
      * This function sets the form value for number typed inputs.
@@ -65,18 +79,6 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
         });
     };
 
-    useEffect(() => {
-        if (serviceDetail) {
-            setFormValues({
-                name: serviceDetail.name,
-                description: serviceDetail.description,
-                time: serviceDetail.time,
-                price: serviceDetail.price,
-                isActive: active,
-            });
-        }
-    }, [serviceDetail, setFormValues, active]);
-
     return (
         <>
             <Form>
@@ -113,7 +115,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                         name="price"
                         className={styles.inputPrice}
                         defaultValue={serviceDetail?.price}
-                        formatter={(value) => `&euro; ${value}`}
+                        formatter={(value) => `${EURO_SYMBOL} ${value}`}
                         onChange={onNumberChange("price")}
                     />
                 </Form.Item>

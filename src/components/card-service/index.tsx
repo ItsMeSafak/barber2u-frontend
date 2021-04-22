@@ -2,20 +2,15 @@ import React, { useContext } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Card, Col, Modal } from "antd";
-import {
-    faCertificate,
-    faEdit,
-    faTrash,
-} from "@fortawesome/free-solid-svg-icons";
 
 import Service from "../../models/Service";
 
+import { deleteService } from "../../services/services-service";
 import { ServiceContext } from "../../contexts/service-context";
 
-import { deleteService } from "../../services/services-service";
-
-import { RESPONSE_OK } from "../../assets/constants";
+import { EURO_SYMBOL, RESPONSE_OK } from "../../assets/constants";
 import { showNotification } from "../../assets/functions/notification";
+import { getIconByPrefixName } from "../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
 
@@ -48,7 +43,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
         <FontAwesomeIcon
             key="edit"
             className={styles.editAction}
-            icon={faEdit}
+            icon={getIconByPrefixName("fas", "edit")}
             onClick={() => {
                 setIsNewService(false);
                 setServiceDetail(serviceDetail);
@@ -57,7 +52,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
         <FontAwesomeIcon
             key="delete"
             className={styles.editAction}
-            icon={faTrash}
+            icon={getIconByPrefixName("fas", "trash")}
             onClick={() => warningModal()}
         />,
     ];
@@ -88,17 +83,17 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
     };
 
     return (
-        <Col key={serviceDetail.id} xs={24} sm={12} lg={8} xl={8}>
+        <Col key={serviceDetail.id} xs={24} sm={12} lg={8}>
             <Card className={styles.card} actions={actions()}>
                 <h2 className={styles.header}>
-                    {serviceDetail.name}{" "}
+                    {`${serviceDetail.name} `}
                     <FontAwesomeIcon
                         className={
                             serviceDetail.active
                                 ? styles.certificateOn
                                 : styles.certificateOff
                         }
-                        icon={faCertificate}
+                        icon={getIconByPrefixName("fas", "certificate")}
                     />
                 </h2>
                 <p>{serviceDetail.description}</p>
@@ -106,7 +101,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
                     <span>{serviceDetail.time}</span> minutes
                 </p>
                 <span className={styles.price}>
-                    &euro; {serviceDetail.price.toFixed(2)},-
+                    {`${EURO_SYMBOL} ${serviceDetail.price.toFixed(2)},-`}
                 </span>
             </Card>
         </Col>
