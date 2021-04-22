@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useState } from "react";
 import { useHistory } from "react-router-dom";
+import React, { ChangeEvent, useState } from "react";
 
 import { Button, Form, Input } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +18,6 @@ import styles from "./styles.module.scss";
  * @returns {JSX}
  */
 const SignupForm: React.FC = () => {
-    // TODO: Add input fields and link register form to backend
     const history = useHistory();
     const [formValue, setFormValue] = useState<{
         firstName: string;
@@ -126,7 +125,7 @@ const SignupForm: React.FC = () => {
                         }
                         prefix={
                             <FontAwesomeIcon
-                                icon={getIconByPrefixName("fas", "at")}
+                                icon={getIconByPrefixName("fas", "envelope")}
                                 size="sm"
                             />
                         }

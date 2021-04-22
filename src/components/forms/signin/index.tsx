@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useContext, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Form, Input, notification } from "antd";
+import { Button, Form, Input } from "antd";
 
 import User from "../../../models/User";
 
@@ -20,7 +20,7 @@ import styles from "./styles.module.scss";
  *
  * @returns {JSX}
  */
-const SigninForm: React.FC = () => {
+const SignInForm: React.FC = () => {
     const { setUser, setAccessToken, setRefreshToken } = useContext(
         AuthenticationContext
     );
@@ -78,7 +78,7 @@ const SigninForm: React.FC = () => {
                         }
                         prefix={
                             <FontAwesomeIcon
-                                icon={getIconByPrefixName("fas", "at")}
+                                icon={getIconByPrefixName("fas", "envelope")}
                                 size="sm"
                             />
                         }
@@ -110,15 +110,33 @@ const SigninForm: React.FC = () => {
                     <Button
                         type="primary"
                         htmlType="submit"
+                        shape="round"
                         className={styles.signInButton}
                         onClick={handleSignIn}
                     >
                         Sign In
                     </Button>
                 </Form.Item>
+                <Form.Item>
+                    <Link to="customer/signup">
+                        <Button
+                            type="primary"
+                            shape="round"
+                            ghost
+                            className={styles.signUpButton}
+                        >
+                            Create an account
+                        </Button>
+                    </Link>
+                </Form.Item>
+                <Form.Item>
+                    <Link to="reset-password">
+                        <p className={styles.resetButton}>Reset password</p>
+                    </Link>
+                </Form.Item>
             </Form>
         </div>
     );
 };
 
-export default SigninForm;
+export default SignInForm;

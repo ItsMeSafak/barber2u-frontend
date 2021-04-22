@@ -36,57 +36,62 @@ const ResetPasswordForm: React.FC = () => {
 
     return (
         <>
-            <h2 className={styles.formTitle}>Reset password</h2>
-            <Form
-                name="resetPassword"
-                onFinish={onFormFinish}
-                onFinishFailed={onFormFinishFailed}
-            >
-                <Form.Item
-                    name="email"
-                    className={styles.emailFormItem}
-                    rules={[
-                        {
-                            type: "email",
-                            required: true,
-                            message: "Please input your email!",
-                        },
-                    ]}
+            <div className={styles.resetPasswordForm}>
+                <h2 className={styles.formTitle}>Reset password</h2>
+                <Form
+                    name="resetPassword"
+                    onFinish={onFormFinish}
+                    onFinishFailed={onFormFinishFailed}
                 >
-                    <Input
-                        size="large"
-                        prefix={
-                            <FontAwesomeIcon
-                                color="#888"
-                                icon={getIconByPrefixName("fas", "envelope")}
-                                size="sm"
-                            />
-                        }
-                        placeholder="E-mail"
-                    />
-                </Form.Item>
-                <Form.Item wrapperCol={{ span: 24 }}>
-                    <Button
-                        className={styles.resetPasswordButton}
-                        type="primary"
-                        block
-                        shape="round"
-                        htmlType="submit"
+                    <Form.Item
+                        name="email"
+                        className={styles.emailFormItem}
+                        rules={[
+                            {
+                                type: "email",
+                                required: true,
+                                message: "Please input your email!",
+                            },
+                        ]}
                     >
-                        Reset password
-                    </Button>
-                </Form.Item>
-            </Form>
-            <Button
-                type="primary"
-                className={styles.resetPasswordButtonGhost}
-                block
-                ghost
-                shape="round"
-                htmlType="submit"
-            >
-                Login
-            </Button>
+                        <Input
+                            size="large"
+                            prefix={
+                                <FontAwesomeIcon
+                                    color="#888"
+                                    icon={getIconByPrefixName(
+                                        "fas",
+                                        "envelope"
+                                    )}
+                                    size="sm"
+                                />
+                            }
+                            placeholder="E-mail"
+                        />
+                    </Form.Item>
+                    <Form.Item wrapperCol={{ span: 24 }}>
+                        <Button
+                            className={styles.resetPasswordButton}
+                            type="primary"
+                            block
+                            shape="round"
+                            htmlType="submit"
+                        >
+                            Reset password
+                        </Button>
+                    </Form.Item>
+                </Form>
+                <Button
+                    type="primary"
+                    className={styles.resetPasswordButtonGhost}
+                    block
+                    ghost
+                    shape="round"
+                    htmlType="submit"
+                >
+                    Login
+                </Button>
+            </div>
         </>
     );
 };

@@ -13,7 +13,6 @@ import {
     faCaretLeft,
     faCaretRight,
     faIdCard,
-    faAt,
     faKey,
     faMobileAlt,
     faAddressBook,
@@ -29,6 +28,11 @@ import {
     faChartLine,
     faServer,
     faFileAlt,
+    faBuilding,
+    faFileInvoiceDollar,
+    faEuroSign,
+    faClipboard,
+    faClock,
     faLock,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -44,7 +48,6 @@ export const icons = {
     faCaretLeft,
     faCaretRight,
     faIdCard,
-    faAt,
     faKey,
     faMobileAlt,
     faAddressBook,
@@ -60,6 +63,11 @@ export const icons = {
     faChartLine,
     faServer,
     faFileAlt,
+    faBuilding,
+    faFileInvoiceDollar,
+    faEuroSign,
+    faClipboard,
+    faClock,
     faLock,
 };
 

@@ -25,3 +25,13 @@
     height: 100%;
     background-color: rgba($color: #252525, $alpha: 0.25);
 }
+
+.mobileSignup {
+    background-image: url("../../../assets/images/pexels-photo-995300-1.jpeg");
+    display: flex;
+    height: 100vh;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
