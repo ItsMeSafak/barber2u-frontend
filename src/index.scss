@@ -56,3 +56,26 @@ code {
 .slick-next::before {
     color: #1890ff;
 }
+
+// Ant Design Rates
+.ant-rate-star-first,
+.ant-rate-star-second {
+    color: #787879;
+}
+
+// Ant Design Tab pane Tabs
+.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab,
+.ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab {
+    border: 1px solid #40a9ff;
+}
+
+.ant-tabs-top > .ant-tabs-nav::before,
+.ant-tabs-bottom > .ant-tabs-nav::before,
+.ant-tabs-top > div > .ant-tabs-nav::before,
+.ant-tabs-bottom > div > .ant-tabs-nav::before {
+    border-bottom: 1px solid #40a9ff;
+}
+
+.ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab:not(:last-of-type) {
+    margin-right: 8px;
+}
