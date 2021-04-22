@@ -22,8 +22,8 @@ interface APIServiceResponse {
 export const getAllServices = (barber?: string): Promise<APIServiceResponse> =>
     new Promise<APIServiceResponse>((resolve, reject) => {
         axios
-            .post(`${API_URL}/getAll`, {
-                barber,
+            .post(`${API_URL}/get`, {
+                barber
             })
             .then(
                 (response) => {
@@ -104,7 +104,7 @@ export const deleteService = (id: string): Promise<APIServiceResponse> =>
  */
 export const updateService = (service: Service): Promise<APIServiceResponse> =>
     new Promise<APIServiceResponse>((resolve, reject) => {
-        axios.post(`${API_URL}/update`, service).then(
+        axios.put(`${API_URL}/update/${service.id}`, service).then(
             (response) => {
                 if (response.status === RESPONSE_OK) {
                     resolve(response.data);

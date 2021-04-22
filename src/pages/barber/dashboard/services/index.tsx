@@ -37,9 +37,9 @@ const ServicesPage: React.FC = () => {
     const {
         serviceDetail,
         listOfServices,
-        isNewService,
         formValues,
         isDeleted,
+        isNewService,
         setServiceDetail,
         setListOfServices,
         setIsNewService,
@@ -76,6 +76,7 @@ const ServicesPage: React.FC = () => {
         if (serviceDetail) {
             const response = await createNewService(serviceDetail);
             setServiceDetail(null);
+            setIsNewService(false);
 
             const { status, message } = response;
             if (!(status === RESPONSE_OK)) showNotification(undefined, message, status);
@@ -95,7 +96,7 @@ const ServicesPage: React.FC = () => {
             icon={<FontAwesomeIcon icon={getIconByPrefixName("fas", "plus")} />}
             size="large"
             onClick={() => {
-                setServiceDetail(null);
+                setServiceDetail(new Service("", "", "", 0, 0, true));
                 setIsNewService(true);
             }}
         >
@@ -139,8 +140,6 @@ const ServicesPage: React.FC = () => {
     const checkFormValues = () =>
         formValues.description === "" || formValues.name === "";
 
-    console.log("Service: ", serviceDetail);
-
     /**
      * This function renders the modal of a service.
      *
@@ -150,13 +149,15 @@ const ServicesPage: React.FC = () => {
         <Modal
             title="Service details"
             centered
+            destroyOnClose={true}
             okButtonProps={{ disabled: checkFormValues() }}
-            visible={serviceDetail !== null}
+            visible={serviceDetail !== null || isNewService!}
             onOk={() => isNewService ? addService() : updateCurrentService()}
             onCancel={() => {
-                setServiceDetail(null);
                 setIsNewService(false);
-            }}
+                setServiceDetail(null);
+            }
+            }
             width={800}
         >
             <NewServiceForm serviceDetail={serviceDetail} />

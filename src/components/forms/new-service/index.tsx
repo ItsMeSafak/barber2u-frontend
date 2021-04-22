@@ -25,12 +25,12 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
     const { isNewService, formValues, setFormValues } = useContext(
         ServiceContext
     );
-    const [active, setActive] = useState(
+    const [active] = useState(
         isNewService || serviceDetail?.active
     );
 
     useEffect(() => {
-        if (serviceDetail) {
+        if (serviceDetail)
             setFormValues({
                 name: serviceDetail.name,
                 description: serviceDetail.description,
@@ -38,7 +38,6 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 price: serviceDetail.price,
                 isActive: active,
             });
-        }
     }, [serviceDetail, setFormValues, active]);
 
     /**
@@ -61,39 +60,30 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
     const onInputChange = (key: string) => (
         event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
-        if (formValues)
-            setFormValues({
-                ...formValues,
-                [key]: event.target.value,
-            });
-    };
+        setFormValues({
+            ...formValues,
+            [key]: event.target.value,
+        });
 
-    console.log("Form: ", serviceDetail);
+    };
 
     /**
      * This fucntion sets the active value in the form values object.
      */
-    const changeActiveness = () => {
-        setActive((prevState) => !prevState);
+    const changeActiveness = (switchActive: boolean) => {
         setFormValues({
             ...formValues,
-            isActive: active,
+            isActive: switchActive,
         });
     };
 
     return (
-        <Form initialValues={{
-            name: serviceDetail?.name,
-            description: serviceDetail?.description,
-            time: serviceDetail?.time,
-            price: serviceDetail?.price,
-            active: serviceDetail?.active
-
-        }}>
+        <Form>
             <Form.Item name="name">
                 <Input
                     name="name"
                     className={styles.dropdown}
+                    defaultValue={serviceDetail?.name}
                     placeholder="Style"
                     onChange={onInputChange("name")}
                 />
@@ -102,6 +92,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 <TextArea
                     name="description"
                     className={styles.description}
+                    defaultValue={serviceDetail?.description}
                     placeholder="Description"
                     onChange={onInputChange("description")}
                     autoSize={{ maxRows: 10 }}
@@ -111,6 +102,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 <InputNumber
                     name="time"
                     className={styles.inputTime}
+                    defaultValue={serviceDetail?.time}
                     onChange={onNumberChange("time")}
                     placeholder="Minutes"
                 />
@@ -119,6 +111,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 <InputNumber
                     name="price"
                     className={styles.inputPrice}
+                    defaultValue={serviceDetail?.price}
                     formatter={(value) => `${EURO_SYMBOL} ${value}`}
                     onChange={onNumberChange("price")}
                 />
@@ -127,7 +120,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 <Switch
                     className={styles.switch}
                     checkedChildren="Active"
-                    onClick={() => changeActiveness()}
+                    onClick={(isActive) => changeActiveness(isActive)}
                     unCheckedChildren="Inactive"
                     defaultChecked={active}
                 />
