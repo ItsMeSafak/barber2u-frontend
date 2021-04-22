@@ -88,7 +88,7 @@ const ServicesPage: React.FC = () => {
      *
      * @returns {Service}
      */
-    const emptyService = () => new Service("", "", 0.0, 0, true);
+    const emptyService = () => new Service("", "", "", 0.0, 0, true);
 
     /**
      * This function renders the modal for creatingf a new service.

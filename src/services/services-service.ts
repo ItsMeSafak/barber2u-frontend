@@ -3,9 +3,15 @@ import axios from "axios";
 import { RESPONSE_OK } from "../assets/constants";
 
 import Service from "../models/Service";
-import APIServiceResponse from "../models/APIServiceResponse";
 
 const API_URL = "/services";
+
+interface APIServiceResponse {
+    data: Service[];
+    message: string;
+    status: number;
+    success: boolean;
+}
 
 /**
  * This function fetches the services.

@@ -33,7 +33,8 @@ import {
     faTrash,
     faCertificate,
     faEdit,
-    faPlus
+    faPlus,
+    faEuroSign
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -68,7 +69,8 @@ export const icons = {
     faTrash,
     faCertificate,
     faEdit,
-    faPlus
+    faPlus,
+    faEuroSign
 };
 
 /**
