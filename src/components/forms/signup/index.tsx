@@ -62,6 +62,7 @@ const SignupForm: React.FC = () => {
 
     /**
      * This method checks if some of the fields have a filled in value or not.
+     *
      * @returns {boolean}
      */
     const isEnabled = () => Object.values(formValue).every((o) => o !== "");
@@ -124,10 +125,7 @@ const SignupForm: React.FC = () => {
                         }
                         prefix={
                             <FontAwesomeIcon
-                                icon={getIconByPrefixName(
-                                    "fas",
-                                    "envelope"
-                                )}
+                                icon={getIconByPrefixName("fas", "envelope")}
                                 size="sm"
                             />
                         }
@@ -188,7 +186,10 @@ const SignupForm: React.FC = () => {
                         }
                         prefix={
                             <FontAwesomeIcon
-                                icon={getIconByPrefixName("fas", "address-book")}
+                                icon={getIconByPrefixName(
+                                    "fas",
+                                    "address-book"
+                                )}
                                 size="sm"
                             />
                         }

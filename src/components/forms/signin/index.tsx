@@ -78,10 +78,7 @@ const SignInForm: React.FC = () => {
                         }
                         prefix={
                             <FontAwesomeIcon
-                                icon={getIconByPrefixName(
-                                    "fas",
-                                    "envelope"
-                                )}
+                                icon={getIconByPrefixName("fas", "envelope")}
                                 size="sm"
                             />
                         }

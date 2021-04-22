@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Layout } from "antd";
+
 import SignupForm from "../../../components/forms/signup";
 
 import { WIDTH_SCREEN_LG } from "../../../assets/constants";
