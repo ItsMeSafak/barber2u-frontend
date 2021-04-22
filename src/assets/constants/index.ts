@@ -97,4 +97,4 @@ export const AFTERNOON_STRING = "Afternoon";
 export const EVENING_STRING = "Evening";
 
 export const DATE_FORMAT = "YYYY-MM-DD";
-export const TIME_FORMAT = "hh:mm:ss";
+export const TIME_FORMAT = "HH:mm:ss";

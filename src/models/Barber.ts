@@ -12,17 +12,33 @@ export default class Barber extends User {
 
     // eslint-disable-next-line require-jsdoc
     constructor(
-        email: string,
+        id: string,
         firstName: string,
         lastName: string,
-        zipCode: string,
+        email: string,
         phoneNumber: string,
+        address: string,
+        zipCode: string,
+        roles: Array<{ id: string; name: string }>,
+        isActive: boolean,
+        isVerified: boolean,
         kvk_number: string,
         btw_vat_number: string,
         work_radius: number,
         user: User
     ) {
-        super(email, firstName, lastName, zipCode, phoneNumber);
+        super(
+            id,
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+            address,
+            zipCode,
+            roles,
+            isActive,
+            isVerified
+        );
         this.kvk_number = kvk_number;
         this.btw_vat_number = btw_vat_number;
         this.work_radius = work_radius;

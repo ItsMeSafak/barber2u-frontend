@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-
+import React, { useEffect, useState } from "react";
 
 import {
     Button,
@@ -16,13 +15,10 @@ import {
 import Slider from "react-slick";
 import moment, { Moment } from "moment";
 
-
 import Barber from "../../models/Barber";
 import Service2 from "../../models/Service2";
 import MomentRange from "../../models/MomentRange";
 import { TempBarber } from "../../models/TempBarber";
-
-import { AuthContext } from "../../contexts/auth-context";
 
 import {
     fetchBarberAvailabilityRange,
@@ -59,11 +55,6 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     barber,
     tempBarber,
 }) => {
-    /**
-     * The access token for using the API requests.
-     */
-    const { accessToken } = useContext(AuthContext);
-
     const sliderSettings = {
         infinite: false,
         slidesToShow: 4,
@@ -73,27 +64,27 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 breakpoint: 1024,
                 settings: {
                     slidesToShow: 3,
-                    slidesToScroll: 3
-                }
+                    slidesToScroll: 3,
+                },
             },
             {
                 breakpoint: 600,
                 settings: {
                     slidesToShow: 2,
-                    slidesToScroll: 2
-                }
+                    slidesToScroll: 2,
+                },
             },
             {
                 breakpoint: 480,
                 settings: {
                     slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
+                    slidesToScroll: 1,
+                },
+            },
             // You can unslick at a given breakpoint now by adding:
             // settings: "unslick"
             // instead of a settings object
-        ]
+        ],
     };
 
     const PROFILE_IMAGE_WIDTH = 150;
@@ -263,14 +254,13 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      * Fetch the barber listing data from the server with the listing service.
      */
     const getListing = async () => {
-        if (accessToken)
-            await fetchBarberListing(accessToken, barber.getUser.getEmail)
-                .then((response) => {
-                    setServices(response.data.services);
-                })
-                .catch((error) =>
-                    showNotification(undefined, error.message, error.status)
-                );
+        await fetchBarberListing(barber.getUser.getEmail)
+            .then((response) => {
+                setServices(response.data.services);
+            })
+            .catch((error) =>
+                showNotification(undefined, error.message, error.status)
+            );
     };
 
     /**
@@ -278,40 +268,37 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      * @param time time required for an availability timeslot
      */
     const getAvailability = async (time: number) => {
-        if (accessToken)
-            await fetchBarberAvailabilityRange(
-                accessToken,
-                barber.getUser.getEmail,
-                time,
-                moment().format(DATE_FORMAT),
-                moment().add(7, "day").format(DATE_FORMAT)
-            )
-                .then((response) => {
-                    setAvailability(response.data);
-                    // if there is at least 1 availability
-                    if (response.data.length >= 1) {
-                        if (!selectedDay) {
-                            setSelectedDay(response.data[0].startTime);
-                        }
-                        if (!selectedTime) {
-                            setSelectedTime(
-                                findFirstTimeMoment(response.data[0].startTime)
-                            );
-                        }
+        await fetchBarberAvailabilityRange(
+            barber.getUser.getEmail,
+            time,
+            moment().format(DATE_FORMAT),
+            moment().add(7, "day").format(DATE_FORMAT)
+        )
+            .then((response) => {
+                setAvailability(response.data);
+                // if there is at least 1 availability
+                if (response.data.length >= 1) {
+                    if (!selectedDay) {
+                        setSelectedDay(response.data[0].startTime);
                     }
-                })
-                .catch((error) =>
-                    showNotification(undefined, error.message, error.status)
-                );
+                    if (!selectedTime) {
+                        setSelectedTime(
+                            findFirstTimeMoment(response.data[0].startTime)
+                        );
+                    }
+                }
+            })
+            .catch((error) =>
+                showNotification(undefined, error.message, error.status)
+            );
     };
 
     /**
      * Create a reservation request via the reservation service to the server.
      */
     const createReservation = async () => {
-        if (accessToken && selectedTime)
+        if (selectedTime)
             await sendCreateReservation(
-                accessToken,
                 barber.getUser.getEmail,
                 selectedServices,
                 selectedTime
@@ -336,7 +323,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     useEffect(() => {
         getListing();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [accessToken]);
+    }, []);
 
     /**
      * Every time the selected services changes:
@@ -423,9 +410,10 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 key={day.day()}
                 className={`
                     ${styles.dayPicker} 
-                    ${selectedDay?.isSame(day, "day")
-                        ? styles.dayPickerActive
-                        : ""
+                    ${
+                        selectedDay?.isSame(day, "day")
+                            ? styles.dayPickerActive
+                            : ""
                     }
                 `}
                 onClick={() => setSelectedDay(day)}
@@ -445,10 +433,11 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
             <Col
                 className={`
                 ${styles.dayPicker} 
-                ${selectedDay?.isSame(customDatePickerValue, "day")
+                ${
+                    selectedDay?.isSame(customDatePickerValue, "day")
                         ? styles.dayPickerActive
                         : ""
-                    }
+                }
             `}
             >
                 <DatePicker
@@ -484,9 +473,10 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 <Card
                     className={`
                         ${styles.cards} 
-                        ${day.startTime.isSame(selectedTime.startTime)
-                            ? styles.cardsActive
-                            : ""
+                        ${
+                            day.startTime.isSame(selectedTime.startTime)
+                                ? styles.cardsActive
+                                : ""
                         }
                     `}
                     title={getPartOfTheDayString(day.startTime)}
@@ -629,8 +619,9 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 </Col>
             </Row>
             <Row
-                className={`${styles.containerBottom} ${collapsed ? "" : styles.hide
-                    }`}
+                className={`${styles.containerBottom} ${
+                    collapsed ? "" : styles.hide
+                }`}
             >
                 <Col span={24}>
                     <Tabs type="card">
@@ -647,18 +638,11 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                                         {renderDayPicker()}
                                         {renderCustomDayPicker()}
                                     </Row>
-                                    {/* <Row gutter={[16, 24]} align="middle">
-                                        {renderTimePicker()}
-                                    </Row> */}
-                                    {/* <Row> */}
-                                    {/* TODO replace this error message with not allowing the custom datepicker to pick dates that are not available */}
-                                    {/* {weekDays.length === 0 && (
-                                            <p>There are no available times.</p>
-                                        )} */}
-                                    {/* </Row> */}
                                 </Col>
                             </Row>
-                            <div className={`${styles.slider} ${styles.dateTimePicker}`}>
+                            <div
+                                className={`${styles.slider} ${styles.dateTimePicker}`}
+                            >
                                 <Slider {...sliderSettings}>
                                     {renderTimePicker()}
 

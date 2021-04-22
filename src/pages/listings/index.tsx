@@ -1,5 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button, Col, Row, Select } from "antd";
 
@@ -14,8 +14,6 @@ import { getIconByPrefixName } from "../../assets/functions/icon";
 import barberListings from "../../assets/listing/listing_barbers.json";
 import { showNotification } from "../../assets/functions/notification";
 
-import { AuthContext } from "../../contexts/auth-context";
-
 import { fetchBarbers } from "../../services/listing-service";
 
 import styles from "./styles.module.scss";
@@ -28,11 +26,6 @@ import styles from "./styles.module.scss";
  */
 const Listings: React.FC = () => {
     /**
-     * The access token for using the API requests.
-     */
-    const { accessToken } = useContext(AuthContext);
-
-    /**
      * State for the available barbers that is shown as listings.
      */
     const [barbers, setBarbers] = useState<Barber[]>([]);
@@ -41,14 +34,13 @@ const Listings: React.FC = () => {
      * Fetch the available barbers from the server with the listing service.
      */
     const getBarbers = async () => {
-        if (accessToken)
-            await fetchBarbers(accessToken)
-                .then((response) => {
-                    setBarbers(response.data);
-                })
-                .catch((error) =>
-                    showNotification(undefined, error.message, error.status)
-                );
+        await fetchBarbers()
+            .then((response) => {
+                setBarbers(response.data);
+            })
+            .catch((error) =>
+                showNotification(undefined, error.message, error.status)
+            );
     };
 
     /**
@@ -58,7 +50,7 @@ const Listings: React.FC = () => {
     useEffect(() => {
         getBarbers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [accessToken]);
+    }, []);
 
     /**
      * Render the header that displays the total amount of barbers.

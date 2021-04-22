@@ -10,11 +10,6 @@ import { DATE_FORMAT, TIME_FORMAT } from "../assets/constants";
 const HTTP_SUCCESS_CODE = 200;
 
 /**
- * Authentication header for HTTP request
- */
-const AUTH_HEADER = "Authorization";
-
-/**
  * API url for fetching reservation data from Barber
  */
 const API_URL_RESERVATION = "http://localhost:8080/api/reservation";
@@ -35,19 +30,16 @@ interface APICreateReservationResponse {
 
 /**
  * Create a reservation
- * @param token Access token from user
  * @param barberEmail Email from whom you want to make a reservation with
  * @param services List of selected services
  * @param date Date range of the start and end time
  */
 export const sendCreateReservation = (
-    token: string,
     barberEmail: string,
     services: Service2[],
     date: MomentRange
 ): Promise<APICreateReservationResponse> =>
     new Promise<APICreateReservationResponse>((resolve, reject) => {
-        axios.defaults.headers.common[AUTH_HEADER] = `Bearer ${token}`;
         axios
             .post(`${API_URL_RESERVATION}/create`, {
                 barber: barberEmail,

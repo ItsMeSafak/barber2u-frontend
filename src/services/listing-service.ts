@@ -13,11 +13,6 @@ import MomentRange from "../models/MomentRange";
 const HTTP_SUCCESS_CODE = 200;
 
 /**
- * Authentication header for HTTP request
- */
-const AUTH_HEADER = "Authorization";
-
-/**
  * API url for fetching Barber related data
  */
 const API_URL_BARBER = "http://localhost:8080/api/barbers";
@@ -65,11 +60,9 @@ interface APIBarberAvailabilityResponse {
 
 /**
  * Fetch all the Barber data from the API
- * @param token
  */
-export const fetchBarbers = (token: string): Promise<APIBarbersResponse> =>
+export const fetchBarbers = (): Promise<APIBarbersResponse> =>
     new Promise<APIBarbersResponse>((resolve, reject) => {
-        axios.defaults.headers.common[AUTH_HEADER] = `Bearer ${token}`;
         axios.post(`${API_URL_BARBER}`).then(
             (response) => {
                 if (response.status === HTTP_SUCCESS_CODE) {
@@ -84,15 +77,12 @@ export const fetchBarbers = (token: string): Promise<APIBarbersResponse> =>
 
 /**
  * Fetch all the listing data from a barber from the API
- * @param token
  * @param email email of the barber
  */
 export const fetchBarberListing = (
-    token: string,
     email: string
 ): Promise<APIBarberListingResponse> =>
     new Promise<APIBarberListingResponse>((resolve, reject) => {
-        axios.defaults.headers.common[AUTH_HEADER] = `Bearer ${token}`;
         axios.post(`${API_URL_BARBER}/${email}/listing`).then(
             (response) => {
                 if (response.status === HTTP_SUCCESS_CODE)
@@ -107,19 +97,16 @@ export const fetchBarberListing = (
 
 /**
  * Fetch all the Barber availavility data from the API
- * @param token accessToken from user
  * @param email email address from barber
  * @param duration required duration of the availability
  * @param date the date of the availability
  */
 export const fetchBarberAvailability = (
-    token: string,
     email: string,
     duration: number,
     date: string
 ): Promise<APIBarberAvailabilityResponse> =>
     new Promise<APIBarberAvailabilityResponse>((resolve, reject) => {
-        axios.defaults.headers.common[AUTH_HEADER] = `Bearer ${token}`;
         axios
             .post(`${API_URL_RESERVATION}/availability`, {
                 barber: email,
@@ -140,21 +127,18 @@ export const fetchBarberAvailability = (
 
 /**
  * Fetch all the Barber availavility data from the API
- * @param token accessToken from user
  * @param email email address from barber
  * @param duration required duration of the availability
  * @param startDate start date of the range of the availabilities
  * @param endDate end date of the range of the availabilities
  */
 export const fetchBarberAvailabilityRange = (
-    token: string,
     email: string,
     duration: number,
     startDate: string,
     endDate: string
 ): Promise<APIBarberAvailabilityResponse> =>
     new Promise<APIBarberAvailabilityResponse>((resolve, reject) => {
-        axios.defaults.headers.common[AUTH_HEADER] = `Bearer ${token}`;
         axios
             .post(`${API_URL_RESERVATION}/availability/range`, {
                 barber: email,
