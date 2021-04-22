@@ -51,11 +51,8 @@ export const CONTACT_DETAILS_PHONE_NUMBER = "0612-345678";
 export const CONTACT_DETAILS_EMAIL_ADDRESS = "info@barber2u.nl";
 
 // Cookies constants.
-export const USER_COOKIE = `${PACKAGE_NAME}user`;
-export const USER_ROLES_COOKIE = `${PACKAGE_NAME}userRoles`;
 export const ACCESS_TOKEN_COOKIE = `${PACKAGE_NAME}accessToken`;
 export const REFRESH_TOKEN_COOKIE = `${PACKAGE_NAME}refreshToken`;
-export const AUTHENTICATED_COOKIE = `${PACKAGE_NAME}authenticated`;
 
 // API.
 export const BASE_URL = "http://localhost:8080/api";

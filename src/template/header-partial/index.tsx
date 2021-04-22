@@ -7,8 +7,8 @@ import { Drawer, Button, Avatar, Dropdown } from "antd";
 import MenuItems from "../../components/menu-items";
 import LogoComponent from "../../components/logo";
 
-import { AuthContext } from "../../contexts/auth-context";
 import { NavbarContext } from "../../contexts/navbar-context";
+import { AuthenticationContext } from "../../contexts/authentication-context";
 
 import { WIDTH_SCREEN_LG } from "../../assets/constants";
 import { getIconByPrefixName } from "../../assets/functions/icon";
@@ -22,7 +22,7 @@ import styles from "./styles.module.scss";
  */
 const HeaderPartial: React.FC = () => {
     const { menuItems } = useContext(NavbarContext);
-    const { user, authenticated, setLogout } = useContext(AuthContext);
+    const { user, authenticated, logout } = useContext(AuthenticationContext);
 
     const [isMobile, setMobile] = useState(false);
     const [drawerVisible, setDrawerVisible] = useState(false);
@@ -33,7 +33,7 @@ const HeaderPartial: React.FC = () => {
         {
             key: "signout",
             functionCallback: () => {
-                setLogout();
+                logout();
                 history.push("/signin");
             },
         },

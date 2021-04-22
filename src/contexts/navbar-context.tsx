@@ -14,7 +14,7 @@ import visitorNavbarMenu from "../assets/navbar/visitor.json";
 import customerNavbarMenu from "../assets/navbar/customer.json";
 import moderatorNavbarMenu from "../assets/navbar/moderator.json";
 
-import { AuthContext } from "./auth-context";
+import { AuthenticationContext } from "./authentication-context";
 
 interface ContextProps {
     menuItems: Array<{
@@ -61,7 +61,7 @@ export const NavbarContext = createContext<ContextProps>(contextDefaultValues);
  */
 export const NavbarProvider: React.FC = (props) => {
     const { children } = props;
-    const { roles, authenticated } = useContext(AuthContext);
+    const { user, authenticated } = useContext(AuthenticationContext);
 
     const [menuItems, setMenuItems] = useState(contextDefaultValues.menuItems);
 
@@ -80,12 +80,13 @@ export const NavbarProvider: React.FC = (props) => {
         return visitorNavbarMenu;
     }, []);
 
-    const isRoleIncluded = useCallback((role: Role) => roles?.includes(role), [
-        roles,
-    ]);
+    const isRoleIncluded = useCallback(
+        (role: Role) => user?.getRoleNames.includes(role),
+        [user]
+    );
 
     const getMenuByUserRole = useCallback(() => {
-        if (!roles || !menuItems || !authenticated)
+        if (!user?.getRoles || !menuItems || !authenticated)
             setMenuItems(getMenuItemsByUserRole());
         if (isRoleIncluded(Role.Customer))
             setMenuItems(getMenuItemsByUserRole(Role.Customer));
@@ -94,7 +95,7 @@ export const NavbarProvider: React.FC = (props) => {
         if (isRoleIncluded(Role.Moderator))
             setMenuItems(getMenuItemsByUserRole(Role.Moderator));
     }, [
-        roles,
+        user,
         menuItems,
         authenticated,
         getMenuItemsByUserRole,
