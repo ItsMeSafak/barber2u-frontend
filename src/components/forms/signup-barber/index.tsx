@@ -1,10 +1,13 @@
-import React, { ChangeEvent, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import React, { ChangeEvent, useState, useEffect } from "react";
 
+import { Button, Col, Form, Input, Row, Steps } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Col, Form, Input, notification, Row, Steps } from "antd";
 
 import { getIconByPrefixName } from "../../../assets/functions/icon";
+
+import { signUpBarber } from "../../../services/auth-service";
+import { showNotification } from "../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
@@ -15,9 +18,9 @@ import styles from "./styles.module.scss";
  * @returns {JSX}
  */
 const SignupFormBarber: React.FC = () => {
-    // TODO: Add input fields and link register form to backend
     const history = useHistory();
     const [activeStep, setActiveStep] = useState(0);
+    const [isSubmitButtonActive, setSubmitButtonActive] = useState(false);
     const [formValue, setFormValue] = useState<{
         firstName: string;
         lastName: string;
@@ -28,6 +31,10 @@ const SignupFormBarber: React.FC = () => {
         address: string;
         kvk: string;
         btwNumber: string;
+        style: string;
+        description: string;
+        price: number;
+        time: string;
     }>({
         firstName: "",
         lastName: "",
@@ -38,6 +45,10 @@ const SignupFormBarber: React.FC = () => {
         address: "",
         kvk: "",
         btwNumber: "",
+        style: "",
+        description: "",
+        price: 0,
+        time: ""
     });
 
     const formInputs = [
@@ -108,35 +119,47 @@ const SignupFormBarber: React.FC = () => {
         {
             step: 3,
             name: "style",
+            value: formValue.style,
             placeholder: "Fill in your expertise for example fade",
             icon: ["fas", "cut"],
         },
         {
             step: 3,
             name: "description",
+            value: formValue.description,
             placeholder: "Description",
             icon: ["fas", "clipboard"],
         },
         {
             step: 3,
             name: "price",
+            value: formValue.price,
             placeholder: "Price of the service",
             icon: ["fas", "euro-sign"],
         },
         {
             step: 3,
             name: "time",
+            value: formValue.time,
             placeholder: "Estimated time in minutes for service",
             icon: ["fas", "clock"],
         },
     ];
 
+    /**
+     @returns {formValue}
+     */
     useEffect(() => {
         setFormValue(formValue);
     }, [formValue]);
 
+    useEffect(() => {
+        // Filter out the optional fields that are not required to be filled in.
+        const checkRequiredInputFields = formInputs.filter(({ step }) => step !== 3).every(({ value }) => value !== "");
+        setSubmitButtonActive(checkRequiredInputFields);
+    }, [formValue]);
+
     /**
-     * TODO...
      * @param key
      * @returns
      */
@@ -148,50 +171,28 @@ const SignupFormBarber: React.FC = () => {
             [key]: event.target.value,
         });
 
-    // /**
-    //  * This function handles the antd notification which will be shown the moment the credentials are wrong.
-    //  */
-    // const openNotificationWithIcon = (
-    //     message: string | number,
-    //     description: string
-    // ) => {
-    //     notification.error({
-    //         message,
-    //         description,
-    //         placement: "bottomRight",
-    //     });
-    // };
-
     /**
      * This function handles the signup.
      * Once succesfully registered, the user will be redirected to the login page.
      */
-    // const handleSignUp = async () => {
-    //     // Handle sigup, if API is unavailable, redirect to 503 page.
-    //     const response = await signUp(formValue).catch(() =>
-    //         history.push("/503")
-    //     );
-    //     if (!response) return;
+    const handleSignUpBarber = async () => {
+        // Handle sigup, if API is unavailable, redirect to 503 page.
+        const response = await signUpBarber(formValue).catch(() =>
+            history.push("/503")
+        );
+        if (!response) return;
 
-    //     // If request is not OK, handle errors with notification.
-    //     const { status, message } = response;
-    //     if (!(response.status === 200)) {
-    //         openNotificationWithIcon(status, message);
-    //         return;
-    //     }
+        // If request is not OK, handle errors with notification.
+        const { status, message } = response;
+        if (!(status === 200)) {
+            showNotification(undefined, message, status);
+            return;
+        }
 
-    //     // If request is OK, redirect user to login page.
-    //     openNotificationWithIcon(status, message);
-    //     history.push("/signin");
-    // };
-
-    /**
-     * This method checks if some of the fields have a filled in value or not.
-     *
-     * @returns {boolean}
-     */
-    const isEnabled = () =>
-        Object.values(formValue).every((input) => input !== "");
+        // If request is OK, redirect user to login page.
+        showNotification(undefined, message, status);
+        history.push("/signin");
+    };
 
     /**
      * next step for the steps counter
@@ -210,8 +211,9 @@ const SignupFormBarber: React.FC = () => {
     };
 
     /**
-     * @param headingText
-     * @param stepNumber
+     * This is the main form of the signup
+     * @param {string} headingText
+     * @param {number} stepNumber
      * @returns {JSX}
      */
     const renderForm = (headingText: string, stepNumber: number) => {
@@ -286,8 +288,8 @@ const SignupFormBarber: React.FC = () => {
                                         shape="round"
                                         htmlType="submit"
                                         className={styles.saveButton}
-                                        disabled={!isEnabled()}
-                                        // onClick={handleSignUp}
+                                        disabled={!isSubmitButtonActive}
+                                        onClick={handleSignUpBarber}
                                     >
                                         Sign Up
                                     </Button>

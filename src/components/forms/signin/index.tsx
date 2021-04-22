@@ -2,7 +2,7 @@ import React, { ChangeEvent, useContext, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Form, Input, notification } from "antd";
+import { Button, Form, Input } from "antd";
 
 import User from "../../../models/User";
 
@@ -67,6 +67,7 @@ const SignInForm: React.FC = () => {
         setAuthenticated(true);
     };
 
+
     return (
         <div className={styles.signinForm}>
             <h2>Sign in</h2>
@@ -85,7 +86,10 @@ const SignInForm: React.FC = () => {
                         }
                         prefix={
                             <FontAwesomeIcon
-                                icon={getIconByPrefixName("fas", "at")}
+                                icon={getIconByPrefixName(
+                                    "fas",
+                                    "envelope"
+                                )}
                                 size="sm"
                             />
                         }

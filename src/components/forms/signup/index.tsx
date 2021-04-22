@@ -3,14 +3,6 @@ import React, { ChangeEvent, useState } from "react";
 
 import { Button, Form, Input } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faAddressBook,
-    faEnvelope,
-    faCity,
-    faIdCard,
-    faKey,
-    faMobileAlt,
-} from "@fortawesome/free-solid-svg-icons";
 
 import { signUp } from "../../../services/auth-service";
 
@@ -26,7 +18,6 @@ import styles from "./styles.module.scss";
  * @returns {JSX}
  */
 const SignupForm: React.FC = () => {
-    // TODO: Add input fields and link register form to backend
     const history = useHistory();
     const [formValue, setFormValue] = useState<{
         firstName: string;
@@ -71,7 +62,6 @@ const SignupForm: React.FC = () => {
 
     /**
      * This method checks if some of the fields have a filled in value or not.
-     *
      * @returns {boolean}
      */
     const isEnabled = () => Object.values(formValue).every((o) => o !== "");
@@ -111,7 +101,12 @@ const SignupForm: React.FC = () => {
                                 lastName: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faIdCard} />}
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName("fas", "id-card")}
+                                size="sm"
+                            />
+                        }
                     />
                 </Form.Item>
 
@@ -127,7 +122,15 @@ const SignupForm: React.FC = () => {
                                 email: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faEnvelope} />}
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName(
+                                    "fas",
+                                    "envelope"
+                                )}
+                                size="sm"
+                            />
+                        }
                     />
                 </Form.Item>
 
@@ -143,7 +146,12 @@ const SignupForm: React.FC = () => {
                                 password: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faKey} />}
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName("fas", "key")}
+                                size="sm"
+                            />
+                        }
                     />
                 </Form.Item>
 
@@ -158,7 +166,12 @@ const SignupForm: React.FC = () => {
                                 phoneNumber: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faMobileAlt} />}
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName("fas", "mobile-alt")}
+                                size="sm"
+                            />
+                        }
                     />
                 </Form.Item>
 
@@ -173,7 +186,12 @@ const SignupForm: React.FC = () => {
                                 address: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faAddressBook} />}
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName("fas", "address-book")}
+                                size="sm"
+                            />
+                        }
                     />
                 </Form.Item>
 
@@ -188,7 +206,12 @@ const SignupForm: React.FC = () => {
                                 zipCode: event.target.value,
                             })
                         }
-                        prefix={<FontAwesomeIcon icon={faCity} />}
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName("fas", "city")}
+                                size="sm"
+                            />
+                        }
                     />
                 </Form.Item>
 

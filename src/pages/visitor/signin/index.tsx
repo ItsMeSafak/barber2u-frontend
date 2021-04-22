@@ -3,8 +3,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Layout } from "antd";
 import SigninForm from "../../../components/forms/signin";
 
-import styles from "./styles.module.scss";
 import { WIDTH_SCREEN_LG } from "../../../assets/constants";
+
+import styles from "./styles.module.scss";
 
 const { Content } = Layout;
 
@@ -24,6 +25,9 @@ const SignInPage: React.FC = () => {
         setMobile(window.innerWidth <= WIDTH_SCREEN_LG);
     }, []);
 
+    /**
+     * This function checks if the window size has been adjusted
+     */
     useEffect(() => {
         handleMobileView();
         window.addEventListener("resize", handleMobileView);
