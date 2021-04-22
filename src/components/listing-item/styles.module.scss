@@ -112,15 +112,26 @@
     .cards {
         border-color: $primary-color;
         cursor: pointer;
+        margin: 0 10px;
 
         > div:first-child {
-            border-bottom-color: $white-color;
+            background-color: rgba($primary-color, 0.5);
+            border-bottom-color: $primary-color;
+            // border-bottom-color: $white-color;
             font-weight: bold;
         }
 
-        &.cardsActive > div:first-child {
-            background-color: rgba($primary-color, 0.5);
-            border-bottom-color: $primary-color;
-        }
+        // &.cardsActive > div:first-child {
+        // background-color: rgba($primary-color, 0.5);
+        // border-bottom-color: $primary-color;
+        // }
     }
+}
+
+.slider {
+    margin: 0 50px;
+}
+
+.textCenter {
+    text-align: center;
 }

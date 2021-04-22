@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
+
 import {
     Col,
     Row,
@@ -12,7 +13,9 @@ import {
     DatePicker,
 } from "antd";
 
+import Slider from "react-slick";
 import moment, { Moment } from "moment";
+
 
 import Barber from "../../models/Barber";
 import Service2 from "../../models/Service2";
@@ -66,6 +69,38 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      * The access token for using the API requests.
      */
     const { accessToken } = useContext(AuthContext);
+
+    const sliderSettings = {
+        infinite: false,
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+            // You can unslick at a given breakpoint now by adding:
+            // settings: "unslick"
+            // instead of a settings object
+        ]
+    };
 
     const PROFILE_IMAGE_WIDTH = 150;
     const PORTFOLIO_IMAGE_WIDTH = 200;
@@ -164,7 +199,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
         ),
         new MomentRange(
             moment("2021-04-22 08:00:00"),
-            moment("2021-04-22 09:00:00")
+            moment("2021-04-22 12:00:00")
         ),
         new MomentRange(
             moment("2021-04-23 08:00:00"),
@@ -401,10 +436,9 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 key={day.day()}
                 className={`
                     ${styles.dayPicker} 
-                    ${
-                        selectedDay.isSame(day, "day")
-                            ? styles.dayPickerActive
-                            : ""
+                    ${selectedDay.isSame(day, "day")
+                        ? styles.dayPickerActive
+                        : ""
                     }
                 `}
                 onClick={() => onSelectedDay(day)}
@@ -423,10 +457,9 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
         <Col
             className={`
                 ${styles.dayPicker} 
-                ${
-                    selectedDay.isSame(customDatePickerValue, "day")
-                        ? styles.dayPickerActive
-                        : ""
+                ${selectedDay.isSame(customDatePickerValue, "day")
+                    ? styles.dayPickerActive
+                    : ""
                 }
             `}
         >
@@ -459,14 +492,13 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     const renderTimePicker = () =>
         selectedTime &&
         getTimes().map((day) => (
-            <Col key={day.start.valueOf()}>
+            <div key={day.start.valueOf()}>
                 <Card
                     className={`
                         ${styles.cards} 
-                        ${
-                            day.start.isSame(selectedTime.start)
-                                ? styles.cardsActive
-                                : ""
+                        ${day.start.isSame(selectedTime.start)
+                            ? styles.cardsActive
+                            : ""
                         }
                     `}
                     title={getPartOfTheDayString(day.start)}
@@ -482,7 +514,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                         {day.start.format("HH:mm")} - {day.end.format("HH:mm")}
                     </p>
                 </Card>
-            </Col>
+            </div>
         ));
 
     /**
@@ -599,9 +631,8 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 </Col>
             </Row>
             <Row
-                className={`${styles.containerBottom} ${
-                    collapsed ? "" : styles.hide
-                }`}
+                className={`${styles.containerBottom} ${collapsed ? "" : styles.hide
+                    }`}
             >
                 <Col span={24}>
                     <Tabs type="card">
@@ -619,15 +650,24 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                                         {renderCustomDayPicker()}
                                     </Row>
                                     <Row gutter={[16, 24]} align="middle">
-                                        {renderTimePicker()}
+                                        {/* {renderTimePicker()} */}
 
                                         {/* TODO replace this error message with not allowing the custom datepicker to pick dates that are not available */}
-                                        {!selectedTime && (
+                                        {/* {!selectedTime && (
                                             <p>There are no available times.</p>
-                                        )}
+                                        )} */}
                                     </Row>
                                 </div>
                             </Row>
+                            <div className={`${styles.slider} ${styles.dateTimePicker}`}>
+                                <Slider {...sliderSettings}>
+                                    {renderTimePicker()}
+
+                                    {!selectedTime && (
+                                        <p className={styles.textCenter}>There are no available times.</p>
+                                    )}
+                                </Slider>
+                            </div>
                             <Row>{renderSummary()}</Row>
                             <Row justify="end">
                                 <Col>
