@@ -7,15 +7,15 @@ interface APIAuthResponse {
         type: string;
         user: {
             id: string;
-            email: string;
             firstName: string;
             lastName: string;
+            email: string;
             phoneNumber: string;
+            address: string;
             zipCode: string;
-            image: string;
+            roles: Array<{ id: string; name: string }>;
             isActive: boolean;
             isVerified: boolean;
-            roles: Array<{ id: string; name: string }>;
         };
     };
     message: string;
@@ -98,6 +98,7 @@ export const signUp = (formValues: {
 
 /**
  * This function handles the barber register API request
+ *
  * @param {Object} formValues The register form values.
  * @returns {Promise<APIAuthResponse>}
  */
@@ -137,4 +138,29 @@ export const signUpBarber = (formValues: {
                     reject(new Error(error.message));
                 }
             )
+    );
+
+/**
+ * This function retrieves the current logged in user profile details.
+ *
+ * @returns { Promise<APIAuthResponse>}
+ */
+export const fetchProfile = (): Promise<APIAuthResponse> =>
+    new Promise<APIAuthResponse>((resolve, reject) =>
+        axios.get("/auth/profile").then(
+            (response) => {
+                if (response.status === 200) {
+                    resolve(response.data);
+                } else {
+                    reject(
+                        new Error(
+                            "Something went wrong while trying to call 'fetchProfile'..."
+                        )
+                    );
+                }
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        )
     );

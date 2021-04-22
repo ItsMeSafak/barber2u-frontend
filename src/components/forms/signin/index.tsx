@@ -7,7 +7,7 @@ import { Button, Form, Input } from "antd";
 import User from "../../../models/User";
 
 import { signIn } from "../../../services/auth-service";
-import { AuthContext } from "../../../contexts/auth-context";
+import { AuthenticationContext } from "../../../contexts/authentication-context";
 
 import { showNotification } from "../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../assets/functions/icon";
@@ -21,13 +21,9 @@ import styles from "./styles.module.scss";
  * @returns {JSX}
  */
 const SignInForm: React.FC = () => {
-    const {
-        setUser,
-        setRoles,
-        setAccessToken,
-        setRefreshToken,
-        setAuthenticated,
-    } = useContext(AuthContext);
+    const { setUser, setAccessToken, setRefreshToken } = useContext(
+        AuthenticationContext
+    );
 
     const [formValue, setFormValue] = useState<{
         email: string;
@@ -58,15 +54,11 @@ const SignInForm: React.FC = () => {
         if (!response.data) return;
 
         // If request is OK, handle authentication.
-        const { roles, token, user } = response.data;
-        const { firstName, lastName, phoneNumber, zipCode } = user;
-        setUser(new User(email, firstName, lastName, zipCode, phoneNumber));
-        setRoles(roles);
+        const { token, user } = response.data;
+        setUser((user as unknown) as User);
         setAccessToken(token);
         setRefreshToken("REFRESHTOKEN-TODO");
-        setAuthenticated(true);
     };
-
 
     return (
         <div className={styles.signinForm}>
@@ -86,10 +78,7 @@ const SignInForm: React.FC = () => {
                         }
                         prefix={
                             <FontAwesomeIcon
-                                icon={getIconByPrefixName(
-                                    "fas",
-                                    "envelope"
-                                )}
+                                icon={getIconByPrefixName("fas", "envelope")}
                                 size="sm"
                             />
                         }

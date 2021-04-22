@@ -1,8 +1,8 @@
 import { useHistory } from "react-router-dom";
 import React, { ChangeEvent, useState, useEffect } from "react";
 
-import { Button, Col, Form, Input, Row, Steps } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Col, Form, Input, Row, Steps } from "antd";
 
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 
@@ -48,7 +48,7 @@ const SignupFormBarber: React.FC = () => {
         style: "",
         description: "",
         price: 0,
-        time: ""
+        time: "",
     });
 
     const formInputs = [
@@ -146,18 +146,17 @@ const SignupFormBarber: React.FC = () => {
         },
     ];
 
-    /**
-     @returns {formValue}
-     */
     useEffect(() => {
         setFormValue(formValue);
     }, [formValue]);
 
     useEffect(() => {
         // Filter out the optional fields that are not required to be filled in.
-        const checkRequiredInputFields = formInputs.filter(({ step }) => step !== 3).every(({ value }) => value !== "");
+        const checkRequiredInputFields = formInputs
+            .filter(({ step }) => step !== 3)
+            .every(({ value }) => value !== "");
         setSubmitButtonActive(checkRequiredInputFields);
-    }, [formValue]);
+    }, [formValue, formInputs]);
 
     /**
      * @param key

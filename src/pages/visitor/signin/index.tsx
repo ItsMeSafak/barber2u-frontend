@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import { Layout } from "antd";
-import SigninForm from "../../../components/forms/signin";
+
+import SignInForm from "../../../components/forms/signin";
 
 import { WIDTH_SCREEN_LG } from "../../../assets/constants";
 
@@ -42,7 +43,7 @@ const SignInPage: React.FC = () => {
         <div className={styles.signIn}>
             <div className={`${styles.column} ${styles.signInImage}`} />
             <div className={styles.column}>
-                <SigninForm />
+                <SignInForm />
             </div>
         </div>
     );
@@ -52,7 +53,7 @@ const SignInPage: React.FC = () => {
      */
     const renderMobileSignIn = () => (
         <div className={styles.mobileSignIn}>
-            <SigninForm />
+            <SignInForm />
         </div>
     );
 

@@ -124,10 +124,7 @@ const SignupForm: React.FC = () => {
                         }
                         prefix={
                             <FontAwesomeIcon
-                                icon={getIconByPrefixName(
-                                    "fas",
-                                    "envelope"
-                                )}
+                                icon={getIconByPrefixName("fas", "envelope")}
                                 size="sm"
                             />
                         }
@@ -188,7 +185,10 @@ const SignupForm: React.FC = () => {
                         }
                         prefix={
                             <FontAwesomeIcon
-                                icon={getIconByPrefixName("fas", "address-book")}
+                                icon={getIconByPrefixName(
+                                    "fas",
+                                    "address-book"
+                                )}
                                 size="sm"
                             />
                         }
