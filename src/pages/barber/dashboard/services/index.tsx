@@ -15,7 +15,7 @@ import {
 import ServiceCard from "../../../../components/card-service";
 import NewServiceForm from "../../../../components/forms/new-service";
 
-import { AuthContext } from "../../../../contexts/auth-context";
+import { AuthenticationContext } from "../../../../contexts/authentication-context";
 import { ServiceContext } from "../../../../contexts/service-context";
 
 import { RESPONSE_OK } from "../../../../assets/constants";
@@ -33,7 +33,7 @@ const { Content } = Layout;
  * @returns {JSX}
  */
 const ServicesPage: React.FC = () => {
-    const { user } = useContext(AuthContext);
+    const { user } = useContext(AuthenticationContext);
     const {
         serviceDetail,
         listOfServices,
