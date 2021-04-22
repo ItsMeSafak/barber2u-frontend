@@ -21,7 +21,10 @@
     width: 100%;
 }
 
-.nextButton,
-.prevButton {
+.nextButton {
     @extend .button-primary;
+}
+
+.prevButton {
+    @extend .button-primary-ghost;
 }

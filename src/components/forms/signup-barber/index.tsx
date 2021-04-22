@@ -19,6 +19,7 @@ import styles from "./styles.module.scss";
  */
 const SignupFormBarber: React.FC = () => {
     const history = useHistory();
+
     const [activeStep, setActiveStep] = useState(0);
     const [isSubmitButtonActive, setSubmitButtonActive] = useState(false);
     const [formValue, setFormValue] = useState<{
@@ -250,52 +251,51 @@ const SignupFormBarber: React.FC = () => {
                             </Form.Item>
                         ))}
 
-                    <Form.Item>
-                        <Row>
-                            <Col xs={10} md={8}>
-                                {secondFormStep && (
-                                    <Button
-                                        onClick={() => prev()}
-                                        className={styles.prevButton}
-                                        type="primary"
-                                        shape="round"
-                                        block
-                                    >
-                                        Previous
-                                    </Button>
-                                )}
-                            </Col>
-                            <Col xs={4} md={8} />
-                            {firstFormStep && (
-                                <Col xs={10} md={8}>
-                                    <Button
-                                        onClick={() => next()}
-                                        className={styles.nextButton}
-                                        type="primary"
-                                        shape="round"
-                                        block
-                                    >
-                                        Next
-                                    </Button>
-                                </Col>
+                    <Row>
+                        <Col xs={10} md={8}>
+                            {secondFormStep && (
+                                <Button
+                                    onClick={() => prev()}
+                                    className={styles.prevButton}
+                                    type="primary"
+                                    shape="round"
+                                    block
+                                    ghost
+                                >
+                                    Previous
+                                </Button>
                             )}
+                        </Col>
+                        <Col xs={4} md={8} />
+                        {firstFormStep && (
                             <Col xs={10} md={8}>
-                                {lastFormStep && (
-                                    <Button
-                                        block
-                                        type="primary"
-                                        shape="round"
-                                        htmlType="submit"
-                                        className={styles.saveButton}
-                                        disabled={!isSubmitButtonActive}
-                                        onClick={handleSignUpBarber}
-                                    >
-                                        Sign Up
-                                    </Button>
-                                )}
+                                <Button
+                                    onClick={() => next()}
+                                    className={styles.nextButton}
+                                    type="primary"
+                                    shape="round"
+                                    block
+                                >
+                                    Next
+                                </Button>
                             </Col>
-                        </Row>
-                    </Form.Item>
+                        )}
+                        <Col xs={10} md={8}>
+                            {lastFormStep && (
+                                <Button
+                                    block
+                                    type="primary"
+                                    shape="round"
+                                    htmlType="submit"
+                                    className={styles.saveButton}
+                                    disabled={!isSubmitButtonActive}
+                                    onClick={handleSignUpBarber}
+                                >
+                                    Sign Up
+                                </Button>
+                            )}
+                        </Col>
+                    </Row>
                 </Form>
             </div>
         );
@@ -303,34 +303,41 @@ const SignupFormBarber: React.FC = () => {
 
     const stepsForm = [
         {
-            content: renderForm("Sign up Barber", 1),
+            content: renderForm("Account", 1),
             title: "Account",
         },
         {
-            content: renderForm("Almost done", 2),
+            content: renderForm("Personal", 2),
             title: "Personal",
         },
         {
-            content: renderForm("Almost done", 3),
+            content: renderForm("Services", 3),
             title: "Services",
         },
     ];
 
+    /**
+     * This function renders the multi step form stepper above the form.
+     *
+     * @returns {JSX}
+     */
+    const renderStepper = () => (
+        <Steps
+            size="default"
+            className={styles.positionForm}
+            current={activeStep}
+            type="navigation"
+        >
+            {stepsForm.map(({ title }) => (
+                <Steps.Step key={title} title={title} />
+            ))}
+        </Steps>
+    );
+
     return (
         <>
             <Row className={styles.stepsContainer}>
-                <Col span={24}>
-                    <Steps
-                        size="default"
-                        className={styles.positionForm}
-                        current={activeStep}
-                        type="navigation"
-                    >
-                        {stepsForm.map(({ title }) => (
-                            <Steps.Step key={title} title={title} />
-                        ))}
-                    </Steps>
-                </Col>
+                <Col span={24}>{renderStepper()}</Col>
             </Row>
             <div className={styles.stepsContent}>
                 {stepsForm[activeStep].content}
