@@ -17,7 +17,7 @@ const WelcomeSection: React.FC = () => (
         <div className={styles.container}>
             <h1 className={styles.sectionTitle}>{APP_SLOGAN_1}</h1>
             <h2 className={styles.sectionDescription}>{APP_SLOGAN_2}</h2>
-            <Link to="customer/signup">
+            <Link to="signup">
                 <Button type="primary" shape="round" size="large">
                     Create an account now!
                 </Button>

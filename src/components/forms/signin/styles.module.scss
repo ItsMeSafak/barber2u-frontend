@@ -1,11 +1,7 @@
 @import "../../../assets/config.scss";
 
 .signinForm {
-    width: 60%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    border-radius: 3px;
     background-color: $secondary-color;
     padding: 30px;
     text-align: center;
@@ -13,32 +9,12 @@
     h2 {
         text-align: center;
         color: white;
-        text-decoration: underline;
+        text-decoration: underline $primary-color;
         text-underline-position: under;
         font-size: 1.8rem;
     }
 }
 
-:global(.ant-form-item
-        .ant-form-item-control-input-content
-        .ant-input-affix-wrapper) {
-    border-bottom: 2px solid #21a4c9;
-}
-
-.notificationStyling {
-    height: 30%;
-    width: 30%;
-}
-
-.signInButton {
-    width: 100%;
-    border-bottom: none;
-}
-
-.signUpButton {
-    width: 100%;
-}
-
 .resetButton {
-    float: right;
+    text-align: right;
 }

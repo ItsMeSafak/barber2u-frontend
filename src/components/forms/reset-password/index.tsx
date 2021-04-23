@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form, Input, Button } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 
@@ -81,16 +82,18 @@ const ResetPasswordForm: React.FC = () => {
                         </Button>
                     </Form.Item>
                 </Form>
-                <Button
-                    type="primary"
-                    className={styles.resetPasswordButtonGhost}
-                    block
-                    ghost
-                    shape="round"
-                    htmlType="submit"
-                >
-                    Login
-                </Button>
+                <Link to="/signin">
+                    <Button
+                        type="primary"
+                        className={styles.resetPasswordButtonGhost}
+                        block
+                        ghost
+                        shape="round"
+                        htmlType="submit"
+                    >
+                        Login
+                    </Button>
+                </Link>
             </div>
         </>
     );

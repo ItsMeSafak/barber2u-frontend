@@ -1,37 +1,52 @@
-.resetPassword {
+@import "../../../assets/config.scss";
+
+.content {
+    background-color: $light-grey-color;
     display: flex;
     align-items: center;
+
+    & > div:first-child {
+        background-image: url("../../../assets/images/picture-5.jpg");
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        height: calc(100vh - 4rem);
+
+        &:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba($color: $secondary-color, $alpha: 0.25);
+        }
+    }
+
+    & > div:last-child {
+        margin: auto;
+    }
 }
 
-.column {
-    flex: 50%;
-    height: calc(100vh - (64px + 78px));
-    position: relative;
-}
-
-.resetPasswordImage {
-    background-image: url("../../../assets/images/password-reset.jpg");
+.mobileContent {
+    background-image: url("../../../assets/images/picture-5.jpg");
     background-size: cover;
     background-position: center;
     position: relative;
-}
+    height: calc(100vh - 4rem);
 
-.resetPasswordImage::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba($color: #252525, $alpha: 0.25);
-}
+    &:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba($color: $secondary-color, $alpha: 0.25);
+    }
 
-.mobileResetPassword {
-    display: flex;
-    height: 100vh;
-    min-height: 100vh;
-    background-image: url("../../../assets/images/password-reset.jpg");
-    background-size: cover;
-    background-position: center;
-    position: relative;
+    & > div {
+        margin: auto;
+        z-index: 1;
+    }
 }

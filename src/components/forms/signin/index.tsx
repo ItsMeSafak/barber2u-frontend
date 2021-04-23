@@ -84,7 +84,6 @@ const SignInForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Input
                         name="password"
@@ -105,35 +104,27 @@ const SignInForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Button
                         type="primary"
                         htmlType="submit"
                         shape="round"
-                        className={styles.signInButton}
                         onClick={handleSignIn}
+                        block
                     >
                         Sign In
                     </Button>
                 </Form.Item>
                 <Form.Item>
-                    <Link to="customer/signup">
-                        <Button
-                            type="primary"
-                            shape="round"
-                            ghost
-                            className={styles.signUpButton}
-                        >
+                    <Link to="signup">
+                        <Button type="primary" shape="round" ghost block>
                             Create an account
                         </Button>
                     </Link>
                 </Form.Item>
-                <Form.Item>
-                    <Link to="reset-password">
-                        <p className={styles.resetButton}>Reset password</p>
-                    </Link>
-                </Form.Item>
+                <Link to="reset-password">
+                    <p className={styles.resetButton}>Reset password</p>
+                </Link>
             </Form>
         </div>
     );

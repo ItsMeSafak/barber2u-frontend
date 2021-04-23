@@ -46,8 +46,6 @@ code {
 }
 
 .underlined-text {
-    line-height: 1;
-    display: inline-block;
-    margin-inline: auto;
-    border-bottom: solid 3px $primary-color;
+    text-decoration: underline $primary-color;
+    text-underline-position: under;
 }
