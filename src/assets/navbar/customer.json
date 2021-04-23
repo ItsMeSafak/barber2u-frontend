@@ -3,7 +3,10 @@
         "id": "customer",
         "url": "/customer",
         "name": "Dashboard",
-        "icon": ["fas", "chart-pie"],
+        "icon": [
+            "fas",
+            "chart-pie"
+        ],
         "isNavbarMenu": false,
         "isFooterMenu": true,
         "isMobileMenu": true,
@@ -12,10 +15,28 @@
         "isDropdownMenu": true
     },
     {
+        "id": "listing",
+        "url": "/listings",
+        "name": "Listings",
+        "icon": [
+            "fas",
+            "cut"
+        ],
+        "isNavbarMenu": true,
+        "isFooterMenu": true,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDrawerMenu": false,
+        "isDropdownMenu": false
+    },
+    {
         "id": "signout",
         "url": "",
         "name": "Sign out",
-        "icon": ["fas", "sign-out-alt"],
+        "icon": [
+            "fas",
+            "sign-out-alt"
+        ],
         "isNavbarMenu": false,
         "isFooterMenu": false,
         "isMobileMenu": true,
@@ -27,7 +48,10 @@
         "id": "settings",
         "url": "/customer/settings",
         "name": "Settings",
-        "icon": ["fas", "cog"],
+        "icon": [
+            "fas",
+            "cog"
+        ],
         "isNavbarMenu": false,
         "isFooterMenu": false,
         "isMobileMenu": false,
