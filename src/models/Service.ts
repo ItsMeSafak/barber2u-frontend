@@ -1,19 +1,28 @@
-import Style from "./enums/Style";
-
 /**
  * The service is a model that consists of an id, style, description and a price.
  */
 export default class Service {
-    id: number;
-    style: Style;
+    id: string;
+    name: string;
     description: string;
     price: number;
+    time: number;
+    active?: boolean;
 
     // eslint-disable-next-line require-jsdoc
-    constructor(id: number, style: Style, description: string, price: number) {
+    constructor(
+        id: string,
+        name: string,
+        description: string,
+        price: number,
+        time: number,
+        active: boolean
+    ) {
         this.id = id;
-        this.style = style;
+        this.name = name;
         this.description = description;
         this.price = price;
+        this.time = time;
+        this.active = active;
     }
 }

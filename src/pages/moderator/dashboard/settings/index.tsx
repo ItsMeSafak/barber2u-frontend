@@ -1,10 +1,8 @@
 import React from "react";
 
-import styles from "./styles.module.scss";
-
 /**
- *
- * @returns
+ * Moderator settings page.
+ * @returns {React.FC}
  */
 const SettingsPage: React.FC = () => (
     <>

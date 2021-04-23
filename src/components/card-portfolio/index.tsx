@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import { Card, Col, Select } from "antd";
 
-import PortfolioItem from "../../models/PortfolioItem";
 import Style from "../../models/enums/Style";
+import PortfolioItem from "../../models/PortfolioItem";
 
 import styles from "./styles.module.scss";
 
@@ -21,9 +21,9 @@ const { Option } = Select;
  * @param {Object} props Component properties.
  * @returns {JSX}
  */
-const ServiceCard: React.FC<ComponentProps> = (props) => {
-    const { portfolioItem, newItem } = props;
-    const [isEditing, setIsEditing] = useState(0);
+const PortfolioCard: React.FC<ComponentProps> = (props) => {
+    const { portfolioItem } = props;
+    const [isEditing] = useState(0);
 
     return (
         <Col key={portfolioItem.id} xs={24} sm={12} lg={8}>
@@ -47,4 +47,4 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
     );
 };
 
-export default ServiceCard;
+export default PortfolioCard;

@@ -1,10 +1,9 @@
 import React from "react";
 
-import styles from "./styles.module.scss";
-
 /**
  *
- * @returns
+ * Customer statistics page.
+ * @returns {React.FC}
  */
 const StatisticsPage: React.FC = () => (
     <>
