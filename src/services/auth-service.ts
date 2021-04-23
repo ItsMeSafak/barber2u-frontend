@@ -168,11 +168,11 @@ export const fetchProfile = (): Promise<APIAuthResponse> =>
     );
 
 /**
-* This function sends a request to the backend, that sends a mail to the given mail of this function, containing a token regarding resetting the password.
-* 
-* @param {string} email given email of the user input
-* @returns { Promise<APIAuthResponse>}
-*/
+ * This function sends a request to the backend, that sends a mail to the given mail of this function, containing a token regarding resetting the password.
+ *
+ * @param {string} email given email of the user input
+ * @returns { Promise<APIAuthResponse>}
+ */
 export const resetPasswordMail = (email: string): Promise<APIAuthResponse> =>
     new Promise<APIAuthResponse>((resolve, reject) => {
         axios.post("/auth/reset/password/mail", email).then(

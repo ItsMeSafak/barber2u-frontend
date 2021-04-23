@@ -1,7 +1,7 @@
 import React from "react";
 
 /**
- * Moderator settings page. 
+ * Moderator settings page.
  * @returns {React.FC}
  */
 const SettingsPage: React.FC = () => (

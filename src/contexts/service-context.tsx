@@ -1,8 +1,4 @@
-import React, {
-    createContext,
-    useMemo,
-    useState,
-} from "react";
+import React, { createContext, useMemo, useState } from "react";
 
 import Service from "../models/Service";
 
@@ -48,14 +44,14 @@ const contextDefaultValues: ContextProps = {
         isActive: false,
     },
     listOfServices: [],
-    setIsCreated: () => { },
-    setIsUpdated: () => { },
-    setIsDeleted: () => { },
-    setIsEditingId: () => { },
-    setIsNewService: () => { },
-    setServiceDetail: () => { },
-    setFormValues: () => { },
-    setListOfServices: () => { },
+    setIsCreated: () => {},
+    setIsUpdated: () => {},
+    setIsDeleted: () => {},
+    setIsEditingId: () => {},
+    setIsNewService: () => {},
+    setServiceDetail: () => {},
+    setFormValues: () => {},
+    setListOfServices: () => {},
 };
 
 export const ServiceContext = createContext<ContextProps>(contextDefaultValues);

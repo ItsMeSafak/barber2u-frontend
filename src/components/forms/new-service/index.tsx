@@ -25,9 +25,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
     const { isNewService, formValues, setFormValues } = useContext(
         ServiceContext
     );
-    const [active] = useState(
-        isNewService || serviceDetail?.active
-    );
+    const [active] = useState(isNewService || serviceDetail?.active);
 
     useEffect(() => {
         if (serviceDetail)
@@ -64,7 +62,6 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
             ...formValues,
             [key]: event.target.value,
         });
-
     };
 
     /**
@@ -86,8 +83,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
 
     return (
         <Form>
-            <Form.Item name="name"
-                rules={genericRule}>
+            <Form.Item name="name" rules={genericRule}>
                 <Input
                     name="name"
                     className={styles.dropdown}
@@ -96,8 +92,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     onChange={onInputChange("name")}
                 />
             </Form.Item>
-            <Form.Item name="description"
-                rules={genericRule}>
+            <Form.Item name="description" rules={genericRule}>
                 <TextArea
                     name="description"
                     className={styles.description}
@@ -107,8 +102,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     autoSize={{ maxRows: 10 }}
                 />
             </Form.Item>
-            <Form.Item name="time"
-                rules={genericRule}>
+            <Form.Item name="time" rules={genericRule}>
                 <InputNumber
                     name="time"
                     className={styles.inputTime}
@@ -117,8 +111,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     placeholder="Minutes"
                 />
             </Form.Item>
-            <Form.Item name="price"
-                rules={genericRule}>
+            <Form.Item name="price" rules={genericRule}>
                 <InputNumber
                     name="price"
                     className={styles.inputPrice}

@@ -51,7 +51,8 @@ const SignInForm: React.FC = () => {
 
         // If request is not OK, handle errors with notification.
         const { status, message } = response;
-        if (!(status === RESPONSE_OK)) showNotification(undefined, message, status);
+        if (!(status === RESPONSE_OK))
+            showNotification(undefined, message, status);
         if (!response.data) return;
 
         // If request is OK, handle authentication.

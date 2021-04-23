@@ -43,7 +43,7 @@ const ServicesPage: React.FC = () => {
         setServiceDetail,
         setListOfServices,
         setIsNewService,
-        setIsDeleted
+        setIsDeleted,
     } = useContext(ServiceContext);
 
     /**
@@ -154,31 +154,26 @@ const ServicesPage: React.FC = () => {
             centered
             destroyOnClose={true}
             okButtonProps={{ disabled: checkFormValues() }}
-            visible={serviceDetail !== null || isNewService!}
-            onOk={() => isNewService ? addService() : updateCurrentService()}
+            visible={!!serviceDetail || isNewService!}
+            onOk={() => (isNewService ? addService() : updateCurrentService())}
             onCancel={() => {
                 setIsNewService(false);
                 setServiceDetail(null);
-            }
-            }
+            }}
             width={800}
         >
             <NewServiceForm serviceDetail={serviceDetail} />
         </Modal>
     );
 
-
     /**
      * This function renders the service elements.
-     * 
+     *
      * @returns {JSX}
      */
     const renderServices = () =>
         listOfServices?.map((service) => (
-            <ServiceCard
-                key={service.id}
-                serviceDetail={service}
-            />
+            <ServiceCard key={service.id} serviceDetail={service} />
         ));
 
     return (
@@ -188,9 +183,7 @@ const ServicesPage: React.FC = () => {
                     <h1 className={styles.title}>Services</h1>
                     {renderAddButton()}
                     <Divider />
-                    <Row gutter={[20, 20]}>
-                        {renderServices()}
-                    </Row>
+                    <Row gutter={[20, 20]}>{renderServices()}</Row>
                 </Content>
             </Layout>
             {renderModal()}

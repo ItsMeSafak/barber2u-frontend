@@ -23,7 +23,7 @@ export const getAllServices = (barber?: string): Promise<APIServiceResponse> =>
     new Promise<APIServiceResponse>((resolve, reject) => {
         axios
             .post(`${API_URL}/get`, {
-                barber
+                barber,
             })
             .then(
                 (response) => {
@@ -50,7 +50,9 @@ export const getAllServices = (barber?: string): Promise<APIServiceResponse> =>
  * @param {string} barber barber email
  * @returns {Promise<APIServiceResponse>}
  */
-export const createNewService = (service: Service): Promise<APIServiceResponse> =>
+export const createNewService = (
+    service: Service
+): Promise<APIServiceResponse> =>
     new Promise<APIServiceResponse>((resolve, reject) => {
         axios.post(`${API_URL}/create`, service).then(
             (response) => {

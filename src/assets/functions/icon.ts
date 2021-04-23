@@ -37,7 +37,7 @@ import {
     faCertificate,
     faEdit,
     faPlus,
-    faEuroSign
+    faEuroSign,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
