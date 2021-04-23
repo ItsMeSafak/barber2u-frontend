@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form, Input, Button } from "antd";
 
 import { getIconByPrefixName } from "../../../assets/functions/icon";
+
+import { resetPasswordMail } from "../../../services/auth-service";
 
 import styles from "./styles.module.scss";
 
@@ -13,22 +16,25 @@ import styles from "./styles.module.scss";
  * @returns {JSX}
  */
 const ResetPasswordForm: React.FC = () => {
+    const [isSuccess, setIsSuccess] = useState(false);
+    const history = useHistory();
+
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     /**
      * This function is being used whenever the form succeeds.
      *
      * @param {any} values Form values.
-     * @TODO Fix function/attach to back-end.
      */
-    const onFormFinish = (values: any) => {
-        console.log(values);
+    const onFormFinish = async (values: any) => {
+        const response = await resetPasswordMail(values);
+        if (!response) return;
+        setIsSuccess(true);
     };
 
     /**
      * This function is being used whenever the form fails.
      *
      * @param {any} values Form values.
-     * @TODO Fix function/attach to back-end.
      */
     const onFormFinishFailed = (values: any) => {
         console.log("error", values);
@@ -38,7 +44,7 @@ const ResetPasswordForm: React.FC = () => {
         <>
             <div className={styles.resetPasswordForm}>
                 <h2 className={styles.formTitle}>Reset password</h2>
-                <Form
+                {!isSuccess && <Form
                     name="resetPassword"
                     onFinish={onFormFinish}
                     onFinishFailed={onFormFinishFailed}
@@ -80,7 +86,9 @@ const ResetPasswordForm: React.FC = () => {
                             Reset password
                         </Button>
                     </Form.Item>
-                </Form>
+                </Form>}
+                {isSuccess &&
+                    <p className={styles.successMessage} >You will receive a password reset mail if you are registered.</p>}
                 <Button
                     type="primary"
                     className={styles.resetPasswordButtonGhost}
@@ -88,8 +96,9 @@ const ResetPasswordForm: React.FC = () => {
                     ghost
                     shape="round"
                     htmlType="submit"
+                    onClick={() => history.push("/signin")}
                 >
-                    Login
+                    Sign in
                 </Button>
             </div>
         </>

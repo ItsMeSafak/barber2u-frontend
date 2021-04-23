@@ -164,3 +164,29 @@ export const fetchProfile = (): Promise<APIAuthResponse> =>
             }
         )
     );
+
+/**
+* This function sends the given email a reset password mail, containing a token.
+*
+* @returns { Promise<APIAuthResponse>}
+*/
+export const resetPasswordMail = (email: string): Promise<APIAuthResponse> =>
+    new Promise<APIAuthResponse>((resolve, reject) => {
+        console.log(email);
+        axios.post("/auth/reset/password/mail", email).then(
+            (response) => {
+                if (response.status === 200) {
+                    resolve(response.data);
+                } else {
+                    reject(
+                        new Error(
+                            "Something went wrong while trying to call 'resetPasswordMail'..."
+                        )
+                    );
+                }
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        );
+    });
