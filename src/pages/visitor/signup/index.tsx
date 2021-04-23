@@ -1,22 +1,25 @@
-import { useCallback, useEffect, useState } from "react";
-import { Layout } from "antd";
+import React, { useCallback, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
-import SignupForm from "../../../components/forms/signup";
+import { Col, Row } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { WIDTH_SCREEN_LG } from "../../../assets/constants";
+import { getIconByPrefixName } from "../../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
 
-const { Content } = Layout;
-
 /**
- * This component renders a signup form.
- * The form consists of input fields regarding the users information.
+ * This component renders the landings page for the signup.
+ * The user can then choose for what type of user someone would like to register for.
  *
+ * @param {Object} props Component properties.
  * @returns {JSX}
  */
-const SignupPage: React.FC = () => {
-    const [Mobile, setMobile] = useState(false);
+const SignupLandingPage: React.FC = () => {
+    const [isMobile, setMobile] = useState(false);
+
+    const history = useHistory();
 
     /**
      * This function checks whether the window screen width reaches a breakpoint.
@@ -27,7 +30,10 @@ const SignupPage: React.FC = () => {
     }, []);
 
     /**
-     * This function checks if the window size has been adjusted
+     * This function checks whether the window size has been adjusted.
+     * Whenever the window width reaches a specific width, the hamburger menu is then visible.
+     * The function gets executed by default whenever the window has been loaded.
+     * At the end, the event listener is removed so that unnecessary events are unloaded.
      */
     useEffect(() => {
         handleMobileView();
@@ -37,27 +43,40 @@ const SignupPage: React.FC = () => {
     }, [handleMobileView]);
 
     /**
-     * Render default signup form
+     * This function redirects to the given path with the root url.
+     *
+     * @param {string} path The path to be redirected to.
      */
-    const renderSignup = () => (
-        <div className={styles.signup}>
-            <div className={`${styles.column} ${styles.signupImage}`} />
-            <div className={styles.column}>
-                <SignupForm />
-            </div>
-        </div>
-    );
+    const redirectToPage = (path: string) => history.push(`signup/${path}`);
 
-    /**
-     *Render mobile signup form
-     */
-    const renderMobileSignup = () => (
-        <div className={styles.mobileSignup}>
-            <SignupForm />
-        </div>
+    return (
+        <Row className={isMobile ? styles.mobileContent : styles.content}>
+            <Col xs={24} lg={12} onClick={() => redirectToPage("barber")}>
+                <div className={styles.leftColumn}>
+                    <h2 className={styles.title}>
+                        <FontAwesomeIcon
+                            className={styles.icon}
+                            icon={getIconByPrefixName("fas", "cut")}
+                            size="lg"
+                        />
+                        Register as Barber
+                    </h2>
+                </div>
+            </Col>
+            <Col xs={24} lg={12} onClick={() => redirectToPage("customer")}>
+                <div className={styles.rightColumn}>
+                    <h2 className={styles.title}>
+                        <FontAwesomeIcon
+                            className={styles.icon}
+                            icon={getIconByPrefixName("fas", "user-tie")}
+                            size="lg"
+                        />
+                        Register as Customer
+                    </h2>
+                </div>
+            </Col>
+        </Row>
     );
-
-    return <Content>{Mobile ? renderMobileSignup() : renderSignup()}</Content>;
 };
 
-export default SignupPage;
+export default SignupLandingPage;

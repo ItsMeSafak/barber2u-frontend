@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form, Input, Button } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { resetPasswordMail } from "../../../services/auth-service";
 
@@ -98,9 +98,8 @@ const ResetPasswordForm: React.FC = () => {
                         htmlType="submit"
                     >
                         Sign in
-                </Button>
+                    </Button>
                 </Link>
-
             </div>
         </>
     );

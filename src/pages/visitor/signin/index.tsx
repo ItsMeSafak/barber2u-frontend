@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import { Layout } from "antd";
+import { Col, Layout, Row } from "antd";
 
 import SignInForm from "../../../components/forms/signin";
 
@@ -40,21 +40,23 @@ const SignInPage: React.FC = () => {
      * Render default sign in form
      */
     const renderSignIn = () => (
-        <div className={styles.signIn}>
-            <div className={`${styles.column} ${styles.signInImage}`} />
-            <div className={styles.column}>
+        <Row className={styles.content}>
+            <Col span={12} />
+            <Col span={10}>
                 <SignInForm />
-            </div>
-        </div>
+            </Col>
+        </Row>
     );
 
     /**
      * Render mobile sign in form
      */
     const renderMobileSignIn = () => (
-        <div className={styles.mobileSignIn}>
-            <SignInForm />
-        </div>
+        <Row className={styles.mobileContent}>
+            <Col span={22}>
+                <SignInForm />
+            </Col>
+        </Row>
     );
 
     return (
