@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useState } from "react";
 import { useHistory } from "react-router-dom";
+import React, { ChangeEvent, useState } from "react";
 
 import { Button, Form, Input } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,8 +17,7 @@ import styles from "./styles.module.scss";
  *
  * @returns {JSX}
  */
-const SignupForm: React.FC = () => {
-    // TODO: Add input fields and link register form to backend
+const SignupFormCustomer: React.FC = () => {
     const history = useHistory();
     const [formValue, setFormValue] = useState<{
         firstName: string;
@@ -91,7 +90,6 @@ const SignupForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Input
                         name="lastname"
@@ -111,7 +109,6 @@ const SignupForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Input
                         name="email"
@@ -126,13 +123,12 @@ const SignupForm: React.FC = () => {
                         }
                         prefix={
                             <FontAwesomeIcon
-                                icon={getIconByPrefixName("fas", "at")}
+                                icon={getIconByPrefixName("fas", "envelope")}
                                 size="sm"
                             />
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Input
                         name="password"
@@ -153,7 +149,6 @@ const SignupForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Input
                         name="phoneNumber"
@@ -173,7 +168,6 @@ const SignupForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Input
                         name="address"
@@ -196,7 +190,6 @@ const SignupForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Input
                         name="zipCode"
@@ -216,7 +209,6 @@ const SignupForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Button
                         type="primary"
@@ -235,4 +227,4 @@ const SignupForm: React.FC = () => {
     );
 };
 
-export default SignupForm;
+export default SignupFormCustomer;

@@ -1,28 +1,20 @@
 @import "../../../assets/config.scss";
 
 .signinForm {
-    width: 60%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    border-radius: 3px;
     background-color: $secondary-color;
     padding: 30px;
     text-align: center;
 
     h2 {
-        color: #fff;
         text-align: center;
-        text-decoration: underline #21a4c9;
-        // border-bottom: 2px solid #21a4c9;
+        color: white;
+        text-decoration: underline $primary-color;
+        text-underline-position: under;
+        font-size: 1.8rem;
     }
 }
 
-:global(.ant-form-item:not(:last-child) .ant-form-item-control-input) {
-    border-bottom: 2px solid #21a4c9;
-}
-
-.notificationStyling {
-    height: 30%;
-    width: 30%;
+.resetButton {
+    text-align: right;
 }
