@@ -54,7 +54,8 @@ const ServicesPage: React.FC = () => {
     const fetchServices = useCallback(async () => {
         const response = await getAllServices(user?.getEmail);
         const { status, message } = response;
-        if (!(status === RESPONSE_OK)) showNotification(undefined, message, status);
+        if (!(status === RESPONSE_OK))
+            showNotification(undefined, message, status);
         if (!response.data) return;
         setListOfServices(response.data);
     }, [setListOfServices, user]);
@@ -79,7 +80,8 @@ const ServicesPage: React.FC = () => {
             setIsNewService(false);
 
             const { status, message } = response;
-            if (!(status === RESPONSE_OK)) showNotification(undefined, message, status);
+            if (!(status === RESPONSE_OK))
+                showNotification(undefined, message, status);
             else showNotification(undefined, message, status);
         }
     };
@@ -127,7 +129,8 @@ const ServicesPage: React.FC = () => {
             const response = await updateService(serviceDetail);
             setServiceDetail(null);
             const { status, message } = response;
-            if (!(status === RESPONSE_OK)) showNotification(undefined, message, status);
+            if (!(status === RESPONSE_OK))
+                showNotification(undefined, message, status);
             else showNotification(undefined, message, status);
         }
     };
@@ -145,24 +148,27 @@ const ServicesPage: React.FC = () => {
      *
      * @returns {JSX}
      */
-    const renderModal = () => (
-        <Modal
-            title="Service details"
-            centered
-            destroyOnClose={true}
-            okButtonProps={{ disabled: checkFormValues() }}
-            visible={serviceDetail !== null || isNewService!}
-            onOk={() => isNewService ? addService() : updateCurrentService()}
-            onCancel={() => {
-                setIsNewService(false);
-                setServiceDetail(null);
-            }
-            }
-            width={800}
-        >
-            <NewServiceForm serviceDetail={serviceDetail} />
-        </Modal>
-    );
+    const renderModal = () => {
+        if (isNewService !== null) {
+            <Modal
+                title="Service details"
+                centered
+                destroyOnClose={true}
+                okButtonProps={{ disabled: checkFormValues() }}
+                visible={serviceDetail !== null || isNewService}
+                onOk={() => isNewService ? addService() : updateCurrentService()}
+                onCancel={() => {
+                    setIsNewService(false);
+                    setServiceDetail(null);
+                }
+                }
+                width={800}
+            >
+                <NewServiceForm serviceDetail={serviceDetail} />
+            </Modal>;
+        }
+    };
+
 
     /**
      * This function renders the service elements.

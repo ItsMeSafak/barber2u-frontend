@@ -47,7 +47,6 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
             onClick={() => {
                 setIsNewService(false);
                 setServiceDetail(serviceDetail);
-                console.log(serviceDetail);
             }}
         />,
         <FontAwesomeIcon
@@ -79,7 +78,8 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
         setIsDeleted(true);
 
         const { status, message } = response;
-        if (!(status === RESPONSE_OK)) showNotification(undefined, message, status);
+        if (!(status === RESPONSE_OK))
+            showNotification(undefined, message, status);
         else showNotification(undefined, message, status);
     };
 
