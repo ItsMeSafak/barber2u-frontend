@@ -4,11 +4,9 @@ import Service2 from "../models/Service2";
 import MomentRange from "../models/MomentRange";
 
 import {
-    BASE_URL,
     DATE_FORMAT,
     TIME_FORMAT,
     HTTP_STATUS_SUCCESS_CODE,
-    CREATE_RESERVATION_ERROR_MESSAGE,
 } from "../assets/constants";
 
 /**
@@ -21,10 +19,14 @@ interface APICreateReservationResponse {
 }
 
 /**
- * Create a reservation
+ * This function sends a request to the servers, creating a new reservation
+ * based token from the user, the email from the barber, a list of services
+ * and the timeslot of the reservation.
+ *
  * @param barberEmail Email from whom you want to make a reservation with
  * @param services List of selected services
  * @param date Date range of the start and end time
+ * @return {APICreateReservationResponse | Error} the response object or an error message
  */
 export const sendCreateReservation = (
     barberEmail: string,
@@ -33,7 +35,7 @@ export const sendCreateReservation = (
 ): Promise<APICreateReservationResponse> =>
     new Promise<APICreateReservationResponse>((resolve, reject) => {
         axios
-            .post(`${BASE_URL}/reservation`, {
+            .post("/reservation/create", {
                 barber: barberEmail,
                 services: services.map((service) => service.name),
                 date: date.startTime.format(DATE_FORMAT),
@@ -44,7 +46,12 @@ export const sendCreateReservation = (
                 (response) => {
                     if (response.status === HTTP_STATUS_SUCCESS_CODE) {
                         resolve(response.data);
-                    } else reject(new Error(CREATE_RESERVATION_ERROR_MESSAGE));
+                    } else
+                        reject(
+                            new Error(
+                                "Something went wrong with creating your reservation"
+                            )
+                        );
                 },
                 (error) => {
                     reject(new Error(error.message));

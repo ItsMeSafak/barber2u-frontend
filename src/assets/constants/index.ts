@@ -40,10 +40,6 @@ export const ERROR_STATUSES: Array<{
         iconName: "server",
     },
 ];
-export const BARBER_LISTING_ERROR_MESSAGE =
-    "Something went wrong with retrieving the barber listing data";
-export const CREATE_RESERVATION_ERROR_MESSAGE =
-    "Something went wrong with creating your reservation";
 
 // String constants.
 export const PACKAGE_NAME = "com.barber2u.app.";
@@ -84,17 +80,6 @@ export const PLACEHOLDER_TEXT =
     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat unde iste, soluta est quasi expedita. Beatae soluta quo in eveniet! Quaerat accusamus eveniet quae mollitia sequi nobis fuga ut delectus.";
 export const PLACEHOLDER_IMAGE =
     "https://t3.ftcdn.net/jpg/02/68/55/60/360_F_268556012_c1WBaKFN5rjRxR2eyV33znK4qnYeKZjm.jpg";
-
-// Week day abbreviations
-export const WEEK_DAY_ABBREVIATIONS = [
-    "Su",
-    "Mo",
-    "Tu",
-    "We",
-    "Th",
-    "Fr",
-    "Sa",
-];
 
 // Time of day string
 export const NIGHT_STRING = "Night";

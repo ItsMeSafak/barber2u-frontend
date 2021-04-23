@@ -32,7 +32,6 @@ import {
     EVENING_STRING,
     MORNING_STRING,
     NIGHT_STRING,
-    WEEK_DAY_ABBREVIATIONS,
 } from "../../assets/constants";
 import { showNotification } from "../../assets/functions/notification";
 
@@ -426,7 +425,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 `}
                 onClick={() => setSelectedDay(day)}
             >
-                {WEEK_DAY_ABBREVIATIONS[day.weekday()]}
+                {day.format("ddd")}
             </Col>
         ));
 
