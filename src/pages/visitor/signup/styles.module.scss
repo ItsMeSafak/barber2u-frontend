@@ -48,17 +48,14 @@
     .leftColumn,
     .rightColumn {
         height: calc(50vh - 2rem);
+        border: 0;
     }
 
-    div:first-child {
-        border: 0;
-        border-bottom: 0.2rem solid grey;
+    div {
+        border-top: 0.1rem solid grey;
+        border-bottom: 0.1rem solid grey;
     }
 
-    div:last-child {
-        border: 0;
-        border-top: 0.2rem solid grey;
-    }
 }
 
 .title {
