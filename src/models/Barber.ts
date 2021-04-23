@@ -1,5 +1,6 @@
 import User from "./User";
 
+// TODO apply camelCasing for the barber objects.
 /**
  * Barber class which can be used for creating barber objects.
  */

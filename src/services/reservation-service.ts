@@ -4,10 +4,10 @@ import Service2 from "../models/Service2";
 import MomentRange from "../models/MomentRange";
 
 import {
-    HTTP_STATUS_SUCCESS_CODE,
+    BASE_URL,
     DATE_FORMAT,
     TIME_FORMAT,
-    API_URL_CREATE_RESERVATION,
+    HTTP_STATUS_SUCCESS_CODE,
     CREATE_RESERVATION_ERROR_MESSAGE,
 } from "../assets/constants";
 
@@ -33,7 +33,7 @@ export const sendCreateReservation = (
 ): Promise<APICreateReservationResponse> =>
     new Promise<APICreateReservationResponse>((resolve, reject) => {
         axios
-            .post(`${API_URL_CREATE_RESERVATION}`, {
+            .post(`${BASE_URL}/reservation`, {
                 barber: barberEmail,
                 services: services.map((service) => service.name),
                 date: date.startTime.format(DATE_FORMAT),

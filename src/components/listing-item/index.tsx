@@ -89,6 +89,11 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
 
     const slickRef = useRef<Slider>(null);
 
+    /**
+     * Reset slick to first position
+     */
+    const resetSlick = () => slickRef.current?.slickGoTo(0);
+
     const PROFILE_IMAGE_WIDTH = 150;
     const PORTFOLIO_IMAGE_WIDTH = 200;
 
@@ -164,6 +169,16 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 x.startTime.isSame(day, "day") &&
                 x.startTime.isSameOrAfter(moment())
         );
+
+    /**
+     * Every time the selected day changes:
+     * - Set the first available timeslot.
+     */
+    useEffect(() => {
+        setSelectedTime(findFirstTimeMoment(selectedDay));
+        resetSlick();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedDay]);
 
     /**
      * State for the selected time in the time picker
@@ -253,6 +268,14 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     };
 
     /**
+     * Fetch the barber listing everytime on load of the component.
+     */
+    useEffect(() => {
+        getListing();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    /**
      * Fetch the barber listing data from the server with the listing service.
      */
     const getListing = async () => {
@@ -264,6 +287,19 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 showNotification(undefined, error.message, error.status)
             );
     };
+
+    /**
+     * Every time the selected services changes:
+     * - Calculated the time period required.
+     * - Fetch the availabilities with the new time required.
+     */
+    useEffect(() => {
+        const time = calculateTimeRequired();
+        setTimeRequired(time);
+
+        getAvailability(time);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedServices]);
 
     /**
      * Fetch the barber listing data from the server with the listing service.
@@ -283,7 +319,6 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                     if (!selectedDay) {
                         setSelectedDay(response.data[0].startTime);
                     }
-                    console.log("time", selectedTime);
                     if (!selectedTime) {
                         setSelectedTime(
                             findFirstTimeMoment(response.data[0].startTime)
@@ -318,44 +353,6 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                     showNotification(undefined, error.message, error.status)
                 );
     };
-
-    /**
-     * Reset slick to first position
-     */
-    const resetSlick = () => slickRef.current?.slickGoTo(0);
-
-    /**
-     * Fetch the barber listing everytime on load of the component. The
-     * accessToken is refreshed after the page is loaded, so the barbers should
-     * get refreshed.
-     */
-    useEffect(() => {
-        getListing();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    /**
-     * Every time the selected services changes:
-     * - Calculated the time period required.
-     * - Fetch the availabilities with the new time required.
-     */
-    useEffect(() => {
-        const time = calculateTimeRequired();
-        setTimeRequired(time);
-
-        getAvailability(time);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedServices]);
-
-    /**
-     * Every time the selected day changes:
-     * - Set the first available timeslot.
-     */
-    useEffect(() => {
-        setSelectedTime(findFirstTimeMoment(selectedDay));
-        resetSlick();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedDay]);
 
     /**
      * Get the total time required of the selected services

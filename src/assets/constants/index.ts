@@ -60,11 +60,6 @@ export const REFRESH_TOKEN_COOKIE = `${PACKAGE_NAME}refreshToken`;
 
 // API.
 export const BASE_URL = "http://localhost:8080/api";
-export const API_URL_BARBER = `${BASE_URL}/barbers`;
-export const API_URL_RESERVATION = `${BASE_URL}/reservation`;
-export const API_URL_CREATE_RESERVATION = `${API_URL_RESERVATION}/create`;
-export const API_URL_RESERVATION_AVAILABILITY = `${API_URL_RESERVATION}/availability`;
-export const API_URL_RESERVATION_AVAILABILITY_RANGE = `${API_URL_RESERVATION_AVAILABILITY}/range`;
 
 export const HTTP_STATUS_SUCCESS_CODE = 200;
 

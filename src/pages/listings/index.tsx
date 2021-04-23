@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { BrowserRouter } from "react-router-dom";
 
-import { Button, Col, Row, Select } from "antd";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Col, Row, Select } from "antd";
 
 import Barber from "../../models/Barber";
 import { TempBarber } from "../../models/TempBarber";
@@ -32,6 +31,13 @@ const Listings: React.FC = () => {
     const [barbers, setBarbers] = useState<Barber[]>([]);
 
     /**
+     * Fetch all the barbers everytime on load of the page.
+     */
+    useEffect(() => {
+        getBarbers();
+    }, []);
+
+    /**
      * Fetch the available barbers from the server with the listing service.
      */
     const getBarbers = async () => {
@@ -43,15 +49,6 @@ const Listings: React.FC = () => {
                 showNotification(undefined, error.message, error.status)
             );
     };
-
-    /**
-     * Fetch all the barbers everytime on load of the page. The accessToken is
-     * refreshed after the page is loaded, so the barbers should get refreshed.
-     */
-    useEffect(() => {
-        getBarbers();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     /**
      * Render the header that displays the total amount of barbers.

@@ -8,11 +8,9 @@ import Service2 from "../models/Service2";
 import MomentRange from "../models/MomentRange";
 
 import {
-    API_URL_BARBER,
-    API_URL_RESERVATION_AVAILABILITY,
-    API_URL_RESERVATION_AVAILABILITY_RANGE,
-    BARBER_LISTING_ERROR_MESSAGE,
+    BASE_URL,
     HTTP_STATUS_SUCCESS_CODE,
+    BARBER_LISTING_ERROR_MESSAGE,
 } from "../assets/constants";
 
 /**
@@ -50,7 +48,7 @@ interface APIBarberAvailabilityResponse {
  */
 export const fetchBarbers = (): Promise<APIBarbersResponse> =>
     new Promise<APIBarbersResponse>((resolve, reject) => {
-        axios.post(`${API_URL_BARBER}`).then(
+        axios.post(`${BASE_URL}/barbers`).then(
             (response) => {
                 if (response.status === HTTP_STATUS_SUCCESS_CODE) {
                     resolve(fixBarberObject(response.data));
@@ -70,7 +68,7 @@ export const fetchBarberListing = (
     email: string
 ): Promise<APIBarberListingResponse> =>
     new Promise<APIBarberListingResponse>((resolve, reject) => {
-        axios.post(`${API_URL_BARBER}/${email}/listing`).then(
+        axios.post(`${BASE_URL}/barbers/${email}/listing`).then(
             (response) => {
                 if (response.status === HTTP_STATUS_SUCCESS_CODE)
                     resolve(fixBarberListingObject(response.data));
@@ -95,7 +93,7 @@ export const fetchBarberAvailability = (
 ): Promise<APIBarberAvailabilityResponse> =>
     new Promise<APIBarberAvailabilityResponse>((resolve, reject) => {
         axios
-            .post(`${API_URL_RESERVATION_AVAILABILITY}`, {
+            .post(`${BASE_URL}/reservation/create`, {
                 barber: email,
                 duration,
                 date,
@@ -127,7 +125,7 @@ export const fetchBarberAvailabilityRange = (
 ): Promise<APIBarberAvailabilityResponse> =>
     new Promise<APIBarberAvailabilityResponse>((resolve, reject) => {
         axios
-            .post(`${API_URL_RESERVATION_AVAILABILITY_RANGE}`, {
+            .post(`${BASE_URL}/reservation/availability/range`, {
                 barber: email,
                 duration,
                 startDate,
