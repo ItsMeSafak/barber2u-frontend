@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form, Input, Button } from "antd";
@@ -17,7 +17,6 @@ import styles from "./styles.module.scss";
  */
 const ResetPasswordForm: React.FC = () => {
     const [isSuccess, setIsSuccess] = useState(false);
-    const history = useHistory();
 
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     /**
@@ -89,17 +88,19 @@ const ResetPasswordForm: React.FC = () => {
                 </Form>}
                 {isSuccess &&
                     <p className={styles.successMessage} >You will receive a password reset mail if you are registered.</p>}
-                <Button
-                    type="primary"
-                    className={styles.resetPasswordButtonGhost}
-                    block
-                    ghost
-                    shape="round"
-                    htmlType="submit"
-                    onClick={() => history.push("/signin")}
-                >
-                    Sign in
+                <Link to="/signin">
+                    <Button
+                        type="primary"
+                        className={styles.resetPasswordButtonGhost}
+                        block
+                        ghost
+                        shape="round"
+                        htmlType="submit"
+                    >
+                        Sign in
                 </Button>
+                </Link>
+
             </div>
         </>
     );
