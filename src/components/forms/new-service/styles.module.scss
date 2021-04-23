@@ -1,0 +1,25 @@
+@import "../../../assets/config.scss";
+
+.switch {
+    margin-bottom: 20px;
+    display: block;
+}
+
+.confirmButton {
+    margin-right: 10px;
+}
+
+.inputTime {
+    width: 100% !important;
+}
+
+.inputPrice {
+    width: 100% !important;
+    border-bottom: 2px solid $dark-blue-color;
+}
+
+.deleteBtn {
+    padding-top: 20px;
+    display: block;
+    margin-bottom: 20px;
+}

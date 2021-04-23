@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { signUp } from "../../../services/auth-service";
 
+import { RESPONSE_OK } from "../../../assets/constants";
 import { showNotification } from "../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 
@@ -50,7 +51,7 @@ const SignupFormCustomer: React.FC = () => {
 
         // If request is not OK, handle errors with notification.
         const { status, message } = response;
-        if (!(status === 200)) {
+        if (!(status === RESPONSE_OK)) {
             showNotification(undefined, message, status);
             return;
         }

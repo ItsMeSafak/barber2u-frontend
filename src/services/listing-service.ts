@@ -7,7 +7,7 @@ import Barber from "../models/Barber";
 import Service2 from "../models/Service2";
 import MomentRange from "../models/MomentRange";
 
-import { HTTP_STATUS_SUCCESS_CODE } from "../assets/constants";
+import { RESPONSE_OK } from "../assets/constants";
 
 /**
  * Response interface for the Barber items
@@ -49,7 +49,7 @@ export const fetchBarbers = (): Promise<APIBarbersResponse> =>
     new Promise<APIBarbersResponse>((resolve, reject) => {
         axios.post("/barbers").then(
             (response) => {
-                if (response.status === HTTP_STATUS_SUCCESS_CODE) {
+                if (response.status === RESPONSE_OK) {
                     resolve(fixBarberObject(response.data));
                 } else
                     reject(
@@ -77,7 +77,7 @@ export const fetchBarberListing = (
     new Promise<APIBarberListingResponse>((resolve, reject) => {
         axios.post(`/barbers/${email}/listing`).then(
             (response) => {
-                if (response.status === HTTP_STATUS_SUCCESS_CODE)
+                if (response.status === RESPONSE_OK)
                     resolve(fixBarberListingObject(response.data));
                 else
                     reject(
@@ -117,7 +117,7 @@ export const fetchBarberAvailability = (
             })
             .then(
                 (response) => {
-                    if (response.status === HTTP_STATUS_SUCCESS_CODE) {
+                    if (response.status === RESPONSE_OK) {
                         resolve(fixBarberAvailabilityObject(response.data));
                     } else
                         reject(
@@ -161,7 +161,7 @@ export const fetchBarberAvailabilityRange = (
             })
             .then(
                 (response) => {
-                    if (response.status === HTTP_STATUS_SUCCESS_CODE) {
+                    if (response.status === RESPONSE_OK) {
                         resolve(fixBarberAvailabilityObject(response.data));
                     } else
                         reject(

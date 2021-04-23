@@ -98,7 +98,7 @@ const Listings: React.FC = () => {
 
     return (
         <BrowserRouter>
-            <Layout>
+            <Layout className={styles.listings}>
                 <Header className={styles.header}>
                     {renderTotalBarbersHeader()}
                 </Header>

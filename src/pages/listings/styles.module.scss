@@ -1,25 +1,33 @@
 @import "src/assets/styles/colors";
 
-.amountBarbers {
-    padding: 32px 0;
-    text-align: center;
-    font-size: 2rem;
+.listings {
+    .header {
+        height: auto;
+        background: none;
 
-    span {
-        border-bottom: solid 3px black;
+        .amountBarbers {
+            padding: 32px 0;
+            text-align: center;
+            font-size: 2rem;
+
+            span {
+                border-bottom: solid 3px black;
+            }
+        }
     }
-}
-.mainSection {
-    text-align: left;
-    background-color: $light-grey-color;
-    padding: 16px;
-    height: auto;
 
-    .hamburgerMenu {
-        cursor: pointer;
-        outline: none;
-        margin: 0;
-        border-color: black;
-        color: black;
+    .mainSection {
+        text-align: left;
+        background-color: $light-grey-color;
+        padding: 16px;
+        height: auto;
+
+        .hamburgerMenu {
+            cursor: pointer;
+            outline: none;
+            margin: 0;
+            border-color: black;
+            color: black;
+        }
     }
 }

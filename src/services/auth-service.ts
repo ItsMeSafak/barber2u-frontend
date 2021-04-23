@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { RESPONSE_OK } from "../assets/constants";
+
 interface APIAuthResponse {
     data: {
         roles: Array<string>;
@@ -42,7 +44,7 @@ export const signIn = (
             })
             .then(
                 (response) => {
-                    if (response.status === 200) {
+                    if (response.status === RESPONSE_OK) {
                         resolve(response.data);
                     } else {
                         reject(
@@ -80,7 +82,7 @@ export const signUp = (formValues: {
             })
             .then(
                 (response) => {
-                    if (response.status === 200) {
+                    if (response.status === RESPONSE_OK) {
                         resolve(response.data);
                     } else {
                         reject(
@@ -164,3 +166,29 @@ export const fetchProfile = (): Promise<APIAuthResponse> =>
             }
         )
     );
+
+/**
+ * This function sends a request to the backend, that sends a mail to the given mail of this function, containing a token regarding resetting the password.
+ *
+ * @param {string} email given email of the user input
+ * @returns { Promise<APIAuthResponse>}
+ */
+export const resetPasswordMail = (email: string): Promise<APIAuthResponse> =>
+    new Promise<APIAuthResponse>((resolve, reject) => {
+        axios.post("/auth/reset/password/mail", email).then(
+            (response) => {
+                if (response.status === 200) {
+                    resolve(response.data);
+                } else {
+                    reject(
+                        new Error(
+                            "Something went wrong while trying to call 'resetPasswordMail'..."
+                        )
+                    );
+                }
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        );
+    });

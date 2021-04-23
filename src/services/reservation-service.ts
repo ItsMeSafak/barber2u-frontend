@@ -3,11 +3,7 @@ import axios from "axios";
 import Service2 from "../models/Service2";
 import MomentRange from "../models/MomentRange";
 
-import {
-    DATE_FORMAT,
-    TIME_FORMAT,
-    HTTP_STATUS_SUCCESS_CODE,
-} from "../assets/constants";
+import { DATE_FORMAT, TIME_FORMAT, RESPONSE_OK } from "../assets/constants";
 
 /**
  * Response interface for the Barber items
@@ -44,7 +40,7 @@ export const sendCreateReservation = (
             })
             .then(
                 (response) => {
-                    if (response.status === HTTP_STATUS_SUCCESS_CODE) {
+                    if (response.status === RESPONSE_OK) {
                         resolve(response.data);
                     } else
                         reject(
