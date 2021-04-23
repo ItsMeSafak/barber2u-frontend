@@ -4,8 +4,9 @@
 .footer {
     width: 100%;
     background-color: $secondary-color;
-    color: $white-color;
+    color: white;
     text-align: left;
+    user-select: none;
 
     .container {
         width: 100%;

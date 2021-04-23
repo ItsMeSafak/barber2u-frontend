@@ -1,4 +1,4 @@
-@import "../../../assets/config.scss";
+@import "../../../../assets/config.scss";
 
 .content {
     background-color: $light-grey-color;
@@ -6,7 +6,7 @@
     align-items: center;
 
     & > div:first-child {
-        background-image: url("../../../assets/images/picture-5.jpg");
+        background-image: url("../../../../assets/images/picture-4.jpeg");
         background-size: cover;
         background-position: center;
         position: relative;
@@ -29,7 +29,7 @@
 }
 
 .mobileContent {
-    background-image: url("../../../assets/images/picture-5.jpg");
+    background-image: url("../../../../assets/images/picture-4.jpeg");
     background-size: cover;
     background-position: center;
     position: relative;

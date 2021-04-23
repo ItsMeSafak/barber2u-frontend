@@ -1,0 +1,37 @@
+@import "../../../assets/config.scss";
+
+.signupForm {
+    background-color: $secondary-color;
+    padding: 30px;
+    text-align: center;
+    border-radius: 3px;
+
+    h2 {
+        text-align: center;
+        color: white;
+        text-decoration: underline $primary-color;
+        text-underline-position: under;
+        font-size: 1.8rem;
+    }
+}
+
+.stepsContainer {
+    height: calc(100vh - 4rem);
+
+    & > div:first-child {
+        height: calc(25vh - 4rem);
+    }
+
+    & > div:last-child {
+        margin: auto;
+        height: calc(75vh - 4rem);
+    }
+}
+
+.nextButton {
+    @extend .button-primary;
+}
+
+.prevButton {
+    @extend .button-primary-ghost;
+}

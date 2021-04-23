@@ -1,22 +1,23 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Col, Layout, Row } from "antd";
 
-import ResetPasswordForm from "../../../components/forms/reset-password";
+import SignupFormBarber from "../../../../components/forms/signup-barber";
 
-import { WIDTH_SCREEN_LG } from "../../../assets/constants";
+import { WIDTH_SCREEN_LG } from "../../../../assets/constants";
 
 import styles from "./styles.module.scss";
 
 const { Content } = Layout;
 
 /**
- * This component is being used to render the reset password page.
+ * This component renders a signup form.
+ * The form consists of input fields regarding the users information.
  *
  * @returns {JSX}
  */
-const ResetPasswordPage: React.FC = () => {
-    const [isMobile, setMobile] = useState(false);
+const SignupPageBarber: React.FC = () => {
+    const [mobile, setMobile] = useState(false);
 
     /**
      * This function checks whether the window screen width reaches a breakpoint.
@@ -39,33 +40,31 @@ const ResetPasswordPage: React.FC = () => {
     /**
      * Default form
      */
-    const renderDefaultResetPassword = () => (
+    const renderBarberSignUp = () => (
         <Row className={styles.content}>
             <Col span={12} />
-            <Col span={10}>
-                <ResetPasswordForm />
+            <Col span={12}>
+                <SignupFormBarber />
             </Col>
         </Row>
     );
 
     /**
-     * Default form
+     * mobile form signUp
      */
-    const renderMobileResetPassword = () => (
+    const renderMobileBarberSignUp = () => (
         <Row className={styles.mobileContent}>
-            <Col span={22}>
-                <ResetPasswordForm />
+            <Col span={24}>
+                <SignupFormBarber />
             </Col>
         </Row>
     );
 
     return (
         <Content>
-            {isMobile
-                ? renderMobileResetPassword()
-                : renderDefaultResetPassword()}
+            {mobile ? renderMobileBarberSignUp() : renderBarberSignUp()}
         </Content>
     );
 };
 
-export default ResetPasswordPage;
+export default SignupPageBarber;

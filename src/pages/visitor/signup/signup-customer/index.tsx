@@ -1,22 +1,23 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-import { Col, Layout, Row } from "antd";
+import { Layout, Row, Col } from "antd";
 
-import ResetPasswordForm from "../../../components/forms/reset-password";
+import SignupFormCustomer from "../../../../components/forms/signup-customer";
 
-import { WIDTH_SCREEN_LG } from "../../../assets/constants";
+import { WIDTH_SCREEN_LG } from "../../../../assets/constants";
 
 import styles from "./styles.module.scss";
 
 const { Content } = Layout;
 
 /**
- * This component is being used to render the reset password page.
+ * This component renders a signup form.
+ * The form consists of input fields regarding the users information.
  *
  * @returns {JSX}
  */
-const ResetPasswordPage: React.FC = () => {
-    const [isMobile, setMobile] = useState(false);
+const SignupPageCustomer: React.FC = () => {
+    const [Mobile, setMobile] = useState(false);
 
     /**
      * This function checks whether the window screen width reaches a breakpoint.
@@ -37,35 +38,29 @@ const ResetPasswordPage: React.FC = () => {
     }, [handleMobileView]);
 
     /**
-     * Default form
+     * Render default signup form
      */
-    const renderDefaultResetPassword = () => (
+    const renderSignup = () => (
         <Row className={styles.content}>
             <Col span={12} />
             <Col span={10}>
-                <ResetPasswordForm />
+                <SignupFormCustomer />
             </Col>
         </Row>
     );
 
     /**
-     * Default form
+     *Render mobile signup form
      */
-    const renderMobileResetPassword = () => (
+    const renderMobileSignup = () => (
         <Row className={styles.mobileContent}>
             <Col span={22}>
-                <ResetPasswordForm />
+                <SignupFormCustomer />
             </Col>
         </Row>
     );
 
-    return (
-        <Content>
-            {isMobile
-                ? renderMobileResetPassword()
-                : renderDefaultResetPassword()}
-        </Content>
-    );
+    return <Content>{Mobile ? renderMobileSignup() : renderSignup()}</Content>;
 };
 
-export default ResetPasswordPage;
+export default SignupPageCustomer;

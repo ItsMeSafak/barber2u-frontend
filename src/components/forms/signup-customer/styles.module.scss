@@ -1,6 +1,6 @@
 @import "../../../assets/config.scss";
 
-.resetPasswordForm {
+.signupForm {
     border-radius: 3px;
     background-color: $secondary-color;
     padding: 30px;
@@ -12,9 +12,5 @@
         text-decoration: underline $primary-color;
         text-underline-position: under;
         font-size: 1.8rem;
-    }
-
-    .successMessage {
-        color: $white-color;
     }
 }

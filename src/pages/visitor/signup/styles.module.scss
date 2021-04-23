@@ -1,27 +1,79 @@
-.signup {
-    background-color: #e1e1e1;
-    display: flex;
+@import "../../../assets/config.scss";
+
+.content {
+    div {
+        overflow: hidden;
+    }
+
+    .leftColumn,
+    .rightColumn {
+        cursor: pointer;
+        transition: 0.2s linear;
+        height: calc(100vh - 4rem);
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        &::after {
+            z-index: -9999;
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        &:hover {
+            transform: scale(1.15);
+        }
+    }
+
+    .leftColumn {
+        background-image: url("../../../assets/images/picture-3.png");
+        border-right: 0.1rem solid grey;
+    }
+
+    .rightColumn {
+        background-image: url("../../../assets/images/picture-5.jpg");
+        border-left: 0.1rem solid grey;
+    }
 }
 
-.column {
-    flex: 50%;
-    height: calc(100vh - (64px + 78px));
-    position: relative;
+.mobileContent {
+    @extend .content;
+
+    .leftColumn,
+    .rightColumn {
+        height: calc(50vh - 2rem);
+    }
+
+    div:first-child {
+        border: 0;
+        border-bottom: 0.2rem solid grey;
+    }
+
+    div:last-child {
+        border: 0;
+        border-top: 0.2rem solid grey;
+    }
 }
 
-.signupImage {
-    background-image: url("../../../assets/images/pexels-photo-995300-1.jpeg");
-    background-size: cover;
-    background-position: center;
-    position: relative;
-}
-
-.signupImage::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
+.title {
+    transition: 0.2s linear;
+    color: $light-grey-color;
+    user-select: none;
+    font-size: 1.5rem;
+    font-weight: bolder;
+    background: rgb(0, 0, 0); /* Fallback color */
+    background: rgba(0, 0, 0, 0.4);
+    padding: 2rem;
     width: 100%;
-    height: 100%;
-    background-color: rgba($color: #252525, $alpha: 0.25);
+    text-align: center;
+
+    .icon {
+        margin-right: 1rem;
+    }
 }

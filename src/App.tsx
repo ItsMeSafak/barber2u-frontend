@@ -10,9 +10,11 @@ import Role from "./models/enums/Role";
 
 import HomePage from "./pages/visitor/home";
 import ErrorPage from "./pages/error";
-import SignupPage from "./pages/visitor/signup";
 import SigninPage from "./pages/visitor/signin";
+import SignupPageBarber from "./pages/visitor/signup/signup-barber";
+import SignupLandingPage from "./pages/visitor/signup";
 import ResetPasswordPage from "./pages/visitor/reset-password";
+import SignupPageCustomer from "./pages/visitor/signup/signup-customer";
 import BarberDashboardPage from "./pages/barber/dashboard";
 import CustomerDashboardPage from "./pages/customer/dashboard";
 import ModeratorDashboardPage from "./pages/moderator/dashboard";
@@ -74,9 +76,20 @@ const App: React.FC = () => {
                                     component={SigninPage}
                                 />
                                 <ProtectedRoute
+                                    exact
                                     allowedRoles={[]}
-                                    path="/customer/signup"
-                                    component={SignupPage}
+                                    path="/signup"
+                                    component={SignupLandingPage}
+                                />
+                                <ProtectedRoute
+                                    allowedRoles={[]}
+                                    path="/signup/customer"
+                                    component={SignupPageCustomer}
+                                />
+                                <ProtectedRoute
+                                    allowedRoles={[]}
+                                    path="/signup/barber"
+                                    component={SignupPageBarber}
                                 />
                                 <ProtectedRoute
                                     allowedRoles={[]}
