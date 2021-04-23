@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Col, Row, Select } from "antd";
+import { Content, Header } from "antd/es/layout/layout";
+import { Button, Col, Layout, Row, Select } from "antd";
 
 import Barber from "../../models/Barber";
 import { TempBarber } from "../../models/TempBarber";
@@ -21,8 +22,8 @@ import styles from "./styles.module.scss";
 /**
  * A component for showing an overview of all the available barbers as a
  * listing item.
- * @link{ListingItem}
- * @constructor
+ *
+ * @returns {JSX}
  */
 const Listings: React.FC = () => {
     /**
@@ -97,19 +98,23 @@ const Listings: React.FC = () => {
 
     return (
         <BrowserRouter>
-            <section>{renderTotalBarbersHeader()}</section>
-            <section className={styles.mainSection}>
-                <Col span={24}>
-                    <Row justify="space-between" align="middle">
-                        <div>{renderFilterHamburger()}</div>
-                        <div>
-                            <span>Sort By: </span>
-                            {renderSortBySelect()}
-                        </div>
-                    </Row>
-                    <Row>{renderListingItems()}</Row>
-                </Col>
-            </section>
+            <Layout>
+                <Header className={styles.header}>
+                    {renderTotalBarbersHeader()}
+                </Header>
+                <Content className={styles.mainSection}>
+                    <Col span={24}>
+                        <Row justify="space-between" align="middle">
+                            <div>{renderFilterHamburger()}</div>
+                            <div>
+                                <span>Sort By: </span>
+                                {renderSortBySelect()}
+                            </div>
+                        </Row>
+                        <Row>{renderListingItems()}</Row>
+                    </Col>
+                </Content>
+            </Layout>
         </BrowserRouter>
     );
 };

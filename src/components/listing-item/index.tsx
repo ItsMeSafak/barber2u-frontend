@@ -46,9 +46,10 @@ const { TabPane } = Tabs;
 /**
  * A Item component for the Barber listing page and gives an overview of the barber information, such as: services,
  * pricing, availability, portfolio, reviews and rating.
+ *
  * @param barber The user object of the barber
  * @param tempBarber The temporary user object of a barber from json data.
- * @constructor
+ * @returns {JSX}
  */
 const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     barber,
