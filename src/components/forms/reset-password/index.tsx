@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form, Input, Button } from "antd";
 
-import { getIconByPrefixName } from "../../../assets/functions/icon";
-
 import { resetPasswordMail } from "../../../services/auth-service";
+
+import { getIconByPrefixName } from "../../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
 
