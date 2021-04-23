@@ -77,9 +77,17 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
         });
     };
 
+    const genericRule = [
+        {
+            required: true,
+            message: "This field is required",
+        },
+    ];
+
     return (
         <Form>
-            <Form.Item name="name">
+            <Form.Item name="name"
+                rules={genericRule}>
                 <Input
                     name="name"
                     className={styles.dropdown}
@@ -88,7 +96,8 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     onChange={onInputChange("name")}
                 />
             </Form.Item>
-            <Form.Item name="description">
+            <Form.Item name="description"
+                rules={genericRule}>
                 <TextArea
                     name="description"
                     className={styles.description}
@@ -98,7 +107,8 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     autoSize={{ maxRows: 10 }}
                 />
             </Form.Item>
-            <Form.Item name="time">
+            <Form.Item name="time"
+                rules={genericRule}>
                 <InputNumber
                     name="time"
                     className={styles.inputTime}
@@ -107,7 +117,8 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     placeholder="Minutes"
                 />
             </Form.Item>
-            <Form.Item name="price">
+            <Form.Item name="price"
+                rules={genericRule}>
                 <InputNumber
                     name="price"
                     className={styles.inputPrice}

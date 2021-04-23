@@ -148,26 +148,24 @@ const ServicesPage: React.FC = () => {
      *
      * @returns {JSX}
      */
-    const renderModal = () => {
-        if (isNewService !== null) {
-            <Modal
-                title="Service details"
-                centered
-                destroyOnClose={true}
-                okButtonProps={{ disabled: checkFormValues() }}
-                visible={serviceDetail !== null || isNewService}
-                onOk={() => isNewService ? addService() : updateCurrentService()}
-                onCancel={() => {
-                    setIsNewService(false);
-                    setServiceDetail(null);
-                }
-                }
-                width={800}
-            >
-                <NewServiceForm serviceDetail={serviceDetail} />
-            </Modal>;
-        }
-    };
+    const renderModal = () => (
+        <Modal
+            title="Service details"
+            centered
+            destroyOnClose={true}
+            okButtonProps={{ disabled: checkFormValues() }}
+            visible={serviceDetail !== null || isNewService!}
+            onOk={() => isNewService ? addService() : updateCurrentService()}
+            onCancel={() => {
+                setIsNewService(false);
+                setServiceDetail(null);
+            }
+            }
+            width={800}
+        >
+            <NewServiceForm serviceDetail={serviceDetail} />
+        </Modal>
+    );
 
 
     /**
