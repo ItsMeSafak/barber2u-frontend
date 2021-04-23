@@ -102,7 +102,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
                     <span>{serviceDetail.time}</span> minutes
                 </p>
                 <span className={styles.price}>
-                    {`${EURO_SYMBOL} ${serviceDetail.price.toFixed(2)},-`}
+                    {EURO_SYMBOL} {serviceDetail.price.toFixed(2)}
                 </span>
             </Card>
         </Col>
