@@ -17,7 +17,7 @@ import styles from "./styles.module.scss";
  *
  * @returns {JSX}
  */
-const SignupForm: React.FC = () => {
+const SignupFormCustomer: React.FC = () => {
     const history = useHistory();
     const [formValue, setFormValue] = useState<{
         firstName: string;
@@ -90,7 +90,6 @@ const SignupForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Input
                         name="lastname"
@@ -110,7 +109,6 @@ const SignupForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Input
                         name="email"
@@ -131,7 +129,6 @@ const SignupForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Input
                         name="password"
@@ -152,7 +149,6 @@ const SignupForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Input
                         name="phoneNumber"
@@ -172,7 +168,6 @@ const SignupForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Input
                         name="address"
@@ -195,7 +190,6 @@ const SignupForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Input
                         name="zipCode"
@@ -215,7 +209,6 @@ const SignupForm: React.FC = () => {
                         }
                     />
                 </Form.Item>
-
                 <Form.Item>
                     <Button
                         type="primary"
@@ -234,4 +227,4 @@ const SignupForm: React.FC = () => {
     );
 };
 
-export default SignupForm;
+export default SignupFormCustomer;

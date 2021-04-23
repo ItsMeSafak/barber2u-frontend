@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { Layout } from "antd";
 
-import SignupForm from "../../../../components/forms/signup";
+import { Layout, Row, Col } from "antd";
+
+import SignupFormCustomer from "../../../../components/forms/signup-customer";
 
 import { WIDTH_SCREEN_LG } from "../../../../assets/constants";
 
@@ -40,21 +41,23 @@ const SignupPageCustomer: React.FC = () => {
      * Render default signup form
      */
     const renderSignup = () => (
-        <div className={styles.signup}>
-            <div className={`${styles.column} ${styles.signupImage}`} />
-            <div className={styles.column}>
-                <SignupForm />
-            </div>
-        </div>
+        <Row className={styles.content}>
+            <Col span={12} />
+            <Col span={10}>
+                <SignupFormCustomer />
+            </Col>
+        </Row>
     );
 
     /**
      *Render mobile signup form
      */
     const renderMobileSignup = () => (
-        <div className={styles.mobileSignup}>
-            <SignupForm />
-        </div>
+        <Row className={styles.mobileContent}>
+            <Col span={22}>
+                <SignupFormCustomer />
+            </Col>
+        </Row>
     );
 
     return <Content>{Mobile ? renderMobileSignup() : renderSignup()}</Content>;

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import { Layout } from "antd";
+import { Col, Layout, Row } from "antd";
 
 import ResetPasswordForm from "../../../components/forms/reset-password";
 
@@ -40,21 +40,23 @@ const ResetPasswordPage: React.FC = () => {
      * Default form
      */
     const renderDefaultResetPassword = () => (
-        <div className={styles.resetPassword}>
-            <div className={`${styles.column} ${styles.resetPasswordImage}`} />
-            <div className={styles.column}>
+        <Row className={styles.content}>
+            <Col span={12} />
+            <Col span={10}>
                 <ResetPasswordForm />
-            </div>
-        </div>
+            </Col>
+        </Row>
     );
 
     /**
      * Default form
      */
     const renderMobileResetPassword = () => (
-        <div className={styles.mobileResetPassword}>
-            <ResetPasswordForm />
-        </div>
+        <Row className={styles.mobileContent}>
+            <Col span={22}>
+                <ResetPasswordForm />
+            </Col>
+        </Row>
     );
 
     return (

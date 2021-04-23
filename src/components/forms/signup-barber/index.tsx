@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import React, { ChangeEvent, useState, useEffect } from "react";
+import React, { ChangeEvent, useState, useEffect, useCallback } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Col, Form, Input, Row, Steps } from "antd";
@@ -10,6 +10,7 @@ import { signUpBarber } from "../../../services/auth-service";
 import { showNotification } from "../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
+import { WIDTH_SCREEN_LG } from "../../../assets/constants";
 
 /**
  * This component renders a signup form.
@@ -20,6 +21,7 @@ import styles from "./styles.module.scss";
 const SignupFormBarber: React.FC = () => {
     const history = useHistory();
 
+    const [isMobile, setMobile] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
     const [isSubmitButtonActive, setSubmitButtonActive] = useState(false);
     const [formValue, setFormValue] = useState<{
@@ -146,6 +148,27 @@ const SignupFormBarber: React.FC = () => {
             icon: ["fas", "clock"],
         },
     ];
+
+    /**
+     * This function checks whether the window screen width reaches a breakpoint.
+     * If so, the mobile state is set to true.
+     */
+    const handleMobileView = useCallback(() => {
+        setMobile(window.innerWidth <= WIDTH_SCREEN_LG);
+    }, []);
+
+    /**
+     * This function checks whether the window size has been adjusted.
+     * Whenever the window width reaches a specific width, the hamburger menu is then visible.
+     * The function gets executed by default whenever the window has been loaded.
+     * At the end, the event listener is removed so that unnecessary events are unloaded.
+     */
+    useEffect(() => {
+        handleMobileView();
+        window.addEventListener("resize", handleMobileView);
+        // Remove event listener if not being used.
+        return () => window.removeEventListener("resize", handleMobileView);
+    }, [handleMobileView]);
 
     useEffect(() => {
         setFormValue(formValue);
@@ -289,7 +312,6 @@ const SignupFormBarber: React.FC = () => {
                                     type="primary"
                                     shape="round"
                                     htmlType="submit"
-                                    className={styles.saveButton}
                                     disabled={!isSubmitButtonActive}
                                     onClick={handleSignUpBarber}
                                 >
@@ -325,8 +347,7 @@ const SignupFormBarber: React.FC = () => {
      */
     const renderStepper = () => (
         <Steps
-            size="default"
-            className={styles.positionForm}
+            size={isMobile ? "small" : "default"}
             current={activeStep}
             type="navigation"
         >
@@ -340,10 +361,8 @@ const SignupFormBarber: React.FC = () => {
         <>
             <Row className={styles.stepsContainer}>
                 <Col span={24}>{renderStepper()}</Col>
+                <Col span={20}>{stepsForm[activeStep].content}</Col>
             </Row>
-            <div className={styles.stepsContent}>
-                {stepsForm[activeStep].content}
-            </div>
         </>
     );
 };

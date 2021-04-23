@@ -33,12 +33,12 @@
 
     .leftColumn {
         background-image: url("../../../assets/images/picture-3.png");
-        border-right: 0.1rem solid $grey-color;
+        border-right: 0.1rem solid grey;
     }
 
     .rightColumn {
         background-image: url("../../../assets/images/picture-5.jpg");
-        border-left: 0.1rem solid $grey-color;
+        border-left: 0.1rem solid grey;
     }
 }
 
@@ -52,12 +52,12 @@
 
     div:first-child {
         border: 0;
-        border-bottom: 0.2rem solid $grey-color;
+        border-bottom: 0.2rem solid grey;
     }
 
     div:last-child {
         border: 0;
-        border-top: 0.2rem solid $grey-color;
+        border-top: 0.2rem solid grey;
     }
 }
 

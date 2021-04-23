@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { Layout } from "antd";
+import { Col, Layout, Row } from "antd";
 
 import SignupFormBarber from "../../../../components/forms/signup-barber";
 
@@ -41,21 +41,23 @@ const SignupPageBarber: React.FC = () => {
      * Default form
      */
     const renderBarberSignUp = () => (
-        <div className={styles.signup}>
-            <div className={`${styles.column} ${styles.signupImage}`} />
-            <div className={styles.column}>
+        <Row className={styles.content}>
+            <Col span={12} />
+            <Col span={12}>
                 <SignupFormBarber />
-            </div>
-        </div>
+            </Col>
+        </Row>
     );
 
     /**
      * mobile form signUp
      */
     const renderMobileBarberSignUp = () => (
-        <div className={styles.mobileBarberSignup}>
-            <SignupFormBarber />
-        </div>
+        <Row className={styles.mobileContent}>
+            <Col span={24}>
+                <SignupFormBarber />
+            </Col>
+        </Row>
     );
 
     return (
