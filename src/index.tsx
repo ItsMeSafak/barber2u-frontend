@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 
+import { ScreenProvider } from "./contexts/screen-context";
 import { AuthenticationProvider } from "./contexts/authentication-context";
 
 import { icons } from "./assets/functions/icon";
@@ -18,7 +19,9 @@ library.add(icons);
 ReactDOM.render(
     <React.StrictMode>
         <AuthenticationProvider>
-            <App />
+            <ScreenProvider>
+                <App />
+            </ScreenProvider>
         </AuthenticationProvider>
     </React.StrictMode>,
     document.getElementById("root")

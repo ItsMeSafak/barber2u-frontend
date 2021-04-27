@@ -30,25 +30,12 @@ const ResetPasswordForm: React.FC = () => {
         setIsSuccess(true);
     };
 
-    /**
-     * This function is being used whenever the form fails.
-     *
-     * @param {any} values Form values.
-     */
-    const onFormFinishFailed = (values: any) => {
-        console.log("error", values);
-    };
-
     return (
         <>
             <div className={styles.resetPasswordForm}>
                 <h2 className={styles.formTitle}>Reset password</h2>
                 {!isSuccess && (
-                    <Form
-                        name="resetPassword"
-                        onFinish={onFormFinish}
-                        onFinishFailed={onFormFinishFailed}
-                    >
+                    <Form name="resetPassword" onFinish={onFormFinish}>
                         <Form.Item
                             name="email"
                             className={styles.emailFormItem}
