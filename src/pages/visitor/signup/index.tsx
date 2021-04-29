@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 import { Col, Row } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { WIDTH_SCREEN_LG } from "../../../assets/constants";
+import { ScreenContext } from "../../../contexts/screen-context";
+
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
@@ -17,30 +18,9 @@ import styles from "./styles.module.scss";
  * @returns {JSX}
  */
 const SignupLandingPage: React.FC = () => {
-    const [isMobile, setMobile] = useState(false);
+    const { isMobileOrTablet } = useContext(ScreenContext);
 
     const history = useHistory();
-
-    /**
-     * This function checks whether the window screen width reaches a breakpoint.
-     * If so, the mobile state is set to true.
-     */
-    const handleMobileView = useCallback(() => {
-        setMobile(window.innerWidth <= WIDTH_SCREEN_LG);
-    }, []);
-
-    /**
-     * This function checks whether the window size has been adjusted.
-     * Whenever the window width reaches a specific width, the hamburger menu is then visible.
-     * The function gets executed by default whenever the window has been loaded.
-     * At the end, the event listener is removed so that unnecessary events are unloaded.
-     */
-    useEffect(() => {
-        handleMobileView();
-        window.addEventListener("resize", handleMobileView);
-        // Remove event listener if not being used.
-        return () => window.removeEventListener("resize", handleMobileView);
-    }, [handleMobileView]);
 
     /**
      * This function redirects to the given path with the root url.
@@ -50,7 +30,9 @@ const SignupLandingPage: React.FC = () => {
     const redirectToPage = (path: string) => history.push(`signup/${path}`);
 
     return (
-        <Row className={isMobile ? styles.mobileContent : styles.content}>
+        <Row
+            className={isMobileOrTablet ? styles.mobileContent : styles.content}
+        >
             <Col xs={24} lg={12} onClick={() => redirectToPage("barber")}>
                 <div className={styles.leftColumn}>
                     <h2 className={styles.title}>
