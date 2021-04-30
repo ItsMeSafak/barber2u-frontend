@@ -21,8 +21,9 @@ import MomentRange from "../../models/MomentRange";
 import { TempBarber } from "../../models/TempBarber";
 
 import {
-    fetchBarberAvailabilityRange,
     fetchBarberListing,
+    fetchBarberWorkdays,
+    fetchBarberAvailability,
 } from "../../services/listing-service";
 import { sendCreateReservation } from "../../services/reservation-service";
 
@@ -40,15 +41,13 @@ import styles from "./styles.module.scss";
 const { TabPane } = Tabs;
 
 // TODO (optional) change the time picker slots to the custom generic card component
-// TODO Request just 1 day availability on daypicker onclick, instead of full week
-// TODO Request just a list of 1 available timeslot per day for the daypicker, instead of checking availabilities
 
 /**
  * A Item component for the Barber listing page and gives an overview of the barber information, such as: services,
  * pricing, availability, portfolio, reviews and rating.
  *
- * @param barber The user object of the barber
- * @param tempBarber The temporary user object of a barber from json data.
+ * @param barber {Barber} The user object of the barber
+ * @param tempBarber {TempBarber} The temporary user object of a barber from json data.
  * @returns {JSX}
  */
 const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
@@ -113,10 +112,26 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     const [selectedServices, setSelectedServices] = useState<Service2[]>([]);
 
     /**
+     * Every time the selected services changes, the time required is recalculated.
+     */
+    useEffect(() => {
+        setTimeRequired(calculateTimeRequired());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedServices]);
+
+    /**
      * State for the time required in order to complete all the services on time.
      * Metric of the time in in Meters.
      */
     const [timeRequired, setTimeRequired] = useState<number>(0);
+
+    /**
+     * Every time the time required is calculated, the workdays gets fetched and filtered
+     */
+    useEffect(() => {
+        getWorkDays(timeRequired);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [timeRequired]);
 
     /**
      * State for the custom DatePicker in the DayPicker Row
@@ -131,27 +146,23 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     const [availability, setAvailability] = useState<MomentRange[]>([]);
 
     /**
-     * The weekdays for the daypicker selector
+     * State for the available workdays
      */
-    const weekDays = availability
-        // Map all the times to the start of the day
-        .map((x) => x.startTime)
-        // Remove the duplicates
-        .filter(
-            (x, index, self) =>
-                index === self.findIndex((y) => x.isSame(y, "day"))
-        )
-        // Filter all the times that exceeds a full week and the times in the past.
-        .filter((x) => {
-            const dayDifference = x
-                .clone()
-                .startOf("day")
-                .diff(moment().startOf("day"), "day");
-            if (dayDifference >= 0 && dayDifference < 7) {
-                return x;
-            }
-            return false;
-        });
+    const [workdays, setWorkDays] = useState<Moment[]>([]);
+
+    /**
+     * The workdays for the daypicker selector
+     */
+    const getWeekWorkdays = workdays.filter((x) => {
+        const dayDifference = x
+            .clone()
+            .startOf("day")
+            .diff(moment().startOf("day"), "day");
+        if (dayDifference >= 0 && dayDifference < 7) {
+            return x;
+        }
+        return false;
+    });
 
     /**
      * State for the selected day in the day picker
@@ -160,11 +171,15 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
 
     /**
      * It finds the first next available time on the same day as the selected day
-     * @param day The selected day
+     * @param day {Moment | undefined} The selected day
+     * @param timeMoments {MomentRange[]} The time moments that the barber is available
      */
-    const findFirstTimeMoment = (day: Moment | undefined) =>
+    const findFirstTimeMoment = (
+        day: Moment | undefined,
+        timeMoments: MomentRange[]
+    ) =>
         day &&
-        availability.find(
+        timeMoments.find(
             (x) =>
                 x.startTime.isSame(day, "day") &&
                 x.startTime.isSameOrAfter(moment())
@@ -175,8 +190,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      * - Set the first available timeslot.
      */
     useEffect(() => {
-        setSelectedTime(findFirstTimeMoment(selectedDay));
-        resetSlick();
+        getAvailability(timeRequired);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedDay]);
 
@@ -184,65 +198,14 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      * State for the selected time in the time picker
      */
     const [selectedTime, setSelectedTime] = useState<MomentRange | undefined>(
-        findFirstTimeMoment(selectedDay)
+        findFirstTimeMoment(selectedDay, [])
     );
-
-    /**
-     * Filter the list of times that the Barber is open and split all the times based on the period,
-     * so the customer can select a time without interfering with another time.
-     */
-    const getTimes = () => {
-        // Initial of a list in which start and end times are saved.
-        const times: MomentRange[] = [];
-
-        // If a day is not selected, return empty timeslots
-        if (!selectedDay) return times;
-
-        // Filter and map based on the opening times, so the times can be saved in the times list.
-        availability
-            // Filter the opening times', so that only the times of the selected day are mapped.
-            .filter(
-                (x) =>
-                    selectedDay.isSame(x.startTime, "day") &&
-                    x.startTime.isSameOrAfter(moment())
-            )
-            .forEach((day) => {
-                let startTime = day.startTime.clone();
-
-                // The amount of minutes between the start time and end time.
-                const timeDifferenceInMinutes = moment
-                    .duration(day.endTime.diff(day.startTime))
-                    .asMinutes();
-
-                // The amount that the period fits in the time difference
-                let timePeriod: number = timeDifferenceInMinutes;
-                let numberOfSlots = 1;
-                if (timeRequired !== 0) {
-                    timePeriod = timeRequired;
-                    numberOfSlots = timeDifferenceInMinutes / timePeriod;
-                }
-
-                // loop over the start time for exact the amount
-                for (let i = 0; i < numberOfSlots; i++) {
-                    const endTime = startTime
-                        .clone()
-                        .add(timePeriod, "minutes");
-
-                    // Only allow time slots if they fit within the availability.
-                    if (endTime.isSameOrBefore(day.endTime)) {
-                        times.push(new MomentRange(startTime, endTime));
-                        startTime = endTime;
-                    }
-                }
-            });
-
-        return times;
-    };
 
     /**
      * Get the part of the day from a Moment and return the part in a string.
      * Possible returns are: Morning / Afternoon / Evening / Night.
-     * @param day A moment of the day of which the part will be found
+     *
+     * @param day {Moment} A moment of the day of which the part will be found
      */
     const getPartOfTheDayString = (day: Moment) => {
         // Moment clones of the parts of the day
@@ -289,47 +252,45 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     };
 
     /**
-     * Every time the selected services changes:
-     * - Calculated the time period required.
-     * - Fetch the availabilities with the new time required.
+     * Fetch the barber working days from the server with the listing service.
+     *
+     * @param time {number} time required in minutes for an availability timeslot
      */
-    useEffect(() => {
-        const time = calculateTimeRequired();
-        setTimeRequired(time);
-
-        getAvailability(time);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedServices]);
+    const getWorkDays = async (time: number) => {
+        if (time > 0)
+            await fetchBarberWorkdays(barber.getUser.getEmail, time)
+                .then((response) => {
+                    setWorkDays(response.data);
+                    if (response.data.length > 0)
+                        setSelectedDay(response.data[0]);
+                })
+                .catch((error) =>
+                    showNotification(undefined, error.message, error.status)
+                );
+    };
 
     /**
-     * Fetch the barber listing data from the server with the listing service.
-     * @param time time required for an availability timeslot
+     * Fetch the barber availabilities of a specific day from the server with the listing service.
+     *
+     * @param time {number} time required in minutes for an availability timeslot
      */
     const getAvailability = async (time: number) => {
-        await fetchBarberAvailabilityRange(
-            barber.getUser.getEmail,
-            time,
-            moment().format(DATE_FORMAT),
-            moment().add(7, "day").format(DATE_FORMAT)
-        )
-            .then((response) => {
-                setAvailability(response.data);
-                // if there is at least 1 availability
-                if (response.data.length >= 1) {
-                    if (!selectedDay) {
-                        setSelectedDay(response.data[0].startTime);
-                    }
-                    if (!selectedTime) {
-                        setSelectedTime(
-                            findFirstTimeMoment(response.data[0].startTime)
-                        );
-                    }
+        if (time > 0 && selectedDay)
+            await fetchBarberAvailability(
+                barber.getUser.getEmail,
+                time,
+                selectedDay.format(DATE_FORMAT)
+            )
+                .then((response) => {
+                    setAvailability(response.data);
+                    setSelectedTime(
+                        findFirstTimeMoment(selectedDay, response.data)
+                    );
                     resetSlick();
-                }
-            })
-            .catch((error) =>
-                showNotification(undefined, error.message, error.status)
-            );
+                })
+                .catch((error) =>
+                    showNotification(undefined, error.message, error.status)
+                );
     };
 
     /**
@@ -411,8 +372,8 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      * {@link selectedDay}
      */
     const renderDayPicker = () =>
-        weekDays.length > 0 &&
-        weekDays.map((day) => (
+        getWeekWorkdays.length > 0 &&
+        getWeekWorkdays.map((day) => (
             <Col
                 key={day.day()}
                 flex={1}
@@ -437,7 +398,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      * is stored in the state {@link selectedDay}
      */
     const renderCustomDayPicker = () =>
-        weekDays.length > 0 && (
+        getWeekWorkdays.length > 0 && (
             <Col
                 flex={1}
                 className={`
@@ -462,6 +423,10 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                             setCustomDatePickerValue(date);
                         }
                     }}
+                    disabledDate={(d) =>
+                        d.isBefore(workdays[0]) ||
+                        d.isAfter(workdays[workdays.length - 1])
+                    }
                 />
             </Col>
         );
@@ -477,7 +442,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      */
     const renderTimePicker = () =>
         selectedTime &&
-        getTimes().map((day) => (
+        availability.map((day) => (
             <div key={day.startTime.valueOf()}>
                 <Card
                     className={`
@@ -659,7 +624,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                                     {renderTimePicker()}
                                     {(!selectedDay ||
                                         !selectedTime ||
-                                        weekDays.length === 0) && (
+                                        getWeekWorkdays.length === 0) && (
                                         <p>There are no available times.</p>
                                     )}
                                 </Slider>

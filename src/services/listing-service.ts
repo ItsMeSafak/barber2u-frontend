@@ -1,13 +1,13 @@
 import axios from "axios";
 
-import moment from "moment";
+import moment, { Moment } from "moment";
 
 import User from "../models/User";
 import Barber from "../models/Barber";
 import Service2 from "../models/Service2";
 import MomentRange from "../models/MomentRange";
 
-import { RESPONSE_OK } from "../assets/constants";
+import { DATE_FORMAT, RESPONSE_OK } from "../assets/constants";
 
 /**
  * Response interface for the Barber items
@@ -32,8 +32,21 @@ interface APIBarberListingResponse {
     success: boolean;
 }
 
+/**
+ * Response interface for the Barber availability
+ */
 interface APIBarberAvailabilityResponse {
     data: MomentRange[];
+    message: string;
+    status: number;
+    success: boolean;
+}
+
+/**
+ * Response interface for the Barber workdays
+ */
+interface APIBarberWorkdaysResponse {
+    data: Moment[];
     message: string;
     status: number;
     success: boolean;
@@ -110,11 +123,9 @@ export const fetchBarberAvailability = (
 ): Promise<APIBarberAvailabilityResponse> =>
     new Promise<APIBarberAvailabilityResponse>((resolve, reject) => {
         axios
-            .post("/reservation/availability", {
-                barber: email,
-                duration,
-                date,
-            })
+            .get(
+                `/reservation/availability?barberEmail=${email}&duration=${duration}&dateString=${date}`
+            )
             .then(
                 (response) => {
                     if (response.status === RESPONSE_OK) {
@@ -134,39 +145,32 @@ export const fetchBarberAvailability = (
 
 /**
  * This function sends a request to the server, requesting the
- * availability of a single barber, based on their email. The
- * timeslots of the availability is based on the duration of a
+ * available workdays of a single barber, based on their email. The
+ * workdays of the availability is based on the duration of a
  * single timeslot, range of the timeslot in days and the date
  * that the barber is available.
  *
  * @param email {string} email address from barber
  * @param duration {number} required duration of the availability
- * @param startDate {string} start date of the range of the availabilities format(YYYY-MM-DD)
- * @param endDate {string} end date of the range of the availabilities format(YYYY-MM-DD)
  * @return {APIBarberAvailabilityResponse | Error} the response object or an error message
  */
-export const fetchBarberAvailabilityRange = (
+export const fetchBarberWorkdays = (
     email: string,
-    duration: number,
-    startDate: string,
-    endDate: string
-): Promise<APIBarberAvailabilityResponse> =>
-    new Promise<APIBarberAvailabilityResponse>((resolve, reject) => {
+    duration: number
+): Promise<APIBarberWorkdaysResponse> =>
+    new Promise<APIBarberWorkdaysResponse>((resolve, reject) => {
         axios
-            .post("/reservation/availability/range", {
-                barber: email,
-                duration,
-                startDate,
-                endDate,
-            })
+            .get(
+                `/reservation/workdays?barberEmail=${email}&duration=${duration}`
+            )
             .then(
                 (response) => {
                     if (response.status === RESPONSE_OK) {
-                        resolve(fixBarberAvailabilityObject(response.data));
+                        resolve(fixBarberWorkdaysObject(response.data));
                     } else
                         reject(
                             new Error(
-                                "Something went wrong with retrieving the barber availability data"
+                                "Something went wrong with retrieving the barber workdays data"
                             )
                         );
                 },
@@ -219,6 +223,22 @@ const fixBarberAvailabilityObject = (
             moment(response.data[index].startTime),
             moment(response.data[index].endTime)
         );
+    });
+    return response;
+};
+
+/**
+ * Cast the json response object properties to their own classes.
+ *
+ * @param response response object interface
+ * @return {APIBarbersResponse} casted object interface
+ */
+const fixBarberWorkdaysObject = (response: APIBarberWorkdaysResponse) => {
+    response.data.forEach((value, index) => {
+        response.data[index] = moment(
+            response.data[index].toString(),
+            DATE_FORMAT
+        ).startOf("day");
     });
     return response;
 };
