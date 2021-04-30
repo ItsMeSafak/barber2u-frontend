@@ -56,8 +56,9 @@ export const REFRESH_TOKEN_COOKIE = `${PACKAGE_NAME}refreshToken`;
 
 // API.
 export const BASE_URL = "http://localhost:8080/api";
+export const ERROR_MESSAGE_BASE = "Something went wrong while trying to call";
 
-// Response codes
+// Response codes.
 export const RESPONSE_OK = 200;
 
 // Month names.
@@ -91,5 +92,6 @@ export const EVENING_STRING = "Evening";
 export const DATE_FORMAT = "YYYY-MM-DD";
 export const TIME_FORMAT = "HH:mm:ss";
 
-// Special characters
+
+// Special characters.
 export const EURO_SYMBOL = "€";

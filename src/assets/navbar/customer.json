@@ -12,6 +12,18 @@
         "isDropdownMenu": true
     },
     {
+        "id": "listing",
+        "url": "/listings",
+        "name": "Listings",
+        "icon": ["fas", "cut"],
+        "isNavbarMenu": true,
+        "isFooterMenu": true,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDrawerMenu": false,
+        "isDropdownMenu": false
+    },
+    {
         "id": "signout",
         "url": "",
         "name": "Sign out",

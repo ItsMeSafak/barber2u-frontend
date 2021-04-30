@@ -146,6 +146,8 @@ const ServicesPage: React.FC = () => {
     /**
      * This function renders the modal of a service.
      *
+     * [This lint error here may be ignored because of some other issues]
+     *
      * @returns {JSX}
      */
     const renderModal = () => (

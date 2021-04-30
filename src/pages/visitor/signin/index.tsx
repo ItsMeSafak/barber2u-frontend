@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useContext } from "react";
 
 import { Col, Layout, Row } from "antd";
 
 import SignInForm from "../../../components/forms/signin";
 
-import { WIDTH_SCREEN_LG } from "../../../assets/constants";
+import { ScreenContext } from "../../../contexts/screen-context";
 
 import styles from "./styles.module.scss";
 
@@ -16,25 +16,7 @@ const { Content } = Layout;
  * @returns {JSX}
  */
 const SignInPage: React.FC = () => {
-    const [isMobile, setMobile] = useState(false);
-
-    /**
-     * This function checks whether the window screen width reaches a breakpoint.
-     * If so, the mobile state is set to true.
-     */
-    const handleMobileView = useCallback(() => {
-        setMobile(window.innerWidth <= WIDTH_SCREEN_LG);
-    }, []);
-
-    /**
-     * This function checks if the window size has been adjusted
-     */
-    useEffect(() => {
-        handleMobileView();
-        window.addEventListener("resize", handleMobileView);
-        // Remove event listener if not being used.
-        return () => window.removeEventListener("resize", handleMobileView);
-    }, [handleMobileView]);
+    const { isMobileOrTablet } = useContext(ScreenContext);
 
     /**
      * Render default sign in form
@@ -60,7 +42,9 @@ const SignInPage: React.FC = () => {
     );
 
     return (
-        <Content>{isMobile ? renderMobileSignIn() : renderSignIn()}</Content>
+        <Content>
+            {isMobileOrTablet ? renderMobileSignIn() : renderSignIn()}
+        </Content>
     );
 };
 
