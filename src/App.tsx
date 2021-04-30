@@ -27,6 +27,7 @@ import { NavbarProvider } from "./contexts/navbar-context";
 import { AuthenticationContext } from "./contexts/authentication-context";
 
 import { BASE_URL } from "./assets/constants";
+import VerifyEmailPage from "./pages/verify-email";
 
 const { Header, Footer } = Layout;
 
@@ -90,6 +91,11 @@ const App: React.FC = () => {
                                     allowedRoles={[]}
                                     path="/signup/barber"
                                     component={SignupPageBarber}
+                                />
+                                <ProtectedRoute
+                                    allowedRoles={[]}
+                                    path="/verify"
+                                    component={VerifyEmailPage}
                                 />
                                 <ProtectedRoute
                                     allowedRoles={[]}
