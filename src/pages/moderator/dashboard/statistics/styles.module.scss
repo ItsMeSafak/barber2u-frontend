@@ -1,0 +1,7 @@
+@import "../../../../assets/config.scss";
+
+.turnOffButton {
+    &:hover {
+        color: $red-color;
+    }
+}

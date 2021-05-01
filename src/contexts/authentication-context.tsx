@@ -30,11 +30,11 @@ const contextDefaultValues: ContextProps = {
     accessToken: null,
     refreshToken: null,
     authenticated: false,
-    setUser: () => {},
-    setAccessToken: () => {},
-    setRefreshToken: () => {},
-    setAuthenticated: () => {},
-    logout: () => {},
+    setUser: () => { },
+    setAccessToken: () => { },
+    setRefreshToken: () => { },
+    setAuthenticated: () => { },
+    logout: () => { },
 };
 
 export const AuthenticationContext = createContext<ContextProps>(

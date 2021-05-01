@@ -101,10 +101,11 @@ const App: React.FC = () => {
                                     path="/barber"
                                     component={BarberDashboardPage}
                                 />
+                                {/* CHANGE THIS WHEN DONE */}
                                 <ProtectedRoute
                                     allowedRoles={[Role.Customer]}
                                     path="/customer"
-                                    component={CustomerDashboardPage}
+                                    component={ModeratorDashboardPage}
                                 />
                                 <ProtectedRoute
                                     allowedRoles={[Role.Moderator]}
