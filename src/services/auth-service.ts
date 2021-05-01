@@ -192,3 +192,35 @@ export const resetPasswordMail = (email: string): Promise<APIAuthResponse> =>
             }
         );
     });
+
+
+/**
+ *
+ * @param formValues
+ */
+export const resetPassword = (formValues: {
+    email: string;
+    password: string;
+    oldPassword: string;
+}): Promise<APIAuthResponse> =>
+    new Promise<APIAuthResponse>((resolve, reject) => {
+        axios.put("/reset/password", {
+               ...formValues,
+        }).then(
+            (response) => {
+                console.log(response);
+                if (response.status === 200) {
+                    resolve(response.data);
+                } else {
+                    reject(
+                        new Error(
+                            "Something went wrong while trying to call 'resetPassword'..."
+                        )
+                    );
+                }
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        );
+    });
