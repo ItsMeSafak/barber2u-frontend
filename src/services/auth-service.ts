@@ -120,8 +120,8 @@ export const signUpBarber = (formValues: {
     zipCode: string;
     address: string;
     phoneNumber: string;
-    kvk: string;
-    btwNumber: string;
+    kvkNumber: string;
+    btwVatNumber: string;
     style: string;
     description: string;
     price: number;
