@@ -220,8 +220,8 @@ export const resetPasswordMail = (email: string): Promise<IAuthResponse> =>
 export const resetPassword = (
     password: string,
     token: string
-): Promise<APIAuthResponse> =>
-    new Promise<APIAuthResponse>((resolve, reject) => {
+): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) => {
         axios.put("/auth/reset/password",{
             password,
             token
