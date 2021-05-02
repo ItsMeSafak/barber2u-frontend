@@ -1,8 +1,13 @@
 import axios from "axios";
 
-import { RESPONSE_OK } from "../assets/constants";
+import IHttpResponse from "./http-response";
 
-interface APIAuthResponse {
+import { RESPONSE_OK } from "../assets/constants";
+import { getHttpErrorMessage } from "../assets/functions/error";
+
+const BASE_URL = "/auth";
+
+interface IAuthResponse extends IHttpResponse {
     data: {
         roles: Array<string>;
         token: string;
@@ -20,9 +25,6 @@ interface APIAuthResponse {
             isVerified: boolean;
         };
     };
-    message: string;
-    status: number;
-    success: boolean;
 }
 
 /**
@@ -30,26 +32,29 @@ interface APIAuthResponse {
  *
  * @param {string} email The user email input.
  * @param {string} password The user password input.
- * @returns {Promise<APIAuthResponse>}
+ * @returns {Promise<IAuthResponse>}
  */
 export const signIn = (
     email: string,
     password: string
-): Promise<APIAuthResponse> =>
-    new Promise<APIAuthResponse>((resolve, reject) =>
+): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) =>
         axios
-            .post("auth/signin", {
+            .post(`${BASE_URL}/signin`, {
                 email,
                 password,
             })
             .then(
                 (response) => {
-                    if (response.status === RESPONSE_OK) {
+                    if (response.data.status === RESPONSE_OK) {
                         resolve(response.data);
                     } else {
                         reject(
                             new Error(
-                                "Something went wrong while trying to call 'signIn'..."
+                                getHttpErrorMessage(
+                                    signIn.name,
+                                    response.config.url
+                                )
                             )
                         );
                     }
@@ -64,7 +69,7 @@ export const signIn = (
  * This function handles the register API request.
  *
  * @param {Object} formValues The register form values.
- * @returns {Promise<APIAuthResponse>}
+ * @returns {Promise<IAuthResponse>}
  */
 export const signUp = (formValues: {
     firstName: string;
@@ -74,20 +79,23 @@ export const signUp = (formValues: {
     zipCode: string;
     address: string;
     phoneNumber: string;
-}): Promise<APIAuthResponse> =>
-    new Promise<APIAuthResponse>((resolve, reject) =>
+}): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) =>
         axios
-            .post("auth/signup/customer", {
+            .post(`${BASE_URL}/signup/customer`, {
                 ...formValues,
             })
             .then(
                 (response) => {
-                    if (response.status === RESPONSE_OK) {
+                    if (response.data.status === RESPONSE_OK) {
                         resolve(response.data);
                     } else {
                         reject(
                             new Error(
-                                "Something went wrong while trying to call 'signUp'..."
+                                getHttpErrorMessage(
+                                    signUp.name,
+                                    response.config.url
+                                )
                             )
                         );
                     }
@@ -102,7 +110,7 @@ export const signUp = (formValues: {
  * This function handles the barber register API request
  *
  * @param {Object} formValues The register form values.
- * @returns {Promise<APIAuthResponse>}
+ * @returns {Promise<IAuthResponse>}
  */
 export const signUpBarber = (formValues: {
     firstName: string;
@@ -112,26 +120,29 @@ export const signUpBarber = (formValues: {
     zipCode: string;
     address: string;
     phoneNumber: string;
-    kvk: string;
-    btwNumber: string;
+    kvkNumber: string;
+    btwVatNumber: string;
     style: string;
     description: string;
     price: number;
     time: string;
-}): Promise<APIAuthResponse> =>
-    new Promise<APIAuthResponse>((resolve, reject) =>
+}): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) =>
         axios
-            .post("auth/signup/barber", {
+            .post(`${BASE_URL}/signup/barber`, {
                 ...formValues,
             })
             .then(
                 (response) => {
-                    if (response.status === 200) {
+                    if (response.data.status === RESPONSE_OK) {
                         resolve(response.data);
                     } else {
                         reject(
                             new Error(
-                                "Something went wrong while trying to call 'signUp'..."
+                                getHttpErrorMessage(
+                                    signUpBarber.name,
+                                    response.config.url
+                                )
                             )
                         );
                     }
@@ -145,18 +156,21 @@ export const signUpBarber = (formValues: {
 /**
  * This function retrieves the current logged in user profile details.
  *
- * @returns { Promise<APIAuthResponse>}
+ * @returns {Promise<IAuthResponse>}
  */
-export const fetchProfile = (): Promise<APIAuthResponse> =>
-    new Promise<APIAuthResponse>((resolve, reject) =>
-        axios.get("/auth/profile").then(
+export const fetchProfile = (): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) =>
+        axios.get(`${BASE_URL}/profile`).then(
             (response) => {
-                if (response.status === 200) {
+                if (response.data.status === RESPONSE_OK) {
                     resolve(response.data);
                 } else {
                     reject(
                         new Error(
-                            "Something went wrong while trying to call 'fetchProfile'..."
+                            getHttpErrorMessage(
+                                fetchProfile.name,
+                                response.config.url
+                            )
                         )
                     );
                 }
@@ -171,18 +185,21 @@ export const fetchProfile = (): Promise<APIAuthResponse> =>
  * This function sends a request to the backend, that sends a mail to the given mail of this function, containing a token regarding resetting the password.
  *
  * @param {string} email given email of the user input
- * @returns { Promise<APIAuthResponse>}
+ * @returns {Promise<IAuthResponse>}
  */
-export const resetPasswordMail = (email: string): Promise<APIAuthResponse> =>
-    new Promise<APIAuthResponse>((resolve, reject) => {
-        axios.post("/auth/reset/password/mail", email).then(
+export const resetPasswordMail = (email: string): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) => {
+        axios.post(`${BASE_URL}/reset/password/mail`, email).then(
             (response) => {
-                if (response.status === 200) {
+                if (response.data.status === RESPONSE_OK) {
                     resolve(response.data);
                 } else {
                     reject(
                         new Error(
-                            "Something went wrong while trying to call 'resetPasswordMail'..."
+                            getHttpErrorMessage(
+                                resetPasswordMail.name,
+                                response.config.url
+                            )
                         )
                     );
                 }

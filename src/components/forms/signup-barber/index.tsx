@@ -1,16 +1,16 @@
+import React, { ChangeEvent, useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import React, { ChangeEvent, useState, useEffect, useCallback } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Col, Form, Input, Row, Steps } from "antd";
 
+import { signUpBarber } from "../../../services/auth-service";
+import { ScreenContext } from "../../../contexts/screen-context";
+
+import { showNotification } from "../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 
-import { signUpBarber } from "../../../services/auth-service";
-import { showNotification } from "../../../assets/functions/notification";
-
 import styles from "./styles.module.scss";
-import { WIDTH_SCREEN_LG } from "../../../assets/constants";
 
 /**
  * This component renders a signup form.
@@ -19,9 +19,8 @@ import { WIDTH_SCREEN_LG } from "../../../assets/constants";
  * @returns {JSX}
  */
 const SignupFormBarber: React.FC = () => {
-    const history = useHistory();
+    const { isMobileOrTablet } = useContext(ScreenContext);
 
-    const [isMobile, setMobile] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
     const [isSubmitButtonActive, setSubmitButtonActive] = useState(false);
     const [formValue, setFormValue] = useState<{
@@ -32,8 +31,8 @@ const SignupFormBarber: React.FC = () => {
         phoneNumber: string;
         zipCode: string;
         address: string;
-        kvk: string;
-        btwNumber: string;
+        kvkNumber: string;
+        btwVatNumber: string;
         style: string;
         description: string;
         price: number;
@@ -46,13 +45,15 @@ const SignupFormBarber: React.FC = () => {
         phoneNumber: "",
         zipCode: "",
         address: "",
-        kvk: "",
-        btwNumber: "",
+        kvkNumber: "",
+        btwVatNumber: "",
         style: "",
         description: "",
         price: 0,
         time: "",
     });
+
+    const history = useHistory();
 
     const formInputs = [
         {
@@ -107,15 +108,15 @@ const SignupFormBarber: React.FC = () => {
         },
         {
             step: 2,
-            name: "kvk",
-            value: formValue.kvk,
+            name: "kvkNumber",
+            value: formValue.kvkNumber,
             placeholder: "KvK",
             icon: ["fas", "building"],
         },
         {
             step: 2,
-            name: "btwNumber",
-            value: formValue.btwNumber,
+            name: "btwVatNumber",
+            value: formValue.btwVatNumber,
             placeholder: "BTW Number",
             icon: ["fas", "file-invoice-dollar"],
         },
@@ -148,27 +149,6 @@ const SignupFormBarber: React.FC = () => {
             icon: ["fas", "clock"],
         },
     ];
-
-    /**
-     * This function checks whether the window screen width reaches a breakpoint.
-     * If so, the mobile state is set to true.
-     */
-    const handleMobileView = useCallback(() => {
-        setMobile(window.innerWidth <= WIDTH_SCREEN_LG);
-    }, []);
-
-    /**
-     * This function checks whether the window size has been adjusted.
-     * Whenever the window width reaches a specific width, the hamburger menu is then visible.
-     * The function gets executed by default whenever the window has been loaded.
-     * At the end, the event listener is removed so that unnecessary events are unloaded.
-     */
-    useEffect(() => {
-        handleMobileView();
-        window.addEventListener("resize", handleMobileView);
-        // Remove event listener if not being used.
-        return () => window.removeEventListener("resize", handleMobileView);
-    }, [handleMobileView]);
 
     useEffect(() => {
         setFormValue(formValue);
@@ -347,7 +327,7 @@ const SignupFormBarber: React.FC = () => {
      */
     const renderStepper = () => (
         <Steps
-            size={isMobile ? "small" : "default"}
+            size={isMobileOrTablet ? "small" : "default"}
             current={activeStep}
             type="navigation"
         >

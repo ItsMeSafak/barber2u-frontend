@@ -56,8 +56,9 @@ export const REFRESH_TOKEN_COOKIE = `${PACKAGE_NAME}refreshToken`;
 
 // API.
 export const BASE_URL = "http://localhost:8080/api";
+export const ERROR_MESSAGE_BASE = "Something went wrong while trying to call";
 
-// Response codes
+// Response codes.
 export const RESPONSE_OK = 200;
 
 // Month names.
@@ -82,5 +83,5 @@ export const PLACEHOLDER_TEXT =
 export const PLACEHOLDER_IMAGE =
     "https://t3.ftcdn.net/jpg/02/68/55/60/360_F_268556012_c1WBaKFN5rjRxR2eyV33znK4qnYeKZjm.jpg";
 
-// Special characters
+// Special characters.
 export const EURO_SYMBOL = "€";

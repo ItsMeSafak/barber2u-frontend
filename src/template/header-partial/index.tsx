@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,9 +8,9 @@ import MenuItems from "../../components/menu-items";
 import LogoComponent from "../../components/logo";
 
 import { NavbarContext } from "../../contexts/navbar-context";
+import { ScreenContext } from "../../contexts/screen-context";
 import { AuthenticationContext } from "../../contexts/authentication-context";
 
-import { WIDTH_SCREEN_LG } from "../../assets/constants";
 import { getIconByPrefixName } from "../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
@@ -22,9 +22,9 @@ import styles from "./styles.module.scss";
  */
 const HeaderPartial: React.FC = () => {
     const { menuItems } = useContext(NavbarContext);
+    const { isMobileOrTablet } = useContext(ScreenContext);
     const { user, authenticated, logout } = useContext(AuthenticationContext);
 
-    const [isMobile, setMobile] = useState(false);
     const [drawerVisible, setDrawerVisible] = useState(false);
 
     const history = useHistory();
@@ -38,27 +38,6 @@ const HeaderPartial: React.FC = () => {
             },
         },
     ];
-
-    /**
-     * This function checks whether the window screen width reaches a breakpoint.
-     * If so, the mobile state is set to true.
-     */
-    const handleMobileView = useCallback(() => {
-        setMobile(window.innerWidth <= WIDTH_SCREEN_LG);
-    }, []);
-
-    /**
-     * This function checks whether the window size has been adjusted.
-     * Whenever the window width reaches a specific width, the hamburger menu is then visible.
-     * The function gets executed by default whenever the window has been loaded.
-     * At the end, the event listener is removed so that unnecessary events are unloaded.
-     */
-    useEffect(() => {
-        handleMobileView();
-        window.addEventListener("resize", handleMobileView);
-        // Remove event listener if not being used.
-        return () => window.removeEventListener("resize", handleMobileView);
-    }, [handleMobileView]);
 
     /**
      * This function renders the hamburger menu.
@@ -80,7 +59,11 @@ const HeaderPartial: React.FC = () => {
      * @returns {JSX}
      */
     const renderNavbarMenu = () => (
-        <ul className={isMobile ? styles.navbarMobile : styles.navbarDesktop}>
+        <ul
+            className={
+                isMobileOrTablet ? styles.navbarMobile : styles.navbarDesktop
+            }
+        >
             <MenuItems
                 menuType="navbar"
                 menuItems={menuItems}
@@ -168,8 +151,8 @@ const HeaderPartial: React.FC = () => {
                     <LogoComponent iconPrefix="fas" iconName="cut" />
                 </h1>
             </Link>
-            {isMobile ? renderHamburgerMenu() : renderNavbarMenu()}
-            {renderDrawerMenu(isMobile && drawerVisible)}
+            {isMobileOrTablet ? renderHamburgerMenu() : renderNavbarMenu()}
+            {renderDrawerMenu(isMobileOrTablet && drawerVisible)}
         </>
     );
 };

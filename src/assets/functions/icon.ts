@@ -38,6 +38,7 @@ import {
     faEdit,
     faPlus,
     faEuroSign,
+    faUserTie,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -45,8 +46,8 @@ import {
  * This will make it accessible to use it anywhere within this project.
  */
 export const icons = {
-    faCut,
     faBars,
+    faCut,
     faEnvelope,
     faExclamationTriangle,
     faCaretLeft,
@@ -69,7 +70,6 @@ export const icons = {
     faFileAlt,
     faBuilding,
     faFileInvoiceDollar,
-    faEuroSign,
     faClipboard,
     faClock,
     faLock,
@@ -77,6 +77,8 @@ export const icons = {
     faCertificate,
     faEdit,
     faPlus,
+    faEuroSign,
+    faUserTie,
 };
 
 /**
