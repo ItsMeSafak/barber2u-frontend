@@ -196,16 +196,20 @@ export const resetPasswordMail = (email: string): Promise<APIAuthResponse> =>
 
 /**
  *
- * @param formValues
+ * @param email
+ * @param password
+ * @param repeatPassword
  */
-export const resetPassword = (formValues: {
-    email: string;
-    password: string;
-    oldPassword: string;
-}): Promise<APIAuthResponse> =>
+export const resetPassword = (
+    email: string,
+    password: string,
+    repeatPassword: string
+): Promise<APIAuthResponse> =>
     new Promise<APIAuthResponse>((resolve, reject) => {
-        axios.put("/reset/password", {
-               ...formValues,
+        axios.put("/auth/reset/password", {
+            email,
+            password,
+            repeatPassword
         }).then(
             (response) => {
                 console.log(response);

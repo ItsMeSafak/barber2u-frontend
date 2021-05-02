@@ -18,57 +18,38 @@ import {showNotification} from "../../../assets/functions/notification";
  */
 const ConfirmPasswordForm: React.FC = () => {
     const history = useHistory();
-    const [passwordError, setPasswordError] = useState(false);
-    const [formValue, setFormValue] = useState<{
-       email: string;
-       password: string;
-       oldPassword: string;
-    }>({
-        email: "",
-        password: "",
-        oldPassword: "",
-    });
 
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     /**
      *
-     * @param password
-     * @param oldPassword
+     * @param values
      */
-    const onFormFinish = (values: any) => {
-        console.log("test", values);
-        // const response = await resetPassword(formValue).catch(() =>
-        //     history.push("/503")
-        // );
-        // if(!response) return;
-        //
-        // // If request is not OK, handle errors with notification.
-        // const { status, message } = response;
-        // if (!(status === 200)) {
-        //     showNotification(undefined, message, status);
-        //     return;
-        // }
-        //
-        // showNotification(undefined, message, status);
-        // history.push("/signin");
+    const onFormFinish = async (values: any) => {
+
+        const response = await
+            resetPassword(values.email, values.password, values.repeatPassword)
+                .catch(() =>
+            history.push("/503")
+        );
+        if(!response) return;
+
+        // If request is not OK, handle errors with notification.
+        const { status, message } = response;
+        if (!(status === 200)) {
+            showNotification(undefined, message, status);
+            return;
+        }
+
+        showNotification(undefined, message, status);
+        history.push("/signin");
     };
 
-    /**
-     * This function is being used whenever the form fails.
-     *
-     * @param {any} values Form values.
-     */
-    const onFormFinishFailed = (values: any) => {
-        console.log("error", values);
-    };
-    
     return (
         <div className={styles.confirmPasswordForm}>
             <h2 className={styles.formTitle}>Confirm password</h2>
             <Form
                 name="confirmPassword"
                 onFinish={onFormFinish}
-                onFinishFailed={onFormFinishFailed}
             >
                 <Form.Item
                     name="password"
@@ -113,9 +94,9 @@ const ConfirmPasswordForm: React.FC = () => {
                              */
                             validator(_, value) {
                                 if(getFieldValue("password") === value) {
-                                    return setPasswordError(false);
+                                    return Promise.resolve();
                                 }
-                                return setPasswordError(true);
+                                return Promise.reject(new Error("The two passwords that you entered do not match!"));
                             }
                         })
                     ]}
@@ -146,11 +127,6 @@ const ConfirmPasswordForm: React.FC = () => {
                     </Button>
                 </Form.Item>
             </Form>
-            {passwordError && (
-                <p className={styles.errorMessage}>
-                    The password is not the same.
-                </p>
-            )}
         </div>
     );
 };
