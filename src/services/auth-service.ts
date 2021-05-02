@@ -195,24 +195,21 @@ export const resetPasswordMail = (email: string): Promise<APIAuthResponse> =>
 
 
 /**
+ * This functions sends put request to the backend, to reset the user password
  *
- * @param email
- * @param password
- * @param repeatPassword
+ * @param {string} password the user password
+ * @param {string} token the token that belongs to the user
  */
 export const resetPassword = (
-    email: string,
     password: string,
-    repeatPassword: string
+    token: string
 ): Promise<APIAuthResponse> =>
     new Promise<APIAuthResponse>((resolve, reject) => {
-        axios.put("/auth/reset/password", {
-            email,
+        axios.put("/auth/reset/password",{
             password,
-            repeatPassword
+            token
         }).then(
             (response) => {
-                console.log(response);
                 if (response.status === 200) {
                     resolve(response.data);
                 } else {

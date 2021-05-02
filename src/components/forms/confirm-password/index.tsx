@@ -22,12 +22,13 @@ const ConfirmPasswordForm: React.FC = () => {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     /**
      *
-     * @param values
+     * @param {any} values form values
      */
     const onFormFinish = async (values: any) => {
-
+        const query = new URLSearchParams(history.location.search);
+        const token = query.get("token") || "";
         const response = await
-            resetPassword(values.email, values.password, values.repeatPassword)
+            resetPassword(values.password, token)
                 .catch(() =>
             history.push("/503")
         );
