@@ -1,24 +1,70 @@
-import React from "react";
-import { useLocation, useParams } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 
-import { Row, Layout } from "antd";
+import { Row, Layout, Col } from "antd";
+
+import { ScreenContext } from "../../contexts/screen-context";
 
 import styles from "./styles.module.scss";
 
 const { Content } = Layout;
 
 /**
- * 
+ * This component renders the verified email page.
+ *
  * @returns {JSX}
  */
 const VerifyEmailPage: React.FC = () => {
-    const params = new URLSearchParams(useLocation().search);;
+    const { isMobileOrTablet } = useContext(ScreenContext);
+
+    /**
+     * This function renders the default dekstop view of the email verification.
+     *
+     * @returns {JSX}
+     */
+    const renderDesktopVerification = () => (
+        <Row className={styles.content}>
+            <Col span={12} />
+            <Col span={10}>
+                <div className={styles.block}>
+                    <h2 className={styles.blockTitle}>Email verified</h2>
+                    <p className={styles.blockContent}>
+                        Your email has successfully been verified.
+                    </p>
+                    <Link to="signin">
+                        <p className={styles.link}>Go to sign in</p>
+                    </Link>
+                </div>
+            </Col>
+        </Row>
+    );
+
+    /**
+     * This function renders the mobile view of the email verification.
+     *
+     * @returns {JSX}
+     */
+    const renderMobileVerification = () => (
+        <Row className={styles.mobileContent}>
+            <Col span={22}>
+                <div className={styles.block}>
+                    <h2 className={styles.blockTitle}>Email verified</h2>
+                    <p className={styles.blockContent}>
+                        Your email has successfully been verified.
+                    </p>
+                    <Link to="signin">
+                        <p className={styles.link}>Go to sign in</p>
+                    </Link>
+                </div>
+            </Col>
+        </Row>
+    );
 
     return (
-        <Content className={styles.content}>
-            <Row className={styles.container} justify="center">
-                {params.get("id")}
-            </Row>
+        <Content>
+            {isMobileOrTablet
+                ? renderMobileVerification()
+                : renderDesktopVerification()}
         </Content>
     );
 };

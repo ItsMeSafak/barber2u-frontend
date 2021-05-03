@@ -1,17 +1,75 @@
 @import "../../assets/config.scss";
 
 .content {
-    min-height: 100vh;
-    height: 100vh;
+    background-color: $light-grey-color;
     display: flex;
     align-items: center;
+
+    & > div:first-child {
+        background-image: url("../../assets/images/picture-5.jpg");
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        height: calc(100vh - 4rem);
+
+        &:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba($color: $secondary-color, $alpha: 0.25);
+        }
+    }
+
+    & > div:last-child {
+        margin: auto;
+    }
 }
 
-.container {
+.block {
+    border-radius: 3px;
+    background-color: $secondary-color;
+    padding: 30px;
     text-align: center;
-    width: 100%;
 
-    .returnButton {
-        @extend .button-primary-ghost;
+    .blockTitle {
+        text-align: center;
+        color: white;
+        text-decoration: underline $primary-color;
+        text-underline-position: under;
+        font-size: 1.8rem;
+    }
+
+    .blockContent {
+        color: white;
+    }
+
+    .link {
+        text-align: right;
+    }
+}
+
+.mobileContent {
+    background-image: url("../../assets/images/picture-5.jpg");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    height: calc(100vh - 4rem);
+
+    &:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba($color: $secondary-color, $alpha: 0.25);
+    }
+
+    & > div {
+        margin: auto;
+        z-index: 1;
     }
 }
