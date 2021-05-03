@@ -13,6 +13,7 @@ import ErrorPage from "./pages/error";
 import SigninPage from "./pages/visitor/signin";
 import SignupPageBarber from "./pages/visitor/signup/signup-barber";
 import SignupLandingPage from "./pages/visitor/signup";
+import ConfirmPasswordPage from "./pages/visitor/confirm-password";
 import ResetPasswordPage from "./pages/visitor/reset-password";
 import SignupPageCustomer from "./pages/visitor/signup/signup-customer";
 import BarberDashboardPage from "./pages/barber/dashboard";
@@ -95,6 +96,11 @@ const App: React.FC = () => {
                                     allowedRoles={[]}
                                     path="/reset-password"
                                     component={ResetPasswordPage}
+                                />
+                                <ProtectedRoute
+                                    allowedRoles={[]}
+                                    path="/confirm-password"
+                                    component={ConfirmPasswordPage}
                                 />
                                 <ProtectedRoute
                                     allowedRoles={[Role.Barber]}
