@@ -11,6 +11,7 @@ interface ServiceForm {
 }
 
 interface ContextProps {
+    loading: boolean;
     isCreated: boolean | null;
     isUpdated: boolean | null;
     isDeleted: boolean | null;
@@ -19,6 +20,7 @@ interface ContextProps {
     serviceDetail: Service | null;
     formValues: ServiceForm;
     listOfServices: Service[] | null;
+    setLoading: (loading: boolean) => void;
     setIsCreated: (isCreated: boolean) => void;
     setIsUpdated: (isUpdated: boolean) => void;
     setIsDeleted: (isDeleted: boolean) => void;
@@ -30,6 +32,7 @@ interface ContextProps {
 }
 
 const contextDefaultValues: ContextProps = {
+    loading: true,
     isCreated: false,
     isUpdated: false,
     isDeleted: false,
@@ -44,6 +47,7 @@ const contextDefaultValues: ContextProps = {
         isActive: false,
     },
     listOfServices: [],
+    setLoading: () => {},
     setIsCreated: () => {},
     setIsUpdated: () => {},
     setIsDeleted: () => {},
@@ -68,6 +72,7 @@ export const ServiceContext = createContext<ContextProps>(contextDefaultValues);
 export const ServiceProvider: React.FC = (props) => {
     const { children } = props;
 
+    const [loading, setLoading] = useState(contextDefaultValues.loading);
     const [isCreated, setIsCreated] = useState(contextDefaultValues.isCreated);
     const [isUpdated, setIsUpdated] = useState(contextDefaultValues.isUpdated);
     const [isDeleted, setIsDeleted] = useState(contextDefaultValues.isDeleted);
@@ -89,6 +94,7 @@ export const ServiceProvider: React.FC = (props) => {
 
     const providerValues = useMemo(
         () => ({
+            loading,
             isCreated,
             isUpdated,
             isDeleted,
@@ -97,6 +103,7 @@ export const ServiceProvider: React.FC = (props) => {
             serviceDetail,
             formValues,
             listOfServices,
+            setLoading,
             setIsCreated,
             setIsUpdated,
             setIsDeleted,
@@ -107,6 +114,7 @@ export const ServiceProvider: React.FC = (props) => {
             setListOfServices,
         }),
         [
+            loading,
             isCreated,
             isUpdated,
             isDeleted,
@@ -115,6 +123,7 @@ export const ServiceProvider: React.FC = (props) => {
             serviceDetail,
             formValues,
             listOfServices,
+            setLoading,
             setIsCreated,
             setIsUpdated,
             setIsDeleted,

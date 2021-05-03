@@ -52,6 +52,11 @@ const UserRoutes: React.FC<ComponentProps> = (props) => {
             {renderRoutes()}
             <Route
                 exact
+                path="/*/500"
+                component={() => <ErrorPage code={500} returnUrl="/" />}
+            />
+            <Route
+                exact
                 path="/*/503"
                 component={() => <ErrorPage code={503} returnUrl="/" />}
             />

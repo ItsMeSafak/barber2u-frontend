@@ -15,6 +15,7 @@ import SignupLandingPage from "./pages/visitor/signup";
 import ResetPasswordPage from "./pages/visitor/reset-password";
 import SignupPageCustomer from "./pages/visitor/signup/signup-customer";
 import BarberDashboardPage from "./pages/barber/dashboard";
+import ConfirmPasswordPage from "./pages/visitor/confirm-password";
 import CustomerDashboardPage from "./pages/customer/dashboard";
 import ModeratorDashboardPage from "./pages/moderator/dashboard";
 
@@ -103,6 +104,11 @@ const App: React.FC = () => {
                             component={ResetPasswordPage}
                         />
                         <ProtectedRoute
+                            allowedRoles={[]}
+                            path="/confirm-password"
+                            component={ConfirmPasswordPage}
+                        />
+                        <ProtectedRoute
                             allowedRoles={[Role.Barber]}
                             path="/barber"
                             component={BarberDashboardPage}
@@ -116,6 +122,13 @@ const App: React.FC = () => {
                             allowedRoles={[Role.Moderator]}
                             path="/moderator"
                             component={ModeratorDashboardPage}
+                        />
+                        <Route
+                            exact
+                            path="/500"
+                            component={() => (
+                                <ErrorPage code={500} returnUrl="/" />
+                            )}
                         />
                         <Route
                             exact

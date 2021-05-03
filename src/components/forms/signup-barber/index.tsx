@@ -31,8 +31,8 @@ const SignupFormBarber: React.FC = () => {
         phoneNumber: string;
         zipCode: string;
         address: string;
-        kvk: string;
-        btwNumber: string;
+        kvkNumber: string;
+        btwVatNumber: string;
         style: string;
         description: string;
         price: number;
@@ -45,8 +45,8 @@ const SignupFormBarber: React.FC = () => {
         phoneNumber: "",
         zipCode: "",
         address: "",
-        kvk: "",
-        btwNumber: "",
+        kvkNumber: "",
+        btwVatNumber: "",
         style: "",
         description: "",
         price: 0,
@@ -108,15 +108,15 @@ const SignupFormBarber: React.FC = () => {
         },
         {
             step: 2,
-            name: "kvk",
-            value: formValue.kvk,
+            name: "kvkNumber",
+            value: formValue.kvkNumber,
             placeholder: "KvK",
             icon: ["fas", "building"],
         },
         {
             step: 2,
-            name: "btwNumber",
-            value: formValue.btwNumber,
+            name: "btwVatNumber",
+            value: formValue.btwVatNumber,
             placeholder: "BTW Number",
             icon: ["fas", "file-invoice-dollar"],
         },

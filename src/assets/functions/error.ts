@@ -10,12 +10,12 @@ export const getErrorStatus: (
     errorCode: number
 ) =>
     | {
-        code: number;
-        message: string;
-        description: string;
-        color: string;
-        iconPrefix: string;
-        iconName: string;
-    }
+          code: number;
+          message: string;
+          description: string;
+          color: string;
+          iconPrefix: string;
+          iconName: string;
+      }
     | undefined = (errorCode: number) =>
-        ERROR_STATUSES.find((error) => error.code === errorCode);
+    ERROR_STATUSES.find((error) => error.code === errorCode);

@@ -95,8 +95,8 @@ export const signUpBarber = (formValues: {
     zipCode: string;
     address: string;
     phoneNumber: string;
-    kvk: string;
-    btwNumber: string;
+    kvkNumber: string;
+    btwVatNumber: string;
     style: string;
     description: string;
     price: number;
@@ -150,4 +150,31 @@ export const resetPasswordMail = (email: string): Promise<IAuthResponse> =>
                 reject(new Error(error.message));
             }
         );
+    });
+
+/**
+ * This functions sends put request to the backend, to reset the user password
+ *
+ * @param {string} password the user password
+ * @param {string} token the token that belongs to the user
+ * @returns {Promise<IAuthResponse>}
+ */
+export const resetPassword = (
+    password: string,
+    token: string
+): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) => {
+        axios
+            .put(`${BASE_URL}/reset/password`, {
+                password,
+                token,
+            })
+            .then(
+                (response) => {
+                    if (response) resolve(response.data);
+                },
+                (error) => {
+                    reject(new Error(error.message));
+                }
+            );
     });
