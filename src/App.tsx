@@ -11,6 +11,7 @@ import Role from "./models/enums/Role";
 import HomePage from "./pages/visitor/home";
 import ErrorPage from "./pages/error";
 import SigninPage from "./pages/visitor/signin";
+import VerifyEmailPage from "./pages/verify-email";
 import SignupPageBarber from "./pages/visitor/signup/signup-barber";
 import SignupLandingPage from "./pages/visitor/signup";
 import ResetPasswordPage from "./pages/visitor/reset-password";
@@ -27,7 +28,6 @@ import { NavbarProvider } from "./contexts/navbar-context";
 import { AuthenticationContext } from "./contexts/authentication-context";
 
 import { BASE_URL } from "./assets/constants";
-import VerifyEmailPage from "./pages/verify-email";
 
 const { Header, Footer } = Layout;
 
