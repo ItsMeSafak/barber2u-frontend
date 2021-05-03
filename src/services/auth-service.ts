@@ -122,9 +122,7 @@ export const signUpBarber = (formValues: {
     phoneNumber: string;
     kvkNumber: string;
     btwVatNumber: string;
-    style: string;
-    description: string;
-    price: number;
+    radius: string;
     time: string;
 }): Promise<IAuthResponse> =>
     new Promise<IAuthResponse>((resolve, reject) =>

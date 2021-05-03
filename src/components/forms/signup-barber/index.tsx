@@ -28,28 +28,26 @@ const SignupFormBarber: React.FC = () => {
         lastName: string;
         email: string;
         password: string;
+        companyName: string;
         phoneNumber: string;
         zipCode: string;
         address: string;
         kvkNumber: string;
         btwVatNumber: string;
-        style: string;
-        description: string;
-        price: number;
+        radius: string;
         time: string;
     }>({
         firstName: "",
         lastName: "",
         email: "",
         password: "",
+        companyName: "",
         phoneNumber: "",
         zipCode: "",
         address: "",
         kvkNumber: "",
         btwVatNumber: "",
-        style: "",
-        description: "",
-        price: 0,
+        radius: "",
         time: "",
     });
 
@@ -84,6 +82,13 @@ const SignupFormBarber: React.FC = () => {
             value: formValue.password,
             placeholder: "Password",
             icon: ["fas", "key"],
+        },
+        {
+            step: 2,
+            name: "companyName",
+            value: formValue.companyName,
+            placeholder: "Company name",
+            icon: ["fas", "building"],
         },
         {
             step: 2,
@@ -122,30 +127,16 @@ const SignupFormBarber: React.FC = () => {
         },
         {
             step: 3,
-            name: "style",
-            value: formValue.style,
-            placeholder: "Fill in your expertise for example fade",
-            icon: ["fas", "cut"],
-        },
-        {
-            step: 3,
-            name: "description",
-            value: formValue.description,
-            placeholder: "Description",
-            icon: ["fas", "clipboard"],
-        },
-        {
-            step: 3,
-            name: "price",
-            value: formValue.price,
-            placeholder: "Price of the service",
-            icon: ["fas", "euro-sign"],
+            name: "radius",
+            value: formValue.radius,
+            placeholder: "Maximum amount of radius",
+            icon: ["fas", "route"],
         },
         {
             step: 3,
             name: "time",
             value: formValue.time,
-            placeholder: "Estimated time in minutes for service",
+            placeholder: "The estimated time to the customer in minutes",
             icon: ["fas", "clock"],
         },
     ];
@@ -311,8 +302,8 @@ const SignupFormBarber: React.FC = () => {
             title: "Account",
         },
         {
-            content: renderForm("Personal", 2),
-            title: "Personal",
+            content: renderForm("Company", 2),
+            title: "Company",
         },
         {
             content: renderForm("Services", 3),
