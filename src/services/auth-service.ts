@@ -216,6 +216,7 @@ export const resetPasswordMail = (email: string): Promise<IAuthResponse> =>
  *
  * @param {string} password the user password
  * @param {string} token the token that belongs to the user
+ * @returns {Promise<IAuthResponse>}
  */
 export const resetPassword = (
     password: string,

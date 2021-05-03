@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React  from "react";
+import { useHistory } from "react-router-dom";
 
 import { Form, Input, Button } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { getIconByPrefixName } from "../../../assets/functions/icon";
-
 import { resetPassword } from "../../../services/auth-service";
 
+import { showNotification } from "../../../assets/functions/notification";
+import { getIconByPrefixName } from "../../../assets/functions/icon";
+
 import styles from "./styles.module.scss";
-import {showNotification} from "../../../assets/functions/notification";
 
 /**
  * This component renders the reset password form.
