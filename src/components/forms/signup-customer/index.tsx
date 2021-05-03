@@ -1,14 +1,13 @@
 import { useHistory } from "react-router-dom";
 import React, { ChangeEvent, useState } from "react";
 
-import { Button, Form, Input } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Form, Input } from "antd";
 
 import { signUp } from "../../../services/auth-service";
 
-import { RESPONSE_OK } from "../../../assets/constants";
-import { showNotification } from "../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../assets/functions/icon";
+import { showHttpResponseNotification } from "../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
@@ -19,7 +18,6 @@ import styles from "./styles.module.scss";
  * @returns {JSX}
  */
 const SignupFormCustomer: React.FC = () => {
-    const history = useHistory();
     const [formValue, setFormValue] = useState<{
         firstName: string;
         lastName: string;
@@ -38,26 +36,19 @@ const SignupFormCustomer: React.FC = () => {
         address: "",
     });
 
+    const history = useHistory();
+
     /**
      * This function handles the signup.
      * Once succesfully registered, the user will be redirected to the login page.
      */
     const handleSignUp = async () => {
-        // Handle sigup, if API is unavailable, redirect to 503 page.
-        const response = await signUp(formValue).catch(() =>
-            history.push("/503")
-        );
-        if (!response) return;
+        const response = await signUp(formValue);
 
-        // If request is not OK, handle errors with notification.
         const { status, message } = response;
-        if (!(status === RESPONSE_OK)) {
-            showNotification(undefined, message, status);
-            return;
-        }
+        showHttpResponseNotification(message, status);
+        if (!response.data) return;
 
-        // If request is OK, redirect user to login page.
-        showNotification(undefined, message, status);
         history.push("/signin");
     };
 

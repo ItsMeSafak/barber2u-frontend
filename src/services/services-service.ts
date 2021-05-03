@@ -4,9 +4,6 @@ import Service from "../models/Service";
 
 import IHttpResponse from "./http-response";
 
-import { RESPONSE_OK } from "../assets/constants";
-import { getHttpErrorMessage } from "../assets/functions/error";
-
 const API_URL = "/services";
 
 interface IServiceResponse extends IHttpResponse {
@@ -27,18 +24,7 @@ export const getAllServices = (barber?: string): Promise<IServiceResponse> =>
             })
             .then(
                 (response) => {
-                    if (response.data.status === RESPONSE_OK) {
-                        resolve(response.data);
-                    } else {
-                        reject(
-                            new Error(
-                                getHttpErrorMessage(
-                                    getAllServices.name,
-                                    response.config.url
-                                )
-                            )
-                        );
-                    }
+                    if (response) resolve(response.data);
                 },
                 (error) => {
                     reject(new Error(error.message));
@@ -58,18 +44,7 @@ export const createNewService = (service: Service): Promise<IServiceResponse> =>
     new Promise<IServiceResponse>((resolve, reject) => {
         axios.post(`${API_URL}/create`, service).then(
             (response) => {
-                if (response.data.status === RESPONSE_OK) {
-                    resolve(response.data);
-                } else {
-                    reject(
-                        new Error(
-                            getHttpErrorMessage(
-                                createNewService.name,
-                                response.config.url
-                            )
-                        )
-                    );
-                }
+                if (response) resolve(response.data);
             },
             (error) => {
                 reject(new Error(error.message));
@@ -87,18 +62,7 @@ export const deleteService = (id: string): Promise<IServiceResponse> =>
     new Promise<IServiceResponse>((resolve, reject) => {
         axios.delete(`${API_URL}/delete/${id}`).then(
             (response) => {
-                if (response.data.status === RESPONSE_OK) {
-                    resolve(response.data);
-                } else {
-                    reject(
-                        new Error(
-                            getHttpErrorMessage(
-                                deleteService.name,
-                                response.config.url
-                            )
-                        )
-                    );
-                }
+                if (response) resolve(response.data);
             },
             (error) => {
                 reject(new Error(error.message));
@@ -116,18 +80,7 @@ export const updateService = (service: Service): Promise<IServiceResponse> =>
     new Promise<IServiceResponse>((resolve, reject) => {
         axios.put(`${API_URL}/update/${service.id}`, service).then(
             (response) => {
-                if (response.data.status === RESPONSE_OK) {
-                    resolve(response.data);
-                } else {
-                    reject(
-                        new Error(
-                            getHttpErrorMessage(
-                                updateService.name,
-                                response.config.url
-                            )
-                        )
-                    );
-                }
+                if (response) resolve(response.data);
             },
             (error) => {
                 reject(new Error(error.message));
