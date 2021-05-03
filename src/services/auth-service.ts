@@ -210,7 +210,6 @@ export const resetPasswordMail = (email: string): Promise<IAuthResponse> =>
         );
     });
 
-
 /**
  * This functions sends put request to the backend, to reset the user password
  *
@@ -223,23 +222,25 @@ export const resetPassword = (
     token: string
 ): Promise<IAuthResponse> =>
     new Promise<IAuthResponse>((resolve, reject) => {
-        axios.put("/auth/reset/password",{
-            password,
-            token
-        }).then(
-            (response) => {
-                if (response.status === 200) {
-                    resolve(response.data);
-                } else {
-                    reject(
-                        new Error(
-                            "Something went wrong while trying to call 'resetPassword'..."
-                        )
-                    );
+        axios
+            .put("/auth/reset/password", {
+                password,
+                token,
+            })
+            .then(
+                (response) => {
+                    if (response.status === 200) {
+                        resolve(response.data);
+                    } else {
+                        reject(
+                            new Error(
+                                "Something went wrong while trying to call 'resetPassword'..."
+                            )
+                        );
+                    }
+                },
+                (error) => {
+                    reject(new Error(error.message));
                 }
-            },
-            (error) => {
-                reject(new Error(error.message));
-            }
-        );
+            );
     });

@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 
 import { Form, Input, Button } from "antd";
@@ -27,12 +27,10 @@ const ConfirmPasswordForm: React.FC = () => {
     const onFormFinish = async (values: any) => {
         const query = new URLSearchParams(history.location.search);
         const token = query.get("token") || "";
-        const response = await
-            resetPassword(values.password, token)
-                .catch(() =>
+        const response = await resetPassword(values.password, token).catch(() =>
             history.push("/503")
         );
-        if(!response) return;
+        if (!response) return;
 
         // If request is not OK, handle errors with notification.
         const { status, message } = response;
@@ -48,10 +46,7 @@ const ConfirmPasswordForm: React.FC = () => {
     return (
         <div className={styles.confirmPasswordForm}>
             <h2 className={styles.formTitle}>Confirm password</h2>
-            <Form
-                name="confirmPassword"
-                onFinish={onFormFinish}
-            >
+            <Form name="confirmPassword" onFinish={onFormFinish}>
                 <Form.Item
                     name="password"
                     rules={[
@@ -59,7 +54,7 @@ const ConfirmPasswordForm: React.FC = () => {
                             min: 8,
                             required: true,
                             message: "Password is incorrect",
-                        }
+                        },
                     ]}
                 >
                     <Input
@@ -68,10 +63,7 @@ const ConfirmPasswordForm: React.FC = () => {
                         size="large"
                         prefix={
                             <FontAwesomeIcon
-                                icon={getIconByPrefixName(
-                                    "fas",
-                                    "key"
-                                )}
+                                icon={getIconByPrefixName("fas", "key")}
                                 size="sm"
                             />
                         }
@@ -94,12 +86,16 @@ const ConfirmPasswordForm: React.FC = () => {
                              * @param {any} value this is the stored value
                              */
                             validator(_, value) {
-                                if(getFieldValue("password") === value) {
+                                if (getFieldValue("password") === value) {
                                     return Promise.resolve();
                                 }
-                                return Promise.reject(new Error("The two passwords that you entered do not match!"));
-                            }
-                        })
+                                return Promise.reject(
+                                    new Error(
+                                        "The two passwords that you entered do not match!"
+                                    )
+                                );
+                            },
+                        }),
                     ]}
                 >
                     <Input
@@ -108,10 +104,7 @@ const ConfirmPasswordForm: React.FC = () => {
                         size="large"
                         prefix={
                             <FontAwesomeIcon
-                                icon={getIconByPrefixName(
-                                    "fas",
-                                    "key"
-                                )}
+                                icon={getIconByPrefixName("fas", "key")}
                                 size="sm"
                             />
                         }
