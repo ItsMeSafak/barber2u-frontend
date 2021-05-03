@@ -47,9 +47,7 @@ const SignupFormCustomer: React.FC = () => {
 
         const { status, message } = response;
         showHttpResponseNotification(message, status);
-        if (!response.data) return;
-
-        history.push("/signin");
+        if (status === 200) history.push("/signin");
     };
 
     /**

@@ -184,7 +184,6 @@ const SignupFormBarber: React.FC = () => {
 
         const { status, message } = response;
         showHttpResponseNotification(message, status);
-
         if (status === 200) history.push("/signin");
     };
 
