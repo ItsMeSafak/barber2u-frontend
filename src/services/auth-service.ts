@@ -209,3 +209,38 @@ export const resetPasswordMail = (email: string): Promise<IAuthResponse> =>
             }
         );
     });
+
+/**
+ * This functions sends put request to the backend, to reset the user password
+ *
+ * @param {string} password the user password
+ * @param {string} token the token that belongs to the user
+ * @returns {Promise<IAuthResponse>}
+ */
+export const resetPassword = (
+    password: string,
+    token: string
+): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) => {
+        axios
+            .put("/auth/reset/password", {
+                password,
+                token,
+            })
+            .then(
+                (response) => {
+                    if (response.status === 200) {
+                        resolve(response.data);
+                    } else {
+                        reject(
+                            new Error(
+                                "Something went wrong while trying to call 'resetPassword'..."
+                            )
+                        );
+                    }
+                },
+                (error) => {
+                    reject(new Error(error.message));
+                }
+            );
+    });
