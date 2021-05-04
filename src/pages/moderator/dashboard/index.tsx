@@ -16,7 +16,6 @@ const { Content } = Layout;
 /**
  * This component renders the dashboard including a sidebar and the main content.
  *
- * @param props Component properties.
  * @returns {JSX}
  */
 const ModeratorDashboardPage: React.FC = () => {

@@ -41,7 +41,7 @@ import {
     faHdd,
     faDatabase,
     faUserTie,
-    faPowerOff
+    faPowerOff,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -84,7 +84,7 @@ export const icons = {
     faHdd,
     faDatabase,
     faUserTie,
-    faPowerOff
+    faPowerOff,
 };
 
 /**

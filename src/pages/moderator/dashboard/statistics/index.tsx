@@ -5,27 +5,33 @@ import { Layout, Row, Col, Tooltip } from "antd";
 
 import CardStatistic from "../../../../components/card-statistic";
 
-import { getHealthStatus, shutdownAPIServer } from "../../../../services/actuator-service";
+import {
+    getHealthStatus,
+    shutdownAPIServer,
+} from "../../../../services/actuator-service";
 
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
-
+import Spinner from "../../../../components/spinner";
 
 const { Content } = Layout;
 
 /**
  * Moderator statistics page.
- * @returns {React.FC}
+ *
+ * @returns {JSX}
  */
 const StatisticsPage: React.FC = () => {
+    const [loading, setLoading] = useState(true);
     const [APIServerStatus, setAPIServerStatus] = useState("N/A");
     const [databaseServerStatus, setDatabaseServerStatus] = useState("N/A");
     const [mailServerStatus, setMailServerStatus] = useState("N/A");
     const [APIServerDiskUsage, setAPIServerDiskUsage] = useState(0);
 
     const fetchServerStatuses = useCallback(async () => {
+        setLoading(true);
         const response = await getHealthStatus();
         if (!response) return;
 
@@ -36,14 +42,31 @@ const StatisticsPage: React.FC = () => {
 
         if (diskSpace.details) {
             const { total, free } = diskSpace.details;
-            const diskUsage = Number(((total - free) / total * 100).toFixed(1));
+            const diskUsage = Number(
+                (((total - free) / total) * 100).toFixed(1)
+            );
             setAPIServerDiskUsage(diskUsage);
         }
-    }, [setAPIServerStatus, setDatabaseServerStatus, setMailServerStatus, setAPIServerDiskUsage]);
+        setLoading(false);
+    }, [
+        setAPIServerStatus,
+        setDatabaseServerStatus,
+        setMailServerStatus,
+        setAPIServerDiskUsage,
+        setLoading,
+    ]);
 
     useEffect(() => {
         fetchServerStatuses();
-    }, [APIServerStatus, databaseServerStatus, mailServerStatus, fetchServerStatuses]);
+
+        return () => setLoading(true);
+    }, [
+        APIServerStatus,
+        databaseServerStatus,
+        mailServerStatus,
+        fetchServerStatuses,
+        setLoading,
+    ]);
 
     /**
      * TODO...
@@ -51,7 +74,13 @@ const StatisticsPage: React.FC = () => {
      */
     const renderShutdownAPIServerButton = () => (
         <Tooltip title="Shutdown API Server">
-            <FontAwesomeIcon key={1} className={styles.turnOffButton} onClick={() => onShutdownAPIServerClick()} icon={getIconByPrefixName("fas", "power-off")} size="2x" />
+            <FontAwesomeIcon
+                key={1}
+                className={styles.turnOffButton}
+                onClick={() => onShutdownAPIServerClick()}
+                icon={getIconByPrefixName("fas", "power-off")}
+                size="2x"
+            />
         </Tooltip>
     );
 
@@ -59,50 +88,89 @@ const StatisticsPage: React.FC = () => {
      * TODO...
      */
     const onShutdownAPIServerClick = async () => {
-        shutdownAPIServer().then((response) => console.log(response));
-        // .then((response) => showHttpResponseNotification(response.message, RESPONSE_OK))
-        // .catch((error) => showHttpResponseNotification(error.message));
+        shutdownAPIServer()
+            .then((response) =>
+                showHttpResponseNotification(response.message, 200)
+            )
+            .catch((error) => showHttpResponseNotification(error.message, 422));
     };
 
     return (
         <Layout className={styles.statistics}>
             <Content>
+                {/* <Skeleton active loading={loading} /> */}
                 <Row gutter={[20, 20]}>
                     <Col xs={24}>
-                        <CardStatistic
-                            title="Disk Usage"
-                            value={APIServerDiskUsage}
-                            negativeValueThreshold={50}
-                            prefix={<FontAwesomeIcon icon={getIconByPrefixName("fas", "hdd")} />}
-                            suffix="%"
-                            withProgressBar
-                            progressBar={{ percentage: APIServerDiskUsage, tooltipText: `${APIServerDiskUsage}% Usage` }}
-                        />
+                        <Spinner spinning={loading}>
+                            <CardStatistic
+                                title="Disk Usage"
+                                value={APIServerDiskUsage}
+                                negativeValueThreshold={50}
+                                prefix={
+                                    <FontAwesomeIcon
+                                        icon={getIconByPrefixName("fas", "hdd")}
+                                    />
+                                }
+                                suffix="%"
+                                withProgressBar
+                                progressBar={{
+                                    percentage: APIServerDiskUsage,
+                                    tooltipText: `${APIServerDiskUsage}% Usage`,
+                                }}
+                            />
+                        </Spinner>
                     </Col>
                     <Col xs={24}>
-                        <CardStatistic
-                            title="API Server"
-                            value={APIServerStatus}
-                            positiveValueThreshold="UP"
-                            prefix={<FontAwesomeIcon icon={getIconByPrefixName("fas", "server")} />}
-                            actions={[renderShutdownAPIServerButton()]}
-                        />
+                        <Spinner spinning={loading}>
+                            <CardStatistic
+                                title="API Server"
+                                value={APIServerStatus}
+                                positiveValueThreshold="UP"
+                                prefix={
+                                    <FontAwesomeIcon
+                                        icon={getIconByPrefixName(
+                                            "fas",
+                                            "server"
+                                        )}
+                                    />
+                                }
+                                actions={[renderShutdownAPIServerButton()]}
+                            />
+                        </Spinner>
                     </Col>
                     <Col xs={24}>
-                        <CardStatistic
-                            title="Database Server"
-                            value={databaseServerStatus}
-                            positiveValueThreshold="UP"
-                            prefix={<FontAwesomeIcon icon={getIconByPrefixName("fas", "database")} />}
-                        />
+                        <Spinner spinning={loading}>
+                            <CardStatistic
+                                title="Database Server"
+                                value={databaseServerStatus}
+                                positiveValueThreshold="UP"
+                                prefix={
+                                    <FontAwesomeIcon
+                                        icon={getIconByPrefixName(
+                                            "fas",
+                                            "database"
+                                        )}
+                                    />
+                                }
+                            />
+                        </Spinner>
                     </Col>
                     <Col xs={24}>
-                        <CardStatistic
-                            title="Mail Server"
-                            value={mailServerStatus}
-                            positiveValueThreshold="UP"
-                            prefix={<FontAwesomeIcon icon={getIconByPrefixName("fas", "envelope")} />}
-                        />
+                        <Spinner spinning={loading}>
+                            <CardStatistic
+                                title="Mail Server"
+                                value={mailServerStatus}
+                                positiveValueThreshold="UP"
+                                prefix={
+                                    <FontAwesomeIcon
+                                        icon={getIconByPrefixName(
+                                            "fas",
+                                            "envelope"
+                                        )}
+                                    />
+                                }
+                            />
+                        </Spinner>
                     </Col>
                 </Row>
             </Content>

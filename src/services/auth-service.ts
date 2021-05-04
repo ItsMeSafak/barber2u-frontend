@@ -153,7 +153,7 @@ export const resetPasswordMail = (email: string): Promise<IAuthResponse> =>
     });
 
 /**
- * This functions sends put request to the backend, to reset the user password
+ * This function sends put request to the backend, to reset the user password
  *
  * @param {string} password the user password
  * @param {string} token the token that belongs to the user
@@ -177,4 +177,21 @@ export const resetPassword = (
                     reject(new Error(error.message));
                 }
             );
+    });
+
+/**
+ * This function re-sends an email to the user to verify their email address.
+ *
+ * @returns {Promise<IAuthResponse>}
+ */
+export const resendVerificationEmail = (): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) => {
+        axios.get(`${BASE_URL}/verify/getemail`).then(
+            (response) => {
+                if (response) resolve(response.data);
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        );
     });

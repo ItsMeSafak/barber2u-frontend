@@ -10,10 +10,10 @@ interface ComponentDetails {
 interface IActuatorResponse {
     status: string;
     components: {
-        diskSpace: ComponentDetails,
-        mail: ComponentDetails,
-        mongo: ComponentDetails,
-        ping: ComponentDetails
+        diskSpace: ComponentDetails;
+        mail: ComponentDetails;
+        mongo: ComponentDetails;
+        ping: ComponentDetails;
     };
 }
 
@@ -23,16 +23,14 @@ interface IActuatorResponse {
  */
 export const getHealthStatus = (): Promise<IActuatorResponse> =>
     new Promise<IActuatorResponse>((resolve, reject) =>
-        axios
-            .get(`${BASE_URL}/health`)
-            .then(
-                (response) => {
-                    if (response) resolve(response.data);
-                },
-                (error) => {
-                    reject(new Error(error.message));
-                }
-            )
+        axios.get(`${BASE_URL}/health`).then(
+            (response) => {
+                if (response) resolve(response.data);
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        )
     );
 
 /**
@@ -41,14 +39,12 @@ export const getHealthStatus = (): Promise<IActuatorResponse> =>
  */
 export const shutdownAPIServer = (): Promise<{ message: string }> =>
     new Promise<{ message: string }>((resolve, reject) =>
-        axios
-            .post(`${BASE_URL}/shutdown`)
-            .then(
-                (response) => {
-                    if (response) resolve(response.data);
-                },
-                (error) => {
-                    reject(new Error(error.message));
-                }
-            )
+        axios.post(`${BASE_URL}/shutdown`).then(
+            (response) => {
+                if (response) resolve(response.data);
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        )
     );
