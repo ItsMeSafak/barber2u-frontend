@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { resetPassword } from "../../../services/auth-service";
 
-import { showNotification } from "../../../assets/functions/notification";
+import { showHttpResponseNotification } from "../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
@@ -27,20 +27,11 @@ const ConfirmPasswordForm: React.FC = () => {
     const onFormFinish = async (values: any) => {
         const query = new URLSearchParams(history.location.search);
         const token = query.get("token") || "";
-        const response = await resetPassword(values.password, token).catch(() =>
-            history.push("/503")
-        );
-        if (!response) return;
+        const response = await resetPassword(values.password, token);
 
-        // If request is not OK, handle errors with notification.
         const { status, message } = response;
-        if (!(status === 200)) {
-            showNotification(undefined, message, status);
-            return;
-        }
-
-        showNotification(undefined, message, status);
-        history.push("/signin");
+        showHttpResponseNotification(message, status);
+        if (status === 200) history.push("/signin");
     };
 
     return (

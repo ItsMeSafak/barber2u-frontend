@@ -8,8 +8,8 @@ import Service from "../../models/Service";
 import { deleteService } from "../../services/services-service";
 import { ServiceContext } from "../../contexts/service-context";
 
-import { EURO_SYMBOL, RESPONSE_OK } from "../../assets/constants";
-import { showNotification } from "../../assets/functions/notification";
+import { EURO_SYMBOL } from "../../assets/constants";
+import { showHttpResponseNotification } from "../../assets/functions/notification";
 import { getIconByPrefixName } from "../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
@@ -78,9 +78,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
         setIsDeleted(true);
 
         const { status, message } = response;
-        if (!(status === RESPONSE_OK))
-            showNotification(undefined, message, status);
-        else showNotification(undefined, message, status);
+        showHttpResponseNotification(message, status);
     };
 
     return (
