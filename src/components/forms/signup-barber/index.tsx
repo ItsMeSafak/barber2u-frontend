@@ -125,20 +125,6 @@ const SignupFormBarber: React.FC = () => {
             placeholder: "BTW Number",
             icon: ["fas", "file-invoice-dollar"],
         },
-        {
-            step: 3,
-            name: "radius",
-            value: formValue.radius,
-            placeholder: "Maximum amount of radius",
-            icon: ["fas", "route"],
-        },
-        {
-            step: 3,
-            name: "time",
-            value: formValue.time,
-            placeholder: "The estimated time to the customer in minutes",
-            icon: ["fas", "clock"],
-        },
     ];
 
     useEffect(() => {
@@ -304,10 +290,6 @@ const SignupFormBarber: React.FC = () => {
         {
             content: renderForm("Company", 2),
             title: "Company",
-        },
-        {
-            content: renderForm("Services", 3),
-            title: "Services",
         },
     ];
 
