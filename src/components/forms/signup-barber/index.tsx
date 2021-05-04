@@ -28,29 +28,23 @@ const SignupFormBarber: React.FC = () => {
         lastName: string;
         email: string;
         password: string;
+        companyName: string;
         phoneNumber: string;
         zipCode: string;
         address: string;
         kvkNumber: string;
         btwVatNumber: string;
-        style: string;
-        description: string;
-        price: number;
-        time: string;
     }>({
         firstName: "",
         lastName: "",
         email: "",
         password: "",
+        companyName: "",
         phoneNumber: "",
         zipCode: "",
         address: "",
         kvkNumber: "",
         btwVatNumber: "",
-        style: "",
-        description: "",
-        price: 0,
-        time: "",
     });
 
     const history = useHistory();
@@ -87,6 +81,13 @@ const SignupFormBarber: React.FC = () => {
         },
         {
             step: 2,
+            name: "companyName",
+            value: formValue.companyName,
+            placeholder: "Company name",
+            icon: ["fas", "building"],
+        },
+        {
+            step: 2,
             name: "phoneNumber",
             value: formValue.phoneNumber,
             placeholder: "Phone number",
@@ -119,34 +120,6 @@ const SignupFormBarber: React.FC = () => {
             value: formValue.btwVatNumber,
             placeholder: "BTW Number",
             icon: ["fas", "file-invoice-dollar"],
-        },
-        {
-            step: 3,
-            name: "style",
-            value: formValue.style,
-            placeholder: "Fill in your expertise for example fade",
-            icon: ["fas", "cut"],
-        },
-        {
-            step: 3,
-            name: "description",
-            value: formValue.description,
-            placeholder: "Description",
-            icon: ["fas", "clipboard"],
-        },
-        {
-            step: 3,
-            name: "price",
-            value: formValue.price,
-            placeholder: "Price of the service",
-            icon: ["fas", "euro-sign"],
-        },
-        {
-            step: 3,
-            name: "time",
-            value: formValue.time,
-            placeholder: "Estimated time in minutes for service",
-            icon: ["fas", "clock"],
         },
     ];
 
@@ -300,12 +273,8 @@ const SignupFormBarber: React.FC = () => {
             title: "Account",
         },
         {
-            content: renderForm("Personal", 2),
-            title: "Personal",
-        },
-        {
-            content: renderForm("Services", 3),
-            title: "Services",
+            content: renderForm("Company", 2),
+            title: "Company",
         },
     ];
 
