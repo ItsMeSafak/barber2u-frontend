@@ -34,8 +34,6 @@ const SignupFormBarber: React.FC = () => {
         address: string;
         kvkNumber: string;
         btwVatNumber: string;
-        radius: string;
-        time: string;
     }>({
         firstName: "",
         lastName: "",
@@ -47,8 +45,6 @@ const SignupFormBarber: React.FC = () => {
         address: "",
         kvkNumber: "",
         btwVatNumber: "",
-        radius: "",
-        time: "",
     });
 
     const history = useHistory();
