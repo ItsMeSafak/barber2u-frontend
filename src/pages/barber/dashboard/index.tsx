@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { Layout } from "antd";
+import { Layout, Skeleton } from "antd";
 
 import UserRoutes from "../../../routes/user-routes";
 import SettingsPage from "./settings";
@@ -10,9 +10,12 @@ import PortfolioPage from "./portfolio";
 import StatisticsPage from "./statistics";
 import SidebarPartial from "../../../template/sidebar-partial";
 import ReservationsPage from "./reservations";
+import EmailNotVerified from "../../../template/email-not-verified";
+
+import { ServiceProvider } from "../../../contexts/service-context";
+import { AuthenticationContext } from "../../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
-import { ServiceProvider } from "../../../contexts/service-context";
 
 const { Content } = Layout;
 
@@ -22,6 +25,8 @@ const { Content } = Layout;
  * @returns {JSX}
  */
 const BarberDashboardPage: React.FC = () => {
+    const { loading } = useContext(AuthenticationContext);
+
     // The barber dashboard sidebar components to be loaded.
     const components: React.FC[] = [
         StatisticsPage,
@@ -35,11 +40,17 @@ const BarberDashboardPage: React.FC = () => {
     return (
         <Layout>
             <SidebarPartial />
-            <ServiceProvider>
-                <Content className={styles.content}>
-                    <UserRoutes components={components} />
-                </Content>
-            </ServiceProvider>
+            <Content className={styles.content}>
+                <ServiceProvider>
+                    <Skeleton active loading={loading} />
+                    {!loading && (
+                        <>
+                            <EmailNotVerified />
+                            <UserRoutes components={components} />
+                        </>
+                    )}
+                </ServiceProvider>
+            </Content>
         </Layout>
     );
 };

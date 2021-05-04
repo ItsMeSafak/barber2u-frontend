@@ -15,10 +15,12 @@ import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "../assets/constants";
 
 interface ContextProps {
     user: User | null;
+    loading: boolean;
     accessToken: string | null;
     refreshToken: string | null;
     authenticated: boolean;
     setUser: (user: User) => void;
+    setLoading: (loading: boolean) => void;
     setAccessToken: (token: string) => void;
     setRefreshToken: (token: string) => void;
     setAuthenticated: (authenticated: boolean) => void;
@@ -27,10 +29,12 @@ interface ContextProps {
 
 const contextDefaultValues: ContextProps = {
     user: null,
+    loading: true,
     accessToken: null,
     refreshToken: null,
     authenticated: false,
     setUser: () => {},
+    setLoading: () => {},
     setAccessToken: () => {},
     setRefreshToken: () => {},
     setAuthenticated: () => {},
@@ -54,6 +58,7 @@ export const AuthenticationProvider: React.FC = (props) => {
 
     const [cookies, setCookie, removeCookie] = useCookies();
     const [user, setUser] = useState(contextDefaultValues.user);
+    const [loading, setLoading] = useState(contextDefaultValues.loading);
     const [accessToken, setAccessToken] = useState(
         cookies[ACCESS_TOKEN_COOKIE] || contextDefaultValues.accessToken
     );
@@ -116,10 +121,13 @@ export const AuthenticationProvider: React.FC = (props) => {
         const fetchUser = async () => {
             const response = await fetchProfile();
             setUserObject(response.data);
+            setLoading(false);
         };
 
         // If access token exists, send fetch request.
         if (accessToken) fetchUser();
+
+        return () => setLoading(true);
     }, [accessToken, setUserObject]);
 
     useEffect(() => {
@@ -142,10 +150,12 @@ export const AuthenticationProvider: React.FC = (props) => {
     const providerValues = useMemo(
         () => ({
             user,
+            loading,
             accessToken,
             refreshToken,
             authenticated,
             setUser: (userObject: User) => setUserObject(userObject),
+            setLoading,
             setAccessToken,
             setRefreshToken,
             setAuthenticated,
@@ -153,10 +163,12 @@ export const AuthenticationProvider: React.FC = (props) => {
         }),
         [
             user,
+            loading,
             accessToken,
             refreshToken,
             authenticated,
             setUserObject,
+            setLoading,
             setAccessToken,
             setRefreshToken,
             setAuthenticated,

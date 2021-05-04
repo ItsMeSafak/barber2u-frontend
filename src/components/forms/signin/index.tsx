@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useContext, useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Form, Input } from "antd";
@@ -9,9 +9,8 @@ import User from "../../../models/User";
 import { signIn } from "../../../services/auth-service";
 import { AuthenticationContext } from "../../../contexts/authentication-context";
 
-import { RESPONSE_OK } from "../../../assets/constants";
-import { showNotification } from "../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../assets/functions/icon";
+import { showHttpResponseNotification } from "../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
@@ -34,28 +33,18 @@ const SignInForm: React.FC = () => {
         password: "",
     });
 
-    const history = useHistory();
-
     /**
      * This function handles the signin action and stores the user data into cookies using the auth context.
      * It will redirect the user to the correct page when logged in succesfully.
      */
     const handleSignIn = async () => {
         const { email, password } = formValue;
+        const response = await signIn(email, password);
 
-        // Handle sigin, if API is unavailable, redirect to 503 page.
-        const response = await signIn(email, password).catch(() =>
-            history.push("/503")
-        );
-        if (!response) return;
-
-        // If request is not OK, handle errors with notification.
         const { status, message } = response;
-        if (!(status === RESPONSE_OK))
-            showNotification(undefined, message, status);
+        showHttpResponseNotification(message, status);
         if (!response.data) return;
 
-        // If request is OK, handle authentication.
         const { token, user } = response.data;
         setUser((user as unknown) as User);
         setAccessToken(token);
