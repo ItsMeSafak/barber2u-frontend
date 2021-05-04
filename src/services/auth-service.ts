@@ -117,13 +117,12 @@ export const signUpBarber = (formValues: {
     lastName: string;
     email: string;
     password: string;
+    companyName: string;
     zipCode: string;
     address: string;
     phoneNumber: string;
     kvkNumber: string;
     btwVatNumber: string;
-    radius: string;
-    time: string;
 }): Promise<IAuthResponse> =>
     new Promise<IAuthResponse>((resolve, reject) =>
         axios
