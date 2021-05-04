@@ -125,6 +125,10 @@ const App: React.FC = () => {
                             component={ModeratorDashboardPage}
                         />
                         <Route
+                            path="/verify"
+                            component={VerifyEmailPage}
+                        />
+                        <Route
                             exact
                             path="/500"
                             component={() => (
