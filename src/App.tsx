@@ -94,11 +94,6 @@ const App: React.FC = () => {
                                 />
                                 <ProtectedRoute
                                     allowedRoles={[]}
-                                    path="/verify"
-                                    component={VerifyEmailPage}
-                                />
-                                <ProtectedRoute
-                                    allowedRoles={[]}
                                     path="/reset-password"
                                     component={ResetPasswordPage}
                                 />
@@ -116,6 +111,10 @@ const App: React.FC = () => {
                                     allowedRoles={[Role.Moderator]}
                                     path="/moderator"
                                     component={ModeratorDashboardPage}
+                                />
+                                <Route
+                                    path="/verify"
+                                    component={VerifyEmailPage}
                                 />
                                 <Route
                                     exact
