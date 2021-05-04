@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
-import { CookiesProvider } from "react-cookie";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 
 import axios from "axios";
 
@@ -16,6 +15,7 @@ import SignupLandingPage from "./pages/visitor/signup";
 import ResetPasswordPage from "./pages/visitor/reset-password";
 import SignupPageCustomer from "./pages/visitor/signup/signup-customer";
 import BarberDashboardPage from "./pages/barber/dashboard";
+import ConfirmPasswordPage from "./pages/visitor/confirm-password";
 import CustomerDashboardPage from "./pages/customer/dashboard";
 import ModeratorDashboardPage from "./pages/moderator/dashboard";
 
@@ -34,6 +34,8 @@ const { Header, Footer } = Layout;
 const App: React.FC = () => {
     const { accessToken } = useContext(AuthenticationContext);
 
+    const history = useHistory();
+
     axios.defaults.headers.Authorization = `Bearer ${accessToken}`;
 
     // Axios interceptor - Request.
@@ -50,96 +52,110 @@ const App: React.FC = () => {
 
     // Axios interceptor - Response.
     axios.interceptors.response.use(
-        (response) => response,
-        (error) => Promise.reject(error)
+        (response) => {
+            // If retrieved response status is not OK, redirect to "internal server error" page
+            if (response && response.status !== 200) history.push("/500");
+            return response;
+        },
+        (error) => {
+            console.error(error);
+            history.push("/503");
+        }
     );
 
     return (
-        <BrowserRouter>
-            <CookiesProvider>
-                <NavbarProvider>
-                    <Layout className="layoutContainer">
-                        <Header className="header">
-                            <HeaderPartial />
-                        </Header>
-                        <Layout>
-                            <Switch>
-                                <ProtectedRoute
-                                    exact
-                                    allowedRoles={[]}
-                                    path="/"
-                                    component={HomePage}
-                                />
-                                <ProtectedRoute
-                                    allowedRoles={[]}
-                                    path="/signin"
-                                    component={SigninPage}
-                                />
-                                <ProtectedRoute
-                                    exact
-                                    allowedRoles={[]}
-                                    path="/signup"
-                                    component={SignupLandingPage}
-                                />
-                                <ProtectedRoute
-                                    allowedRoles={[]}
-                                    path="/signup/customer"
-                                    component={SignupPageCustomer}
-                                />
-                                <ProtectedRoute
-                                    allowedRoles={[]}
-                                    path="/signup/barber"
-                                    component={SignupPageBarber}
-                                />
-                                <ProtectedRoute
-                                    allowedRoles={[]}
-                                    path="/reset-password"
-                                    component={ResetPasswordPage}
-                                />
-                                <ProtectedRoute
-                                    allowedRoles={[Role.Barber]}
-                                    path="/barber"
-                                    component={BarberDashboardPage}
-                                />
-                                {/* CHANGE THIS WHEN DONE */}
-                                <ProtectedRoute
-                                    allowedRoles={[Role.Customer]}
-                                    path="/customer"
-                                    component={ModeratorDashboardPage}
-                                />
-                                <ProtectedRoute
-                                    allowedRoles={[Role.Moderator]}
-                                    path="/moderator"
-                                    component={ModeratorDashboardPage}
-                                />
-                                <Route
-                                    exact
-                                    path="/503"
-                                    component={() => (
-                                        <ErrorPage code={503} returnUrl="/" />
-                                    )}
-                                />
-                                <Route
-                                    exact
-                                    path="/401"
-                                    component={() => (
-                                        <ErrorPage code={401} returnUrl="/" />
-                                    )}
-                                />
-                                <Route
-                                    component={() => (
-                                        <ErrorPage code={404} returnUrl="/" />
-                                    )}
-                                />
-                            </Switch>
-                        </Layout>
-                        <Footer className="footer">
-                            <FooterPartial />
-                        </Footer>
-                    </Layout>
-                </NavbarProvider>
-            </CookiesProvider>
-        </BrowserRouter>
+        <NavbarProvider>
+            <Layout className="layoutContainer">
+                <Header className="header">
+                    <HeaderPartial />
+                </Header>
+                <Layout>
+                    <Switch>
+                        <ProtectedRoute
+                            exact
+                            allowedRoles={[]}
+                            path="/"
+                            component={HomePage}
+                        />
+                        <ProtectedRoute
+                            allowedRoles={[]}
+                            path="/signin"
+                            component={SigninPage}
+                        />
+                        <ProtectedRoute
+                            exact
+                            allowedRoles={[]}
+                            path="/signup"
+                            component={SignupLandingPage}
+                        />
+                        <ProtectedRoute
+                            allowedRoles={[]}
+                            path="/signup/customer"
+                            component={SignupPageCustomer}
+                        />
+                        <ProtectedRoute
+                            allowedRoles={[]}
+                            path="/signup/barber"
+                            component={SignupPageBarber}
+                        />
+                        <ProtectedRoute
+                            allowedRoles={[]}
+                            path="/reset-password"
+                            component={ResetPasswordPage}
+                        />
+                        <ProtectedRoute
+                            allowedRoles={[]}
+                            path="/confirm-password"
+                            component={ConfirmPasswordPage}
+                        />
+                        <ProtectedRoute
+                            allowedRoles={[Role.Barber]}
+                            path="/barber"
+                            component={BarberDashboardPage}
+                        />
+                        <ProtectedRoute
+                            allowedRoles={[Role.Customer]}
+                            path="/customer"
+                            component={ModeratorDashboardPage}
+                        />
+                        <ProtectedRoute
+                            allowedRoles={[Role.Moderator]}
+                            path="/moderator"
+                            component={ModeratorDashboardPage}
+                        />
+                        <Route
+                            exact
+                            path="/500"
+                            component={() => (
+                                <ErrorPage code={500} returnUrl="/" />
+                            )}
+                        />
+                        <Route
+                            exact
+                            path="/503"
+                            component={() => (
+                                <ErrorPage code={503} returnUrl="/" />
+                            )}
+                        />
+                        <Route
+                            exact
+                            path="/401"
+                            component={() => (
+                                <ErrorPage code={401} returnUrl="/" />
+                            )}
+                        />
+                        <Route
+                            component={() => (
+                                <ErrorPage code={404} returnUrl="/" />
+                            )}
+                        />
+                    </Switch>
+                </Layout>
+                <Footer className="footer">
+                    <FooterPartial />
+                </Footer>
+            </Layout>
+        </NavbarProvider>
     );
 };
 

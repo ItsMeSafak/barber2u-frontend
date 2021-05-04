@@ -1,8 +1,5 @@
 import axios from "axios";
 
-import { RESPONSE_OK } from "../assets/constants";
-import { getHttpErrorMessage } from "../assets/functions/error";
-
 const BASE_URL = "/actuator";
 
 interface ComponentDetails {
@@ -30,18 +27,7 @@ export const getHealthStatus = (): Promise<IActuatorResponse> =>
             .get(`${BASE_URL}/health`)
             .then(
                 (response) => {
-                    if (response.request.status === RESPONSE_OK) {
-                        resolve(response.data);
-                    } else {
-                        reject(
-                            new Error(
-                                getHttpErrorMessage(
-                                    getHealthStatus.name,
-                                    response.config.url
-                                )
-                            )
-                        );
-                    }
+                    if (response) resolve(response.data);
                 },
                 (error) => {
                     reject(new Error(error.message));
@@ -59,18 +45,7 @@ export const shutdownAPIServer = (): Promise<{ message: string }> =>
             .post(`${BASE_URL}/shutdown`)
             .then(
                 (response) => {
-                    if (response.request.status === RESPONSE_OK) {
-                        resolve(response.data);
-                    } else {
-                        reject(
-                            new Error(
-                                getHttpErrorMessage(
-                                    getHealthStatus.name,
-                                    response.config.url
-                                )
-                            )
-                        );
-                    }
+                    if (response) resolve(response.data);
                 },
                 (error) => {
                     reject(new Error(error.message));

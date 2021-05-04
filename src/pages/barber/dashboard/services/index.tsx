@@ -1,8 +1,7 @@
 import React, { useEffect, useContext, useCallback } from "react";
 
-import { Button, Divider, Layout, Modal, Row } from "antd";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Divider, Layout, Modal, Row, Skeleton } from "antd";
 
 import Service from "../../../../models/Service";
 
@@ -15,12 +14,11 @@ import {
 import ServiceCard from "../../../../components/card-service";
 import NewServiceForm from "../../../../components/forms/new-service";
 
-import { AuthenticationContext } from "../../../../contexts/authentication-context";
 import { ServiceContext } from "../../../../contexts/service-context";
+import { AuthenticationContext } from "../../../../contexts/authentication-context";
 
-import { RESPONSE_OK } from "../../../../assets/constants";
-import { showNotification } from "../../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../../assets/functions/icon";
+import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
@@ -35,11 +33,13 @@ const { Content } = Layout;
 const ServicesPage: React.FC = () => {
     const { user } = useContext(AuthenticationContext);
     const {
+        loading,
         serviceDetail,
         listOfServices,
         formValues,
         isDeleted,
         isNewService,
+        setLoading,
         setServiceDetail,
         setListOfServices,
         setIsNewService,
@@ -52,18 +52,22 @@ const ServicesPage: React.FC = () => {
      * @param {string} barber the email of the barber
      */
     const fetchServices = useCallback(async () => {
+        setLoading(true);
         const response = await getAllServices(user?.getEmail);
+
         const { status, message } = response;
-        if (!(status === RESPONSE_OK))
-            showNotification(undefined, message, status);
+        showHttpResponseNotification(message, status, false);
         if (!response.data) return;
+
         setListOfServices(response.data);
-    }, [setListOfServices, user]);
+        setLoading(false);
+    }, [user, setLoading, setListOfServices]);
 
     useEffect(() => {
         fetchServices();
         setIsDeleted(false);
-    }, [serviceDetail, isDeleted, fetchServices, setIsDeleted]);
+        return () => setLoading(true);
+    }, [serviceDetail, isDeleted, fetchServices, setIsDeleted, setLoading]);
 
     /**
      * This function sends a request to the backend, where we add a new service to the barber services.
@@ -80,9 +84,7 @@ const ServicesPage: React.FC = () => {
             setIsNewService(false);
 
             const { status, message } = response;
-            if (!(status === RESPONSE_OK))
-                showNotification(undefined, message, status);
-            else showNotification(undefined, message, status);
+            showHttpResponseNotification(message, status);
         }
     };
 
@@ -128,10 +130,9 @@ const ServicesPage: React.FC = () => {
             changeCurrentService();
             const response = await updateService(serviceDetail);
             setServiceDetail(null);
+
             const { status, message } = response;
-            if (!(status === RESPONSE_OK))
-                showNotification(undefined, message, status);
-            else showNotification(undefined, message, status);
+            showHttpResponseNotification(message, status);
         }
     };
 
@@ -182,10 +183,15 @@ const ServicesPage: React.FC = () => {
         <div className={styles.services}>
             <Layout>
                 <Content>
-                    <h1 className={styles.title}>Services</h1>
-                    {renderAddButton()}
-                    <Divider />
-                    <Row gutter={[20, 20]}>{renderServices()}</Row>
+                    <Skeleton active loading={loading} />
+                    {!loading && (
+                        <>
+                            <h1 className={styles.title}>Services</h1>
+                            {renderAddButton()}
+                            <Divider />
+                            <Row gutter={[20, 20]}>{renderServices()}</Row>
+                        </>
+                    )}
                 </Content>
             </Layout>
             {renderModal()}

@@ -77,12 +77,10 @@ export default class User {
     // eslint-disable-next-line require-jsdoc
     get getRoleNames(): Array<string> {
         return this.roles.map(({ name }) => name);
-        // return this.roles.map(role => [role.name].reduce((accumulator, key) => ({ ...accumulator, [key]: role[key]}), {}));
     }
 
-    // TODO: REMOVE AFTER DONE..
     // eslint-disable-next-line require-jsdoc
-    static fromJSON(json: User | null): User {
-        return Object.assign(Object.create(User.prototype), json);
+    get getIsVerified(): boolean {
+        return this.isVerified;
     }
 }

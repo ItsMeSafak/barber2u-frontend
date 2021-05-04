@@ -2,9 +2,6 @@ import axios from "axios";
 
 import IHttpResponse from "./http-response";
 
-import { RESPONSE_OK } from "../assets/constants";
-import { getHttpErrorMessage } from "../assets/functions/error";
-
 const BASE_URL = "/auth";
 
 interface IAuthResponse extends IHttpResponse {
@@ -46,18 +43,7 @@ export const signIn = (
             })
             .then(
                 (response) => {
-                    if (response.data.status === RESPONSE_OK) {
-                        resolve(response.data);
-                    } else {
-                        reject(
-                            new Error(
-                                getHttpErrorMessage(
-                                    signIn.name,
-                                    response.config.url
-                                )
-                            )
-                        );
-                    }
+                    if (response) resolve(response.data);
                 },
                 (error) => {
                     reject(new Error(error.message));
@@ -87,18 +73,7 @@ export const signUp = (formValues: {
             })
             .then(
                 (response) => {
-                    if (response.data.status === RESPONSE_OK) {
-                        resolve(response.data);
-                    } else {
-                        reject(
-                            new Error(
-                                getHttpErrorMessage(
-                                    signUp.name,
-                                    response.config.url
-                                )
-                            )
-                        );
-                    }
+                    if (response) resolve(response.data);
                 },
                 (error) => {
                     reject(new Error(error.message));
@@ -134,18 +109,7 @@ export const signUpBarber = (formValues: {
             })
             .then(
                 (response) => {
-                    if (response.data.status === RESPONSE_OK) {
-                        resolve(response.data);
-                    } else {
-                        reject(
-                            new Error(
-                                getHttpErrorMessage(
-                                    signUpBarber.name,
-                                    response.config.url
-                                )
-                            )
-                        );
-                    }
+                    if (response) resolve(response.data);
                 },
                 (error) => {
                     reject(new Error(error.message));
@@ -162,18 +126,7 @@ export const fetchProfile = (): Promise<IAuthResponse> =>
     new Promise<IAuthResponse>((resolve, reject) =>
         axios.get(`${BASE_URL}/profile`).then(
             (response) => {
-                if (response.data.status === RESPONSE_OK) {
-                    resolve(response.data);
-                } else {
-                    reject(
-                        new Error(
-                            getHttpErrorMessage(
-                                fetchProfile.name,
-                                response.config.url
-                            )
-                        )
-                    );
-                }
+                if (response) resolve(response.data);
             },
             (error) => {
                 reject(new Error(error.message));
@@ -191,21 +144,37 @@ export const resetPasswordMail = (email: string): Promise<IAuthResponse> =>
     new Promise<IAuthResponse>((resolve, reject) => {
         axios.post(`${BASE_URL}/reset/password/mail`, email).then(
             (response) => {
-                if (response.data.status === RESPONSE_OK) {
-                    resolve(response.data);
-                } else {
-                    reject(
-                        new Error(
-                            getHttpErrorMessage(
-                                resetPasswordMail.name,
-                                response.config.url
-                            )
-                        )
-                    );
-                }
+                if (response) resolve(response.data);
             },
             (error) => {
                 reject(new Error(error.message));
             }
         );
+    });
+
+/**
+ * This functions sends put request to the backend, to reset the user password
+ *
+ * @param {string} password the user password
+ * @param {string} token the token that belongs to the user
+ * @returns {Promise<IAuthResponse>}
+ */
+export const resetPassword = (
+    password: string,
+    token: string
+): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) => {
+        axios
+            .put(`${BASE_URL}/reset/password`, {
+                password,
+                token,
+            })
+            .then(
+                (response) => {
+                    if (response) resolve(response.data);
+                },
+                (error) => {
+                    reject(new Error(error.message));
+                }
+            );
     });

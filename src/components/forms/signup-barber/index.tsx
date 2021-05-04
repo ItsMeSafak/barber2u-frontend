@@ -7,8 +7,8 @@ import { Button, Col, Form, Input, Row, Steps } from "antd";
 import { signUpBarber } from "../../../services/auth-service";
 import { ScreenContext } from "../../../contexts/screen-context";
 
-import { showNotification } from "../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../assets/functions/icon";
+import { showHttpResponseNotification } from "../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
@@ -180,22 +180,11 @@ const SignupFormBarber: React.FC = () => {
      * Once succesfully registered, the user will be redirected to the login page.
      */
     const handleSignUpBarber = async () => {
-        // Handle sigup, if API is unavailable, redirect to 503 page.
-        const response = await signUpBarber(formValue).catch(() =>
-            history.push("/503")
-        );
-        if (!response) return;
+        const response = await signUpBarber(formValue);
 
-        // If request is not OK, handle errors with notification.
         const { status, message } = response;
-        if (!(status === 200)) {
-            showNotification(undefined, message, status);
-            return;
-        }
-
-        // If request is OK, redirect user to login page.
-        showNotification(undefined, message, status);
-        history.push("/signin");
+        showHttpResponseNotification(message, status);
+        if (status === 200) history.push("/signin");
     };
 
     /**

@@ -7,8 +7,7 @@ import CardStatistic from "../../../../components/card-statistic";
 
 import { getHealthStatus, shutdownAPIServer } from "../../../../services/actuator-service";
 
-import { RESPONSE_OK } from "../../../../assets/constants";
-import { showNotification } from "../../../../assets/functions/notification";
+import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../../assets/functions/icon";
 
 import styles from "./styles.module.scss";
@@ -60,9 +59,9 @@ const StatisticsPage: React.FC = () => {
      * TODO...
      */
     const onShutdownAPIServerClick = async () => {
-        shutdownAPIServer()
-            .then((response) => showNotification(undefined, response.message, RESPONSE_OK))
-            .catch((error) => showNotification(undefined, error.message));
+        shutdownAPIServer().then((response) => console.log(response));
+        // .then((response) => showHttpResponseNotification(response.message, RESPONSE_OK))
+        // .catch((error) => showHttpResponseNotification(error.message));
     };
 
     return (
