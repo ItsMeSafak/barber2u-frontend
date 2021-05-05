@@ -3,10 +3,7 @@
         "id": "barber",
         "url": "/barber",
         "name": "Dashboard",
-        "icon": [
-            "fas",
-            "chart-pie"
-        ],
+        "icon": ["fas", "chart-pie"],
         "isNavbarMenu": true,
         "isFooterMenu": true,
         "isMobileMenu": true,
@@ -18,10 +15,7 @@
         "id": "signout",
         "url": "",
         "name": "Sign out",
-        "icon": [
-            "fas",
-            "sign-out-alt"
-        ],
+        "icon": ["fas", "sign-out-alt"],
         "isNavbarMenu": false,
         "isFooterMenu": false,
         "isMobileMenu": true,
@@ -33,10 +27,7 @@
         "id": "portfolio",
         "url": "/barber/portfolio",
         "name": "Portfolio",
-        "icon": [
-            "fas",
-            "camera"
-        ],
+        "icon": ["fas", "camera"],
         "isNavbarMenu": false,
         "isFooterMenu": false,
         "isMobileMenu": false,
@@ -48,10 +39,7 @@
         "id": "services",
         "url": "/barber/services",
         "name": "Services",
-        "icon": [
-            "fas",
-            "cut"
-        ],
+        "icon": ["fas", "cut"],
         "isNavbarMenu": false,
         "isFooterMenu": false,
         "isMobileMenu": false,
@@ -63,10 +51,7 @@
         "id": "reservations",
         "url": "/barber/reservations",
         "name": "Reservations",
-        "icon": [
-            "fas",
-            "calendar"
-        ],
+        "icon": ["fas", "calendar"],
         "isNavbarMenu": false,
         "isFooterMenu": false,
         "isMobileMenu": false,
@@ -78,10 +63,7 @@
         "id": "settings",
         "url": "/barber/settings",
         "name": "Settings",
-        "icon": [
-            "fas",
-            "cog"
-        ],
+        "icon": ["fas", "cog"],
         "isNavbarMenu": false,
         "isFooterMenu": false,
         "isMobileMenu": false,

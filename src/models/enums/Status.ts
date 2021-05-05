@@ -2,7 +2,7 @@ enum Status {
     Pending = "PENDING",
     Active = "ACTIVE",
     Completed = "COMPLETED",
-    Cancelled = "CANCELLED"
+    Cancelled = "CANCELLED",
 }
 
 export default Status;

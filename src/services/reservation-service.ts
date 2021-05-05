@@ -11,11 +11,6 @@ interface IReservationResponse extends IHttpResponse {
     data: Reservation[];
 }
 
-interface IReservationStatusRequest {
-    id: string;
-    status: string;
-}
-
 /**
  * This function fetches the reservations.
  *
@@ -33,25 +28,29 @@ export const getReservations = (): Promise<IReservationResponse> =>
         );
     });
 
-
 /**
-* This function updates the reservation status.
-*
-* @returns {Promise<IReservationResponse>}
-*/
-export const updateReservationStatus = (reservationId: string, reservationStatus: string): Promise<IReservationResponse> =>
+ * This function updates the reservation status.
+ *
+ * @returns {Promise<IReservationResponse>}
+ */
+export const updateReservationStatus = (
+    reservationId: string,
+    reservationStatus: string
+): Promise<IReservationResponse> =>
     new Promise<IReservationResponse>((resolve, reject) => {
-        axios.put(`${API_URL}/status`, {
-            id: reservationId,
-            status: reservationStatus
-        }).then(
-            (response) => {
-                resolve(response.data);
-            },
-            (error) => {
-                reject(new Error(error.message));
-            }
-        );
+        axios
+            .put(`${API_URL}/status`, {
+                id: reservationId,
+                status: reservationStatus,
+            })
+            .then(
+                (response) => {
+                    resolve(response.data);
+                },
+                (error) => {
+                    reject(new Error(error.message));
+                }
+            );
     });
 
 // eslint-disable-next-line require-jsdoc

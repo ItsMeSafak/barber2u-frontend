@@ -22,7 +22,7 @@ export default class Reservation {
         endTime: Moment,
         customer: User,
         barber: User,
-        status: string,
+        status: string
     ) {
         this.id = id;
         this.date = date;

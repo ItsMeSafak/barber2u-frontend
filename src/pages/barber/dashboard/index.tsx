@@ -11,7 +11,7 @@ import SidebarPartial from "../../../template/sidebar-partial";
 import ReservationsPage from "./reservations";
 import EmailNotVerified from "../../../template/email-not-verified";
 
-import { ServiceProvider } from "../../../contexts/service-context";
+import { DashboardProvider } from "../../../contexts/dashboard-context";
 import { AuthenticationContext } from "../../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
@@ -39,7 +39,7 @@ const BarberDashboardPage: React.FC = () => {
         <Layout>
             <SidebarPartial />
             <Content className={styles.content}>
-                <ServiceProvider>
+                <DashboardProvider>
                     <Skeleton active loading={loading} />
                     {!loading && (
                         <>
@@ -47,7 +47,7 @@ const BarberDashboardPage: React.FC = () => {
                             <UserRoutes components={components} />
                         </>
                     )}
-                </ServiceProvider>
+                </DashboardProvider>
             </Content>
         </Layout>
     );

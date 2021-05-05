@@ -16,7 +16,7 @@ interface ContextProps {
     isUpdated: boolean | null;
     isDeleted: boolean | null;
     isEditingId: string | null;
-    isNewService: boolean | null;
+    isNewItem: boolean | null;
     serviceDetail: Service | null;
     formValues: ServiceForm;
     listOfServices: Service[] | null;
@@ -25,7 +25,7 @@ interface ContextProps {
     setIsUpdated: (isUpdated: boolean) => void;
     setIsDeleted: (isDeleted: boolean) => void;
     setIsEditingId: (isEditingId: string) => void;
-    setIsNewService: (isNewServiceValue: boolean) => void;
+    setIsNewItem: (isNewServiceValue: boolean) => void;
     setServiceDetail: (serviceDetail: Service | null) => void;
     setFormValues: (formValues: ServiceForm) => void;
     setListOfServices: (services: Service[]) => void;
@@ -37,7 +37,7 @@ const contextDefaultValues: ContextProps = {
     isUpdated: false,
     isDeleted: false,
     isEditingId: "",
-    isNewService: false,
+    isNewItem: false,
     serviceDetail: null,
     formValues: {
         name: "",
@@ -52,13 +52,15 @@ const contextDefaultValues: ContextProps = {
     setIsUpdated: () => {},
     setIsDeleted: () => {},
     setIsEditingId: () => {},
-    setIsNewService: () => {},
+    setIsNewItem: () => {},
     setServiceDetail: () => {},
     setFormValues: () => {},
     setListOfServices: () => {},
 };
 
-export const ServiceContext = createContext<ContextProps>(contextDefaultValues);
+export const DashboardContext = createContext<ContextProps>(
+    contextDefaultValues
+);
 
 /**
  * The service provider is responsible for keeping track of the activities within the services page.
@@ -69,7 +71,7 @@ export const ServiceContext = createContext<ContextProps>(contextDefaultValues);
  * @param {ContextProps} props
  * @returns {React.FC}
  */
-export const ServiceProvider: React.FC = (props) => {
+export const DashboardProvider: React.FC = (props) => {
     const { children } = props;
 
     const [loading, setLoading] = useState(contextDefaultValues.loading);
@@ -79,9 +81,7 @@ export const ServiceProvider: React.FC = (props) => {
     const [isEditingId, setIsEditingId] = useState(
         contextDefaultValues.isEditingId
     );
-    const [isNewService, setIsNewService] = useState(
-        contextDefaultValues.isNewService
-    );
+    const [isNewItem, setIsNewItem] = useState(contextDefaultValues.isNewItem);
     const [serviceDetail, setServiceDetail] = useState(
         contextDefaultValues.serviceDetail
     );
@@ -99,7 +99,7 @@ export const ServiceProvider: React.FC = (props) => {
             isUpdated,
             isDeleted,
             isEditingId,
-            isNewService,
+            isNewItem,
             serviceDetail,
             formValues,
             listOfServices,
@@ -108,7 +108,7 @@ export const ServiceProvider: React.FC = (props) => {
             setIsUpdated,
             setIsDeleted,
             setIsEditingId,
-            setIsNewService,
+            setIsNewItem,
             setServiceDetail,
             setFormValues,
             setListOfServices,
@@ -119,7 +119,7 @@ export const ServiceProvider: React.FC = (props) => {
             isUpdated,
             isDeleted,
             isEditingId,
-            isNewService,
+            isNewItem,
             serviceDetail,
             formValues,
             listOfServices,
@@ -128,7 +128,7 @@ export const ServiceProvider: React.FC = (props) => {
             setIsUpdated,
             setIsDeleted,
             setIsEditingId,
-            setIsNewService,
+            setIsNewItem,
             setServiceDetail,
             setFormValues,
             setListOfServices,
@@ -136,10 +136,10 @@ export const ServiceProvider: React.FC = (props) => {
     );
 
     return (
-        <ServiceContext.Provider value={providerValues}>
+        <DashboardContext.Provider value={providerValues}>
             {children}
-        </ServiceContext.Provider>
+        </DashboardContext.Provider>
     );
 };
 
-export default ServiceProvider;
+export default DashboardProvider;

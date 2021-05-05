@@ -1,19 +1,18 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Card, Col, Row, Modal, Divider, Layout, Pagination } from "antd";
+import { Row, Divider, Layout, Pagination, Skeleton } from "antd";
 
-import Style from "../../../../models/enums/Style";
 import Reservation from "../../../../models/Reservation";
 
-import { MONTH_NAMES } from "../../../../assets/constants";
-import { getIconByPrefixName } from "../../../../assets/functions/icon";
+import ReservationCard from "../../../../components/card-reservation";
+
+import { DashboardContext } from "../../../../contexts/dashboard-context";
+
+import { getReservations } from "../../../../services/reservation-service";
+
+import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
-import ReservationCard from "../../../../components/card-reservation";
-import { showHttpResponseNotification } from "../../../../assets/functions/notification";
-import { getReservations } from "../../../../services/reservation-service";
-import { ServiceContext } from "../../../../contexts/service-context";
 
 const { Content } = Layout;
 
@@ -30,12 +29,15 @@ const ReservationsPage: React.FC = () => {
     const [reservationItems, setReserVationItems] = useState<Reservation[]>([]);
     const [minIndexValue, setMinIndexValue] = useState(0);
     const [maxIndexValue, setMaxIndexValue] = useState(MAX_ITEMS_PAGE);
-
-    const { isUpdated, setIsUpdated } = useContext(ServiceContext);
+    const { loading, isUpdated, setIsUpdated, setLoading } = useContext(
+        DashboardContext
+    );
 
     /**
+     * This function fetches the reservation from the backend and displays it on the page.
      */
     const fetchReservations = useCallback(async () => {
+        setLoading(true);
         const response = await getReservations();
 
         const { status, message } = response;
@@ -43,12 +45,14 @@ const ReservationsPage: React.FC = () => {
         if (!response.data) return;
 
         setReserVationItems(response.data);
-    }, []);
+        setLoading(false);
+    }, [setLoading]);
 
     useEffect(() => {
         fetchReservations();
         setIsUpdated(false);
-    }, [isUpdated]);
+        return () => setLoading(true);
+    }, [isUpdated, setIsUpdated, setLoading, fetchReservations]);
 
     // /**
     //  * This function returns the index number of the previous month.
@@ -112,24 +116,28 @@ const ReservationsPage: React.FC = () => {
     // };
 
     /**
-     * 
-     * @param pageNumber 
+     * This function handles the pagination of the reservations.
+     * The current max amount of reservation cards to be displayed are 6.
+     *
+     * @param pageNumber the current page number we are on.
      */
     const handlePagination = (pageNumber: number) => {
         setMaxIndexValue(MAX_ITEMS_PAGE * pageNumber);
-        setMinIndexValue((MAX_ITEMS_PAGE * pageNumber) - MAX_ITEMS_PAGE);
+        setMinIndexValue(MAX_ITEMS_PAGE * pageNumber - MAX_ITEMS_PAGE);
     };
 
     /**
-     * This function renders the reservations of the current month.
+     * This function renders the reservation cards.
      *
      * @param {Reservation[]} reservationList Reservations to be rendered.
      * @returns {JSX}
      */
     const renderReservationItems = (reservationList: Reservation[]) =>
-        reservationList.slice(minIndexValue, maxIndexValue).map((item) => (
-            <ReservationCard key={item.id} reservationDetail={item} />
-        ));
+        reservationList
+            .slice(minIndexValue, maxIndexValue)
+            .map((item) => (
+                <ReservationCard key={item.id} reservationDetail={item} />
+            ));
 
     // /**
     //  * This function renders the detailed information of a selected reservation.
@@ -152,25 +160,34 @@ const ReservationsPage: React.FC = () => {
 
     return (
         <Content className={styles.reservations}>
-            <h1 className={styles.title}>Reservations</h1>
-            <Divider />
-            <div>
-                <Row gutter={[20, 20]}>
-                    {reservationItems && renderReservationItems(reservationItems)}
-                </Row>
-            </div>
+            <Skeleton active loading={loading} />
+            {!loading && (
+                <>
+                    <h1 className={styles.title}>Reservations</h1>
+                    <Divider />
+                    <Row gutter={[20, 20]}>
+                        {reservationItems &&
+                            renderReservationItems(reservationItems)}
+                    </Row>
 
-            {/* <Modal
-                title="Detailed information"
-                visible={isModalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-            >
-                {reservation && renderDetailedInformation(reservation)}
-            </Modal> */}
-            <div className={styles.pagination}>
-                <Pagination defaultCurrent={1} onChange={handlePagination} defaultPageSize={MAX_ITEMS_PAGE} total={reservationItems.length} />
-            </div>
+                    {/* <Modal
+                    title="Detailed information"
+                    visible={isModalVisible}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                >
+                    {reservation && renderDetailedInformation(reservation)}
+                </Modal> */}
+                    <div className={styles.pagination}>
+                        <Pagination
+                            defaultCurrent={1}
+                            onChange={handlePagination}
+                            defaultPageSize={MAX_ITEMS_PAGE}
+                            total={reservationItems.length}
+                        />
+                    </div>
+                </>
+            )}
         </Content>
     );
 };

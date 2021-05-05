@@ -5,7 +5,7 @@ import { Form, Input, Switch, InputNumber } from "antd";
 
 import Service from "../../../models/Service";
 
-import { ServiceContext } from "../../../contexts/service-context";
+import { DashboardContext } from "../../../contexts/dashboard-context";
 
 import { EURO_SYMBOL } from "../../../assets/constants";
 
@@ -22,10 +22,10 @@ interface FormProps {
  */
 const NewServiceForm: React.FC<FormProps> = (props) => {
     const { serviceDetail } = props;
-    const { isNewService, formValues, setFormValues } = useContext(
-        ServiceContext
+    const { isNewItem, formValues, setFormValues } = useContext(
+        DashboardContext
     );
-    const [active] = useState(isNewService || serviceDetail?.active);
+    const [active] = useState(isNewItem || serviceDetail?.active);
 
     useEffect(() => {
         if (serviceDetail)
