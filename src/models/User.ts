@@ -50,6 +50,16 @@ export default class User {
     }
 
     // eslint-disable-next-line require-jsdoc
+    get getAddress(): string {
+        return this.address;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get getZipcode(): string {
+        return this.zipCode;
+    }
+
+    // eslint-disable-next-line require-jsdoc
     get getFirstName(): string {
         return this.firstName;
     }
