@@ -11,8 +11,13 @@ interface IReservationResponse extends IHttpResponse {
     data: Reservation[];
 }
 
+interface IReservationStatusRequest {
+    id: string;
+    status: string;
+}
+
 /**
- * This function fetches the services.
+ * This function fetches the reservations.
  *
  * @returns {Promise<IReservationResponse>}
  */
@@ -21,6 +26,27 @@ export const getReservations = (): Promise<IReservationResponse> =>
         axios.get(`${API_URL}/user`).then(
             (response) => {
                 resolve(fixUserObject(response.data));
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        );
+    });
+
+
+/**
+* This function updates the reservation status.
+*
+* @returns {Promise<IReservationResponse>}
+*/
+export const updateReservationStatus = (reservationId: string, reservationStatus: string): Promise<IReservationResponse> =>
+    new Promise<IReservationResponse>((resolve, reject) => {
+        axios.put(`${API_URL}/status`, {
+            id: reservationId,
+            status: reservationStatus
+        }).then(
+            (response) => {
+                resolve(response.data);
             },
             (error) => {
                 reject(new Error(error.message));

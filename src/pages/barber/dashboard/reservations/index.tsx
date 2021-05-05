@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Card, Col, Row, Modal, Divider, Layout, Pagination } from "antd";
@@ -13,6 +13,7 @@ import styles from "./styles.module.scss";
 import ReservationCard from "../../../../components/card-reservation";
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 import { getReservations } from "../../../../services/reservation-service";
+import { ServiceContext } from "../../../../contexts/service-context";
 
 const { Content } = Layout;
 
@@ -26,17 +27,15 @@ const MAX_ITEMS_PAGE = 6;
  * @returns {JSX}
  */
 const ReservationsPage: React.FC = () => {
-    const [currentMonth, setCurrentMonth] = useState(new Date().getUTCMonth());
-    const [isModalVisible, setIsModalVisible] = useState(false);
     const [reservationItems, setReserVationItems] = useState<Reservation[]>([]);
-
     const [minIndexValue, setMinIndexValue] = useState(0);
     const [maxIndexValue, setMaxIndexValue] = useState(MAX_ITEMS_PAGE);
 
-    console.log(reservationItems);
+    const { isUpdated, setIsUpdated } = useContext(ServiceContext);
+
     /**
      */
-    const fetchRservations = useCallback(async () => {
+    const fetchReservations = useCallback(async () => {
         const response = await getReservations();
 
         const { status, message } = response;
@@ -47,8 +46,9 @@ const ReservationsPage: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        fetchRservations();
-    }, []);
+        fetchReservations();
+        setIsUpdated(false);
+    }, [isUpdated]);
 
     // /**
     //  * This function returns the index number of the previous month.
@@ -87,29 +87,29 @@ const ReservationsPage: React.FC = () => {
     //     return objDate.getUTCMonth() === currentMonth;
     // });
 
-    /**
-     * This function sets the current reservation item selected.
-     * After executing this function, the details will de rendered.
-     *
-     * @param {Reservation} item Reservation item to be shown detailed.
-     */
-    const showModal = (item: Reservation) => {
-        setIsModalVisible(true);
-    };
+    // /**
+    //  * This function sets the current reservation item selected.
+    //  * After executing this function, the details will de rendered.
+    //  *
+    //  * @param {Reservation} item Reservation item to be shown detailed.
+    //  */
+    // const showModal = (item: Reservation) => {
+    //     setIsModalVisible(true);
+    // };
 
-    /**
-     * TODO: Work this fucntion out.
-     */
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
+    // /**
+    //  * TODO: Work this fucntion out.
+    //  */
+    // const handleOk = () => {
+    //     setIsModalVisible(false);
+    // };
 
-    /**
-     * TODO: Work this fucntion out.
-     */
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
+    // /**
+    //  * TODO: Work this fucntion out.
+    //  */
+    // const handleCancel = () => {
+    //     setIsModalVisible(false);
+    // };
 
     /**
      * 

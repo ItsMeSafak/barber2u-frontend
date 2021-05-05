@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -12,8 +12,12 @@ import Reservation from "../../models/Reservation";
 import { EURO_SYMBOL } from "../../assets/constants";
 import { getIconByPrefixName } from "../../assets/functions/icon";
 
+import { updateReservationStatus } from "../../services/reservation-service";
+
 
 import styles from "./styles.module.scss";
+import { showHttpResponseNotification } from "../../assets/functions/notification";
+import { ServiceContext } from "../../contexts/service-context";
 
 interface ComponentProps {
     reservationDetail: Reservation;
@@ -25,6 +29,18 @@ interface ComponentProps {
  */
 const ReservationCard: React.FC<ComponentProps> = (props) => {
     const { reservationDetail } = props;
+    const { isUpdated, setIsUpdated } = useContext(ServiceContext);
+
+    /**
+     * 
+     */
+    const updateStatus = async (reservationStatus: string) => {
+        const response = await updateReservationStatus(reservationDetail.id, reservationStatus);
+
+        const { status, message } = response;
+        showHttpResponseNotification(message, status, false);
+        setIsUpdated(true);
+    };
 
     /**
      * This function renders the actions a card can have.
@@ -58,6 +74,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
             title: "Complete reservation",
             content: "Are you sure you want to complete this reservation?",
             okCancel: true,
+            onOk: () => updateStatus(Status.Completed)
         });
     };
 
@@ -70,6 +87,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
             title: "Accept reservation",
             content: "Are you sure you want to accept this reservation?",
             okCancel: true,
+            onOk: () => updateStatus(Status.Active)
         });
     };
 
@@ -82,6 +100,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
             title: "Cancel reservation",
             content: "Are you sure you want to cancel this reservation?",
             okCancel: true,
+            onOk: () => updateStatus(Status.Cancelled)
         });
     };
 

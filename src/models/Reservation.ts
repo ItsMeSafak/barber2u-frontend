@@ -6,7 +6,7 @@ import User from "./User";
  * The reservation is model that consists of an id, style, date, locationa and a price.
  */
 export default class Reservation {
-    id: number;
+    id: string;
     date: Moment;
     startTime: Moment;
     endTime: Moment;
@@ -16,7 +16,7 @@ export default class Reservation {
 
     // eslint-disable-next-line require-jsdoc
     constructor(
-        id: number,
+        id: string,
         date: Moment,
         startTime: Moment,
         endTime: Moment,
