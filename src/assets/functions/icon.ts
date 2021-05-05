@@ -39,6 +39,8 @@ import {
     faPlus,
     faEuroSign,
     faUserTie,
+    faCheck,
+    faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -79,6 +81,8 @@ export const icons = {
     faPlus,
     faEuroSign,
     faUserTie,
+    faCheck,
+    faInfoCircle,
 };
 
 /**
