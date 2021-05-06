@@ -39,7 +39,10 @@ import {
     faPlus,
     faEuroSign,
     faUserTie,
+    faTimes,
     faCheck,
+    faMapMarkerAlt,
+    faExternalLinkAlt,
     faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -81,7 +84,10 @@ export const icons = {
     faPlus,
     faEuroSign,
     faUserTie,
+    faTimes,
     faCheck,
+    faMapMarkerAlt,
+    faExternalLinkAlt,
     faInfoCircle,
 };
 

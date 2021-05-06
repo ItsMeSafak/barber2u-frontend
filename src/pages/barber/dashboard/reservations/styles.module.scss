@@ -18,6 +18,9 @@
             cursor: pointer;
         }
     }
+    .title {
+        font-size: $header-size-1;
+    }
 
     .card {
         box-shadow: $shadow;
@@ -33,5 +36,12 @@
             text-align: right;
             color: $green-color;
         }
+    }
+
+    .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
     }
 }

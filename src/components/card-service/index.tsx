@@ -6,7 +6,7 @@ import { Card, Col, Modal } from "antd";
 import Service from "../../models/Service";
 
 import { deleteService } from "../../services/services-service";
-import { ServiceContext } from "../../contexts/service-context";
+import { DashboardContext } from "../../contexts/dashboard-context";
 
 import { EURO_SYMBOL } from "../../assets/constants";
 import { showHttpResponseNotification } from "../../assets/functions/notification";
@@ -27,8 +27,8 @@ interface ComponentProps {
  */
 const ServiceCard: React.FC<ComponentProps> = (props) => {
     const { serviceDetail } = props;
-    const { setServiceDetail, setIsNewService, setIsDeleted } = useContext(
-        ServiceContext
+    const { setServiceDetail, setIsNewItem, setIsDeleted } = useContext(
+        DashboardContext
     );
 
     /**
@@ -45,7 +45,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
             className={styles.editAction}
             icon={getIconByPrefixName("fas", "edit")}
             onClick={() => {
-                setIsNewService(false);
+                setIsNewItem(false);
                 setServiceDetail(serviceDetail);
             }}
         />,

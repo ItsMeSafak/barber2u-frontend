@@ -66,6 +66,7 @@ export const REFRESH_TOKEN_COOKIE = `${PACKAGE_NAME}refreshToken`;
 // API.
 export const BASE_URL = "http://localhost:8080/api";
 export const ERROR_MESSAGE_BASE = "Something went wrong while trying to call";
+export const RESPONSE_OK = 200;
 
 // Month names.
 export const MONTH_NAMES = [

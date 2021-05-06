@@ -26,26 +26,26 @@ import { IconButton } from "@material-ui/core";
 import { PLACEHOLDER_IMAGE } from "../../../../assets/constants";
 import { getIconByPrefixName } from "../../../../assets/functions/icon";
 
-import { getCustomerReservations } from "../../../../services/reservation-service";
+import { getReservations } from "../../../../services/reservation-service";
 
-import Appointment from "../../../../models/Appointment";
 import SchedulerAppointment from "../../../../models/SchedulerAppointment";
 
 import styles from "./styles.module.scss";
+import Reservation from "../../../../models/Reservation";
 
 // eslint-disable-next-line require-jsdoc
 const convertAppointmentsToSchedulerAppointments = (
-    appointmentsArray: Appointment[]
+    reservations: Reservation[]
 ) => {
     const schedulerList: SchedulerAppointment[] = [];
-    appointmentsArray.forEach((appointment: Appointment) => {
+    reservations.forEach((reservation: Reservation) => {
         schedulerList.push(
             new SchedulerAppointment(
-                `${appointment.date}T${appointment.startTime}`,
-                `${appointment.date}T${appointment.endTime}`,
-                appointment.barber.getFullNameWithInitial,
-                appointment.id,
-                appointment.status
+                `${reservation.date}T${reservation.startTime}`,
+                `${reservation.date}T${reservation.endTime}`,
+                reservation.barber.getFullNameWithInitial,
+                reservation.id,
+                reservation.status
             )
         );
     });
@@ -182,7 +182,7 @@ const Content = (props: AppointmentTooltipBase.ContentProps) => (
  */
 const StatisticsPage: React.FC = () => {
     useEffect(() => {
-        getCustomerReservations().then((response) => {
+        getReservations().then((response) => {
             setAppointments(
                 convertAppointmentsToSchedulerAppointments(response.data)
             );

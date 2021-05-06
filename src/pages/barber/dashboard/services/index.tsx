@@ -14,7 +14,7 @@ import {
 import ServiceCard from "../../../../components/card-service";
 import NewServiceForm from "../../../../components/forms/new-service";
 
-import { ServiceContext } from "../../../../contexts/service-context";
+import { DashboardContext } from "../../../../contexts/dashboard-context";
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
 
 import { getIconByPrefixName } from "../../../../assets/functions/icon";
@@ -38,13 +38,13 @@ const ServicesPage: React.FC = () => {
         listOfServices,
         formValues,
         isDeleted,
-        isNewService,
+        isNewItem,
         setLoading,
         setServiceDetail,
         setListOfServices,
-        setIsNewService,
+        setIsNewItem,
         setIsDeleted,
-    } = useContext(ServiceContext);
+    } = useContext(DashboardContext);
 
     /**
      * This function fetches the services using the getAllServices function from services-service
@@ -81,7 +81,7 @@ const ServicesPage: React.FC = () => {
         if (serviceDetail) {
             const response = await createNewService(serviceDetail);
             setServiceDetail(null);
-            setIsNewService(false);
+            setIsNewItem(false);
 
             const { status, message } = response;
             showHttpResponseNotification(message, status);
@@ -101,7 +101,7 @@ const ServicesPage: React.FC = () => {
             size="large"
             onClick={() => {
                 setServiceDetail(new Service("", "", "", 0, 0, true));
-                setIsNewService(true);
+                setIsNewItem(true);
             }}
         >
             Add new service
@@ -157,10 +157,10 @@ const ServicesPage: React.FC = () => {
             centered
             destroyOnClose={true}
             okButtonProps={{ disabled: checkFormValues() }}
-            visible={!!serviceDetail || isNewService!}
-            onOk={() => (isNewService ? addService() : updateCurrentService())}
+            visible={!!serviceDetail || isNewItem!}
+            onOk={() => (isNewItem ? addService() : updateCurrentService())}
             onCancel={() => {
-                setIsNewService(false);
+                setIsNewItem(false);
                 setServiceDetail(null);
             }}
             width={800}
