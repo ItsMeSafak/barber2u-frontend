@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import { Row, Divider, Layout, Pagination, Skeleton } from "antd";
+import { Row, Divider, Layout, Pagination, Skeleton, Select } from "antd";
 
 import Reservation from "../../../../models/Reservation";
 
@@ -13,8 +13,10 @@ import { getReservations } from "../../../../services/reservation-service";
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
+import Status from "../../../../models/enums/Status";
 
 const { Content } = Layout;
+const { Option } = Select;
 
 const MAX_ITEMS_PAGE = 6;
 
@@ -36,9 +38,9 @@ const ReservationsPage: React.FC = () => {
     /**
      * This function fetches the reservation from the backend and displays it on the page.
      */
-    const fetchReservations = useCallback(async () => {
+    const fetchReservations = useCallback(async (reservationStatus?: string) => {
         setLoading(true);
-        const response = await getReservations();
+        const response = await getReservations(reservationStatus);
 
         const { status, message } = response;
         showHttpResponseNotification(message, status, false);
@@ -78,13 +80,29 @@ const ReservationsPage: React.FC = () => {
                 <ReservationCard key={item.id} reservationDetail={item} />
             ));
 
+    /**
+     * This function handles the filtering of the reservations based on the status
+     * 
+     * @param value 
+     */
+    const handleFilterChange = (value: string) => {
+        fetchReservations(value);
+    };
+
     return (
         <Content className={styles.reservations}>
+
+            <h1 className={styles.title}>Reservations</h1>
+            <Select placeholder="Select a status" size="large" allowClear onChange={handleFilterChange}>
+                <Option value={Status.Active}>Active</Option>
+                <Option value={Status.Pending}>Pending</Option>
+                <Option value={Status.Completed}>Completed</Option>
+                <Option value={Status.Cancelled}>Cancelled</Option>
+            </Select>
+            <Divider />
             <Skeleton active loading={loading} />
             {!loading && (
                 <>
-                    <h1 className={styles.title}>Reservations</h1>
-                    <Divider />
                     <Row gutter={[20, 20]}>
                         {reservationItems &&
                             renderReservationItems(reservationItems)}
