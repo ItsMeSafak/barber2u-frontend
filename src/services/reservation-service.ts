@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import Service2 from "../models/Service2";
+import Service from "../models/Service";
 import MomentRange from "../models/MomentRange";
 
 import { DATE_FORMAT, TIME_FORMAT, RESPONSE_OK } from "../assets/constants";
@@ -26,14 +26,14 @@ interface APICreateReservationResponse {
  */
 export const sendCreateReservation = (
     barberEmail: string,
-    services: Service2[],
+    services: Service[],
     date: MomentRange
 ): Promise<APICreateReservationResponse> =>
     new Promise<APICreateReservationResponse>((resolve, reject) => {
         axios
             .post("/reservation/create", {
                 barber: barberEmail,
-                services: services.map((service) => service.name),
+                services: services.map((service) => service.id),
                 date: date.startTime.format(DATE_FORMAT),
                 startTime: date.startTime.format(TIME_FORMAT),
                 endTime: date.endTime.format(TIME_FORMAT),

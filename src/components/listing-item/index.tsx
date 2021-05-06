@@ -16,7 +16,7 @@ import Slider from "react-slick";
 import moment, { Moment } from "moment";
 
 import Barber from "../../models/Barber";
-import Service2 from "../../models/Service2";
+import Service from "../../models/Service";
 import MomentRange from "../../models/MomentRange";
 import { TempBarber } from "../../models/TempBarber";
 
@@ -104,12 +104,12 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
     /**
      * State for the selected barber services.
      */
-    const [services, setServices] = useState<Service2[]>([]);
+    const [services, setServices] = useState<Service[]>([]);
 
     /**
      * State for the selected barber services.
      */
-    const [selectedServices, setSelectedServices] = useState<Service2[]>([]);
+    const [selectedServices, setSelectedServices] = useState<Service[]>([]);
 
     /**
      * Every time the selected services changes, the time required is recalculated.
@@ -343,7 +343,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
             className={styles.selectBox}
             placeholder="Select a service"
             onChange={(selected) => {
-                const serviceList: Service2[] = [];
+                const serviceList: Service[] = [];
                 (selected as []).forEach((serviceName) => {
                     const serviceFound = services.find(
                         (service) => service.name === serviceName
@@ -484,7 +484,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
             <Row>
                 Services selected:
                 <ul>
-                    {selectedServices.map((service: Service2) => (
+                    {selectedServices.map((service: Service) => (
                         <li key={service.id}>{service.name}</li>
                     ))}
                 </ul>

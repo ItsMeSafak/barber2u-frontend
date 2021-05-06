@@ -4,7 +4,7 @@ import moment, { Moment } from "moment";
 
 import User from "../models/User";
 import Barber from "../models/Barber";
-import Service2 from "../models/Service2";
+import Service from "../models/Service";
 import MomentRange from "../models/MomentRange";
 
 import { DATE_FORMAT, RESPONSE_OK } from "../assets/constants";
@@ -25,7 +25,7 @@ interface APIBarbersResponse {
 interface APIBarberListingResponse {
     data: {
         barber: Barber;
-        services: Service2[];
+        services: Service[];
     };
     message: string;
     status: number;
@@ -204,7 +204,10 @@ const fixBarberObject = (response: APIBarbersResponse) => {
 const fixBarberListingObject = (response: APIBarberListingResponse) => {
     response.data.barber = Barber.fromJSON(response.data.barber);
     response.data.services.forEach((value, index) => {
-        response.data.services[index] = Service2.fromJSON(value);
+        response.data.services[index] = Object.setPrototypeOf(
+            value,
+            Service.prototype
+        );
     });
     return response;
 };
