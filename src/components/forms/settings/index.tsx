@@ -3,7 +3,12 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Form, Input } from "antd";
 
+import User from "../../../models/User";
+
+import { updateUserProfile } from "../../../services/user-service";
+
 import { getIconByPrefixName } from "../../../assets/functions/icon";
+import { showHttpResponseNotification } from "../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
@@ -11,25 +16,22 @@ import styles from "./styles.module.scss";
  * This component renders a settings form.
  * The form consists of input fields regarding the users information.
  *
+ * @param user {User | null}   The logged in user object
  * @returns {JSX}
  */
-const SettingsForm: React.FC = () => {
+const SettingsForm: React.FC<{ user: User | null }> = (user) => {
     const [formValue, setFormValue] = useState<{
-        name: string;
+        [firstname: string]: string;
         lastname: string;
-        email: string;
-        password: string;
         phone: string;
-        city: string;
-        adress: string;
+        address: string;
+        zipcode: string;
     }>({
-        name: "",
-        lastname: "",
-        email: "",
-        password: "",
-        phone: "",
-        city: "",
-        adress: "",
+        firstname: user.user ? user.user.getFirstName : "",
+        lastname: user.user ? user.user.getLastName : "",
+        phone: user.user ? user.user.getPhoneNumber : "",
+        address: user.user ? user.user.getAddress : "",
+        zipcode: user.user ? user.user.getZipCode : "",
     });
 
     const inputFieldValues: Array<{
@@ -48,16 +50,6 @@ const SettingsForm: React.FC = () => {
             icon: "id-card",
         },
         {
-            name: "email",
-            placeholder: "Email",
-            icon: "at",
-        },
-        {
-            name: "password",
-            placeholder: "Password",
-            icon: "key",
-        },
-        {
             name: "phone",
             placeholder: "Phone",
             icon: "mobile-alt",
@@ -68,8 +60,8 @@ const SettingsForm: React.FC = () => {
             icon: "address-book",
         },
         {
-            name: "city",
-            placeholder: "City",
+            name: "zipcode",
+            placeholder: "Zip Code",
             icon: "city",
         },
     ];
@@ -93,10 +85,11 @@ const SettingsForm: React.FC = () => {
                 <Input
                     name={name}
                     size="large"
+                    defaultValue={formValue[name]}
                     onChange={(event) =>
                         setFormValue({
                             ...formValue,
-                            name: event.target.value,
+                            [name]: event.target.value,
                         })
                     }
                     placeholder={placeholder}
@@ -110,9 +103,50 @@ const SettingsForm: React.FC = () => {
             </Form.Item>
         ));
 
+    /**
+     * Create a new User object and apply the form fields inside the properties.
+     * After the object creation, it will send a request to the endpoint and update the user profile
+     */
+    const saveChanges = () => {
+        if (user.user) {
+            const newUser: User = new User(
+                "",
+                formValue.firstname,
+                formValue.lastname,
+                "",
+                formValue.phone,
+                formValue.address,
+                formValue.zipcode,
+                [],
+                false,
+                false
+            );
+            updateUserProfile(newUser).then((response) => {
+                showHttpResponseNotification(
+                    "The profile successfully got updated",
+                    response.status
+                );
+            });
+        }
+    };
+
     return (
         <Form>
             <Card type="inner" title="Personal details">
+                <Form.Item>
+                    <Input
+                        name="email"
+                        size="large"
+                        defaultValue={user.user?.getEmail}
+                        disabled
+                        prefix={
+                            <FontAwesomeIcon
+                                icon={getIconByPrefixName("fas", "envelope")}
+                                size="sm"
+                            />
+                        }
+                    />
+                </Form.Item>
                 {inputFieldValues && renderInputFields()}
             </Card>
 
@@ -122,6 +156,7 @@ const SettingsForm: React.FC = () => {
                     htmlType="submit"
                     className={styles.saveButton}
                     disabled={!isEnabled()}
+                    onClick={saveChanges}
                 >
                     Save changes
                 </Button>

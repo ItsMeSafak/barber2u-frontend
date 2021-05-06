@@ -60,6 +60,21 @@ export default class User {
     }
 
     // eslint-disable-next-line require-jsdoc
+    get getPhoneNumber(): string {
+        return this.phoneNumber;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get getAddress(): string {
+        return this.address;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    get getZipCode(): string {
+        return this.zipCode;
+    }
+
+    // eslint-disable-next-line require-jsdoc
     get getFullNameWithInitial(): string {
         return `${this.getFirstNameFirstLetter}. ${this.getLastName}`;
     }
