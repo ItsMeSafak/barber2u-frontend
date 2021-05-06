@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import { Row, Layout, Col } from "antd";
 
@@ -16,6 +16,12 @@ const { Content } = Layout;
  */
 const VerifyEmailPage: React.FC = () => {
     const { isMobileOrTablet } = useContext(ScreenContext);
+    const params = new URLSearchParams(useLocation().search);
+    const history = useHistory();
+
+    useEffect(() => {
+        if (!params.has("id")) history.push("/404");
+    }, []);
 
     /**
      * This function renders the default dekstop view of the email verification.
