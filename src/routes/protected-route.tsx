@@ -3,6 +3,7 @@ import { Route, Redirect, RouteProps } from "react-router-dom";
 
 import Role from "../models/enums/Role";
 
+import { LocationProvider } from "../contexts/location-context";
 import { AuthenticationContext } from "../contexts/authentication-context";
 
 interface ComponentProps extends RouteProps {
@@ -73,7 +74,11 @@ const ProtectedRoute: React.FC<ComponentProps> = (props) => {
         allowedRoles.length > 0 &&
         userRoles?.some((role: string) => allowedRoles.includes(role as Role));
 
-    return renderComponent();
+    return (
+        <LocationProvider>
+            {renderComponent()}
+        </LocationProvider>
+    );
 };
 
 export default ProtectedRoute;

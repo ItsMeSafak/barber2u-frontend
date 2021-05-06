@@ -66,15 +66,12 @@ const ServicesPage: React.FC = () => {
     useEffect(() => {
         fetchServices();
         setIsDeleted(false);
+
         return () => setLoading(true);
-    }, [serviceDetail, isDeleted, fetchServices, setIsDeleted, setLoading]);
+    }, [isDeleted, fetchServices, setIsDeleted, setLoading]);
 
     /**
      * This function sends a request to the backend, where we add a new service to the barber services.
-     *
-     * @param {string} token token we received when logged in
-     * @param {Service} service service created
-     * @param {string} barber barber email
      */
     const addService = async () => {
         changeCurrentService();
@@ -85,6 +82,7 @@ const ServicesPage: React.FC = () => {
 
             const { status, message } = response;
             showHttpResponseNotification(message, status);
+            fetchServices();
         }
     };
 

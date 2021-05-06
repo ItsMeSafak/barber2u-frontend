@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
 
 import axios from "axios";
 

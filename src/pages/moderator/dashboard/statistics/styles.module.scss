@@ -1,5 +1,11 @@
 @import "../../../../assets/config.scss";
 
+.plusSign {
+    position: relative;
+    left: -10px;
+    top: -20px;
+}
+
 .turnOffButton {
     &:hover {
         color: $red-color;

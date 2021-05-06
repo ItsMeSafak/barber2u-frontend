@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Layout, Row, Col, Tooltip } from "antd";
+import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
+import { Layout, Row, Col, Tooltip, Divider, Badge } from "antd";
 
+import Spinner from "../../../../components/spinner";
 import CardStatistic from "../../../../components/card-statistic";
 
 import {
@@ -10,11 +11,10 @@ import {
     shutdownAPIServer,
 } from "../../../../services/actuator-service";
 
-import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../../assets/functions/icon";
+import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
-import Spinner from "../../../../components/spinner";
 
 const { Content } = Layout;
 
@@ -79,7 +79,7 @@ const StatisticsPage: React.FC = () => {
                 className={styles.turnOffButton}
                 onClick={() => onShutdownAPIServerClick()}
                 icon={getIconByPrefixName("fas", "power-off")}
-                size="2x"
+                size="lg"
             />
         </Tooltip>
     );
@@ -95,22 +95,109 @@ const StatisticsPage: React.FC = () => {
             .catch((error) => showHttpResponseNotification(error.message, 422));
     };
 
+    /**
+     * TODO...
+     * @param properties 
+     * @param className 
+     * @returns 
+     */
+    const renderIconPrefix = (properties: FontAwesomeIconProps, className?: string) => {
+        const iconStyle = {
+            margin: "1rem 0.5rem 0 0"
+        };
+
+        return (
+            <FontAwesomeIcon
+                className={className}
+                style={!className ? iconStyle : {}}
+                {...properties}
+            />
+        );
+    };
+
     return (
         <Layout className={styles.statistics}>
             <Content>
-                {/* <Skeleton active loading={loading} /> */}
                 <Row gutter={[20, 20]}>
-                    <Col xs={24}>
+                    <Col xs={24} lg={8}>
                         <Spinner spinning={loading}>
                             <CardStatistic
-                                title="Disk Usage"
-                                value={APIServerDiskUsage}
+                                data={[
+                                    {
+                                        title: "Customers",
+                                        value: 19,
+                                        prefix: renderIconPrefix({ icon: "user-tie" })
+                                    },
+                                    {
+                                        title: "Barbers",
+                                        value: 16,
+                                        prefix: renderIconPrefix({ icon: "cut" })
+                                    }
+                                ]}
+                            />
+                        </Spinner>
+                    </Col>
+                    <Col xs={24} lg={8}>
+                        <Spinner spinning={loading}>
+                            <CardStatistic
+                                data={[
+                                    {
+                                        title: "New Customers",
+                                        value: 19,
+                                        prefix: <>
+                                            {renderIconPrefix({ icon: "user-tie" })}
+                                            {renderIconPrefix({ icon: "plus", size: "xs", color: "green" }, styles.plusSign)}
+                                        </>
+                                    },
+                                    {
+                                        title: "New Barbers",
+                                        value: 19,
+                                        prefix: <>
+                                            {renderIconPrefix({ icon: "cut" })}
+                                            {renderIconPrefix({ icon: "plus", size: "xs", color: "green" }, styles.plusSign)}
+                                        </>
+                                    }
+                                ]}
+                            />
+                        </Spinner>
+                    </Col>
+                    <Col xs={24} lg={8}>
+                        <Spinner spinning={loading}>
+                            <CardStatistic
+                                data={[
+                                    {
+                                        title: "New Customers",
+                                        value: 19,
+                                        prefix: <>
+                                            {renderIconPrefix({ icon: "user-tie" })}
+                                            {renderIconPrefix({ icon: "plus", size: "xs", color: "green" }, styles.plusSign)}
+                                        </>
+                                    },
+                                    {
+                                        title: "New Barbers",
+                                        value: 19,
+                                        prefix: <>
+                                            {renderIconPrefix({ icon: "cut" })}
+                                            {renderIconPrefix({ icon: "plus", size: "xs", color: "green" }, styles.plusSign)}
+                                        </>
+                                    }
+                                ]}
+                            />
+                        </Spinner>
+                    </Col>
+                    <Divider />
+                    <Col xs={24} lg={12}>
+                        <Spinner spinning={loading}>
+                            <CardStatistic
+                                data={[
+                                    {
+                                        title: "Disk Usage",
+                                        value: APIServerDiskUsage,
+                                        prefix: renderIconPrefix({ icon: "hdd" })
+                                    }
+
+                                ]}
                                 negativeValueThreshold={50}
-                                prefix={
-                                    <FontAwesomeIcon
-                                        icon={getIconByPrefixName("fas", "hdd")}
-                                    />
-                                }
                                 suffix="%"
                                 withProgressBar
                                 progressBar={{
@@ -120,55 +207,28 @@ const StatisticsPage: React.FC = () => {
                             />
                         </Spinner>
                     </Col>
-                    <Col xs={24}>
+                    <Col xs={24} lg={12}>
                         <Spinner spinning={loading}>
                             <CardStatistic
-                                title="API Server"
-                                value={APIServerStatus}
+                                data={[
+                                    {
+                                        title: "API",
+                                        value: APIServerStatus,
+                                        prefix: renderIconPrefix({ icon: "server" })
+                                    },
+                                    {
+                                        title: "Database",
+                                        value: databaseServerStatus,
+                                        prefix: renderIconPrefix({ icon: "database" })
+                                    },
+                                    {
+                                        title: "Mail",
+                                        value: mailServerStatus,
+                                        prefix: renderIconPrefix({ icon: "envelope" })
+                                    }
+                                ]}
                                 positiveValueThreshold="UP"
-                                prefix={
-                                    <FontAwesomeIcon
-                                        icon={getIconByPrefixName(
-                                            "fas",
-                                            "server"
-                                        )}
-                                    />
-                                }
                                 actions={[renderShutdownAPIServerButton()]}
-                            />
-                        </Spinner>
-                    </Col>
-                    <Col xs={24}>
-                        <Spinner spinning={loading}>
-                            <CardStatistic
-                                title="Database Server"
-                                value={databaseServerStatus}
-                                positiveValueThreshold="UP"
-                                prefix={
-                                    <FontAwesomeIcon
-                                        icon={getIconByPrefixName(
-                                            "fas",
-                                            "database"
-                                        )}
-                                    />
-                                }
-                            />
-                        </Spinner>
-                    </Col>
-                    <Col xs={24}>
-                        <Spinner spinning={loading}>
-                            <CardStatistic
-                                title="Mail Server"
-                                value={mailServerStatus}
-                                positiveValueThreshold="UP"
-                                prefix={
-                                    <FontAwesomeIcon
-                                        icon={getIconByPrefixName(
-                                            "fas",
-                                            "envelope"
-                                        )}
-                                    />
-                                }
                             />
                         </Spinner>
                     </Col>

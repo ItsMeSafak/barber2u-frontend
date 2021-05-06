@@ -1,12 +1,14 @@
 import React from "react";
 
-import { Card, Progress, Statistic, StatisticProps, Tooltip } from "antd";
+import { valueType } from "antd/lib/statistic/utils";
+import { Card, Col, Progress, Row, Statistic, StatisticProps, Tooltip } from "antd";
 
 import { NEGATIVE_COLOR, POSITIVE_COLOR } from "../../assets/constants";
 
 import styles from "./styles.module.scss";
 
 interface ComponentProps extends StatisticProps {
+    data: Array<StatisticProps>;
     actions?: Array<React.ReactNode>;
     statisticColor?: string;
     positiveValueThreshold?: string | number;
@@ -26,24 +28,20 @@ interface ComponentProps extends StatisticProps {
  */
 const CardStatistic: React.FC<ComponentProps> = (props) => {
     const {
-        title,
-        value,
-        precision,
-        prefix,
-        suffix,
+        data,
         actions,
         statisticColor,
         positiveValueThreshold,
         negativeValueThreshold,
         withProgressBar,
-        progressBar,
+        progressBar
     } = props;
 
     /**
      * TODO...
      * @returns {string}
      */
-    const getStatisticColor = () => {
+    const getStatisticColor = (value: valueType | undefined) => {
         if (value) {
             if (positiveValueThreshold && !negativeValueThreshold) {
                 if (typeof positiveValueThreshold === "string")
@@ -91,17 +89,35 @@ const CardStatistic: React.FC<ComponentProps> = (props) => {
         </>
     );
 
+    /**
+     * TODO...
+     */
+    const renderData = () => data.map(details => {
+        const { title, value, precision, prefix, suffix } = details;
+        return (
+            <>
+                <Col xs={24 / data.length}>
+                    <Statistic
+                        key={value}
+                        title={title}
+                        style={data.length > 1 ? { textAlign: "center" } : {}}
+                        value={value}
+                        precision={precision}
+                        valueStyle={{ color: getStatisticColor(value) }}
+                        prefix={prefix}
+                        suffix={suffix}
+                    />
+                    {withProgressBar && renderProgressBar()}
+                </Col>
+            </>
+        );
+    });
+
     return (
         <Card className={styles.card} actions={actions}>
-            <Statistic
-                title={title}
-                value={value}
-                precision={precision}
-                valueStyle={{ color: getStatisticColor() }}
-                prefix={prefix}
-                suffix={suffix}
-            />
-            {withProgressBar && renderProgressBar()}
+            <Row>
+                {renderData()}
+            </Row>
         </Card>
     );
 };
