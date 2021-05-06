@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import { Row, Divider, Layout, Pagination, Skeleton, Select } from "antd";
+import { Row, Divider, Layout, Pagination, Skeleton, Select, Col } from "antd";
 
 import Reservation from "../../../../models/Reservation";
 
@@ -38,17 +38,20 @@ const ReservationsPage: React.FC = () => {
     /**
      * This function fetches the reservation from the backend and displays it on the page.
      */
-    const fetchReservations = useCallback(async (reservationStatus?: string) => {
-        setLoading(true);
-        const response = await getReservations(reservationStatus);
+    const fetchReservations = useCallback(
+        async (reservationStatus?: string) => {
+            setLoading(true);
+            const response = await getReservations(reservationStatus);
 
-        const { status, message } = response;
-        showHttpResponseNotification(message, status, false);
-        if (!response.data) return;
+            const { status, message } = response;
+            showHttpResponseNotification(message, status, false);
+            if (!response.data) return;
 
-        setReserVationItems(response.data);
-        setLoading(false);
-    }, [setLoading]);
+            setReserVationItems(response.data);
+            setLoading(false);
+        },
+        [setLoading]
+    );
 
     useEffect(() => {
         fetchReservations();
@@ -74,16 +77,16 @@ const ReservationsPage: React.FC = () => {
      * @returns {JSX}
      */
     const renderReservationItems = (reservationList: Reservation[]) =>
-        reservationList
-            .slice(minIndexValue, maxIndexValue)
-            .map((item) => (
-                <ReservationCard key={item.id} reservationDetail={item} />
-            ));
+        reservationList.slice(minIndexValue, maxIndexValue).map((item) => (
+            <Col key={item.id} xs={24} sm={12} lg={8}>
+                <ReservationCard reservationDetail={item} />
+            </Col>
+        ));
 
     /**
      * This function handles the filtering of the reservations based on the status
-     * 
-     * @param value 
+     *
+     * @param value
      */
     const handleFilterChange = (value: string) => {
         fetchReservations(value);
@@ -91,9 +94,13 @@ const ReservationsPage: React.FC = () => {
 
     return (
         <Content className={styles.reservations}>
-
             <h1 className={styles.title}>Reservations</h1>
-            <Select placeholder="Select a status" size="large" allowClear onChange={handleFilterChange}>
+            <Select
+                placeholder="Select a status"
+                size="large"
+                allowClear
+                onChange={handleFilterChange}
+            >
                 <Option value={Status.Active}>Active</Option>
                 <Option value={Status.Pending}>Pending</Option>
                 <Option value={Status.Completed}>Completed</Option>

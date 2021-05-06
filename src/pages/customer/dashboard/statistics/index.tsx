@@ -19,12 +19,6 @@ import {
     ViewSwitcher,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import moment from "moment";
-import { Col, Row } from "antd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconButton } from "@material-ui/core";
-
-import { PLACEHOLDER_IMAGE } from "../../../../assets/constants";
-import { getIconByPrefixName } from "../../../../assets/functions/icon";
 
 import { getReservations } from "../../../../services/reservation-service";
 
@@ -32,6 +26,7 @@ import SchedulerAppointment from "../../../../models/SchedulerAppointment";
 
 import styles from "./styles.module.scss";
 import Reservation from "../../../../models/Reservation";
+import ReservationCard from "../../../../components/card-reservation";
 
 // eslint-disable-next-line require-jsdoc
 const convertAppointmentsToSchedulerAppointments = (
@@ -45,7 +40,7 @@ const convertAppointmentsToSchedulerAppointments = (
                 `${reservation.date}T${reservation.endTime}`,
                 reservation.barber.getFullNameWithInitial,
                 reservation.id,
-                reservation.status
+                reservation
             )
         );
     });
@@ -74,7 +69,7 @@ const AppointmentPanel = (props: AppointmentsBase.AppointmentProps) => (
         {...props}
         className={styles.panel}
         style={{
-            backgroundColor: panelColor(props.data.status),
+            backgroundColor: panelColor(props.data.reservation.status),
         }}
     >
         {props.data.title}
@@ -82,97 +77,11 @@ const AppointmentPanel = (props: AppointmentsBase.AppointmentProps) => (
 );
 
 // eslint-disable-next-line require-jsdoc
-const Header = (props: AppointmentTooltipBase.HeaderProps) => (
-    <AppointmentTooltip.Header
-        {...props}
-        style={{
-            height: "260px",
-            backgroundSize: "cover",
-            background: `url(${PLACEHOLDER_IMAGE})`,
-        }}
-        appointmentData={props.appointmentData}
-    >
-        <IconButton
-            /* eslint-disable-next-line no-alert */
-            onClick={() => alert(JSON.stringify(props.appointmentData))}
-        >
-            <FontAwesomeIcon
-                icon={getIconByPrefixName("fas", "check")}
-                size="sm"
-            />
-        </IconButton>
-        <IconButton
-            /* eslint-disable-next-line no-alert */
-            onClick={() => alert(JSON.stringify(props.appointmentData))}
-        >
-            <FontAwesomeIcon
-                icon={getIconByPrefixName("fas", "trash")}
-                size="sm"
-            />
-        </IconButton>
-    </AppointmentTooltip.Header>
-);
+const Header = () => <div style={{ display: "none" }} />;
 
 // eslint-disable-next-line require-jsdoc
 const Content = (props: AppointmentTooltipBase.ContentProps) => (
-    <Col>
-        <Row gutter={8} align="middle" className={styles.row}>
-            <Col flex="18px">
-                <FontAwesomeIcon
-                    icon={getIconByPrefixName("fas", "cut")}
-                    size="lg"
-                />
-            </Col>
-            <Col flex="auto">
-                <div className={`${styles.label} ${styles.barberLabel}`}>
-                    {props.appointmentData?.title}
-                </div>
-            </Col>
-        </Row>
-        <Row gutter={8} align="middle" className={styles.row}>
-            <Col flex="18px">
-                <FontAwesomeIcon
-                    icon={getIconByPrefixName("fas", "calendar-alt")}
-                    size="lg"
-                />
-            </Col>
-            <Col flex="auto">
-                <div className={styles.label}>
-                    {moment(props.appointmentData?.startDate).format(
-                        "dddd, MMMM Do YYYY"
-                    )}
-                </div>
-            </Col>
-        </Row>
-        <Row gutter={8} align="middle" className={styles.row}>
-            <Col flex="18px">
-                <FontAwesomeIcon
-                    icon={getIconByPrefixName("fas", "clock")}
-                    size="lg"
-                />
-            </Col>
-            <Col flex="auto">
-                <div className={styles.label}>
-                    {moment(props.appointmentData?.startDate).format("HH:mm")}
-                    {" - "}
-                    {moment(props.appointmentData?.endDate).format("HH:mm")}
-                </div>
-            </Col>
-        </Row>
-        <Row gutter={8} align="middle" className={styles.row}>
-            <Col flex="18px">
-                <FontAwesomeIcon
-                    icon={getIconByPrefixName("fas", "info-circle")}
-                    size="lg"
-                />
-            </Col>
-            <Col flex="auto">
-                <div className={styles.label}>
-                    {props.appointmentData?.status}
-                </div>
-            </Col>
-        </Row>
-    </Col>
+    <ReservationCard reservationDetail={props.appointmentData?.reservation} />
 );
 
 /**
