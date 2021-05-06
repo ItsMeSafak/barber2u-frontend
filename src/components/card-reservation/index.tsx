@@ -21,6 +21,8 @@ interface ComponentProps {
     reservationDetail: Reservation;
 }
 
+const GOOGLE_MAPS_BASE_URL = "https://www.google.com/maps/search/";
+
 /**
  * This component renders the reservation card on the reservations page.
  * The card is currently mainly focussed on the Barber role.
@@ -138,7 +140,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                 className={styles.card}
                 actions={
                     reservationDetail.status === Status.Completed ||
-                    reservationDetail.status === Status.Cancelled
+                        reservationDetail.status === Status.Cancelled
                         ? []
                         : actions()
                 }
@@ -150,7 +152,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                 <p>
                     <FontAwesomeIcon
                         className={styles.icon}
-                        icon={getIconByPrefixName("fas", "cut")}
+                        icon={getIconByPrefixName("fas", "user")}
                         size="lg"
                     />{" "}
                     {reservationDetail.customer.getFullNameWithInitial}
@@ -163,6 +165,13 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                         size="lg"
                     />{" "}
                     {`${reservationDetail.customer.getAddress}, ${reservationDetail.customer.getZipcode}`}
+                    <a target="_blank" href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.customer.getZipcode}`}
+                    ><FontAwesomeIcon
+                            className={`${styles.icon} ${styles.externalLink}`}
+                            icon={getIconByPrefixName("fas", "external-link-alt")}
+                            size="lg"
+                        />
+                    </a>
                 </p>
 
                 <p>
@@ -183,11 +192,19 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                     {`${reservationDetail.startTime}, ${reservationDetail.endTime}`}
                 </p>
 
+                <p>
+                    <FontAwesomeIcon
+                        className={styles.icon}
+                        icon={getIconByPrefixName("fas", "cut")}
+                        size="lg"
+                    />{" "}
+                    {reservationDetail.services.map((item, index) => index !== 0 ? `, ${item.name}` : `${item.name}`)}
+                </p>
+
                 <span className={styles.price}>
-                    {/* {EURO_SYMBOL} {reservationDetail.services.map((item) => item.price)
-                        .reduce((servicePrice, currentValue) 
-                        => currentValue + servicePrice).toFixed(2)} */}
-                    {`${EURO_SYMBOL} 0`}
+                    {EURO_SYMBOL} {reservationDetail.services.map((item) => item.price)
+                        .reduce((servicePrice, currentValue) =>
+                            currentValue + servicePrice).toFixed(2)}
                 </span>
             </Card>
         </Col>

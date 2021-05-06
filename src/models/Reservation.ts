@@ -1,4 +1,5 @@
 import { Moment } from "moment";
+import Service from "./Service";
 
 import User from "./User";
 
@@ -13,6 +14,7 @@ export default class Reservation {
     customer: User;
     barber: User;
     status: string;
+    services: Service[];
 
     // eslint-disable-next-line require-jsdoc
     constructor(
@@ -22,7 +24,8 @@ export default class Reservation {
         endTime: Moment,
         customer: User,
         barber: User,
-        status: string
+        status: string,
+        services: Service[]
     ) {
         this.id = id;
         this.date = date;
@@ -31,5 +34,6 @@ export default class Reservation {
         this.customer = customer;
         this.barber = barber;
         this.status = status;
+        this.services = services;
     }
 }

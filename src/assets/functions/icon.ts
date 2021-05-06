@@ -42,6 +42,7 @@ import {
     faTimes,
     faCheck,
     faMapMarkerAlt,
+    faExternalLinkAlt
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -85,6 +86,7 @@ export const icons = {
     faTimes,
     faCheck,
     faMapMarkerAlt,
+    faExternalLinkAlt
 };
 
 /**
