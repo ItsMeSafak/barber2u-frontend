@@ -20,7 +20,7 @@ export const getReservations = (reservationStatus?: string): Promise<IReservatio
     new Promise<IReservationResponse>((resolve, reject) => {
         axios.get(`${API_URL}/user`, { params: { status: reservationStatus } }).then(
             (response) => {
-                resolve(fixUserObject(response.data));
+                if (response) resolve(fixUserObject(response.data));
             },
             (error) => {
                 reject(new Error(error.message));
@@ -45,7 +45,7 @@ export const updateReservationStatus = (
             })
             .then(
                 (response) => {
-                    resolve(response.data);
+                    if (response) resolve(response.data);
                 },
                 (error) => {
                     reject(new Error(error.message));

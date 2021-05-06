@@ -7,21 +7,20 @@ import { Card, Col, Modal } from "antd";
 import Status from "../../models/enums/Status";
 import Reservation from "../../models/Reservation";
 
-import { EURO_SYMBOL } from "../../assets/constants";
 import { getIconByPrefixName } from "../../assets/functions/icon";
 import { showHttpResponseNotification } from "../../assets/functions/notification";
+import { EURO_SYMBOL, GOOGLE_MAPS_BASE_URL } from "../../assets/constants";
 
 import { updateReservationStatus } from "../../services/reservation-service";
 
 import { DashboardContext } from "../../contexts/dashboard-context";
 
 import styles from "./styles.module.scss";
+import { ScreenContext } from "../../contexts/screen-context";
 
 interface ComponentProps {
     reservationDetail: Reservation;
 }
-
-const GOOGLE_MAPS_BASE_URL = "https://www.google.com/maps/search/";
 
 /**
  * This component renders the reservation card on the reservations page.
@@ -33,6 +32,7 @@ const GOOGLE_MAPS_BASE_URL = "https://www.google.com/maps/search/";
 const ReservationCard: React.FC<ComponentProps> = (props) => {
     const { reservationDetail } = props;
     const { setIsUpdated } = useContext(DashboardContext);
+    const { isMobileOrTablet } = useContext(ScreenContext);
 
     /**
      * This function passes a PUT request to the backend and updates the status fo the current reservation.
@@ -167,7 +167,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                     {`${reservationDetail.customer.getAddress}, ${reservationDetail.customer.getZipcode}`}
                     <a target="_blank" href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.customer.getZipcode}`}
                     ><FontAwesomeIcon
-                            className={`${styles.icon} ${styles.externalLink}`}
+                            className={`${styles.icon} ${isMobileOrTablet ? styles.mobileLink : styles.externalLink}`}
                             icon={getIconByPrefixName("fas", "external-link-alt")}
                             size="lg"
                         />
