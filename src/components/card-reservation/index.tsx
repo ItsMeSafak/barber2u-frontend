@@ -14,9 +14,9 @@ import { EURO_SYMBOL, GOOGLE_MAPS_BASE_URL } from "../../assets/constants";
 import { updateReservationStatus } from "../../services/reservation-service";
 
 import { DashboardContext } from "../../contexts/dashboard-context";
+import { ScreenContext } from "../../contexts/screen-context";
 
 import styles from "./styles.module.scss";
-import { ScreenContext } from "../../contexts/screen-context";
 
 interface ComponentProps {
     reservationDetail: Reservation;
