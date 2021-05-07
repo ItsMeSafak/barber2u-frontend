@@ -1,7 +1,7 @@
 import { Moment } from "moment";
-import Service from "./Service";
 
 import User from "./User";
+import Service from "./Service";
 
 /**
  * The reservation is model that consists of an id, style, date, locationa and a price.
