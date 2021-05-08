@@ -2,7 +2,7 @@
  * User class which can be used for creating user objects.
  */
 export default class User {
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    /* eslint-disable  require-jsdoc */
     private id: string;
     private firstName: string;
     private lastName: string;
@@ -14,7 +14,6 @@ export default class User {
     private isActive: boolean;
     private isVerified: boolean;
 
-    // eslint-disable-next-line require-jsdoc
     constructor(
         id: string,
         firstName: string,
@@ -39,47 +38,46 @@ export default class User {
         this.isVerified = isVerified;
     }
 
-    // eslint-disable-next-line require-jsdoc
+    get getId(): string {
+        return this.id;
+    }
+
     set setFirstName(value: string) {
         this.firstName = value;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getEmail(): string {
         return this.email;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getFirstName(): string {
         return this.firstName;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getLastName(): string {
         return this.lastName;
     }
 
-    // eslint-disable-next-line require-jsdoc
+    get getFullName(): string {
+        return `${this.getFirstName} ${this.getLastName}`;
+    }
+
     get getFullNameWithInitial(): string {
         return `${this.getFirstNameFirstLetter}. ${this.getLastName}`;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getFirstNameFirstLetter(): string {
         return this.firstName.charAt(0).toUpperCase();
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getRoles(): Array<{ id: string; name: string }> {
         return this.roles;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getRoleNames(): Array<string> {
         return this.roles.map(({ name }) => name);
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getIsVerified(): boolean {
         return this.isVerified;
     }

@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
-import { Layout, Row, Col, Tooltip, Divider, Badge } from "antd";
+import {
+    FontAwesomeIcon,
+    FontAwesomeIconProps,
+} from "@fortawesome/react-fontawesome";
+import { Layout, Row, Col, Tooltip, Divider } from "antd";
 
 import Spinner from "../../../../components/spinner";
 import CardStatistic from "../../../../components/card-statistic";
@@ -19,7 +22,7 @@ import styles from "./styles.module.scss";
 const { Content } = Layout;
 
 /**
- * Moderator statistics page.
+ * Admin statistics page.
  *
  * @returns {JSX}
  */
@@ -28,7 +31,7 @@ const StatisticsPage: React.FC = () => {
     const [APIServerStatus, setAPIServerStatus] = useState("N/A");
     const [databaseServerStatus, setDatabaseServerStatus] = useState("N/A");
     const [mailServerStatus, setMailServerStatus] = useState("N/A");
-    const [APIServerDiskUsage, setAPIServerDiskUsage] = useState(0);
+    const [APIServerDiskUsage, setAPIServerDiskUsage] = useState(Number.NaN);
 
     const fetchServerStatuses = useCallback(async () => {
         setLoading(true);
@@ -97,23 +100,26 @@ const StatisticsPage: React.FC = () => {
 
     /**
      * TODO...
-     * @param properties 
-     * @param className 
-     * @returns 
+     * @param parentIcon
+     * @param childIcon
+     * @returns
      */
-    const renderIconPrefix = (properties: FontAwesomeIconProps, className?: string) => {
-        const iconStyle = {
-            margin: "1rem 0.5rem 0 0"
-        };
-
-        return (
-            <FontAwesomeIcon
-                className={className}
-                style={!className ? iconStyle : {}}
-                {...properties}
-            />
-        );
-    };
+    const renderIconWithAdditionalIcon = (
+        parentIcon: FontAwesomeIconProps,
+        childIcon?: FontAwesomeIconProps
+    ) => (
+        <>
+            <FontAwesomeIcon {...parentIcon} />
+            {childIcon && (
+                <FontAwesomeIcon
+                    className={styles.suffixIcon}
+                    size="xs"
+                    color="green"
+                    {...childIcon}
+                />
+            )}
+        </>
+    );
 
     return (
         <Layout className={styles.statistics}>
@@ -122,17 +128,62 @@ const StatisticsPage: React.FC = () => {
                     <Col xs={24} lg={8}>
                         <Spinner spinning={loading}>
                             <CardStatistic
+                                valueStyle={{ padding: 50 }}
                                 data={[
                                     {
                                         title: "Customers",
                                         value: 19,
-                                        prefix: renderIconPrefix({ icon: "user-tie" })
+                                        prefix: renderIconWithAdditionalIcon({
+                                            icon: "user-tie",
+                                        }),
                                     },
+                                    {
+                                        title: "Verified",
+                                        value: 19,
+                                        prefix: renderIconWithAdditionalIcon(
+                                            { icon: "user-tie" },
+                                            { icon: "check" }
+                                        ),
+                                    },
+                                    {
+                                        title: "Active",
+                                        value: 19,
+                                        prefix: renderIconWithAdditionalIcon(
+                                            { icon: "user-tie" },
+                                            { icon: "unlock" }
+                                        ),
+                                    },
+                                ]}
+                            />
+                        </Spinner>
+                    </Col>
+                    <Col xs={24} lg={8}>
+                        <Spinner spinning={loading}>
+                            <CardStatistic
+                                data={[
                                     {
                                         title: "Barbers",
-                                        value: 16,
-                                        prefix: renderIconPrefix({ icon: "cut" })
-                                    }
+                                        value: 19,
+                                        prefix: renderIconWithAdditionalIcon({
+                                            icon: "cut",
+                                        }),
+                                    },
+                                    {
+                                        title: "Verified",
+                                        value: 19,
+                                        prefix: renderIconWithAdditionalIcon(
+                                            { icon: "cut" },
+                                            { icon: "check" }
+                                        ),
+                                    },
+                                    {
+                                        title: "Active",
+                                        value: 19,
+                                        prefix: renderIconWithAdditionalIcon(
+                                            { icon: "cut" },
+                                            { icon: "unlock" }
+                                        ),
+                                    },
                                 ]}
                             />
                         </Spinner>
@@ -142,45 +193,20 @@ const StatisticsPage: React.FC = () => {
                             <CardStatistic
                                 data={[
                                     {
-                                        title: "New Customers",
+                                        title: "Appointments",
                                         value: 19,
-                                        prefix: <>
-                                            {renderIconPrefix({ icon: "user-tie" })}
-                                            {renderIconPrefix({ icon: "plus", size: "xs", color: "green" }, styles.plusSign)}
-                                        </>
+                                        prefix: renderIconWithAdditionalIcon({
+                                            icon: "calendar",
+                                        }),
                                     },
                                     {
-                                        title: "New Barbers",
+                                        title: "Completed",
                                         value: 19,
-                                        prefix: <>
-                                            {renderIconPrefix({ icon: "cut" })}
-                                            {renderIconPrefix({ icon: "plus", size: "xs", color: "green" }, styles.plusSign)}
-                                        </>
-                                    }
-                                ]}
-                            />
-                        </Spinner>
-                    </Col>
-                    <Col xs={24} lg={8}>
-                        <Spinner spinning={loading}>
-                            <CardStatistic
-                                data={[
-                                    {
-                                        title: "New Customers",
-                                        value: 19,
-                                        prefix: <>
-                                            {renderIconPrefix({ icon: "user-tie" })}
-                                            {renderIconPrefix({ icon: "plus", size: "xs", color: "green" }, styles.plusSign)}
-                                        </>
+                                        prefix: renderIconWithAdditionalIcon(
+                                            { icon: "calendar" },
+                                            { icon: "check" }
+                                        ),
                                     },
-                                    {
-                                        title: "New Barbers",
-                                        value: 19,
-                                        prefix: <>
-                                            {renderIconPrefix({ icon: "cut" })}
-                                            {renderIconPrefix({ icon: "plus", size: "xs", color: "green" }, styles.plusSign)}
-                                        </>
-                                    }
                                 ]}
                             />
                         </Spinner>
@@ -193,12 +219,13 @@ const StatisticsPage: React.FC = () => {
                                     {
                                         title: "Disk Usage",
                                         value: APIServerDiskUsage,
-                                        prefix: renderIconPrefix({ icon: "hdd" })
-                                    }
-
+                                        prefix: renderIconWithAdditionalIcon({
+                                            icon: "hdd",
+                                        }),
+                                        suffix: "%",
+                                    },
                                 ]}
                                 negativeValueThreshold={50}
-                                suffix="%"
                                 withProgressBar
                                 progressBar={{
                                     percentage: APIServerDiskUsage,
@@ -214,18 +241,24 @@ const StatisticsPage: React.FC = () => {
                                     {
                                         title: "API",
                                         value: APIServerStatus,
-                                        prefix: renderIconPrefix({ icon: "server" })
+                                        prefix: renderIconWithAdditionalIcon({
+                                            icon: "server",
+                                        }),
                                     },
                                     {
                                         title: "Database",
                                         value: databaseServerStatus,
-                                        prefix: renderIconPrefix({ icon: "database" })
+                                        prefix: renderIconWithAdditionalIcon({
+                                            icon: "database",
+                                        }),
                                     },
                                     {
                                         title: "Mail",
                                         value: mailServerStatus,
-                                        prefix: renderIconPrefix({ icon: "envelope" })
-                                    }
+                                        prefix: renderIconWithAdditionalIcon({
+                                            icon: "envelope",
+                                        }),
+                                    },
                                 ]}
                                 positiveValueThreshold="UP"
                                 actions={[renderShutdownAPIServerButton()]}

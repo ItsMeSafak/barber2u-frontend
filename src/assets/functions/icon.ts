@@ -42,6 +42,11 @@ import {
     faDatabase,
     faUserTie,
     faPowerOff,
+    faCheck,
+    faTimes,
+    faUnlock,
+    faHashtag,
+    faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -85,6 +90,11 @@ export const icons = {
     faDatabase,
     faUserTie,
     faPowerOff,
+    faCheck,
+    faTimes,
+    faUnlock,
+    faHashtag,
+    faUsers,
 };
 
 /**

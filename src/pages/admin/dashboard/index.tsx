@@ -19,11 +19,11 @@ const { Content } = Layout;
  *
  * @returns {JSX}
  */
-const ModeratorDashboardPage: React.FC = () => {
+const AdminDashboardPage: React.FC = () => {
     const { loading } = useContext(AuthenticationContext);
     const { pageName } = useContext(LocationContext);
 
-    // The moderator dashboard sidebar components to be loaded.
+    // The admin dashboard sidebar components to be loaded.
     const components: React.FC[] = [StatisticsPage, SettingsPage];
 
     return (
@@ -41,4 +41,4 @@ const ModeratorDashboardPage: React.FC = () => {
     );
 };
 
-export default ModeratorDashboardPage;
+export default AdminDashboardPage;

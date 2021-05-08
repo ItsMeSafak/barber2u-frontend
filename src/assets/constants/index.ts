@@ -65,7 +65,16 @@ export const REFRESH_TOKEN_COOKIE = `${PACKAGE_NAME}refreshToken`;
 
 // API.
 export const BASE_URL = "http://localhost:8080/api";
-export const ERROR_MESSAGE_BASE = "Something went wrong while trying to call";
+
+// Authenticated user role constants.
+export const ADMIN_BASE_URL = "admin";
+export const ADMIN_DEFAULT_COLOR = "blue";
+
+export const BARBER_BASE_URL = "barber";
+export const BARBER_DEFAULT_COLOR = "red";
+
+export const CUSTOMER_BASE_URL = "customer";
+export const CUSTOMER_DEFAULT_COLOR = "green";
 
 // Month names.
 export const MONTH_NAMES = [

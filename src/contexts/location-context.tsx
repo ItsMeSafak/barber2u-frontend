@@ -15,7 +15,7 @@ interface ContextProps {
 
 const contextDefaultValues: ContextProps = {
     pageName: "N/A",
-    setPageName: () => { },
+    setPageName: () => {},
 };
 
 export const LocationContext = createContext<ContextProps>(
@@ -25,7 +25,7 @@ export const LocationContext = createContext<ContextProps>(
 /**
  * This provider is used to keep track of the location.
  * It can be used to keep track of the page name where ever the authenticated user is at.
- * 
+ *
  * @param {Object} props Component properties.
  * @returns {JSX}
  */
