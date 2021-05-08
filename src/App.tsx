@@ -10,6 +10,7 @@ import Role from "./models/enums/Role";
 import HomePage from "./pages/visitor/home";
 import ErrorPage from "./pages/error";
 import SigninPage from "./pages/visitor/signin";
+import VerifyEmailPage from "./pages/verify-email";
 import SignupPageBarber from "./pages/visitor/signup/signup-barber";
 import SignupLandingPage from "./pages/visitor/signup";
 import ResetPasswordPage from "./pages/visitor/reset-password";
@@ -126,6 +127,10 @@ const App: React.FC = () => {
                             allowedRoles={[Role.Admin]}
                             path="/admin"
                             component={AdminDashboardPage}
+                        />
+                        <Route
+                            path="/verify"
+                            component={VerifyEmailPage}
                         />
                         <Route
                             exact
