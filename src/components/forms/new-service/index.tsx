@@ -5,7 +5,7 @@ import { Form, Input, Switch, InputNumber } from "antd";
 
 import Service from "../../../models/Service";
 
-import { DashboardContext } from "../../../contexts/dashboard-context";
+import { BarberbContext } from "../../../contexts/barber-context";
 
 import { EURO_SYMBOL } from "../../../assets/constants";
 
@@ -23,7 +23,7 @@ interface FormProps {
 const NewServiceForm: React.FC<FormProps> = (props) => {
     const { serviceDetail } = props;
     const { isNewItem, formValues, setFormValues } = useContext(
-        DashboardContext
+        BarberbContext
     );
     const [active] = useState(isNewItem || serviceDetail?.active);
 

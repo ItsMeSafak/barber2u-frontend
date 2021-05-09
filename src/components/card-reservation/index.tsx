@@ -13,7 +13,7 @@ import { EURO_SYMBOL, GOOGLE_MAPS_BASE_URL } from "../../assets/constants";
 
 import { updateReservationStatus } from "../../services/reservation-service";
 
-import { DashboardContext } from "../../contexts/dashboard-context";
+import { BarberbContext } from "../../contexts/barber-context";
 import { ScreenContext } from "../../contexts/screen-context";
 
 import styles from "./styles.module.scss";
@@ -31,7 +31,7 @@ interface ComponentProps {
  */
 const ReservationCard: React.FC<ComponentProps> = (props) => {
     const { reservationDetail } = props;
-    const { setIsUpdated } = useContext(DashboardContext);
+    const { setIsUpdated } = useContext(BarberbContext);
     const { isMobileOrTablet } = useContext(ScreenContext);
 
     /**
@@ -198,7 +198,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                         icon={getIconByPrefixName("fas", "cut")}
                         size="lg"
                     />{" "}
-                    {reservationDetail.services.map((item, index) => index !== 0 ? `, ${item.name}` : `${item.name}`)}
+                    {reservationDetail.services.map(({ name }, index) => index !== 0 ? `, ${name}` : `${name}`)}
                 </p>
 
                 <span className={styles.price}>

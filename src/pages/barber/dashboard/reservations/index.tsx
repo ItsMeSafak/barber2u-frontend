@@ -6,7 +6,7 @@ import Reservation from "../../../../models/Reservation";
 
 import ReservationCard from "../../../../components/card-reservation";
 
-import { DashboardContext } from "../../../../contexts/dashboard-context";
+import { BarberbContext } from "../../../../contexts/barber-context";
 
 import { getReservations } from "../../../../services/reservation-service";
 
@@ -33,7 +33,7 @@ const ReservationsPage: React.FC = () => {
     const [maxIndexValue, setMaxIndexValue] = useState(MAX_ITEMS_PAGE);
     const [currentFilter, setCurrentFilter] = useState("");
     const { loading, isUpdated, setIsUpdated, setLoading } = useContext(
-        DashboardContext
+        BarberbContext
     );
 
     /**
