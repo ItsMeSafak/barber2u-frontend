@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { Layout } from "antd";
+import { Layout, Skeleton } from "antd";
 
 import UserRoutes from "../../../routes/user-routes";
 import SettingsPage from "./settings";
 import StatisticsPage from "./statistics";
 import SidebarPartial from "../../../template/sidebar-partial";
+import EmailNotVerified from "../../../template/email-not-verified";
+
+import { AuthenticationContext } from "../../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
 
@@ -18,6 +21,8 @@ const { Content } = Layout;
  * @returns {JSX}
  */
 const CustomerDashboardPage: React.FC = () => {
+    const { loading } = useContext(AuthenticationContext);
+
     // The customer dashboard sidebar components to be loaded.
     const components: React.FC[] = [StatisticsPage, SettingsPage];
 
@@ -25,7 +30,13 @@ const CustomerDashboardPage: React.FC = () => {
         <Layout>
             <SidebarPartial />
             <Content className={styles.content}>
-                <UserRoutes components={components} />
+                <Skeleton active loading={loading} />
+                {!loading && (
+                    <>
+                        <EmailNotVerified />
+                        <UserRoutes components={components} />
+                    </>
+                )}
             </Content>
         </Layout>
     );

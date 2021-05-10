@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import { CookiesProvider } from "react-cookie";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 
@@ -20,7 +22,11 @@ ReactDOM.render(
     <React.StrictMode>
         <AuthenticationProvider>
             <ScreenProvider>
-                <App />
+                <BrowserRouter>
+                    <CookiesProvider>
+                        <App />
+                    </CookiesProvider>
+                </BrowserRouter>
             </ScreenProvider>
         </AuthenticationProvider>
     </React.StrictMode>,

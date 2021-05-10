@@ -3,7 +3,7 @@ import axios from "axios";
 import Service from "../models/Service";
 import MomentRange from "../models/MomentRange";
 
-import { DATE_FORMAT, TIME_FORMAT, RESPONSE_OK } from "../assets/constants";
+import { DATE_FORMAT, TIME_FORMAT } from "../assets/constants";
 
 /**
  * Response interface for the Barber items
@@ -40,7 +40,7 @@ export const sendCreateReservation = (
             })
             .then(
                 (response) => {
-                    if (response.status === RESPONSE_OK) {
+                    if (response.status === 200) {
                         resolve(response.data);
                     } else
                         reject(

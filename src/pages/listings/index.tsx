@@ -12,7 +12,7 @@ import { TempBarber } from "../../models/TempBarber";
 import ListingItem from "../../components/listing-item";
 
 import barberListings from "../../assets/listing/listing_barbers.json";
-import { showNotification } from "../../assets/functions/notification";
+import { showHttpResponseNotification } from "../../assets/functions/notification";
 import { getIconByPrefixName } from "../../assets/functions/icon";
 
 import { fetchBarbers } from "../../services/listing-service";
@@ -47,7 +47,7 @@ const Listings: React.FC = () => {
                 setBarbers(response.data);
             })
             .catch((error) =>
-                showNotification(undefined, error.message, error.status)
+                showHttpResponseNotification(error.message, error.status)
             );
     };
 

@@ -34,7 +34,7 @@ import {
     MORNING_STRING,
     NIGHT_STRING,
 } from "../../assets/constants";
-import { showNotification } from "../../assets/functions/notification";
+import { showHttpResponseNotification } from "../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
@@ -247,7 +247,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 setServices(response.data.services);
             })
             .catch((error) =>
-                showNotification(undefined, error.message, error.status)
+                showHttpResponseNotification(error.message, error.status)
             );
     };
 
@@ -265,7 +265,10 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                         setSelectedDay(response.data[0]);
                 })
                 .catch((error) =>
-                    showNotification(undefined, error.message, error.status)
+                    showHttpResponseNotification(
+                        error.message,
+                        error.status
+                    )
                 );
     };
 
@@ -289,7 +292,10 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                     resetSlick();
                 })
                 .catch((error) =>
-                    showNotification(undefined, error.message, error.status)
+                    showHttpResponseNotification(
+                        error.message,
+                        error.status
+                    )
                 );
     };
 
@@ -304,14 +310,16 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 selectedTime
             )
                 .then((response) => {
-                    showNotification(
-                        undefined,
+                    showHttpResponseNotification(
                         response.message,
                         response.status
                     );
                 })
                 .catch((error) =>
-                    showNotification(undefined, error.message, error.status)
+                    showHttpResponseNotification(
+                        error.message,
+                        error.status
+                    )
                 );
     };
 

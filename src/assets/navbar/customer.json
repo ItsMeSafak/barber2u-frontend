@@ -4,12 +4,12 @@
         "url": "/customer",
         "name": "Dashboard",
         "icon": ["fas", "chart-pie"],
-        "isNavbarMenu": false,
+        "isNavbarMenu": true,
         "isFooterMenu": true,
         "isMobileMenu": true,
         "isPillButton": false,
         "isDrawerMenu": true,
-        "isDropdownMenu": true
+        "isDropdownMenu": false
     },
     {
         "id": "listing",

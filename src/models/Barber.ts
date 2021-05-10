@@ -1,14 +1,13 @@
 import User from "./User";
 
-// TODO apply camelCasing for the barber objects.
 /**
  * Barber class which can be used for creating barber objects.
  */
 export default class Barber extends User {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
-    private kvk_number: string;
-    private btw_vat_number: string;
-    private work_radius: number;
+    private kvkNumber: string;
+    private btwVatNumber: string;
+    private workRadius: number;
     private user: User;
 
     // eslint-disable-next-line require-jsdoc
@@ -23,9 +22,9 @@ export default class Barber extends User {
         roles: Array<{ id: string; name: string }>,
         isActive: boolean,
         isVerified: boolean,
-        kvk_number: string,
-        btw_vat_number: string,
-        work_radius: number,
+        kvkNumber: string,
+        btwVatNumber: string,
+        workRadius: number,
         user: User
     ) {
         super(
@@ -40,9 +39,9 @@ export default class Barber extends User {
             isActive,
             isVerified
         );
-        this.kvk_number = kvk_number;
-        this.btw_vat_number = btw_vat_number;
-        this.work_radius = work_radius;
+        this.kvkNumber = kvkNumber;
+        this.btwVatNumber = btwVatNumber;
+        this.workRadius = workRadius;
         this.user = user;
     }
 

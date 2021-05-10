@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { Layout } from "antd";
+import { Layout, Skeleton } from "antd";
 
 import UserRoutes from "../../../routes/user-routes";
 import SettingsPage from "./settings";
 import StatisticsPage from "./statistics";
 import SidebarPartial from "../../../template/sidebar-partial";
+
+import { AuthenticationContext } from "../../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
 
@@ -18,6 +20,8 @@ const { Content } = Layout;
  * @returns {JSX}
  */
 const ModeratorDashboardPage: React.FC = () => {
+    const { loading } = useContext(AuthenticationContext);
+
     // The moderator dashboard sidebar components to be loaded.
     const components: React.FC[] = [StatisticsPage, SettingsPage];
 
@@ -25,7 +29,8 @@ const ModeratorDashboardPage: React.FC = () => {
         <Layout>
             <SidebarPartial />
             <Content className={styles.content}>
-                <UserRoutes components={components} />
+                <Skeleton active loading={loading} />
+                {!loading && <UserRoutes components={components} />}
             </Content>
         </Layout>
     );

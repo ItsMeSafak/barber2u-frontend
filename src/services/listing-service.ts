@@ -7,7 +7,7 @@ import Barber from "../models/Barber";
 import Service from "../models/Service";
 import MomentRange from "../models/MomentRange";
 
-import { DATE_FORMAT, RESPONSE_OK } from "../assets/constants";
+import { DATE_FORMAT } from "../assets/constants";
 
 /**
  * Response interface for the Barber items
@@ -62,7 +62,7 @@ export const fetchBarbers = (): Promise<APIBarbersResponse> =>
     new Promise<APIBarbersResponse>((resolve, reject) => {
         axios.post("/barbers").then(
             (response) => {
-                if (response.status === RESPONSE_OK) {
+                if (response.status === 200) {
                     resolve(fixBarberObject(response.data));
                 } else
                     reject(
@@ -90,7 +90,7 @@ export const fetchBarberListing = (
     new Promise<APIBarberListingResponse>((resolve, reject) => {
         axios.post(`/barbers/${email}/listing`).then(
             (response) => {
-                if (response.status === RESPONSE_OK)
+                if (response.status === 200)
                     resolve(fixBarberListingObject(response.data));
                 else
                     reject(
@@ -128,7 +128,7 @@ export const fetchBarberAvailability = (
             )
             .then(
                 (response) => {
-                    if (response.status === RESPONSE_OK) {
+                    if (response.status === 200) {
                         resolve(fixBarberAvailabilityObject(response.data));
                     } else
                         reject(
@@ -165,7 +165,7 @@ export const fetchBarberWorkdays = (
             )
             .then(
                 (response) => {
-                    if (response.status === RESPONSE_OK) {
+                    if (response.status === 200) {
                         resolve(fixBarberWorkdaysObject(response.data));
                     } else
                         reject(
@@ -190,7 +190,10 @@ const fixBarberObject = (response: APIBarbersResponse) => {
     response.data.forEach((value, index) => {
         const barber: Barber = Barber.fromJSON(value);
         response.data[index] = barber;
-        response.data[index].setUser = User.fromJSON(barber.getUser);
+        response.data[index].setUser = Object.setPrototypeOf(
+            barber.getUser,
+            User.prototype
+        );
     });
     return response;
 };
