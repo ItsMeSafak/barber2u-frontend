@@ -1,9 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 
 import { Row, Layout, Col } from "antd";
 
+import { verifyEmail } from "../../services/auth-service";
+
 import { ScreenContext } from "../../contexts/screen-context";
+
+import { showHttpResponseNotification } from "../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
@@ -19,8 +23,19 @@ const VerifyEmailPage: React.FC = () => {
     const params = new URLSearchParams(useLocation().search);
     const history = useHistory();
 
+    const verifyAccount = useCallback(async () => {
+        const response = await verifyEmail(params.get("id"));
+
+        const { status, message } = response;
+        showHttpResponseNotification(message, status, false);
+    }, []);
+
     useEffect(() => {
-        if (!params.has("id")) history.push("/404");
+        if (!params.has("id")) {
+            history.push("/404");
+        } else {
+            verifyAccount();
+        }
     }, []);
 
     /**
