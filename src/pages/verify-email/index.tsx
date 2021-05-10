@@ -23,21 +23,19 @@ const VerifyEmailPage: React.FC = () => {
     const params = new URLSearchParams(useLocation().search);
     const history = useHistory();
 
-    const [isVerified, setIsVerified] = useState(false);
-
     const verifyAccount = useCallback(async () => {
-        setIsVerified(false);
         const response = await verifyEmail(params.get("id"));
 
         const { status, message } = response;
         showHttpResponseNotification(message, status, false);
-        if (!response.data) return;
-        setIsVerified(true);
     }, []);
 
     useEffect(() => {
-        if (!params.has("id")) history.push("/404");
-        else verifyAccount();
+        if (!params.has("id")) {
+            history.push("/404");
+        } else {
+            verifyAccount();
+        }
     }, []);
 
     /**
@@ -85,7 +83,7 @@ const VerifyEmailPage: React.FC = () => {
 
     return (
         <Content>
-            {isVerified && isMobileOrTablet
+            {isMobileOrTablet
                 ? renderMobileVerification()
                 : renderDesktopVerification()}
         </Content>
