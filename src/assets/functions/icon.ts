@@ -47,6 +47,7 @@ import {
     faUnlock,
     faHashtag,
     faUsers,
+    faEye
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -95,6 +96,7 @@ export const icons = {
     faUnlock,
     faHashtag,
     faUsers,
+    faEye
 };
 
 /**

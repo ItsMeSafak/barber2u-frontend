@@ -46,6 +46,16 @@ $_ghost-buttons: (
         #40a9ff,
         #096dd9,
     ),
+    danger: (
+        #fa541c,
+        #ff7a45,
+        #d4380d,
+    ),
+    success: (
+        #7cb305,
+        #a0d911,
+        #5b8c00
+    )
 );
 
 /// This function is used to generate dynamic button class names,

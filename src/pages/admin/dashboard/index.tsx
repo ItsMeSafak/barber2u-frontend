@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 
 import { Layout, PageHeader, Skeleton } from "antd";
 
+import UsersPage from "./users";
 import UserRoutes from "../../../routes/user-routes";
 import SettingsPage from "./settings";
 import StatisticsPage from "./statistics";
@@ -24,7 +25,7 @@ const AdminDashboardPage: React.FC = () => {
     const { pageName } = useContext(LocationContext);
 
     // The admin dashboard sidebar components to be loaded.
-    const components: React.FC[] = [StatisticsPage, SettingsPage];
+    const components: React.FC[] = [StatisticsPage, UsersPage, SettingsPage];
 
     return (
         <Layout>

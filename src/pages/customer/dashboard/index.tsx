@@ -11,6 +11,7 @@ import EmailNotVerified from "../../../template/email-not-verified";
 import { AuthenticationContext } from "../../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
+import UsersPage from "../../admin/dashboard/settings";
 
 const { Content } = Layout;
 
@@ -24,7 +25,8 @@ const CustomerDashboardPage: React.FC = () => {
     const { loading } = useContext(AuthenticationContext);
 
     // The customer dashboard sidebar components to be loaded.
-    const components: React.FC[] = [StatisticsPage, SettingsPage];
+    // TODO: REMOVE USERSPAGE FROM CUSTOMERS...
+    const components: React.FC[] = [StatisticsPage, UsersPage, SettingsPage];
 
     return (
         <Layout>

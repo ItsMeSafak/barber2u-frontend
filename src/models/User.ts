@@ -1,3 +1,7 @@
+import Role from "./enums/Role";
+
+import { ADMIN_DEFAULT_COLOR, BARBER_DEFAULT_COLOR, CUSTOMER_DEFAULT_COLOR } from "../assets/constants";
+
 /**
  * User class which can be used for creating user objects.
  */
@@ -80,5 +84,31 @@ export default class User {
 
     get getIsVerified(): boolean {
         return this.isVerified;
+    }
+
+    get getDefaultColor(): string {
+        let color;
+
+        switch (this.getRoleNames[0] as Role) {
+            case Role.Customer:
+                color = CUSTOMER_DEFAULT_COLOR;
+                break;
+            case Role.Barber:
+                color = BARBER_DEFAULT_COLOR;
+                break;
+            case Role.Admin:
+                color = ADMIN_DEFAULT_COLOR;
+                break;
+        }
+
+        return color;
+    }
+
+    get getPhoneNumber(): string {
+        return this.phoneNumber;
+    }
+
+    get getAddress(): string {
+        return this.address;
     }
 }
