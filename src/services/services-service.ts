@@ -13,14 +13,14 @@ interface IServiceResponse extends IHttpResponse {
 /**
  * This function fetches the services.
  *
- * @param {string} barber email of the barber.
+ * @param {string} barberMail email of the barber.
  * @returns {Promise<IServiceResponse>}
  */
-export const getAllServices = (barber?: string): Promise<IServiceResponse> =>
+export const getAllServices = (barberMail?: string): Promise<IServiceResponse> =>
     new Promise<IServiceResponse>((resolve, reject) => {
         axios
             .post(`${API_URL}/get`, {
-                barber,
+                barberMail,
             })
             .then(
                 (response) => {

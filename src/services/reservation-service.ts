@@ -32,8 +32,8 @@ export const sendCreateReservation = (
     new Promise<APICreateReservationResponse>((resolve, reject) => {
         axios
             .post("/reservation/create", {
-                barber: barberEmail,
-                services: services.map((service) => service.id),
+                barberMail: barberEmail,
+                serviceIds: services.map((service) => service.id),
                 date: date.startTime.format(DATE_FORMAT),
                 startTime: date.startTime.format(TIME_FORMAT),
                 endTime: date.endTime.format(TIME_FORMAT),

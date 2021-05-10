@@ -60,7 +60,7 @@ interface APIBarberWorkdaysResponse {
  */
 export const fetchBarbers = (): Promise<APIBarbersResponse> =>
     new Promise<APIBarbersResponse>((resolve, reject) => {
-        axios.post("/barbers").then(
+        axios.get("/barbers").then(
             (response) => {
                 if (response.status === 200) {
                     resolve(fixBarberObject(response.data));
@@ -88,7 +88,7 @@ export const fetchBarberListing = (
     email: string
 ): Promise<APIBarberListingResponse> =>
     new Promise<APIBarberListingResponse>((resolve, reject) => {
-        axios.post(`/barbers/${email}/listing`).then(
+        axios.get(`/barbers/${email}/listing`).then(
             (response) => {
                 if (response.status === 200)
                     resolve(fixBarberListingObject(response.data));
