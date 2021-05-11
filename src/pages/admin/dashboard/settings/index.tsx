@@ -45,7 +45,10 @@ const SettingsPage: React.FC = () => {
         <>
             <Spinner spinning={loading}>
                 <Card className={styles.card} title="Personal details">
-                    <GenericForm formName="personalDetails" data={formInputData} />
+                    <GenericForm
+                        formName="personalDetails"
+                        data={formInputData}
+                    />
                 </Card>
             </Spinner>
         </>

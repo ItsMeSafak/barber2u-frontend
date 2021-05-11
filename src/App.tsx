@@ -121,7 +121,7 @@ const App: React.FC = () => {
                         <ProtectedRoute
                             allowedRoles={[Role.Customer]}
                             path="/customer"
-                            component={CustomerDashboardPage}
+                            component={AdminDashboardPage}
                         />
                         <ProtectedRoute
                             allowedRoles={[Role.Admin]}

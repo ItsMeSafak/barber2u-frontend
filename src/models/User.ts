@@ -1,6 +1,10 @@
 import Role from "./enums/Role";
 
-import { ADMIN_DEFAULT_COLOR, BARBER_DEFAULT_COLOR, CUSTOMER_DEFAULT_COLOR } from "../assets/constants";
+import {
+    ADMIN_DEFAULT_COLOR,
+    BARBER_DEFAULT_COLOR,
+    CUSTOMER_DEFAULT_COLOR,
+} from "../assets/constants";
 
 /**
  * User class which can be used for creating user objects.
@@ -62,6 +66,30 @@ export default class User {
         return this.lastName;
     }
 
+    get getRoles(): Array<{ id: string; name: string }> {
+        return this.roles;
+    }
+
+    get getIsVerified(): boolean {
+        return this.isVerified;
+    }
+
+    get getIsActive(): boolean {
+        return this.isActive;
+    }
+
+    get getPhoneNumber(): string {
+        return this.phoneNumber;
+    }
+
+    get getAddress(): string {
+        return this.address;
+    }
+
+    get getZipCode(): string {
+        return this.zipCode;
+    }
+
     get getFullName(): string {
         return `${this.getFirstName} ${this.getLastName}`;
     }
@@ -74,16 +102,8 @@ export default class User {
         return this.firstName.charAt(0).toUpperCase();
     }
 
-    get getRoles(): Array<{ id: string; name: string }> {
-        return this.roles;
-    }
-
     get getRoleNames(): Array<string> {
         return this.roles.map(({ name }) => name);
-    }
-
-    get getIsVerified(): boolean {
-        return this.isVerified;
     }
 
     get getDefaultColor(): string {
@@ -102,13 +122,5 @@ export default class User {
         }
 
         return color;
-    }
-
-    get getPhoneNumber(): string {
-        return this.phoneNumber;
-    }
-
-    get getAddress(): string {
-        return this.address;
     }
 }

@@ -150,11 +150,11 @@ export const resetPasswordMail = (email: string): Promise<IAuthResponse> =>
     });
 
 /**
-* This function sends a put request to the backend, to verify tge account.
-* 
-* @param {string | null} userId userid from the url
-* @returns {Promise<IAuthResponse>}
-*/
+ * This function sends a put request to the backend, to verify tge account.
+ *
+ * @param {string | null} userId userid from the url
+ * @returns {Promise<IAuthResponse>}
+ */
 export const verifyEmail = (userId: string | null): Promise<IAuthResponse> =>
     new Promise<IAuthResponse>((resolve, reject) => {
         axios.put(`${BASE_URL}/verify/email/${userId}`).then(
@@ -166,7 +166,6 @@ export const verifyEmail = (userId: string | null): Promise<IAuthResponse> =>
             }
         );
     });
-
 
 /**
  * This functions sends put request to the backend, to reset the user password

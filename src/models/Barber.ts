@@ -5,49 +5,38 @@ import User from "./User";
  */
 export default class Barber extends User {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
+    // private user: User;
     private kvkNumber: string;
     private btwVatNumber: string;
     private workRadius: number;
-    private user: User;
 
     // eslint-disable-next-line require-jsdoc
     constructor(
-        id: string,
-        firstName: string,
-        lastName: string,
-        email: string,
-        phoneNumber: string,
-        address: string,
-        zipCode: string,
-        roles: Array<{ id: string; name: string }>,
-        isActive: boolean,
-        isVerified: boolean,
+        user: User,
         kvkNumber: string,
         btwVatNumber: string,
-        workRadius: number,
-        user: User
+        workRadius: number
     ) {
         super(
-            id,
-            firstName,
-            lastName,
-            email,
-            phoneNumber,
-            address,
-            zipCode,
-            roles,
-            isActive,
-            isVerified
+            user.getId,
+            user.getFirstName,
+            user.getLastName,
+            user.getEmail,
+            user.getPhoneNumber,
+            user.getAddress,
+            user.getZipCode,
+            user.getRoles,
+            user.getIsActive,
+            user.getIsVerified
         );
         this.kvkNumber = kvkNumber;
         this.btwVatNumber = btwVatNumber;
         this.workRadius = workRadius;
-        this.user = user;
     }
 
     // eslint-disable-next-line require-jsdoc
     get getUser(): User {
-        return this.user;
+        return this;
     }
 
     // eslint-disable-next-line require-jsdoc

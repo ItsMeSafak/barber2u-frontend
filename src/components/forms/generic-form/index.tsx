@@ -14,20 +14,20 @@ interface ComponentProps {
         icon: string;
         value: string | number | string[] | undefined;
         type?: string;
-    }>
-};
+    }>;
+}
 
 /**
  * TODO...
- * @param props 
- * @returns 
+ * @param props
+ * @returns
  */
 const GenericForm: React.FC<ComponentProps> = (props) => {
     const { formName, data } = props;
 
     /**
      * TODO...
-     * @returns 
+     * @returns
      */
     const renderFormData = () =>
         data.map(({ type, name, icon, value }) => {
@@ -60,11 +60,7 @@ const GenericForm: React.FC<ComponentProps> = (props) => {
             );
         });
 
-    return (
-        <Form name={formName}>
-            {renderFormData()}
-        </Form>
-    );
+    return <Form name={formName}>{renderFormData()}</Form>;
 };
 
 export default GenericForm;

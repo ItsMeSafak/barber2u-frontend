@@ -13,6 +13,7 @@ import { AuthenticationContext } from "../../../../contexts/authentication-conte
 
 import styles from "./styles.module.scss";
 import GenericForm from "../../../../components/forms/generic-form";
+import Barber from "../../../../models/Barber";
 
 /**
  * Admin users page.
@@ -95,10 +96,28 @@ const UsersPage: React.FC = () => {
                 "123",
                 "123",
                 [{ id: "123", name: "ROLE_CUSTOMER" }],
-                false,
-                true
+                true,
+                false
             )
     );
+
+    // const barberData = [
+    //     2, 3, 4, 5
+    // ].map((index) =>
+    //     new Barber(
+    //         index.toString(), 
+    //     `Barber ${index}`, 
+    //     "Doe",
+    //     "test@test.com",
+    //     "06123",
+    //     "123",
+    //     "123",
+    //     [{id: "123", name: "ROLE_BARBER"}],
+    //     true,
+    //     true,
+    //     "123123123",
+    //     "123456789",
+    //     10))
 
     const content = {
         "#customers": (
@@ -233,6 +252,16 @@ const UsersPage: React.FC = () => {
                 name: "address",
                 icon: "address-book",
                 value: selectedUser?.getAddress,
+            },
+            {
+                name: "verified",
+                icon: selectedUser?.getIsVerified ? "check" : "times",
+                value: selectedUser?.getIsVerified ? "Verified" : "Unverified",
+            },
+            {
+                name: "active",
+                icon: selectedUser?.getIsActive ? "unlock" : "lock",
+                value: selectedUser?.getIsActive ? "Active" : "Inactive",
             },
             {
                 type: "select",
