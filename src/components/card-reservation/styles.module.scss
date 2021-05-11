@@ -2,6 +2,8 @@
 
 .card {
     box-shadow: $shadow;
+    min-height: 23rem;
+    height: 23rem;
 
     .header {
         font-size: $header-size-2;
@@ -34,6 +36,11 @@
 
     .icon {
         color: $primary-color;
+        margin-right: 5px;
+    }
+
+    .mobileLink {
+        margin-left: 10px;
     }
 
     .externalLink {

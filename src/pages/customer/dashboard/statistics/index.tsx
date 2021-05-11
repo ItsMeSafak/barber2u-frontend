@@ -91,7 +91,7 @@ const Content = (props: AppointmentTooltipBase.ContentProps) => (
  */
 const StatisticsPage: React.FC = () => {
     useEffect(() => {
-        getReservations().then((response) => {
+        getReservations(null).then((response) => {
             setAppointments(
                 convertAppointmentsToSchedulerAppointments(response.data)
             );

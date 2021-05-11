@@ -1,12 +1,12 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import { Row, Divider, Layout, Pagination, Skeleton, Select, Col } from "antd";
+import {Row, Divider, Layout, Pagination, Skeleton, Select, Empty, Col} from "antd";
 
 import Reservation from "../../../../models/Reservation";
 
 import ReservationCard from "../../../../components/card-reservation";
 
-import { DashboardContext } from "../../../../contexts/dashboard-context";
+import { BarberbContext } from "../../../../contexts/barber-context";
 
 import { getReservations } from "../../../../services/reservation-service";
 
@@ -31,17 +31,17 @@ const ReservationsPage: React.FC = () => {
     const [reservationItems, setReserVationItems] = useState<Reservation[]>([]);
     const [minIndexValue, setMinIndexValue] = useState(0);
     const [maxIndexValue, setMaxIndexValue] = useState(MAX_ITEMS_PAGE);
+    const [currentFilter, setCurrentFilter] = useState("");
     const { loading, isUpdated, setIsUpdated, setLoading } = useContext(
-        DashboardContext
+        BarberbContext
     );
 
     /**
      * This function fetches the reservation from the backend and displays it on the page.
      */
-    const fetchReservations = useCallback(
-        async (reservationStatus?: string) => {
-            setLoading(true);
-            const response = await getReservations(reservationStatus);
+    const fetchReservations = useCallback(async (filterStatus: string | null) => {
+        setLoading(true);
+        const response = await getReservations(filterStatus);
 
             const { status, message } = response;
             showHttpResponseNotification(message, status, false);
@@ -54,10 +54,10 @@ const ReservationsPage: React.FC = () => {
     );
 
     useEffect(() => {
-        fetchReservations();
+        fetchReservations(currentFilter !== "" ? currentFilter : null);
         setIsUpdated(false);
         return () => setLoading(true);
-    }, [isUpdated, setIsUpdated, setLoading, fetchReservations]);
+    }, [isUpdated, setIsUpdated, setLoading, fetchReservations, currentFilter]);
 
     /**
      * This function handles the pagination of the reservations.
@@ -89,7 +89,7 @@ const ReservationsPage: React.FC = () => {
      * @param value
      */
     const handleFilterChange = (value: string) => {
-        fetchReservations(value);
+        setCurrentFilter(value);
     };
 
     return (
@@ -111,8 +111,9 @@ const ReservationsPage: React.FC = () => {
             {!loading && (
                 <>
                     <Row gutter={[20, 20]}>
-                        {reservationItems &&
-                            renderReservationItems(reservationItems)}
+                        {reservationItems.length > 0 ?
+                            renderReservationItems(reservationItems) :
+                            <Empty className={styles.noData} />}
                     </Row>
 
                     <div className={styles.pagination}>

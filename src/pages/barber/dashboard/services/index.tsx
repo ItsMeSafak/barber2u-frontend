@@ -14,7 +14,7 @@ import {
 import ServiceCard from "../../../../components/card-service";
 import NewServiceForm from "../../../../components/forms/new-service";
 
-import { DashboardContext } from "../../../../contexts/dashboard-context";
+import { BarberbContext } from "../../../../contexts/barber-context";
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
 
 import { getIconByPrefixName } from "../../../../assets/functions/icon";
@@ -44,7 +44,7 @@ const ServicesPage: React.FC = () => {
         setListOfServices,
         setIsNewItem,
         setIsDeleted,
-    } = useContext(DashboardContext);
+    } = useContext(BarberbContext);
 
     /**
      * This function fetches the services using the getAllServices function from services-service

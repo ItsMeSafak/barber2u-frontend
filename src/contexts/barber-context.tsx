@@ -47,18 +47,18 @@ const contextDefaultValues: ContextProps = {
         isActive: false,
     },
     listOfServices: [],
-    setLoading: () => {},
-    setIsCreated: () => {},
-    setIsUpdated: () => {},
-    setIsDeleted: () => {},
-    setIsEditingId: () => {},
-    setIsNewItem: () => {},
-    setServiceDetail: () => {},
-    setFormValues: () => {},
-    setListOfServices: () => {},
+    setLoading: () => { },
+    setIsCreated: () => { },
+    setIsUpdated: () => { },
+    setIsDeleted: () => { },
+    setIsEditingId: () => { },
+    setIsNewItem: () => { },
+    setServiceDetail: () => { },
+    setFormValues: () => { },
+    setListOfServices: () => { },
 };
 
-export const DashboardContext = createContext<ContextProps>(
+export const BarberbContext = createContext<ContextProps>(
     contextDefaultValues
 );
 
@@ -71,7 +71,7 @@ export const DashboardContext = createContext<ContextProps>(
  * @param {ContextProps} props
  * @returns {React.FC}
  */
-export const DashboardProvider: React.FC = (props) => {
+export const BarberbProvider: React.FC = (props) => {
     const { children } = props;
 
     const [loading, setLoading] = useState(contextDefaultValues.loading);
@@ -136,10 +136,10 @@ export const DashboardProvider: React.FC = (props) => {
     );
 
     return (
-        <DashboardContext.Provider value={providerValues}>
+        <BarberbContext.Provider value={providerValues}>
             {children}
-        </DashboardContext.Provider>
+        </BarberbContext.Provider>
     );
 };
 
-export default DashboardProvider;
+export default BarberbProvider;
