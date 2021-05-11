@@ -1,6 +1,6 @@
 import React from "react";
 
-import ReservationCalendar from "../../../../components/calendar-reservation";
+import OverviewReservation from "../../../../components/overview-reservation";
 
 /**
  * Customer statistics page.
@@ -8,9 +8,9 @@ import ReservationCalendar from "../../../../components/calendar-reservation";
  * @returns {React.FC}
  */
 const StatisticsPage: React.FC = () => (
-        <>
-            <ReservationCalendar/>
-        </>
-    );
+    <>
+        <OverviewReservation/>
+    </>
+);
 
 export default StatisticsPage;

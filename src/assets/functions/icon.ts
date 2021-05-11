@@ -44,6 +44,7 @@ import {
     faMapMarkerAlt,
     faExternalLinkAlt,
     faInfoCircle,
+    faGripHorizontal,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -89,6 +90,7 @@ export const icons = {
     faMapMarkerAlt,
     faExternalLinkAlt,
     faInfoCircle,
+    faGripHorizontal,
 };
 
 /**

@@ -10,12 +10,12 @@ import {
     TodayButton,
     Toolbar,
     ViewSwitcher,
-    WeekView
+    WeekView,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import {
     Appointments as AppointmentsBase,
     AppointmentTooltip as AppointmentTooltipBase,
-    ViewState
+    ViewState,
 } from "@devexpress/dx-react-scheduler";
 import moment from "moment";
 import Paper from "@material-ui/core/Paper";
@@ -30,7 +30,6 @@ import SchedulerReservation from "../../models/SchedulerReservation";
 import ReservationCard from "../card-reservation";
 
 import styles from "./styles.module.scss";
-
 
 // Start and end of the day for the scheduler day and week view
 const SCHEDULER_START_DAY_HOUR = 8;
@@ -145,11 +144,11 @@ const ReservationCalendar: React.FC = () => {
                         setCurrentDate(moment(date).format(DATE_FORMAT))
                     }
                 />
-                <Toolbar/>
-                <DateNavigator/>
-                <TodayButton/>
-                <ViewSwitcher/>
-                <MonthView/>
+                <Toolbar />
+                <DateNavigator />
+                <TodayButton />
+                <ViewSwitcher />
+                <MonthView />
                 <WeekView
                     startDayHour={SCHEDULER_START_DAY_HOUR}
                     endDayHour={SCHEDULER_END_DAY_HOUR}
@@ -158,7 +157,7 @@ const ReservationCalendar: React.FC = () => {
                     startDayHour={SCHEDULER_START_DAY_HOUR}
                     endDayHour={SCHEDULER_END_DAY_HOUR}
                 />
-                <Appointments appointmentComponent={ReservationPanel}/>
+                <Appointments appointmentComponent={ReservationPanel} />
                 <AppointmentTooltip
                     contentComponent={Content}
                     headerComponent={Header}
