@@ -1,6 +1,15 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import {Row, Divider, Layout, Pagination, Skeleton, Select, Empty, Col} from "antd";
+import {
+    Row,
+    Divider,
+    Layout,
+    Pagination,
+    Skeleton,
+    Select,
+    Empty,
+    Col,
+} from "antd";
 
 import Reservation from "../../../../models/Reservation";
 
@@ -39,9 +48,10 @@ const ReservationsPage: React.FC = () => {
     /**
      * This function fetches the reservation from the backend and displays it on the page.
      */
-    const fetchReservations = useCallback(async (filterStatus: string | null) => {
-        setLoading(true);
-        const response = await getReservations(filterStatus);
+    const fetchReservations = useCallback(
+        async (filterStatus: string | null) => {
+            setLoading(true);
+            const response = await getReservations(filterStatus);
 
             const { status, message } = response;
             showHttpResponseNotification(message, status, false);
@@ -111,9 +121,11 @@ const ReservationsPage: React.FC = () => {
             {!loading && (
                 <>
                     <Row gutter={[20, 20]}>
-                        {reservationItems.length > 0 ?
-                            renderReservationItems(reservationItems) :
-                            <Empty className={styles.noData} />}
+                        {reservationItems.length > 0 ? (
+                            renderReservationItems(reservationItems)
+                        ) : (
+                            <Empty className={styles.noData} />
+                        )}
                     </Row>
 
                     <div className={styles.pagination}>

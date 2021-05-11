@@ -135,77 +135,91 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     };
 
     return (
-            <Card
-                className={styles.card}
-                actions={
-                    reservationDetail.status === Status.Completed ||
-                    reservationDetail.status === Status.Cancelled
-                        ? []
-                        : actions()
-                }
-            >
-                <h2 className={`${styles.header} ${switchColorHeader()}`}>
-                    {reservationDetail.status}
-                </h2>
+        <Card
+            className={styles.card}
+            actions={
+                reservationDetail.status === Status.Completed ||
+                reservationDetail.status === Status.Cancelled
+                    ? []
+                    : actions()
+            }
+        >
+            <h2 className={`${styles.header} ${switchColorHeader()}`}>
+                {reservationDetail.status}
+            </h2>
 
-                <p>
-                    <FontAwesomeIcon
-                        className={styles.icon}
-                        icon={getIconByPrefixName("fas", "user")}
-                        size="lg"
-                    />{" "}
-                    {reservationDetail.customer.getFullNameWithInitial}
-                </p>
+            <p>
+                <FontAwesomeIcon
+                    className={styles.icon}
+                    icon={getIconByPrefixName("fas", "user")}
+                    size="lg"
+                />{" "}
+                {reservationDetail.customer.getFullNameWithInitial}
+            </p>
 
-                <p>
+            <p>
+                <FontAwesomeIcon
+                    className={styles.icon}
+                    icon={getIconByPrefixName("fas", "map-marker-alt")}
+                    size="lg"
+                />{" "}
+                {`${reservationDetail.customer.getAddress}, ${reservationDetail.customer.getZipCode}`}
+                <a
+                    target="_blank"
+                    href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.customer.getZipCode}`}
+                >
                     <FontAwesomeIcon
-                        className={styles.icon}
-                        icon={getIconByPrefixName("fas", "map-marker-alt")}
-                        size="lg"
-                    />{" "}
-                    {`${reservationDetail.customer.getAddress}, ${reservationDetail.customer.getZipCode}`}
-                    <a target="_blank" href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.customer.getZipCode}`}
-                    ><FontAwesomeIcon
-                        className={`${styles.icon} ${isMobileOrTablet ? styles.mobileLink : styles.externalLink}`}
+                        className={`${styles.icon} ${
+                            isMobileOrTablet
+                                ? styles.mobileLink
+                                : styles.externalLink
+                        }`}
                         icon={getIconByPrefixName("fas", "external-link-alt")}
                         size="lg"
                     />
-                    </a>
-                </p>
+                </a>
+            </p>
 
-                <p>
-                    <FontAwesomeIcon
-                        className={styles.icon}
-                        icon={getIconByPrefixName("fas", "calendar-alt")}
-                        size="lg"
-                    />{" "}
-                    {reservationDetail.date}
-                </p>
+            <p>
+                <FontAwesomeIcon
+                    className={styles.icon}
+                    icon={getIconByPrefixName("fas", "calendar-alt")}
+                    size="lg"
+                />{" "}
+                {reservationDetail.date}
+            </p>
 
-                <p>
-                    <FontAwesomeIcon
-                        className={styles.icon}
-                        icon={getIconByPrefixName("fas", "clock")}
-                        size="lg"
-                    />{" "}
-                    {`${reservationDetail.startTime} - ${reservationDetail.endTime}`}
-                </p>
+            <p>
+                <FontAwesomeIcon
+                    className={styles.icon}
+                    icon={getIconByPrefixName("fas", "clock")}
+                    size="lg"
+                />{" "}
+                {`${reservationDetail.startTime} - ${reservationDetail.endTime}`}
+            </p>
 
-                <p>
-                    <FontAwesomeIcon
-                        className={styles.icon}
-                        icon={getIconByPrefixName("fas", "cut")}
-                        size="lg"
-                    />{" "}
-                    {reservationDetail.services.map(({ name }, index) => index !== 0 ? `, ${name}` : `${name}`)}
-                </p>
+            <p>
+                <FontAwesomeIcon
+                    className={styles.icon}
+                    icon={getIconByPrefixName("fas", "cut")}
+                    size="lg"
+                />{" "}
+                {reservationDetail.services.map(({ name }, index) =>
+                    index !== 0 ? `, ${name}` : `${name}`
+                )}
+            </p>
 
-                <span className={styles.price}>
-                    {EURO_SYMBOL} {reservationDetail.services.map((item) => item.price)
-                    .reduce((servicePrice, currentValue) =>
-                        currentValue + servicePrice).toFixed(2)}
-                </span>
-            </Card>
+            <span className={styles.price}>
+                {EURO_SYMBOL}{" "}
+                {reservationDetail.services
+                    .map((item) => item.price)
+                    .reduce(
+                        (servicePrice, currentValue) =>
+                            currentValue + servicePrice
+                    )
+                    .toFixed(2)}
+            </span>
+        </Card>
     );
 };
 

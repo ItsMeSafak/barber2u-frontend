@@ -124,10 +124,7 @@ const App: React.FC = () => {
                             path="/moderator"
                             component={ModeratorDashboardPage}
                         />
-                        <Route
-                            path="/verify"
-                            component={VerifyEmailPage}
-                        />
+                        <Route path="/verify" component={VerifyEmailPage} />
                         <Route
                             exact
                             path="/500"

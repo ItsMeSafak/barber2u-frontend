@@ -22,9 +22,7 @@ interface FormProps {
  */
 const NewServiceForm: React.FC<FormProps> = (props) => {
     const { serviceDetail } = props;
-    const { isNewItem, formValues, setFormValues } = useContext(
-        BarberbContext
-    );
+    const { isNewItem, formValues, setFormValues } = useContext(BarberbContext);
     const [active] = useState(isNewItem || serviceDetail?.active);
 
     useEffect(() => {
