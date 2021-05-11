@@ -48,6 +48,8 @@ import {
     faHashtag,
     faUsers,
     faEye,
+    faMapMarkerAlt,
+    faExternalLinkAlt
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -97,6 +99,8 @@ export const icons = {
     faHashtag,
     faUsers,
     faEye,
+    faMapMarkerAlt,
+    faExternalLinkAlt
 };
 
 /**

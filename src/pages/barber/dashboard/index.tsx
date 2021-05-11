@@ -5,14 +5,13 @@ import { Layout, Skeleton } from "antd";
 import UserRoutes from "../../../routes/user-routes";
 import SettingsPage from "./settings";
 import ServicesPage from "./services";
-import SchedulePage from "./schedule";
 import PortfolioPage from "./portfolio";
 import StatisticsPage from "./statistics";
 import SidebarPartial from "../../../template/sidebar-partial";
 import ReservationsPage from "./reservations";
 import EmailNotVerified from "../../../template/email-not-verified";
 
-import { ServiceProvider } from "../../../contexts/service-context";
+import { BarberbProvider } from "../../../contexts/barber-context";
 import { AuthenticationContext } from "../../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
@@ -30,7 +29,6 @@ const BarberDashboardPage: React.FC = () => {
     // The barber dashboard sidebar components to be loaded.
     const components: React.FC[] = [
         StatisticsPage,
-        SchedulePage,
         PortfolioPage,
         ServicesPage,
         ReservationsPage,
@@ -41,7 +39,7 @@ const BarberDashboardPage: React.FC = () => {
         <Layout>
             <SidebarPartial />
             <Content className={styles.content}>
-                <ServiceProvider>
+                <BarberbProvider>
                     <Skeleton active loading={loading} />
                     {!loading && (
                         <>
@@ -49,7 +47,7 @@ const BarberDashboardPage: React.FC = () => {
                             <UserRoutes components={components} />
                         </>
                     )}
-                </ServiceProvider>
+                </BarberbProvider>
             </Content>
         </Layout>
     );
