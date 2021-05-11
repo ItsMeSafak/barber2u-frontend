@@ -189,7 +189,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                         icon={getIconByPrefixName("fas", "clock")}
                         size="lg"
                     />{" "}
-                    {`${reservationDetail.startTime}, ${reservationDetail.endTime}`}
+                    {`${reservationDetail.startTime} - ${reservationDetail.endTime}`}
                 </p>
 
                 <p>
