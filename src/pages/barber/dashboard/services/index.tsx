@@ -1,7 +1,7 @@
-import React, { useEffect, useContext, useCallback } from "react";
+import React, { useEffect, useContext, useCallback, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Divider, Layout, Modal, Row, Skeleton } from "antd";
+import { Button, Divider, Empty, Layout, Modal, Pagination, Row, Select, Skeleton } from "antd";
 
 import Service from "../../../../models/Service";
 
@@ -17,12 +17,17 @@ import NewServiceForm from "../../../../components/forms/new-service";
 import { BarberbContext } from "../../../../contexts/barber-context";
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
 
+import { handlePagination } from "../../../../assets/functions/pagination";
+import { MAX_ITEMS_PER_PAGE } from "../../../../assets/constants";
 import { getIconByPrefixName } from "../../../../assets/functions/icon";
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
 const { Content } = Layout;
+const { Option } = Select;
+
+const MAX_ITEMS_PAGE = 6;
 
 /**
  * This component renders the services page, where the barber can display the services they offer.
@@ -45,15 +50,18 @@ const ServicesPage: React.FC = () => {
         setIsNewItem,
         setIsDeleted,
     } = useContext(BarberbContext);
+    const [minIndexValue, setMinIndexValue] = useState(0);
+    const [maxIndexValue, setMaxIndexValue] = useState(MAX_ITEMS_PER_PAGE);
+    const [currentFilter, setCurrentFilter] = useState("");
 
     /**
      * This function fetches the services using the getAllServices function from services-service
      *
      * @param {string} barber the email of the barber
      */
-    const fetchServices = useCallback(async () => {
+    const fetchServices = useCallback(async (filter: string | null) => {
         setLoading(true);
-        const response = await getAllServices(user?.getEmail);
+        const response = await getAllServices(filter);
 
         const { status, message } = response;
         showHttpResponseNotification(message, status, false);
@@ -64,10 +72,10 @@ const ServicesPage: React.FC = () => {
     }, [user, setLoading, setListOfServices]);
 
     useEffect(() => {
-        fetchServices();
+        fetchServices(currentFilter !== "" ? currentFilter : null);
         setIsDeleted(false);
         return () => setLoading(true);
-    }, [serviceDetail, isDeleted, fetchServices, setIsDeleted, setLoading]);
+    }, [serviceDetail, isDeleted, fetchServices, setIsDeleted, setLoading, currentFilter]);
 
     /**
      * This function sends a request to the backend, where we add a new service to the barber services.
@@ -177,20 +185,43 @@ const ServicesPage: React.FC = () => {
     const renderServices = () =>
         listOfServices?.map((service) => (
             <ServiceCard key={service.id} serviceDetail={service} />
-        ));
+        )).slice(minIndexValue, maxIndexValue);
+
+    /**
+    * This function handles the filtering of the service based on the status
+    * 
+    * @param value 
+    */
+    const handleFilterChange = (value: string) => {
+        setCurrentFilter(value);
+        setMinIndexValue(0);
+        setMaxIndexValue(MAX_ITEMS_PER_PAGE);
+    };
 
     return (
         <div className={styles.services}>
             <Layout>
                 <Content>
+                    <h1 className={styles.title}>Services</h1>
+                    <Select placeholder="Select a status" size="large" allowClear onChange={handleFilterChange}>
+                        <Option value="true">Active</Option>
+                        <Option value="false">Inactive</Option>
+                    </Select>
+                    {renderAddButton()}
+                    <Divider />
                     <Skeleton active loading={loading} />
-                    {!loading && (
-                        <>
-                            <h1 className={styles.title}>Services</h1>
-                            {renderAddButton()}
-                            <Divider />
-                            <Row gutter={[20, 20]}>{renderServices()}</Row>
-                        </>
+                    {!loading && listOfServices && (
+                        <div className={styles.wrapper}>
+                            <Row gutter={[20, 20]}>{listOfServices.length > 0 ? renderServices() : <Empty className={styles.noData} />}</Row>
+                            <div className={styles.pagination}>
+                                <Pagination
+                                    defaultCurrent={1}
+                                    onChange={(value) => handlePagination(value, setMinIndexValue, setMaxIndexValue)}
+                                    defaultPageSize={MAX_ITEMS_PAGE}
+                                    total={listOfServices?.length}
+                                />
+                            </div>
+                        </div>
                     )}
                 </Content>
             </Layout>

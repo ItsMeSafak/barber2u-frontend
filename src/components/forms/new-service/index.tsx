@@ -116,7 +116,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     name="price"
                     className={styles.inputPrice}
                     defaultValue={serviceDetail?.price}
-                    formatter={(value) => `${EURO_SYMBOL} ${value}`}
+                    placeholder="Price"
                     onChange={onNumberChange("price")}
                 />
             </Form.Item>
