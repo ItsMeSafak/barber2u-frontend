@@ -2,6 +2,8 @@
 
 .card {
     box-shadow: $shadow;
+    min-height: 23rem;
+    height: 23rem;
 
     .header {
         font-size: $header-size-2;
