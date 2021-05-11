@@ -1,0 +1,74 @@
+@import "../../assets/config.scss";
+
+.card {
+    box-shadow: $shadow;
+    min-height: 23rem;
+    height: 23rem;
+
+    .header {
+        font-size: $header-size-2;
+        font-weight: bold;
+
+        .certificateOn {
+            color: $primary-color;
+        }
+
+        .certificateOff {
+            color: $grey-color;
+        }
+    }
+
+    .active {
+        color: $primary-color;
+    }
+
+    .pending {
+        color: $yellow-color;
+    }
+
+    .cancelled {
+        color: $red-color;
+    }
+
+    .completed {
+        color: $green-color;
+    }
+
+    .icon {
+        color: $primary-color;
+        margin-right: 5px;
+    }
+
+    .mobileLink {
+        margin-left: 10px;
+    }
+
+    .externalLink {
+        float: right;
+    }
+
+    .description {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .price {
+        font-size: $header-size-3;
+        font-weight: bold;
+        color: $green-color;
+        float: right;
+    }
+
+    .time {
+        font-size: $header-size-3;
+
+        span {
+            color: $primary-color;
+            font-weight: bold;
+        }
+    }
+
+    .editAction {
+        width: 100%;
+    }
+}

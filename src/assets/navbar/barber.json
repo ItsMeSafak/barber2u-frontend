@@ -24,18 +24,6 @@
         "isDropdownMenu": true
     },
     {
-        "id": "schedule",
-        "url": "/barber/schedule",
-        "name": "Schedule",
-        "icon": ["fas", "calendar-alt"],
-        "isNavbarMenu": false,
-        "isFooterMenu": false,
-        "isMobileMenu": false,
-        "isPillButton": false,
-        "isDrawerMenu": true,
-        "isDropdownMenu": false
-    },
-    {
         "id": "portfolio",
         "url": "/barber/portfolio",
         "name": "Portfolio",
