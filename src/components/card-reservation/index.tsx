@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { Card, Col, Modal } from "antd";
+import { Card, Modal } from "antd";
 
 import Status from "../../models/enums/Status";
 import Reservation from "../../models/Reservation";
@@ -167,6 +167,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                 <a
                     target="_blank"
                     href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.customer.getZipCode}`}
+                    rel="noreferrer"
                 >
                     <FontAwesomeIcon
                         className={`${styles.icon} ${

@@ -37,7 +37,7 @@ const MAX_ITEMS_PAGE = 6;
  * @returns {JSX}
  */
 const ReservationsPage: React.FC = () => {
-    const [reservationItems, setReserVationItems] = useState<Reservation[]>([]);
+    const [reservationItems, setReservationItems] = useState<Reservation[]>([]);
     const [minIndexValue, setMinIndexValue] = useState(0);
     const [maxIndexValue, setMaxIndexValue] = useState(MAX_ITEMS_PAGE);
     const [currentFilter, setCurrentFilter] = useState("");
@@ -57,7 +57,7 @@ const ReservationsPage: React.FC = () => {
             showHttpResponseNotification(message, status, false);
             if (!response.data) return;
 
-            setReserVationItems(response.data);
+            setReservationItems(response.data);
             setLoading(false);
         },
         [setLoading]

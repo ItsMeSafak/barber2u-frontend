@@ -5,9 +5,9 @@ import {
 import Reservation from "./Reservation";
 
 /**
- * The reservation is model that consists of an id, style, date, locationa and a price.
+ * The reservation is model that consists of an id, style, date, location and a price.
  */
-export default class SchedulerAppointment implements AppointmentModel {
+export default class SchedulerReservation implements AppointmentModel {
     startDate: SchedulerDateTime;
     endDate: SchedulerDateTime;
     title: string;

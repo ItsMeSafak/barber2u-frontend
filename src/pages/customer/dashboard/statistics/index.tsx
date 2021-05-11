@@ -20,22 +20,33 @@ import {
 } from "@devexpress/dx-react-scheduler-material-ui";
 import moment from "moment";
 
+import { DATE_FORMAT } from "../../../../assets/constants";
+
 import { getReservations } from "../../../../services/reservation-service";
 
-import SchedulerAppointment from "../../../../models/SchedulerAppointment";
-
-import styles from "./styles.module.scss";
-import Reservation from "../../../../models/Reservation";
 import ReservationCard from "../../../../components/card-reservation";
 
-// eslint-disable-next-line require-jsdoc
-const convertAppointmentsToSchedulerAppointments = (
+import Reservation from "../../../../models/Reservation";
+import SchedulerReservation from "../../../../models/SchedulerReservation";
+
+import styles from "./styles.module.scss";
+
+// Start and end of the day for the scheduler day and week view
+const SCHEDULER_START_DAY_HOUR = 8;
+const SCHEDULER_END_DAY_HOUR = 18;
+
+/**
+ * Convert Reservation object to the DevExpress Calendar Object
+ *
+ * @param reservations {Reservation[]}  List of reservations
+ */
+const convertReservationToSchedulerReservation = (
     reservations: Reservation[]
 ) => {
-    const schedulerList: SchedulerAppointment[] = [];
+    const schedulerList: SchedulerReservation[] = [];
     reservations.forEach((reservation: Reservation) => {
         schedulerList.push(
-            new SchedulerAppointment(
+            new SchedulerReservation(
                 `${reservation.date}T${reservation.startTime}`,
                 `${reservation.date}T${reservation.endTime}`,
                 reservation.barber.getFullNameWithInitial,
@@ -47,7 +58,12 @@ const convertAppointmentsToSchedulerAppointments = (
     return schedulerList;
 };
 
-// eslint-disable-next-line require-jsdoc
+/**
+ * This switch function will select the color for the Reservation panel
+ * based on the reservation status code
+ *
+ * @param status {string}   String of a reservation status code
+ */
 const panelColor = (status: string) => {
     switch (status) {
         case "PENDING":
@@ -63,8 +79,12 @@ const panelColor = (status: string) => {
     }
 };
 
-// eslint-disable-next-line require-jsdoc,@typescript-eslint/no-redeclare
-const AppointmentPanel = (props: AppointmentsBase.AppointmentProps) => (
+/**
+ * This component will render the panel for each reservation inside the DevExpress calendar
+ *
+ * @param props {AppointmentsBase.AppointmentProps}     The default appointment properties from DevExpress
+ */
+const ReservationPanel = (props: AppointmentsBase.AppointmentProps) => (
     <Appointments.Appointment
         {...props}
         className={styles.panel}
@@ -76,10 +96,17 @@ const AppointmentPanel = (props: AppointmentsBase.AppointmentProps) => (
     </Appointments.Appointment>
 );
 
-// eslint-disable-next-line require-jsdoc
+/**
+ * This component will render the empty header for the reservation modal
+ */
 const Header = () => <div style={{ display: "none" }} />;
 
-// eslint-disable-next-line require-jsdoc
+/**
+ * This component will render the panel the content for the reservation modal.
+ * It makes use of the reservation card component.
+ *
+ * @param props {AppointmentTooltipBase.ContentProps}   The default appointment content properties from DevExpress
+ */
 const Content = (props: AppointmentTooltipBase.ContentProps) => (
     <ReservationCard reservationDetail={props.appointmentData?.reservation} />
 );
@@ -93,17 +120,17 @@ const StatisticsPage: React.FC = () => {
     useEffect(() => {
         getReservations(null).then((response) => {
             setAppointments(
-                convertAppointmentsToSchedulerAppointments(response.data)
+                convertReservationToSchedulerReservation(response.data)
             );
         });
     }, []);
 
-    const [appointments, setAppointments] = useState<SchedulerAppointment[]>(
+    const [appointments, setAppointments] = useState<SchedulerReservation[]>(
         []
     );
 
     const [currentDate, setCurrentDate] = React.useState(
-        moment().format("YYYY-MM-DD")
+        moment().format(DATE_FORMAT)
     );
 
     return (
@@ -114,7 +141,7 @@ const StatisticsPage: React.FC = () => {
                     <ViewState
                         currentDate={currentDate}
                         onCurrentDateChange={(date) =>
-                            setCurrentDate(moment(date).format("YYYY-MM-DD"))
+                            setCurrentDate(moment(date).format(DATE_FORMAT))
                         }
                     />
                     <Toolbar />
@@ -122,9 +149,15 @@ const StatisticsPage: React.FC = () => {
                     <TodayButton />
                     <ViewSwitcher />
                     <MonthView />
-                    <WeekView startDayHour={8} endDayHour={18} />
-                    <DayView startDayHour={8} endDayHour={18} />
-                    <Appointments appointmentComponent={AppointmentPanel} />
+                    <WeekView
+                        startDayHour={SCHEDULER_START_DAY_HOUR}
+                        endDayHour={SCHEDULER_END_DAY_HOUR}
+                    />
+                    <DayView
+                        startDayHour={SCHEDULER_START_DAY_HOUR}
+                        endDayHour={SCHEDULER_END_DAY_HOUR}
+                    />
+                    <Appointments appointmentComponent={ReservationPanel} />
                     <AppointmentTooltip
                         contentComponent={Content}
                         headerComponent={Header}

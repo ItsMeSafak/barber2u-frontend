@@ -90,5 +90,8 @@ export const PLACEHOLDER_TEXT =
 export const PLACEHOLDER_IMAGE =
     "https://t3.ftcdn.net/jpg/02/68/55/60/360_F_268556012_c1WBaKFN5rjRxR2eyV33znK4qnYeKZjm.jpg";
 
+// Date format strings
+export const DATE_FORMAT = "YYYY-MM-DD";
+
 // Special characters.
 export const EURO_SYMBOL = "€";
