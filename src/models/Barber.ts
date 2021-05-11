@@ -4,13 +4,11 @@ import User from "./User";
  * Barber class which can be used for creating barber objects.
  */
 export default class Barber extends User {
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
-    // private user: User;
+    /* eslint-disable  require-jsdoc */
     private kvkNumber: string;
     private btwVatNumber: string;
     private workRadius: number;
 
-    // eslint-disable-next-line require-jsdoc
     constructor(
         user: User,
         kvkNumber: string,
@@ -34,17 +32,10 @@ export default class Barber extends User {
         this.workRadius = workRadius;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getUser(): User {
         return this;
     }
 
-    // eslint-disable-next-line require-jsdoc
-    set setUser(user: User) {
-        this.user = user;
-    }
-
-    // eslint-disable-next-line require-jsdoc
     static fromJSON(json: Barber | null): Barber {
         return Object.assign(Object.create(Barber.prototype), json);
     }

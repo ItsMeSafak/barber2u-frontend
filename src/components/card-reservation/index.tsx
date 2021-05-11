@@ -164,8 +164,8 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                         icon={getIconByPrefixName("fas", "map-marker-alt")}
                         size="lg"
                     />{" "}
-                    {`${reservationDetail.customer.getAddress}, ${reservationDetail.customer.getZipcode}`}
-                    <a target="_blank" href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.customer.getZipcode}`}
+                    {`${reservationDetail.customer.getAddress}, ${reservationDetail.customer.getZipCode}`}
+                    <a target="_blank" href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.customer.getZipCode}`}
                     ><FontAwesomeIcon
                             className={`${styles.icon} ${isMobileOrTablet ? styles.mobileLink : styles.externalLink}`}
                             icon={getIconByPrefixName("fas", "external-link-alt")}
