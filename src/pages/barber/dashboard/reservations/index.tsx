@@ -96,24 +96,24 @@ const ReservationsPage: React.FC = () => {
             </Select>
             <Divider />
             <Skeleton active loading={loading} />
-            {!loading && (
-                <div className={styles.wrapper}>
-                    <Row gutter={[20, 20]}>
-                        {reservationItems.length > 0 ?
-                            renderReservationItems(reservationItems) :
-                            <Empty className={styles.noData} />}
-                    </Row>
 
-                    <div className={styles.pagination}>
-                        <Pagination
-                            defaultCurrent={1}
-                            onChange={(value) => handlePagination(value, setMinIndexValue, setMaxIndexValue)}
-                            defaultPageSize={MAX_ITEMS_PAGE}
-                            total={reservationItems.length}
-                        />
-                    </div>
-                </div>
+            <div className={styles.wrapper}>{!loading && (
+                <Row gutter={[20, 20]}>
+                    {reservationItems.length > 0 ?
+                        renderReservationItems(reservationItems) :
+                        <Empty className={styles.noData} />}
+                </Row>
             )}
+
+                <div className={styles.pagination}>
+                    <Pagination
+                        defaultCurrent={1}
+                        onChange={(value) => handlePagination(value, setMinIndexValue, setMaxIndexValue)}
+                        defaultPageSize={MAX_ITEMS_PAGE}
+                        total={reservationItems.length}
+                    />
+                </div>
+            </div>
         </Content>
     );
 };

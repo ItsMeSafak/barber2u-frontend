@@ -53,6 +53,8 @@ const ServicesPage: React.FC = () => {
     const [minIndexValue, setMinIndexValue] = useState(0);
     const [maxIndexValue, setMaxIndexValue] = useState(MAX_ITEMS_PER_PAGE);
     const [currentFilter, setCurrentFilter] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+
 
     /**
      * This function fetches the services using the getAllServices function from services-service
@@ -75,7 +77,7 @@ const ServicesPage: React.FC = () => {
         fetchServices(currentFilter !== "" ? currentFilter : null);
         setIsDeleted(false);
         return () => setLoading(true);
-    }, [serviceDetail, isDeleted, fetchServices, setIsDeleted, setLoading, currentFilter]);
+    }, [isDeleted, fetchServices, setIsDeleted, setLoading, currentFilter]);
 
     /**
      * This function sends a request to the backend, where we add a new service to the barber services.
@@ -93,6 +95,7 @@ const ServicesPage: React.FC = () => {
 
             const { status, message } = response;
             showHttpResponseNotification(message, status);
+            fetchServices(null);
         }
     };
 
@@ -163,9 +166,9 @@ const ServicesPage: React.FC = () => {
         <Modal
             title="Service details"
             centered
-            destroyOnClose={true}
+            destroyOnClose
             okButtonProps={{ disabled: checkFormValues() }}
-            visible={!!serviceDetail || isNewItem!}
+            visible={!!serviceDetail}
             onOk={() => (isNewItem ? addService() : updateCurrentService())}
             onCancel={() => {
                 setIsNewItem(false);
@@ -210,19 +213,20 @@ const ServicesPage: React.FC = () => {
                     {renderAddButton()}
                     <Divider />
                     <Skeleton active loading={loading} />
-                    {!loading && listOfServices && (
-                        <div className={styles.wrapper}>
+                    <div className={styles.wrapper}>
+                        {!loading && listOfServices && (
+
                             <Row gutter={[20, 20]}>{listOfServices.length > 0 ? renderServices() : <Empty className={styles.noData} />}</Row>
-                            <div className={styles.pagination}>
-                                <Pagination
-                                    defaultCurrent={1}
-                                    onChange={(value) => handlePagination(value, setMinIndexValue, setMaxIndexValue)}
-                                    defaultPageSize={MAX_ITEMS_PAGE}
-                                    total={listOfServices?.length}
-                                />
-                            </div>
+                        )}
+                        <div className={styles.pagination}>
+                            <Pagination
+                                defaultCurrent={currentPage}
+                                onChange={(value) => handlePagination(value, setMinIndexValue, setMaxIndexValue)}
+                                defaultPageSize={MAX_ITEMS_PAGE}
+                                total={listOfServices?.length}
+                            />
                         </div>
-                    )}
+                    </div>
                 </Content>
             </Layout>
             {renderModal()}

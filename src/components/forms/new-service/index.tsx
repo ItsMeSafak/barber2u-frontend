@@ -106,7 +106,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 <InputNumber
                     name="time"
                     className={styles.inputTime}
-                    defaultValue={serviceDetail?.time}
+                    defaultValue={serviceDetail?.id !== "" ? serviceDetail?.time : undefined}
                     onChange={onNumberChange("time")}
                     placeholder="Minutes"
                 />
@@ -115,7 +115,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 <InputNumber
                     name="price"
                     className={styles.inputPrice}
-                    defaultValue={serviceDetail?.price}
+                    defaultValue={serviceDetail?.id !== "" ? serviceDetail?.price : undefined}
                     placeholder="Price"
                     onChange={onNumberChange("price")}
                 />
