@@ -124,6 +124,7 @@ const ReservationCalendar: React.FC = () => {
                 convertReservationToSchedulerReservation(response.data)
             );
         });
+        return () => setAppointments([]);
     }, []);
 
     const [appointments, setAppointments] = useState<SchedulerReservation[]>(

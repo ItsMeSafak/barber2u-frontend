@@ -1,16 +1,16 @@
 import React from "react";
 
-import OverviewReservation from "../../../../components/overview-reservation";
+import OverviewReservationCard from "../../../../components/overview-card-reservation";
 
 /**
- * Customer statistics page.
+ * This component renders the reservations page on the dashboard for the customer.
+ * The component consists of reservation items that the customer has made in the past and future.
  *
- * @returns {React.FC}
+ * @param {Object} props Component properties.
+ * @returns {JSX}
  */
 const StatisticsPage: React.FC = () => (
-    <>
-        <OverviewReservation/>
-    </>
+    <OverviewReservationCard/>
 );
 
 export default StatisticsPage;
