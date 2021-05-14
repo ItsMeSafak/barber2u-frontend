@@ -11,6 +11,8 @@ import EmailNotVerified from "../../../template/email-not-verified";
 import { AuthenticationContext } from "../../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
+import ReservationsPage from "../../barber/dashboard/reservations";
+import { BarberbProvider } from "../../../contexts/barber-context";
 
 const { Content } = Layout;
 
@@ -24,12 +26,17 @@ const CustomerDashboardPage: React.FC = () => {
     const { loading } = useContext(AuthenticationContext);
 
     // The customer dashboard sidebar components to be loaded.
-    const components: React.FC[] = [StatisticsPage, SettingsPage];
+    const components: React.FC[] = [
+        StatisticsPage,
+        ReservationsPage,
+        SettingsPage
+    ];
 
     return (
         <Layout>
             <SidebarPartial />
             <Content className={styles.content}>
+                <BarberbProvider>
                 <Skeleton active loading={loading} />
                 {!loading && (
                     <>
@@ -37,6 +44,7 @@ const CustomerDashboardPage: React.FC = () => {
                         <UserRoutes components={components} />
                     </>
                 )}
+                </BarberbProvider>
             </Content>
         </Layout>
     );
