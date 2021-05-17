@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { ReactNode, useContext } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Card, Modal } from "antd";
 
+import Role from "../../models/enums/Role";
 import Status from "../../models/enums/Status";
 import Reservation from "../../models/Reservation";
 
@@ -13,8 +14,9 @@ import { EURO_SYMBOL, GOOGLE_MAPS_BASE_URL } from "../../assets/constants";
 
 import { updateReservationStatus } from "../../services/reservation-service";
 
-import { BarberbContext } from "../../contexts/barber-context";
 import { ScreenContext } from "../../contexts/screen-context";
+import { BarberbContext } from "../../contexts/barber-context";
+import { AuthenticationContext } from "../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
 
@@ -33,6 +35,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     const { reservationDetail } = props;
     const { setIsUpdated } = useContext(BarberbContext);
     const { isMobileOrTablet } = useContext(ScreenContext);
+    const { user } = useContext(AuthenticationContext);
 
     /**
      * This function passes a PUT request to the backend and updates the status fo the current reservation.
@@ -58,24 +61,38 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
      *
      * @returns {JSX}
      */
-    const actions = () => [
-        <FontAwesomeIcon
-            key="approve"
-            className={styles.editAction}
-            icon={getIconByPrefixName("fas", "check")}
-            onClick={() =>
-                reservationDetail.status === Status.Active
-                    ? completeReservation()
-                    : acceptReservation()
-            }
-        />,
-        <FontAwesomeIcon
-            key="cancel"
-            className={styles.editAction}
-            icon={getIconByPrefixName("fas", "times")}
-            onClick={() => cancelReservation()}
-        />,
-    ];
+    const actions = () => {
+        const actionList: Array<ReactNode> = [];
+        if (
+            !(
+                user?.hasRole(Role.Customer) &&
+                reservationDetail.status === Status.Pending
+            )
+        ) {
+            actionList.push(
+                <FontAwesomeIcon
+                    key="approve"
+                    className={styles.editAction}
+                    icon={getIconByPrefixName("fas", "check")}
+                    onClick={() =>
+                        reservationDetail.status === Status.Active
+                            ? completeReservation()
+                            : acceptReservation()
+                    }
+                />
+            );
+        }
+
+        actionList.push(
+            <FontAwesomeIcon
+                key="cancel"
+                className={styles.editAction}
+                icon={getIconByPrefixName("fas", "times")}
+                onClick={() => cancelReservation()}
+            />
+        );
+        return actionList;
+    };
 
     /**
      * This function render a Modal asking for confirmation for completion of the reservation.
@@ -154,7 +171,10 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                     icon={getIconByPrefixName("fas", "user")}
                     size="lg"
                 />{" "}
-                {reservationDetail.customer.getFullNameWithInitial}
+                {user?.hasRole(Role.Customer) &&
+                    reservationDetail.barber.getFullNameWithInitial}
+                {user?.hasRole(Role.Barber) &&
+                    reservationDetail.customer.getFullNameWithInitial}
             </p>
 
             <p>

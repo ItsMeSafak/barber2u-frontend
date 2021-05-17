@@ -29,7 +29,7 @@ const CustomerDashboardPage: React.FC = () => {
     const components: React.FC[] = [
         StatisticsPage,
         ReservationsPage,
-        SettingsPage
+        SettingsPage,
     ];
 
     return (
@@ -37,13 +37,13 @@ const CustomerDashboardPage: React.FC = () => {
             <SidebarPartial />
             <Content className={styles.content}>
                 <BarberbProvider>
-                <Skeleton active loading={loading} />
-                {!loading && (
-                    <>
-                        <EmailNotVerified />
-                        <UserRoutes components={components} />
-                    </>
-                )}
+                    <Skeleton active loading={loading} />
+                    {!loading && (
+                        <>
+                            <EmailNotVerified />
+                            <UserRoutes components={components} />
+                        </>
+                    )}
                 </BarberbProvider>
             </Content>
         </Layout>

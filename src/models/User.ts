@@ -1,3 +1,5 @@
+import Role from "./enums/Role";
+
 /**
  * User class which can be used for creating user objects.
  */
@@ -97,5 +99,10 @@ export default class User {
     // eslint-disable-next-line require-jsdoc
     get getIsVerified(): boolean {
         return this.isVerified;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    hasRole(role: Role): boolean {
+        return this.getRoleNames.includes(role.valueOf());
     }
 }

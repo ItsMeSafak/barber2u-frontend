@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import Paper from "@material-ui/core/Paper";
 import {
@@ -26,8 +26,12 @@ import { getReservations } from "../../../../services/reservation-service";
 
 import ReservationCard from "../../../../components/card-reservation";
 
+import Role from "../../../../models/enums/Role";
+import User from "../../../../models/User";
 import Reservation from "../../../../models/Reservation";
 import SchedulerReservation from "../../../../models/SchedulerReservation";
+
+import { AuthenticationContext } from "../../../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
 
@@ -39,43 +43,52 @@ const SCHEDULER_END_DAY_HOUR = 18;
  * Convert Reservation object to the DevExpress Calendar Object
  *
  * @param reservations {Reservation[]}  List of reservations
+ * @param user {User | null}            Logged in user object from the AuthenticationContext
  */
 const convertReservationToSchedulerReservation = (
-    reservations: Reservation[]
+    reservations: Reservation[],
+    user: User | null
 ) => {
     const schedulerList: SchedulerReservation[] = [];
-    reservations.forEach((reservation: Reservation) => {
-        schedulerList.push(
-            new SchedulerReservation(
-                `${reservation.date}T${reservation.startTime}`,
-                `${reservation.date}T${reservation.endTime}`,
-                reservation.barber.getFullNameWithInitial,
-                reservation.id,
-                reservation
-            )
-        );
-    });
+    if (user) {
+        reservations.forEach((reservation: Reservation) => {
+            let targetName = "";
+            if (user.hasRole(Role.Customer))
+                targetName = reservation.barber.getFullNameWithInitial;
+            else if (user.hasRole(Role.Barber))
+                targetName = reservation.customer.getFullNameWithInitial;
+            schedulerList.push(
+                new SchedulerReservation(
+                    `${reservation.date}T${reservation.startTime}`,
+                    `${reservation.date}T${reservation.endTime}`,
+                    targetName,
+                    reservation.id,
+                    reservation
+                )
+            );
+        });
+    }
     return schedulerList;
 };
 
 /**
  * This switch function will select the color for the Reservation panel
- * based on the reservation status code
+ * based on the reservation status code.
  *
  * @param status {string}   String of a reservation status code
  */
 const panelColor = (status: string) => {
     switch (status) {
         case "PENDING":
-            return "#ffc107";
+            return styles.pending;
         case "ACTIVE":
-            return "#64b5f6";
+            return styles.active;
         case "COMPLETED":
-            return "#6ad45e";
+            return styles.completed;
         case "CANCELLED":
-            return "#f66464";
+            return styles.cancelled;
         default:
-            return "#808080";
+            return styles.default;
     }
 };
 
@@ -87,10 +100,7 @@ const panelColor = (status: string) => {
 const ReservationPanel = (props: AppointmentsBase.AppointmentProps) => (
     <Appointments.Appointment
         {...props}
-        className={styles.panel}
-        style={{
-            backgroundColor: panelColor(props.data.reservation.status),
-        }}
+        className={`${styles.panel} ${panelColor(props.data.reservation.status)}`}
     >
         {props.data.title}
     </Appointments.Appointment>
@@ -112,19 +122,21 @@ const Content = (props: AppointmentTooltipBase.ContentProps) => (
 );
 
 /**
- * Customer statistics page.
+ * Calendar page for the reservations.
  *
  * @returns {React.FC}
  */
 const CalendarPage: React.FC = () => {
+    const { user } = useContext(AuthenticationContext);
+
     useEffect(() => {
         getReservations(null).then((response) => {
             setAppointments(
-                convertReservationToSchedulerReservation(response.data)
+                convertReservationToSchedulerReservation(response.data, user)
             );
         });
         return () => setAppointments([]);
-    }, []);
+    }, [user]);
 
     const [appointments, setAppointments] = useState<SchedulerReservation[]>(
         []
