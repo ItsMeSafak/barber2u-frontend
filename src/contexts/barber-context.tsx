@@ -47,20 +47,18 @@ const contextDefaultValues: ContextProps = {
         isActive: false,
     },
     listOfServices: [],
-    setLoading: () => { },
-    setIsCreated: () => { },
-    setIsUpdated: () => { },
-    setIsDeleted: () => { },
-    setIsEditingId: () => { },
-    setIsNewItem: () => { },
-    setServiceDetail: () => { },
-    setFormValues: () => { },
-    setListOfServices: () => { },
+    setLoading: () => {},
+    setIsCreated: () => {},
+    setIsUpdated: () => {},
+    setIsDeleted: () => {},
+    setIsEditingId: () => {},
+    setIsNewItem: () => {},
+    setServiceDetail: () => {},
+    setFormValues: () => {},
+    setListOfServices: () => {},
 };
 
-export const BarberbContext = createContext<ContextProps>(
-    contextDefaultValues
-);
+export const BarberbContext = createContext<ContextProps>(contextDefaultValues);
 
 /**
  * The service provider is responsible for keeping track of the activities within the services page.

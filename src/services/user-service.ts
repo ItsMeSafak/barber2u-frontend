@@ -13,7 +13,8 @@ interface IUserResponse extends IHttpResponse {
 
 /**
  * This function fetches the barber profile
- *
+ * 
+ * @param barberEmail the email of the barber to be fetched.
  */
 export const getBarber = (barberEmail?: string): Promise<IUserResponse> =>
     new Promise<IUserResponse>((resolve, reject) => {
@@ -34,7 +35,6 @@ export const getBarber = (barberEmail?: string): Promise<IUserResponse> =>
  */
 export const updateUserProfile = (user: User): Promise<IUserResponse> =>
     new Promise<IUserResponse>((resolve, reject) => {
-        console.log(user);
         axios.put(`${API_URL}`, user).then(
             (response) => {
                 if (response) resolve(response.data);

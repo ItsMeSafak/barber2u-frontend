@@ -140,7 +140,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                 className={styles.card}
                 actions={
                     reservationDetail.status === Status.Completed ||
-                        reservationDetail.status === Status.Cancelled
+                    reservationDetail.status === Status.Cancelled
                         ? []
                         : actions()
                 }
@@ -165,10 +165,21 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                         size="lg"
                     />{" "}
                     {`${reservationDetail.customer.getAddress}, ${reservationDetail.customer.getZipcode}`}
-                    <a target="_blank" href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.customer.getZipcode}`}
-                    ><FontAwesomeIcon
-                            className={`${styles.icon} ${isMobileOrTablet ? styles.mobileLink : styles.externalLink}`}
-                            icon={getIconByPrefixName("fas", "external-link-alt")}
+                    <a
+                        target="_blank"
+                        href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.customer.getZipcode}`}
+                        rel="noreferrer"
+                    >
+                        <FontAwesomeIcon
+                            className={`${styles.icon} ${
+                                isMobileOrTablet
+                                    ? styles.mobileLink
+                                    : styles.externalLink
+                            }`}
+                            icon={getIconByPrefixName(
+                                "fas",
+                                "external-link-alt"
+                            )}
                             size="lg"
                         />
                     </a>
@@ -198,13 +209,20 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                         icon={getIconByPrefixName("fas", "cut")}
                         size="lg"
                     />{" "}
-                    {reservationDetail.services.map(({ name }, index) => index !== 0 ? `, ${name}` : `${name}`)}
+                    {reservationDetail.services.map(({ name }, index) =>
+                        index !== 0 ? `, ${name}` : `${name}`
+                    )}
                 </p>
 
                 <span className={styles.price}>
-                    {EURO_SYMBOL} {reservationDetail.services.map((item) => item.price)
-                        .reduce((servicePrice, currentValue) =>
-                            currentValue + servicePrice).toFixed(2)}
+                    {EURO_SYMBOL}{" "}
+                    {reservationDetail.services
+                        .map((item) => item.price)
+                        .reduce(
+                            (servicePrice, currentValue) =>
+                                currentValue + servicePrice
+                        )
+                        .toFixed(2)}
                 </span>
             </Card>
         </Col>

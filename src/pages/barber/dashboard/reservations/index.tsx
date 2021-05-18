@@ -1,6 +1,14 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import { Row, Divider, Layout, Pagination, Skeleton, Select, Empty } from "antd";
+import {
+    Row,
+    Divider,
+    Layout,
+    Pagination,
+    Skeleton,
+    Select,
+    Empty,
+} from "antd";
 
 import Reservation from "../../../../models/Reservation";
 
@@ -39,17 +47,20 @@ const ReservationsPage: React.FC = () => {
     /**
      * This function fetches the reservation from the backend and displays it on the page.
      */
-    const fetchReservations = useCallback(async (filterStatus: string | null) => {
-        setLoading(true);
-        const response = await getReservations(filterStatus);
+    const fetchReservations = useCallback(
+        async (filterStatus: string | null) => {
+            setLoading(true);
+            const response = await getReservations(filterStatus);
 
-        const { status, message } = response;
-        showHttpResponseNotification(message, status, false);
-        if (!response.data) return;
+            const { status, message } = response;
+            showHttpResponseNotification(message, status, false);
+            if (!response.data) return;
 
-        setReserVationItems(response.data);
-        setLoading(false);
-    }, [setLoading]);
+            setReserVationItems(response.data);
+            setLoading(false);
+        },
+        [setLoading]
+    );
 
     useEffect(() => {
         fetchReservations(currentFilter !== "" ? currentFilter : null);
@@ -83,8 +94,8 @@ const ReservationsPage: React.FC = () => {
 
     /**
      * This function handles the filtering of the reservations based on the status
-     * 
-     * @param value 
+     *
+     * @param value
      */
     const handleFilterChange = (value: string) => {
         setCurrentFilter(value);
@@ -92,9 +103,13 @@ const ReservationsPage: React.FC = () => {
 
     return (
         <Content className={styles.reservations}>
-
             <h1 className={styles.title}>Reservations</h1>
-            <Select placeholder="Select a status" size="large" allowClear onChange={handleFilterChange}>
+            <Select
+                placeholder="Select a status"
+                size="large"
+                allowClear
+                onChange={handleFilterChange}
+            >
                 <Option value={Status.Active}>Active</Option>
                 <Option value={Status.Pending}>Pending</Option>
                 <Option value={Status.Completed}>Completed</Option>
@@ -105,9 +120,11 @@ const ReservationsPage: React.FC = () => {
             {!loading && (
                 <>
                     <Row gutter={[20, 20]}>
-                        {reservationItems.length > 0 ?
-                            renderReservationItems(reservationItems) :
-                            <Empty className={styles.noData} />}
+                        {reservationItems.length > 0 ? (
+                            renderReservationItems(reservationItems)
+                        ) : (
+                            <Empty className={styles.noData} />
+                        )}
                     </Row>
 
                     <div className={styles.pagination}>

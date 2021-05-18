@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 
 import { Row, Layout, Col } from "antd";
@@ -36,7 +36,7 @@ const VerifyEmailPage: React.FC = () => {
         } else {
             verifyAccount();
         }
-    }, []);
+    }, [history, verifyAccount]);
 
     /**
      * This function renders the default dekstop view of the email verification.

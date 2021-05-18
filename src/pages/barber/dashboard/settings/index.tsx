@@ -4,12 +4,19 @@ import { Card } from "antd";
 
 import GenericForm from "../../../../components/forms/generic-form";
 
-import styles from "./styles.module.scss";
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
-import Barber from "../../../../models/Barber";
-import { getBarber, updateUserProfile } from "../../../../services/user-service";
+
+import {
+    getBarber,
+    updateUserProfile,
+} from "../../../../services/user-service";
+
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
+
 import User from "../../../../models/User";
+import Barber from "../../../../models/Barber";
+
+import styles from "./styles.module.scss";
 
 export interface BarberData extends User {
     kvkNumber: string;
@@ -25,106 +32,113 @@ export interface BarberData extends User {
  */
 const SettingsPage: React.FC = () => {
     const { user } = useContext(AuthenticationContext);
-    const [inputFieldValues, setInputFieldValues] = useState<Array<{
-        name: string,
-        icon: string,
-        placeholder?: string,
-        value?: string | number | string[] | undefined,
-        type?: string,
-        editable?: boolean,
-        rules?: Array<{
-            required: boolean,
-            message: string
+    const [inputFields, setInputFields] = useState<
+        Array<{
+            name: string;
+            icon: string;
+            placeholder?: string;
+            value?: string | number | string[] | undefined;
+            type?: string;
+            editable?: boolean;
+            rules?: Array<{
+                required: boolean;
+                message: string;
+            }>;
         }>
-    }>>([]);
+    >([]);
 
-    const setDetails = useCallback((barber: BarberData) => setInputFieldValues([
-        {
-            name: "firstname",
-            placeholder: "Firstname",
-            icon: "id-card",
-            value: user?.getFirstName,
-            editable: true,
-            rules: [{ required: true, message: "Field is empty!" }]
-        },
-        {
-            name: "lastname",
-            placeholder: "Lastname",
-            icon: "id-card",
-            value: user?.getLastName,
-            editable: true,
-            rules: [{ required: true, message: "Field is empty!" }]
-        },
-        {
-            name: "email",
-            placeholder: "Email",
-            icon: "at",
-            value: user?.getEmail,
-            editable: true,
-            rules: [{ required: true, message: "Field is empty!" }]
-
-        },
-        {
-            name: "phoneNumber",
-            placeholder: "Phone number",
-            icon: "phone",
-            value: user?.getPhoneNumber,
-            editable: true,
-            rules: [{ required: true, message: "Field is empty!" }]
-
-        },
-        {
-            name: "address",
-            placeholder: "Address",
-            icon: "address-book",
-            value: user?.getAddress,
-            editable: true,
-            rules: [{ required: true, message: "Field is empty!" }]
-
-        },
-        {
-            name: "zipcode",
-            placeholder: "Zipcode",
-            icon: "city",
-            value: user?.getZipcode,
-            editable: true,
-            rules: [{ required: true, message: "Field is empty!" }]
-
-        },
-        {
-            name: "kvkNumber",
-            placeholder: "KvK number",
-            icon: "passport",
-            value: barber?.kvkNumber,
-            editable: true,
-            rules: [{ required: true, message: "Field is empty!" }]
-        },
-        {
-            name: "btwVatNumber",
-            placeholder: "BTW VAT number",
-            icon: "passport",
-            value: barber?.btwVatNumber,
-            editable: true,
-            rules: [{ required: true, message: "Field is empty!" }]
-        },
-        {
-            name: "companyName",
-            placeholder: "Company name",
-            icon: "building",
-            value: barber?.companyName,
-            editable: true,
-            rules: [{ required: true, message: "Field is empty!" }]
-        },
-        {
-            name: "workRadius",
-            placeholder: "Work radius",
-            icon: "globe",
-            value: barber?.workRadius,
-            editable: true,
-            type: "number",
-            rules: [{ required: true, message: "Field is empty!" }]
-        }
-    ]), []);
+    /**
+     * This function sets the barber data for the input fields.
+     * @param barber the barber data to be set
+     * @returns {Array}
+     */
+    const setBarberData = useCallback(
+        (barber: BarberData) =>
+            setInputFields([
+                {
+                    name: "firstname",
+                    placeholder: "Firstname",
+                    icon: "id-card",
+                    value: user?.getFirstName,
+                    editable: true,
+                    rules: [{ required: true, message: "Field is empty!" }],
+                },
+                {
+                    name: "lastname",
+                    placeholder: "Lastname",
+                    icon: "id-card",
+                    value: user?.getLastName,
+                    editable: true,
+                    rules: [{ required: true, message: "Field is empty!" }],
+                },
+                {
+                    name: "email",
+                    placeholder: "Email",
+                    icon: "at",
+                    value: user?.getEmail,
+                    editable: true,
+                    rules: [{ required: true, message: "Field is empty!" }],
+                },
+                {
+                    name: "phoneNumber",
+                    placeholder: "Phone number",
+                    icon: "phone",
+                    value: user?.getPhoneNumber,
+                    editable: true,
+                    rules: [{ required: true, message: "Field is empty!" }],
+                },
+                {
+                    name: "address",
+                    placeholder: "Address",
+                    icon: "address-book",
+                    value: user?.getAddress,
+                    editable: true,
+                    rules: [{ required: true, message: "Field is empty!" }],
+                },
+                {
+                    name: "zipcode",
+                    placeholder: "Zipcode",
+                    icon: "city",
+                    value: user?.getZipcode,
+                    editable: true,
+                    rules: [{ required: true, message: "Field is empty!" }],
+                },
+                {
+                    name: "kvkNumber",
+                    placeholder: "KvK number",
+                    icon: "passport",
+                    value: barber?.kvkNumber,
+                    editable: true,
+                    rules: [{ required: true, message: "Field is empty!" }],
+                },
+                {
+                    name: "btwVatNumber",
+                    placeholder: "BTW VAT number",
+                    icon: "passport",
+                    value: barber?.btwVatNumber,
+                    editable: true,
+                    rules: [{ required: true, message: "Field is empty!" }],
+                },
+                {
+                    name: "companyName",
+                    placeholder: "Company name",
+                    icon: "building",
+                    value: barber?.companyName,
+                    editable: true,
+                    rules: [{ required: true, message: "Field is empty!" }],
+                },
+                {
+                    name: "workRadius",
+                    placeholder: "Work radius",
+                    icon: "globe",
+                    value: barber?.workRadius,
+                    editable: true,
+                    type: "number",
+                    rules: [{ required: true, message: "Field is empty!" }],
+                },
+            ]),
+        [user]
+    );
 
     const fetchBarberData = useCallback(async () => {
         const response = await getBarber(user?.getEmail);
@@ -132,28 +146,33 @@ const SettingsPage: React.FC = () => {
         const { status, message, data } = response;
         showHttpResponseNotification(message, status, false);
 
-        setDetails(data as BarberData);
-    }, [setDetails]);
+        setBarberData(data as BarberData);
+    }, [setBarberData, user]);
 
     useEffect(() => {
         fetchBarberData();
     }, [fetchBarberData]);
 
     /**
-     * TOD
-     * @returns 
+     * This function maps the inputfields, to initial values.
+     * It takes the field name and value and turns them
+     * into a key-value property.
+     * @returns {JSX}
      */
-    const sample = () => {
-        const initialValues: { [name: string]: string | number | string[] | undefined } = {};
-        inputFieldValues.map((item) => {
+    const mapInputData = () => {
+        const initialValues: {
+            [name: string]: string | number | string[] | undefined;
+        } = {};
+        inputFields.map((item) => {
             initialValues[item.name] = item.value;
+            return item;
         });
         return initialValues;
     };
 
     /**
-     * TODO
-     * @param user 
+     * This function updates the barber profile.
+     * @param barber the barber data to be updated.
      */
     const updateBarberProfile = async (barber: Barber) => {
         const response = await updateUserProfile(barber);
@@ -165,11 +184,15 @@ const SettingsPage: React.FC = () => {
     return (
         <div className={styles.settings}>
             <Card className={styles.container}>
-                <GenericForm formName="personalDetails" data={inputFieldValues} initialValues={sample()} onFinish={updateBarberProfile} />
+                <GenericForm
+                    formName="personalDetails"
+                    data={inputFields}
+                    initialValues={mapInputData()}
+                    onFinish={updateBarberProfile}
+                />
             </Card>
         </div>
     );
-
 };
 
 export default SettingsPage;
