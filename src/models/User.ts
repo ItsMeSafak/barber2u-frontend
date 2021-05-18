@@ -50,6 +50,11 @@ export default class User {
     }
 
     // eslint-disable-next-line require-jsdoc
+    get getPhoneNumber(): string {
+        return this.phoneNumber;
+    }
+
+    // eslint-disable-next-line require-jsdoc
     get getAddress(): string {
         return this.address;
     }
