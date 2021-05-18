@@ -3,8 +3,9 @@ import axios from "axios";
 import IHttpResponse from "./http-response";
 
 import User from "../models/User";
+import UserProfile from "../models/UserProfile";
 
-const API_URL = "/user";
+const API_URL = "/auth/profile";
 
 interface IUserResponse extends IHttpResponse {
     data: User;
@@ -15,7 +16,7 @@ interface IUserResponse extends IHttpResponse {
  *
  * @param user {User}   The updated user object
  */
-export const updateUserProfile = (user: User): Promise<IUserResponse> =>
+export const updateUserProfile = (user: UserProfile): Promise<IUserResponse> =>
     new Promise<IUserResponse>((resolve, reject) => {
         axios.put(`${API_URL}`, user).then(
             (response) => {

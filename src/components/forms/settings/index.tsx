@@ -11,6 +11,7 @@ import { getIconByPrefixName } from "../../../assets/functions/icon";
 import { showHttpResponseNotification } from "../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
+import UserProfile from "../../../models/UserProfile";
 
 /**
  * This component renders a settings form.
@@ -21,12 +22,14 @@ import styles from "./styles.module.scss";
  */
 const SettingsForm: React.FC<{ user: User | null }> = (user) => {
     const [formValue, setFormValue] = useState<{
-        [firstname: string]: string;
+        [email: string]: string;
+        firstname: string;
         lastname: string;
         phone: string;
         address: string;
         zipcode: string;
     }>({
+        email: user.user ? user.user.getEmail : "",
         firstname: user.user ? user.user.getFirstName : "",
         lastname: user.user ? user.user.getLastName : "",
         phone: user.user ? user.user.getPhoneNumber : "",
@@ -39,6 +42,11 @@ const SettingsForm: React.FC<{ user: User | null }> = (user) => {
         placeholder: string;
         icon: string;
     }> = [
+        {
+            name: "email",
+            placeholder: "Email",
+            icon: "envelope",
+        },
         {
             name: "firstname",
             placeholder: "Firstname",
@@ -109,17 +117,13 @@ const SettingsForm: React.FC<{ user: User | null }> = (user) => {
      */
     const saveChanges = () => {
         if (user.user) {
-            const newUser: User = new User(
-                "",
+            const newUser: UserProfile = new UserProfile(
+                formValue.email,
                 formValue.firstname,
                 formValue.lastname,
-                "",
                 formValue.phone,
                 formValue.address,
-                formValue.zipcode,
-                [],
-                false,
-                false
+                formValue.zipcode
             );
             updateUserProfile(newUser).then((response) => {
                 showHttpResponseNotification(
@@ -133,20 +137,6 @@ const SettingsForm: React.FC<{ user: User | null }> = (user) => {
     return (
         <Form>
             <Card type="inner" title="Personal details">
-                <Form.Item>
-                    <Input
-                        name="email"
-                        size="large"
-                        defaultValue={user.user?.getEmail}
-                        disabled
-                        prefix={
-                            <FontAwesomeIcon
-                                icon={getIconByPrefixName("fas", "envelope")}
-                                size="sm"
-                            />
-                        }
-                    />
-                </Form.Item>
                 {inputFieldValues && renderInputFields()}
             </Card>
 
