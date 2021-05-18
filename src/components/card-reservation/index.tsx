@@ -14,8 +14,8 @@ import { EURO_SYMBOL, GOOGLE_MAPS_BASE_URL } from "../../assets/constants";
 
 import { updateReservationStatus } from "../../services/reservation-service";
 
+import { BarberContext } from "../../contexts/barber-context";
 import { ScreenContext } from "../../contexts/screen-context";
-import { BarberbContext } from "../../contexts/barber-context";
 import { AuthenticationContext } from "../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
@@ -33,7 +33,7 @@ interface ComponentProps {
  */
 const ReservationCard: React.FC<ComponentProps> = (props) => {
     const { reservationDetail } = props;
-    const { setIsUpdated } = useContext(BarberbContext);
+    const { setIsUpdated } = useContext(BarberContext);
     const { isMobileOrTablet } = useContext(ScreenContext);
     const { user } = useContext(AuthenticationContext);
 

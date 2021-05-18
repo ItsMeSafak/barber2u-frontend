@@ -12,7 +12,7 @@ import { AuthenticationContext } from "../../../contexts/authentication-context"
 
 import styles from "./styles.module.scss";
 import ReservationsPage from "../../barber/dashboard/reservations";
-import { BarberbProvider } from "../../../contexts/barber-context";
+import { BarberProvider } from "../../../contexts/barber-context";
 
 const { Content } = Layout;
 
@@ -36,7 +36,7 @@ const CustomerDashboardPage: React.FC = () => {
         <Layout>
             <SidebarPartial />
             <Content className={styles.content}>
-                <BarberbProvider>
+                <BarberProvider>
                     <Skeleton active loading={loading} />
                     {!loading && (
                         <>
@@ -44,7 +44,7 @@ const CustomerDashboardPage: React.FC = () => {
                             <UserRoutes components={components} />
                         </>
                     )}
-                </BarberbProvider>
+                </BarberProvider>
             </Content>
         </Layout>
     );

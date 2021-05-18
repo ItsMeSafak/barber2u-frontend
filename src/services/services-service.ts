@@ -16,20 +16,18 @@ interface IServiceResponse extends IHttpResponse {
  * @param {string} barber email of the barber.
  * @returns {Promise<IServiceResponse>}
  */
-export const getAllServices = (barber?: string): Promise<IServiceResponse> =>
+export const getAllServices = (
+    currentFilter: string | null
+): Promise<IServiceResponse> =>
     new Promise<IServiceResponse>((resolve, reject) => {
-        axios
-            .post(`${API_URL}/get`, {
-                barber,
-            })
-            .then(
-                (response) => {
-                    if (response) resolve(response.data);
-                },
-                (error) => {
-                    reject(new Error(error.message));
-                }
-            );
+        axios.get(API_URL, { params: { isActive: currentFilter } }).then(
+            (response) => {
+                if (response) resolve(response.data);
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        );
     });
 
 /**

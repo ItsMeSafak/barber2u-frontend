@@ -11,18 +11,20 @@ import {
     Col,
 } from "antd";
 
+import Status from "../../../../models/enums/Status";
 import Reservation from "../../../../models/Reservation";
 
 import ReservationCard from "../../../../components/card-reservation";
 
-import { BarberbContext } from "../../../../contexts/barber-context";
+import { BarberContext } from "../../../../contexts/barber-context";
 
 import { getReservations } from "../../../../services/reservation-service";
 
+import { handlePagination } from "../../../../assets/functions/pagination";
+import { MAX_ITEMS_PER_PAGE } from "../../../../assets/constants";
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
-import Status from "../../../../models/enums/Status";
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -38,11 +40,12 @@ const MAX_ITEMS_PAGE = 6;
  */
 const ReservationsPage: React.FC = () => {
     const [reservationItems, setReservationItems] = useState<Reservation[]>([]);
-    const [minIndexValue, setMinIndexValue] = useState(0);
-    const [maxIndexValue, setMaxIndexValue] = useState(MAX_ITEMS_PAGE);
     const [currentFilter, setCurrentFilter] = useState("");
+    const [minIndexValue, setMinIndexValue] = useState(0);
+    const [maxIndexValue, setMaxIndexValue] = useState(MAX_ITEMS_PER_PAGE);
+
     const { loading, isUpdated, setIsUpdated, setLoading } = useContext(
-        BarberbContext
+        BarberContext
     );
 
     /**
@@ -70,17 +73,6 @@ const ReservationsPage: React.FC = () => {
     }, [isUpdated, setIsUpdated, setLoading, fetchReservations, currentFilter]);
 
     /**
-     * This function handles the pagination of the reservations.
-     * The current max amount of reservation cards to be displayed are 6.
-     *
-     * @param pageNumber the current page number we are on.
-     */
-    const handlePagination = (pageNumber: number) => {
-        setMaxIndexValue(MAX_ITEMS_PAGE * pageNumber);
-        setMinIndexValue(MAX_ITEMS_PAGE * pageNumber - MAX_ITEMS_PAGE);
-    };
-
-    /**
      * This function renders the reservation cards.
      *
      * @param {Reservation[]} reservationList Reservations to be rendered.
@@ -100,6 +92,8 @@ const ReservationsPage: React.FC = () => {
      */
     const handleFilterChange = (value: string) => {
         setCurrentFilter(value);
+        setMinIndexValue(0);
+        setMaxIndexValue(MAX_ITEMS_PER_PAGE);
     };
 
     return (
@@ -118,8 +112,9 @@ const ReservationsPage: React.FC = () => {
             </Select>
             <Divider />
             <Skeleton active loading={loading} />
-            {!loading && (
-                <>
+
+            <div className={styles.wrapper}>
+                {!loading && (
                     <Row gutter={[20, 20]}>
                         {reservationItems.length > 0 ? (
                             renderReservationItems(reservationItems)
@@ -127,17 +122,23 @@ const ReservationsPage: React.FC = () => {
                             <Empty className={styles.noData} />
                         )}
                     </Row>
+                )}
 
-                    <div className={styles.pagination}>
-                        <Pagination
-                            defaultCurrent={1}
-                            onChange={handlePagination}
-                            defaultPageSize={MAX_ITEMS_PAGE}
-                            total={reservationItems.length}
-                        />
-                    </div>
-                </>
-            )}
+                <div className={styles.pagination}>
+                    <Pagination
+                        defaultCurrent={1}
+                        onChange={(value) =>
+                            handlePagination(
+                                value,
+                                setMinIndexValue,
+                                setMaxIndexValue
+                            )
+                        }
+                        defaultPageSize={MAX_ITEMS_PAGE}
+                        total={reservationItems.length}
+                    />
+                </div>
+            </div>
         </Content>
     );
 };

@@ -23,7 +23,7 @@ import moment from "moment";
 import {
     DATE_FORMAT,
     WIDTH_SCREEN_XL,
-    WIDTH_SCREEN_XS
+    WIDTH_SCREEN_XS,
 } from "../../../../assets/constants";
 
 import { getReservations } from "../../../../services/reservation-service";
@@ -104,7 +104,9 @@ const panelColor = (status: string) => {
 const ReservationPanel = (props: AppointmentsBase.AppointmentProps) => (
     <Appointments.Appointment
         {...props}
-        className={`${styles.panel} ${panelColor(props.data.reservation.status)}`}
+        className={`${styles.panel} ${panelColor(
+            props.data.reservation.status
+        )}`}
     >
         {props.data.title}
     </Appointments.Appointment>
