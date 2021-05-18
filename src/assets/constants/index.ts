@@ -84,6 +84,9 @@ export const MONTH_NAMES = [
     "December",
 ];
 
+// Maximum card items in dashboard
+export const MAX_ITEMS_PER_PAGE = 6;
+
 // Placeholders.
 export const PLACEHOLDER_TEXT =
     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat unde iste, soluta est quasi expedita. Beatae soluta quo in eveniet! Quaerat accusamus eveniet quae mollitia sequi nobis fuga ut delectus.";

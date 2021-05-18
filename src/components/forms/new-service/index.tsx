@@ -5,7 +5,7 @@ import { Form, Input, Switch, InputNumber } from "antd";
 
 import Service from "../../../models/Service";
 
-import { BarberbContext } from "../../../contexts/barber-context";
+import { BarberContext } from "../../../contexts/barber-context";
 
 import { EURO_SYMBOL } from "../../../assets/constants";
 
@@ -23,7 +23,7 @@ interface FormProps {
 const NewServiceForm: React.FC<FormProps> = (props) => {
     const { serviceDetail } = props;
     const { isNewItem, formValues, setFormValues } = useContext(
-        BarberbContext
+        BarberContext
     );
     const [active] = useState(isNewItem || serviceDetail?.active);
 
@@ -106,7 +106,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 <InputNumber
                     name="time"
                     className={styles.inputTime}
-                    defaultValue={serviceDetail?.time}
+                    defaultValue={serviceDetail?.id !== "" ? serviceDetail?.time : undefined}
                     onChange={onNumberChange("time")}
                     placeholder="Minutes"
                 />
@@ -115,8 +115,8 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 <InputNumber
                     name="price"
                     className={styles.inputPrice}
-                    defaultValue={serviceDetail?.price}
-                    formatter={(value) => `${EURO_SYMBOL} ${value}`}
+                    defaultValue={serviceDetail?.id !== "" ? serviceDetail?.price : undefined}
+                    placeholder="Price"
                     onChange={onNumberChange("price")}
                 />
             </Form.Item>
