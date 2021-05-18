@@ -13,7 +13,7 @@ import { EURO_SYMBOL, GOOGLE_MAPS_BASE_URL } from "../../assets/constants";
 
 import { updateReservationStatus } from "../../services/reservation-service";
 
-import { BarberbContext } from "../../contexts/barber-context";
+import { BarberContext } from "../../contexts/barber-context";
 import { ScreenContext } from "../../contexts/screen-context";
 
 import styles from "./styles.module.scss";
@@ -31,7 +31,7 @@ interface ComponentProps {
  */
 const ReservationCard: React.FC<ComponentProps> = (props) => {
     const { reservationDetail } = props;
-    const { setIsUpdated } = useContext(BarberbContext);
+    const { setIsUpdated } = useContext(BarberContext);
     const { isMobileOrTablet } = useContext(ScreenContext);
 
     /**

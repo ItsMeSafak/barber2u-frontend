@@ -14,7 +14,7 @@ import {
 import ServiceCard from "../../../../components/card-service";
 import NewServiceForm from "../../../../components/forms/new-service";
 
-import { BarberbContext } from "../../../../contexts/barber-context";
+import { BarberContext } from "../../../../contexts/barber-context";
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
 
 import { handlePagination } from "../../../../assets/functions/pagination";
@@ -49,7 +49,7 @@ const ServicesPage: React.FC = () => {
         setListOfServices,
         setIsNewItem,
         setIsDeleted,
-    } = useContext(BarberbContext);
+    } = useContext(BarberContext);
     const [minIndexValue, setMinIndexValue] = useState(0);
     const [maxIndexValue, setMaxIndexValue] = useState(MAX_ITEMS_PER_PAGE);
     const [currentFilter, setCurrentFilter] = useState("");

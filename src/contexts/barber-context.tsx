@@ -71,7 +71,7 @@ export const BarberContext = createContext<ContextProps>(
  * @param {ContextProps} props
  * @returns {React.FC}
  */
-export const BarberbProvider: React.FC = (props) => {
+export const BarberProvider: React.FC = (props) => {
     const { children } = props;
 
     const [loading, setLoading] = useState(contextDefaultValues.loading);
@@ -142,4 +142,4 @@ export const BarberbProvider: React.FC = (props) => {
     );
 };
 
-export default BarberbProvider;
+export default BarberProvider;
