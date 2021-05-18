@@ -20,7 +20,11 @@ import {
 } from "@devexpress/dx-react-scheduler-material-ui";
 import moment from "moment";
 
-import { DATE_FORMAT } from "../../../../assets/constants";
+import {
+    DATE_FORMAT,
+    WIDTH_SCREEN_XL,
+    WIDTH_SCREEN_XS
+} from "../../../../assets/constants";
 
 import { getReservations } from "../../../../services/reservation-service";
 
@@ -146,6 +150,15 @@ const CalendarPage: React.FC = () => {
         moment().format(DATE_FORMAT)
     );
 
+    /**
+     * Return the Scheduler default viewstate keyword based on the user screen
+     */
+    const getDefaultCalendarView = () => {
+        if (window.innerWidth <= WIDTH_SCREEN_XS) return "Day";
+        if (window.innerWidth <= WIDTH_SCREEN_XL) return "Week";
+        return "Month";
+    };
+
     return (
         <>
             <Paper>
@@ -156,6 +169,7 @@ const CalendarPage: React.FC = () => {
                         onCurrentDateChange={(date) =>
                             setCurrentDate(moment(date).format(DATE_FORMAT))
                         }
+                        defaultCurrentViewName={getDefaultCalendarView()}
                     />
                     <Toolbar />
                     <DateNavigator />
