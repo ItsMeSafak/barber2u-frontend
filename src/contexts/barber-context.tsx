@@ -58,7 +58,7 @@ const contextDefaultValues: ContextProps = {
     setListOfServices: () => {},
 };
 
-export const BarberbContext = createContext<ContextProps>(contextDefaultValues);
+export const BarberContext = createContext<ContextProps>(contextDefaultValues);
 
 /**
  * The service provider is responsible for keeping track of the activities within the services page.
@@ -69,7 +69,7 @@ export const BarberbContext = createContext<ContextProps>(contextDefaultValues);
  * @param {ContextProps} props
  * @returns {React.FC}
  */
-export const BarberbProvider: React.FC = (props) => {
+export const BarberProvider: React.FC = (props) => {
     const { children } = props;
 
     const [loading, setLoading] = useState(contextDefaultValues.loading);
@@ -134,10 +134,10 @@ export const BarberbProvider: React.FC = (props) => {
     );
 
     return (
-        <BarberbContext.Provider value={providerValues}>
+        <BarberContext.Provider value={providerValues}>
             {children}
-        </BarberbContext.Provider>
+        </BarberContext.Provider>
     );
 };
 
-export default BarberbProvider;
+export default BarberProvider;

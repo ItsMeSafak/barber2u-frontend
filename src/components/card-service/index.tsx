@@ -6,11 +6,10 @@ import { Card, Col, Modal } from "antd";
 import Service from "../../models/Service";
 
 import { deleteService } from "../../services/services-service";
-import { BarberbContext } from "../../contexts/barber-context";
+import { BarberContext } from "../../contexts/barber-context";
 
-import { EURO_SYMBOL } from "../../assets/constants";
-import { showHttpResponseNotification } from "../../assets/functions/notification";
 import { getIconByPrefixName } from "../../assets/functions/icon";
+import { showHttpResponseNotification } from "../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
@@ -28,7 +27,7 @@ interface ComponentProps {
 const ServiceCard: React.FC<ComponentProps> = (props) => {
     const { serviceDetail } = props;
     const { setServiceDetail, setIsNewItem, setIsDeleted } = useContext(
-        BarberbContext
+        BarberContext
     );
 
     /**
@@ -74,7 +73,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
      * This function deletes the current service on the list.
      */
     const deleteCurrentService = async () => {
-        const response = await deleteService(serviceDetail?.id);
+        const response = await deleteService(serviceDetail?.getId);
         setIsDeleted(true);
 
         const { status, message } = response;
@@ -82,25 +81,25 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
     };
 
     return (
-        <Col key={serviceDetail.id} xs={24} sm={12} lg={8}>
+        <Col key={serviceDetail.getId} xs={24} sm={12} lg={8}>
             <Card className={styles.card} actions={actions()}>
                 <h2 className={styles.header}>
-                    {`${serviceDetail.name} `}
+                    {`${serviceDetail.getName} `}
                     <FontAwesomeIcon
                         className={
-                            serviceDetail.active
+                            serviceDetail.getActive
                                 ? styles.certificateOn
                                 : styles.certificateOff
                         }
                         icon={getIconByPrefixName("fas", "certificate")}
                     />
                 </h2>
-                <p>{serviceDetail.description}</p>
+                <p>{serviceDetail.getDescription}</p>
                 <p className={styles.time}>
-                    <span>{serviceDetail.time}</span> minutes
+                    <span>{serviceDetail.getTime}</span> minutes
                 </p>
                 <span className={styles.price}>
-                    {EURO_SYMBOL} {serviceDetail.price.toFixed(2)}
+                    {/* {EURO_SYMBOL} {serviceDetail.getPrice.toFixed(2)} */}
                 </span>
             </Card>
         </Col>

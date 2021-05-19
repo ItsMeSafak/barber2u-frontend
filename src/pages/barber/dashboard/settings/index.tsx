@@ -4,12 +4,11 @@ import { Card } from "antd";
 
 import GenericForm from "../../../../components/forms/generic-form";
 
-import { AuthenticationContext } from "../../../../contexts/authentication-context";
-
 import {
     getBarber,
     updateUserProfile,
 } from "../../../../services/user-service";
+import { AuthenticationContext } from "../../../../contexts/authentication-context";
 
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 

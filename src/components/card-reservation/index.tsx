@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Card, Col, Modal } from "antd";
 
 import Status from "../../models/enums/Status";
+import Service from "../../models/Service";
 import Reservation from "../../models/Reservation";
 
 import { getIconByPrefixName } from "../../assets/functions/icon";
@@ -13,7 +14,7 @@ import { EURO_SYMBOL, GOOGLE_MAPS_BASE_URL } from "../../assets/constants";
 
 import { updateReservationStatus } from "../../services/reservation-service";
 
-import { BarberbContext } from "../../contexts/barber-context";
+import { BarberContext } from "../../contexts/barber-context";
 import { ScreenContext } from "../../contexts/screen-context";
 
 import styles from "./styles.module.scss";
@@ -31,7 +32,7 @@ interface ComponentProps {
  */
 const ReservationCard: React.FC<ComponentProps> = (props) => {
     const { reservationDetail } = props;
-    const { setIsUpdated } = useContext(BarberbContext);
+    const { setIsUpdated } = useContext(BarberContext);
     const { isMobileOrTablet } = useContext(ScreenContext);
 
     /**
@@ -41,7 +42,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
      */
     const updateStatus = async (reservationStatus: string) => {
         const response = await updateReservationStatus(
-            reservationDetail.id,
+            reservationDetail.getId,
             reservationStatus
         );
 
@@ -64,7 +65,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
             className={styles.editAction}
             icon={getIconByPrefixName("fas", "check")}
             onClick={() =>
-                reservationDetail.status === Status.Active
+                reservationDetail.getStatus === Status.Active
                     ? completeReservation()
                     : acceptReservation()
             }
@@ -122,7 +123,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
      * @returns {string}
      */
     const switchColorHeader = () => {
-        switch (reservationDetail.status) {
+        switch (reservationDetail.getStatus) {
             case Status.Pending:
                 return styles.pending;
             case Status.Cancelled:
@@ -135,18 +136,18 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     };
 
     return (
-        <Col key={reservationDetail.id} xs={24} sm={12} lg={8}>
+        <Col key={reservationDetail.getId} xs={24} sm={12} lg={8}>
             <Card
                 className={styles.card}
                 actions={
-                    reservationDetail.status === Status.Completed ||
-                    reservationDetail.status === Status.Cancelled
+                    reservationDetail.getStatus === Status.Completed ||
+                        reservationDetail.getStatus === Status.Cancelled
                         ? []
                         : actions()
                 }
             >
                 <h2 className={`${styles.header} ${switchColorHeader()}`}>
-                    {reservationDetail.status}
+                    {reservationDetail.getStatus}
                 </h2>
 
                 <p>
@@ -155,7 +156,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                         icon={getIconByPrefixName("fas", "user")}
                         size="lg"
                     />{" "}
-                    {reservationDetail.customer.getFullNameWithInitial}
+                    {reservationDetail.getCustomer.getFullNameWithInitial}
                 </p>
 
                 <p>
@@ -164,18 +165,17 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                         icon={getIconByPrefixName("fas", "map-marker-alt")}
                         size="lg"
                     />{" "}
-                    {`${reservationDetail.customer.getAddress}, ${reservationDetail.customer.getZipcode}`}
+                    {`${reservationDetail.getCustomer.getAddress}, ${reservationDetail.getCustomer.getZipcode}`}
                     <a
                         target="_blank"
-                        href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.customer.getZipcode}`}
+                        href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.getCustomer.getZipcode}`}
                         rel="noreferrer"
                     >
                         <FontAwesomeIcon
-                            className={`${styles.icon} ${
-                                isMobileOrTablet
+                            className={`${styles.icon} ${isMobileOrTablet
                                     ? styles.mobileLink
                                     : styles.externalLink
-                            }`}
+                                }`}
                             icon={getIconByPrefixName(
                                 "fas",
                                 "external-link-alt"
@@ -191,7 +191,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                         icon={getIconByPrefixName("fas", "calendar-alt")}
                         size="lg"
                     />{" "}
-                    {reservationDetail.date}
+                    {reservationDetail.getDate}
                 </p>
 
                 <p>
@@ -200,7 +200,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                         icon={getIconByPrefixName("fas", "clock")}
                         size="lg"
                     />{" "}
-                    {`${reservationDetail.startTime} - ${reservationDetail.endTime}`}
+                    {`${reservationDetail.getStartTime} - ${reservationDetail.getEndTime}`}
                 </p>
 
                 <p>
@@ -209,15 +209,19 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                         icon={getIconByPrefixName("fas", "cut")}
                         size="lg"
                     />{" "}
-                    {reservationDetail.services.map(({ name }, index) =>
-                        index !== 0 ? `, ${name}` : `${name}`
+                    {reservationDetail.getServices.map(({ getName }, index) =>
+                        index !== 0 ? `, ${getName}` : `${getName}`
                     )}
                 </p>
 
                 <span className={styles.price}>
                     {EURO_SYMBOL}{" "}
-                    {reservationDetail.services
-                        .map((item) => item.price)
+                    {reservationDetail.getServices
+                        .map(
+                            (item) =>
+                                Object.setPrototypeOf(item, Service.prototype)
+                                    .getPrice
+                        )
                         .reduce(
                             (servicePrice, currentValue) =>
                                 currentValue + servicePrice

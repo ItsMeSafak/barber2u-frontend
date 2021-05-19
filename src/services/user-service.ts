@@ -13,7 +13,7 @@ interface IUserResponse extends IHttpResponse {
 
 /**
  * This function fetches the barber profile
- * 
+ *
  * @param barberEmail the email of the barber to be fetched.
  */
 export const getBarber = (barberEmail?: string): Promise<IUserResponse> =>

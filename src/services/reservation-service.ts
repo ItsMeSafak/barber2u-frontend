@@ -2,8 +2,8 @@ import axios from "axios";
 
 import IHttpResponse from "./http-response";
 
-import Reservation from "../models/Reservation";
 import User from "../models/User";
+import Reservation from "../models/Reservation";
 
 const API_URL = "/reservation";
 
@@ -20,16 +20,14 @@ export const getReservations = (
     reservationStatus: string | null
 ): Promise<IReservationResponse> =>
     new Promise<IReservationResponse>((resolve, reject) => {
-        axios
-            .get(`${API_URL}/user`, { params: { status: reservationStatus } })
-            .then(
-                (response) => {
-                    if (response) resolve(fixUserObject(response.data));
-                },
-                (error) => {
-                    reject(new Error(error.message));
-                }
-            );
+        axios.get(API_URL, { params: { status: reservationStatus } }).then(
+            (response) => {
+                if (response) resolve(fixUserObject(response.data));
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        );
     });
 
 /**
@@ -60,12 +58,12 @@ export const updateReservationStatus = (
 // eslint-disable-next-line require-jsdoc
 const fixUserObject = (response: IReservationResponse) => {
     response.data.forEach((value, index) => {
-        response.data[index].customer = Object.setPrototypeOf(
-            value.customer,
+        response.data[index].setCustomer = Object.setPrototypeOf(
+            value.getCustomer,
             User.prototype
         );
-        response.data[index].barber = Object.setPrototypeOf(
-            value.barber,
+        response.data[index].setBarber = Object.setPrototypeOf(
+            value.getBarber,
             User.prototype
         );
     });

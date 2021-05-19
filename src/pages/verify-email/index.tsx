@@ -4,7 +4,6 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { Row, Layout, Col } from "antd";
 
 import { verifyEmail } from "../../services/auth-service";
-
 import { ScreenContext } from "../../contexts/screen-context";
 
 import { showHttpResponseNotification } from "../../assets/functions/notification";
