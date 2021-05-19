@@ -60,7 +60,13 @@ const GenericForm: React.FC<ComponentProps> = (props) => {
                     return (
                         <Form.Item key={name} name={name}>
                             <Input
-                                type="number"
+                                type={type}
+                                prefix={
+                                    <FontAwesomeIcon
+                                        className={styles.iconPrefix}
+                                        icon={getIconByPrefixName("fas", icon)}
+                                    />
+                                }
                                 defaultValue={value !== undefined ? value : 0}
                                 placeholder={placeholder}
                                 disabled={!editable}

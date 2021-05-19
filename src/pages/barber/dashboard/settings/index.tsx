@@ -130,7 +130,7 @@ const SettingsPage: React.FC = () => {
                 {
                     name: "workRadius",
                     placeholder: "Work radius",
-                    icon: "globe",
+                    icon: "street-view",
                     value: barber?.workRadius,
                     editable: true,
                     type: "number",

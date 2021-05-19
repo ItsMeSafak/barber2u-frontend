@@ -47,6 +47,7 @@ import {
     faPassport,
     faGlobe,
     faPhone,
+    faStreetView
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -95,6 +96,7 @@ export const icons = {
     faPassport,
     faGlobe,
     faPhone,
+    faStreetView
 };
 
 /**
