@@ -26,12 +26,12 @@ const PortfolioCard: React.FC<ComponentProps> = (props) => {
     const [isEditing] = useState(0);
 
     return (
-        <Col key={portfolioItem.id} xs={24} sm={12} lg={8}>
+        <Col key={portfolioItem.getId} xs={24} sm={12} lg={8}>
             <Card className={styles.card}>
-                {isEditing === portfolioItem.id ? (
+                {isEditing === portfolioItem.getId ? (
                     <Select
                         className={styles.dropdown}
-                        defaultValue={portfolioItem.style}
+                        defaultValue={portfolioItem.getStyle}
                     >
                         {Object.keys(Style).map((style) => (
                             <Option key={style} value={style}>
@@ -40,7 +40,7 @@ const PortfolioCard: React.FC<ComponentProps> = (props) => {
                         ))}
                     </Select>
                 ) : (
-                    <h2 className={styles.header}>{portfolioItem.style}</h2>
+                    <h2 className={styles.header}>{portfolioItem.getStyle}</h2>
                 )}
             </Card>
         </Col>

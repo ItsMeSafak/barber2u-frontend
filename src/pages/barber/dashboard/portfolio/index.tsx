@@ -22,26 +22,10 @@ const { Content } = Layout;
 const PortfolioPage: React.FC = () => {
     const [newItem, setNewItem] = useState(false);
 
-    const portfolioMockData = new Portfolio(1, [
-        {
-            id: 1,
-            style: Style.Curly,
-            image: "",
-        },
-        {
-            id: 2,
-            style: Style.Styled,
-            image: "",
-        },
-        {
-            id: 3,
-            style: Style.Yee,
-            image: "",
-        },
-    ]);
+    const portfolioMockData = new Portfolio(1, []);
 
-    const allStylesAvailable = portfolioMockData.items.map(
-        (item) => item.style
+    const allStylesAvailable = portfolioMockData.getItems.map(
+        (item) => item.getStyle
     );
 
     /**
@@ -113,11 +97,11 @@ const PortfolioPage: React.FC = () => {
      * @returns {JSX}
      */
     const renderPortfolioItems = (portfolioObject: Portfolio, style: Style) =>
-        portfolioObject.items.map((portfolioItem) => {
-            if (portfolioItem.style === style)
+        portfolioObject.getItems.map((portfolioItem) => {
+            if (portfolioItem.getStyle === style)
                 return (
                     <PortfolioCard
-                        key={portfolioItem.id}
+                        key={portfolioItem.getId}
                         portfolioItem={portfolioItem}
                         newItem={false}
                     />
