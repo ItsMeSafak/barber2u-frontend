@@ -56,7 +56,7 @@ const SettingsPage: React.FC = () => {
         (barber: BarberData) =>
             setInputFields([
                 {
-                    name: "firstname",
+                    name: "firstName",
                     placeholder: "Firstname",
                     icon: "id-card",
                     value: user?.getFirstName,
@@ -64,7 +64,7 @@ const SettingsPage: React.FC = () => {
                     rules: [{ required: true, message: "Field is empty!" }],
                 },
                 {
-                    name: "lastname",
+                    name: "lastName",
                     placeholder: "Lastname",
                     icon: "id-card",
                     value: user?.getLastName,
@@ -96,7 +96,7 @@ const SettingsPage: React.FC = () => {
                     rules: [{ required: true, message: "Field is empty!" }],
                 },
                 {
-                    name: "zipcode",
+                    name: "zipCode",
                     placeholder: "Zipcode",
                     icon: "city",
                     value: user?.getZipcode,
