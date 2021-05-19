@@ -121,7 +121,7 @@ export const AuthenticationProvider: React.FC = (props) => {
         setAccessToken(null);
         setRefreshToken(null);
         setAuthenticated(false);
-    }, []);
+    }, [removeCookie]);
 
     useEffect(() => {
         /**

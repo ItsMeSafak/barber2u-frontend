@@ -146,7 +146,6 @@ const PortfolioPage: React.FC = () => {
     return (
         <Layout className={styles.portfolio}>
             <Content>
-                <h1 className={styles.title}>Portfolio</h1>
                 {!newItem ? renderAddButton() : renderSaveAndCancelButton()}
                 <Divider />
                 {allStylesAvailable && renderStyleSections(allStylesAvailable)}

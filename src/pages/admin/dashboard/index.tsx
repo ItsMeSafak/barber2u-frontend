@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 
-import { Layout, PageHeader, Skeleton } from "antd";
+import { Layout, PageHeader } from "antd";
 
+import Skeleton from "../../../components/skeleton";
 import UsersPage from "./users";
 import UserRoutes from "../../../routes/user-routes";
 import SettingsPage from "./settings";
@@ -35,8 +36,9 @@ const AdminDashboardPage: React.FC = () => {
                     title={pageName}
                     style={{ padding: 0, marginBottom: "1rem" }}
                 />
-                <Skeleton active loading={loading} />
-                {!loading && <UserRoutes components={components} />}
+                <Skeleton loading={loading}>
+                    <UserRoutes components={components} />
+                </Skeleton>
             </Content>
         </Layout>
     );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form, Input, Select } from "antd";
@@ -18,16 +18,18 @@ interface ComponentProps {
 }
 
 /**
- * TODO...
- * @param props
- * @returns
+ * This component is used to generate generic forms.
+ *
+ * @param {Object} props Component properties.
+ * @returns {JSX}
  */
 const GenericForm: React.FC<ComponentProps> = (props) => {
     const { formName, data } = props;
 
     /**
-     * TODO...
-     * @returns
+     * This function renders the form input data.
+     *
+     * @returns {JSX}
      */
     const renderFormData = () =>
         data.map(({ type, name, icon, value }) => {

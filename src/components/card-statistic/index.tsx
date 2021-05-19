@@ -46,8 +46,10 @@ const CardStatistic: React.FC<ComponentProps> = (props) => {
     } = props;
 
     /**
-     * TODO...
-     * @returns {string}
+     * This function renders the value with the correct color, depending on the given thresholds, etc.
+     *
+     * @param {ValueType} value The value of the statistic.
+     * @returns {JSX}
      */
     const getStatisticColor = (value: valueType | undefined) => {
         if (value) {
@@ -78,7 +80,8 @@ const CardStatistic: React.FC<ComponentProps> = (props) => {
     };
 
     /**
-     * TODO...
+     * This function renders a progress bar as a statistic.
+     *
      * @returns {JSX}
      */
     const renderProgressBar = () => (
@@ -98,7 +101,10 @@ const CardStatistic: React.FC<ComponentProps> = (props) => {
     );
 
     /**
-     * TODO...
+     * This function renders multiple statistic data inside the card.
+     * It automatically renders it responsive.
+     *
+     * @returns {JSX}
      */
     const renderData = () =>
         data.map((details) => {

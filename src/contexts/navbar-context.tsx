@@ -66,7 +66,7 @@ export const NavbarContext = createContext<ContextProps>(contextDefaultValues);
  */
 export const NavbarProvider: React.FC = (props) => {
     const { children } = props;
-    const { user, authenticated, defaultColor, setDefaultColor } = useContext(
+    const { user, authenticated, setDefaultColor } = useContext(
         AuthenticationContext
     );
 
@@ -118,7 +118,7 @@ export const NavbarProvider: React.FC = (props) => {
             if (isRoleIncluded(Role.Admin))
                 setDefaultColor(ADMIN_DEFAULT_COLOR);
         }
-    }, [authenticated, user, defaultColor, setDefaultColor]);
+    }, [authenticated, user, isRoleIncluded, setDefaultColor]);
 
     useEffect(() => {
         getDefaultColorByUserRole();

@@ -18,7 +18,8 @@ interface IActuatorResponse {
 }
 
 /**
- * TODO...
+ * This function retrieves the API statuses.
+ *
  * @returns {Promise<IActuatorResponse>}
  */
 export const getHealthStatus = (): Promise<IActuatorResponse> =>
@@ -34,7 +35,8 @@ export const getHealthStatus = (): Promise<IActuatorResponse> =>
     );
 
 /**
- * TODO...
+ * This function shutdowns the API.
+ *
  * @returns {Promise<IActuatorResponse>}
  */
 export const shutdownAPIServer = (): Promise<{ message: string }> =>

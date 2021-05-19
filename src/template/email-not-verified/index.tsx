@@ -15,7 +15,7 @@ const EmailNotVerified: React.FC = () => {
     const { user } = useContext(AuthenticationContext);
 
     /**
-     * TODO...
+     * This function sends a verification mail once clicked on button.
      */
     const onVerifyEmailButtonClick = async () => {
         const response = await resendVerificationEmail();

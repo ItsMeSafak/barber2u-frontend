@@ -5,12 +5,14 @@ import User from "./User";
  */
 export default class Barber extends User {
     /* eslint-disable  require-jsdoc */
+    private companyName: string;
     private kvkNumber: string;
     private btwVatNumber: string;
     private workRadius: number;
 
     constructor(
         user: User,
+        companyName: string,
         kvkNumber: string,
         btwVatNumber: string,
         workRadius: number
@@ -27,13 +29,34 @@ export default class Barber extends User {
             user.getIsActive,
             user.getIsVerified
         );
+        this.companyName = companyName;
         this.kvkNumber = kvkNumber;
         this.btwVatNumber = btwVatNumber;
         this.workRadius = workRadius;
     }
 
-    get getUser(): User {
-        return this;
+    get getCompanyName(): string {
+        return this.companyName;
+    }
+
+    get getKvkNumber(): string {
+        return this.kvkNumber;
+    }
+
+    get getBtwVatNumber(): string {
+        return this.btwVatNumber;
+    }
+
+    get getWorkRadius(): number {
+        return this.workRadius;
+    }
+
+    get getWorkRadiusWithMetric(): string {
+        return `${this.getWorkRadius} km.`;
+    }
+
+    getUser(): User {
+        return super.getUser();
     }
 
     static fromJSON(json: Barber | null): Barber {

@@ -6,16 +6,23 @@ import {
 } from "@fortawesome/react-fontawesome";
 import { Layout, Row, Col, Tooltip, Divider } from "antd";
 
+import User from "../../../../models/User";
+import Barber from "../../../../models/Barber";
 import Spinner from "../../../../components/spinner";
+import Reservation from "../../../../models/Reservation";
 import CardStatistic from "../../../../components/card-statistic";
 
+import { getIconByPrefixName } from "../../../../assets/functions/icon";
+import { showHttpResponseNotification } from "../../../../assets/functions/notification";
+import {
+    getBarbers,
+    getCustomers,
+    getReservations,
+} from "../../../../services/admin-service";
 import {
     getHealthStatus,
     shutdownAPIServer,
 } from "../../../../services/actuator-service";
-
-import { getIconByPrefixName } from "../../../../assets/functions/icon";
-import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
@@ -28,13 +35,15 @@ const { Content } = Layout;
  */
 const StatisticsPage: React.FC = () => {
     const [loading, setLoading] = useState(true);
+    const [customers, setCustomers] = useState<Array<User>>([]);
+    const [barbers, setBarbers] = useState<Array<Barber>>([]);
+    const [reservations, setReservations] = useState<Array<Reservation>>([]);
     const [APIServerStatus, setAPIServerStatus] = useState("N/A");
     const [databaseServerStatus, setDatabaseServerStatus] = useState("N/A");
     const [mailServerStatus, setMailServerStatus] = useState("N/A");
     const [APIServerDiskUsage, setAPIServerDiskUsage] = useState(Number.NaN);
 
     const fetchServerStatuses = useCallback(async () => {
-        setLoading(true);
         const response = await getHealthStatus();
         if (!response) return;
 
@@ -50,29 +59,67 @@ const StatisticsPage: React.FC = () => {
             );
             setAPIServerDiskUsage(diskUsage);
         }
-        setLoading(false);
     }, [
         setAPIServerStatus,
         setDatabaseServerStatus,
         setMailServerStatus,
         setAPIServerDiskUsage,
-        setLoading,
     ]);
+
+    const fetchCustomers = useCallback(async () => {
+        const response = await getCustomers();
+        if (!response) return;
+
+        const { data } = response;
+        const userObjects = data.map((user: User) =>
+            Object.setPrototypeOf(user, User.prototype)
+        );
+        setCustomers(userObjects);
+    }, []);
+
+    const fetchBarbers = useCallback(async () => {
+        const response = await getBarbers();
+        if (!response) return;
+
+        const { data } = response;
+        const userObjects = data.map(
+            ({ user, companyName, kvkNumber, btwVatNumber, workRadius }) =>
+                new Barber(
+                    Object.setPrototypeOf(user, User.prototype),
+                    companyName,
+                    kvkNumber,
+                    btwVatNumber,
+                    workRadius
+                )
+        );
+        setBarbers(userObjects);
+    }, []);
+
+    const fetchReservations = useCallback(async () => {
+        const response = await getReservations();
+        if (!response) return;
+
+        const { data } = response;
+        const reservationObjects = data.map((reservation: Reservation) =>
+            Object.setPrototypeOf(reservation, Reservation.prototype)
+        );
+        setReservations(reservationObjects);
+    }, []);
 
     useEffect(() => {
-        fetchServerStatuses();
+        Promise.all([
+            fetchServerStatuses(),
+            fetchCustomers(),
+            fetchBarbers(),
+            fetchReservations(),
+        ]).then(() => setLoading(false));
 
         return () => setLoading(true);
-    }, [
-        APIServerStatus,
-        databaseServerStatus,
-        mailServerStatus,
-        fetchServerStatuses,
-        setLoading,
-    ]);
+    }, [fetchServerStatuses, fetchCustomers, fetchBarbers, fetchReservations]);
 
     /**
-     * TODO...
+     * This function is used to render the API shutdown button.
+     *
      * @returns {JSX}
      */
     const renderShutdownAPIServerButton = () => (
@@ -88,7 +135,7 @@ const StatisticsPage: React.FC = () => {
     );
 
     /**
-     * TODO...
+     * This function is used to shutdown the API once clicked.
      */
     const onShutdownAPIServerClick = async () => {
         shutdownAPIServer()
@@ -99,10 +146,11 @@ const StatisticsPage: React.FC = () => {
     };
 
     /**
-     * TODO...
-     * @param parentIcon
-     * @param childIcon
-     * @returns
+     * This function renders the icon with an additional icon.
+     *
+     * @param parentIcon The parent icon.
+     * @param childIcon The child icon (which appears next to the parent)
+     * @returns {JSX}
      */
     const renderIconWithAdditionalIcon = (
         parentIcon: FontAwesomeIconProps,
@@ -132,14 +180,16 @@ const StatisticsPage: React.FC = () => {
                                 data={[
                                     {
                                         title: "Customers",
-                                        value: 19,
+                                        value: customers.length,
                                         prefix: renderIconWithAdditionalIcon({
                                             icon: "user-tie",
                                         }),
                                     },
                                     {
                                         title: "Verified",
-                                        value: 19,
+                                        value: customers.filter(
+                                            (user) => user.getIsVerified
+                                        ).length,
                                         prefix: renderIconWithAdditionalIcon(
                                             { icon: "user-tie" },
                                             { icon: "check" }
@@ -147,7 +197,9 @@ const StatisticsPage: React.FC = () => {
                                     },
                                     {
                                         title: "Active",
-                                        value: 19,
+                                        value: customers.filter(
+                                            (user) => user.getIsActive
+                                        ).length,
                                         prefix: renderIconWithAdditionalIcon(
                                             { icon: "user-tie" },
                                             { icon: "unlock" }
@@ -163,14 +215,16 @@ const StatisticsPage: React.FC = () => {
                                 data={[
                                     {
                                         title: "Barbers",
-                                        value: 19,
+                                        value: barbers.length,
                                         prefix: renderIconWithAdditionalIcon({
                                             icon: "cut",
                                         }),
                                     },
                                     {
                                         title: "Verified",
-                                        value: 19,
+                                        value: barbers.filter(
+                                            (user) => user.getIsVerified
+                                        ).length,
                                         prefix: renderIconWithAdditionalIcon(
                                             { icon: "cut" },
                                             { icon: "check" }
@@ -178,7 +232,9 @@ const StatisticsPage: React.FC = () => {
                                     },
                                     {
                                         title: "Active",
-                                        value: 19,
+                                        value: barbers.filter(
+                                            (user) => user.getIsActive
+                                        ).length,
                                         prefix: renderIconWithAdditionalIcon(
                                             { icon: "cut" },
                                             { icon: "unlock" }
@@ -194,14 +250,18 @@ const StatisticsPage: React.FC = () => {
                                 data={[
                                     {
                                         title: "Appointments",
-                                        value: 19,
+                                        value: reservations.length,
                                         prefix: renderIconWithAdditionalIcon({
                                             icon: "calendar",
                                         }),
                                     },
                                     {
                                         title: "Completed",
-                                        value: 19,
+                                        value: reservations.filter(
+                                            (reservation) =>
+                                                reservation.status ===
+                                                "COMPLETED"
+                                        ).length,
                                         prefix: renderIconWithAdditionalIcon(
                                             { icon: "calendar" },
                                             { icon: "check" }

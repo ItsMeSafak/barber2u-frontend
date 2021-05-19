@@ -90,6 +90,19 @@ export default class User {
         return this.zipCode;
     }
 
+    get getFirstNameCapitalized(): string {
+        return (
+            this.getFirstName.charAt(0).toUpperCase() +
+            this.getFirstName.slice(1)
+        );
+    }
+
+    get getLastNameCapitalized(): string {
+        return (
+            this.getLastName.charAt(0).toUpperCase() + this.getLastName.slice(1)
+        );
+    }
+
     get getFullName(): string {
         return `${this.getFirstName} ${this.getLastName}`;
     }
@@ -100,6 +113,10 @@ export default class User {
 
     get getFirstNameFirstLetter(): string {
         return this.firstName.charAt(0).toUpperCase();
+    }
+
+    get getFullNameCapitalized(): string {
+        return `${this.getFirstNameCapitalized} ${this.getLastNameCapitalized}`;
     }
 
     get getRoleNames(): Array<string> {
@@ -122,5 +139,9 @@ export default class User {
         }
 
         return color;
+    }
+
+    getUser(): User {
+        return this;
     }
 }

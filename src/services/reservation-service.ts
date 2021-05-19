@@ -16,9 +16,11 @@ interface IReservationResponse extends IHttpResponse {
  *
  * @returns {Promise<IReservationResponse>}
  */
-export const getReservations = (reservationStatus: string | null): Promise<IReservationResponse> =>
+export const getReservations = (
+    reservationStatus: string | null
+): Promise<IReservationResponse> =>
     new Promise<IReservationResponse>((resolve, reject) => {
-        axios.get(`${API_URL}/user`, { params: { status: reservationStatus } }).then(
+        axios.get(API_URL, { params: { status: reservationStatus } }).then(
             (response) => {
                 if (response) resolve(fixUserObject(response.data));
             },

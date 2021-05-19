@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useMemo } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import { Row, Layout, Col } from "antd";
@@ -24,7 +24,9 @@ const VerifyEmailPage: React.FC = () => {
     const { isMobileOrTablet } = useContext(ScreenContext);
 
     const history = useHistory();
-    const params = new URLSearchParams(history.location.search);
+    const params = useMemo(() => new URLSearchParams(history.location.search), [
+        history.location.search,
+    ]);
 
     const verifyAccount = useCallback(async () => {
         const response = await verifyEmail(params.get("id"));
@@ -33,11 +35,11 @@ const VerifyEmailPage: React.FC = () => {
         if (!(status === 200)) history.push("404");
 
         showHttpResponseNotification(message, status, false);
-    }, []);
+    }, [history, params]);
 
     useEffect(() => {
         verifyAccount();
-    }, []);
+    }, [verifyAccount]);
 
     /**
      * This function renders the default dekstop view of the email verification.
@@ -54,7 +56,9 @@ const VerifyEmailPage: React.FC = () => {
                         Your email has successfully been verified.
                     </p>
                     <Link to="signin">
-                        {!authenticated && <p className={styles.link}>Go to sign in</p>}
+                        {!authenticated && (
+                            <p className={styles.link}>Go to sign in</p>
+                        )}
                     </Link>
                 </div>
             </Col>
