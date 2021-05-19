@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import { Card } from "antd";
+import { Card, Skeleton } from "antd";
 
 import GenericForm from "../../../../components/forms/generic-form";
 
@@ -30,6 +30,7 @@ export interface BarberData extends User {
  * @returns {JSX}
  */
 const SettingsPage: React.FC = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const { user } = useContext(AuthenticationContext);
     const [inputFields, setInputFields] = useState<
         Array<{
@@ -140,13 +141,15 @@ const SettingsPage: React.FC = () => {
     );
 
     const fetchBarberData = useCallback(async () => {
+        setIsLoading(true);
         const response = await getBarber(user?.getEmail);
 
         const { status, message, data } = response;
         showHttpResponseNotification(message, status, false);
 
         setBarberData(data as BarberData);
-    }, [setBarberData, user]);
+        setIsLoading(false);
+    }, [setBarberData, user, setIsLoading]);
 
     useEffect(() => {
         fetchBarberData();
@@ -183,12 +186,14 @@ const SettingsPage: React.FC = () => {
     return (
         <div className={styles.settings}>
             <Card className={styles.container}>
-                <GenericForm
+                <Skeleton active loading={isLoading} />
+                {!isLoading && <GenericForm
                     formName="personalDetails"
                     data={inputFields}
                     initialValues={mapInputData()}
                     onFinish={updateBarberProfile}
                 />
+                }
             </Card>
         </div>
     );
