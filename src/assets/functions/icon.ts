@@ -38,11 +38,19 @@ import {
     faEdit,
     faPlus,
     faEuroSign,
+    faHdd,
+    faDatabase,
     faUserTie,
-    faTimes,
+    faPowerOff,
     faCheck,
+    faTimes,
+    faUnlock,
+    faHashtag,
+    faUsers,
+    faEye,
     faMapMarkerAlt,
-    faExternalLinkAlt
+    faExternalLinkAlt,
+    faStreetView,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -82,11 +90,19 @@ export const icons = {
     faEdit,
     faPlus,
     faEuroSign,
+    faHdd,
+    faDatabase,
     faUserTie,
-    faTimes,
+    faPowerOff,
     faCheck,
+    faTimes,
+    faUnlock,
+    faHashtag,
+    faUsers,
+    faEye,
     faMapMarkerAlt,
-    faExternalLinkAlt
+    faExternalLinkAlt,
+    faStreetView,
 };
 
 /**

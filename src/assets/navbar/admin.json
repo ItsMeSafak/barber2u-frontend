@@ -1,7 +1,7 @@
 [
     {
-        "id": "moderator",
-        "url": "/moderator",
+        "id": "admin",
+        "url": "/admin",
         "name": "Dashboard",
         "icon": ["fas", "chart-pie"],
         "isNavbarMenu": true,
@@ -24,8 +24,20 @@
         "isDropdownMenu": true
     },
     {
+        "id": "users",
+        "url": "/admin/users",
+        "name": "Users",
+        "icon": ["fas", "users"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": false,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
+    },
+    {
         "id": "settings",
-        "url": "/moderator/settings",
+        "url": "/admin/settings",
         "name": "Settings",
         "icon": ["fas", "cog"],
         "isNavbarMenu": false,

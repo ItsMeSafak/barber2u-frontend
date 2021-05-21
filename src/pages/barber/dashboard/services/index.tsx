@@ -1,21 +1,28 @@
 import React, { useEffect, useContext, useCallback, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Divider, Empty, Layout, Modal, Pagination, Row, Select, Skeleton } from "antd";
+import {
+    Button,
+    Divider,
+    Empty,
+    Layout,
+    Modal,
+    Pagination,
+    Row,
+    Select,
+} from "antd";
 
 import Service from "../../../../models/Service";
-
-import {
-    createNewService,
-    getAllServices,
-    updateService,
-} from "../../../../services/services-service";
-
 import ServiceCard from "../../../../components/card-service";
 import NewServiceForm from "../../../../components/forms/new-service";
 
 import { BarberContext } from "../../../../contexts/barber-context";
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
+import {
+    createNewService,
+    getAllServices,
+    updateService,
+} from "../../../../services/services-service";
 
 import { handlePagination } from "../../../../assets/functions/pagination";
 import { MAX_ITEMS_PER_PAGE } from "../../../../assets/constants";
@@ -23,6 +30,7 @@ import { getIconByPrefixName } from "../../../../assets/functions/icon";
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
+import Skeleton from "../../../../components/skeleton";
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -55,23 +63,25 @@ const ServicesPage: React.FC = () => {
     const [currentFilter, setCurrentFilter] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
 
-
     /**
      * This function fetches the services using the getAllServices function from services-service
      *
      * @param {string} barber the email of the barber
      */
-    const fetchServices = useCallback(async (filter: string | null) => {
-        setLoading(true);
-        const response = await getAllServices(filter);
+    const fetchServices = useCallback(
+        async (filter: string | null) => {
+            setLoading(true);
+            const response = await getAllServices(filter);
 
-        const { status, message } = response;
-        showHttpResponseNotification(message, status, false);
-        if (!response.data) return;
+            const { status, message } = response;
+            showHttpResponseNotification(message, status, false);
+            if (!response.data) return;
 
-        setListOfServices(response.data);
-        setLoading(false);
-    }, [user, setLoading, setListOfServices]);
+            setListOfServices(response.data);
+            setLoading(false);
+        },
+        [user, setLoading, setListOfServices]
+    );
 
     useEffect(() => {
         fetchServices(currentFilter !== "" ? currentFilter : null);
@@ -186,15 +196,17 @@ const ServicesPage: React.FC = () => {
      * @returns {JSX}
      */
     const renderServices = () =>
-        listOfServices?.map((service) => (
-            <ServiceCard key={service.id} serviceDetail={service} />
-        )).slice(minIndexValue, maxIndexValue);
+        listOfServices
+            ?.map((service) => (
+                <ServiceCard key={service.id} serviceDetail={service} />
+            ))
+            .slice(minIndexValue, maxIndexValue);
 
     /**
-    * This function handles the filtering of the service based on the status
-    * 
-    * @param value 
-    */
+     * This function handles the filtering of the service based on the status
+     *
+     * @param value
+     */
     const handleFilterChange = (value: string) => {
         setCurrentFilter(value);
         setMinIndexValue(0);
@@ -205,28 +217,44 @@ const ServicesPage: React.FC = () => {
         <div className={styles.services}>
             <Layout>
                 <Content>
-                    <h1 className={styles.title}>Services</h1>
-                    <Select placeholder="Select a status" size="large" allowClear onChange={handleFilterChange}>
+                    <Select
+                        placeholder="Select a status"
+                        size="large"
+                        allowClear
+                        onChange={handleFilterChange}
+                    >
                         <Option value="true">Active</Option>
                         <Option value="false">Inactive</Option>
                     </Select>
                     {renderAddButton()}
                     <Divider />
-                    <Skeleton active loading={loading} />
-                    <div className={styles.wrapper}>
-                        {!loading && listOfServices && (
-
-                            <Row gutter={[20, 20]}>{listOfServices.length > 0 ? renderServices() : <Empty className={styles.noData} />}</Row>
-                        )}
-                        <div className={styles.pagination}>
-                            <Pagination
-                                defaultCurrent={currentPage}
-                                onChange={(value) => handlePagination(value, setMinIndexValue, setMaxIndexValue)}
-                                defaultPageSize={MAX_ITEMS_PAGE}
-                                total={listOfServices?.length}
-                            />
+                    <Skeleton loading={loading}>
+                        <div className={styles.wrapper}>
+                            {listOfServices && (
+                                <Row gutter={[20, 20]}>
+                                    {listOfServices.length > 0 ? (
+                                        renderServices()
+                                    ) : (
+                                        <Empty className={styles.noData} />
+                                    )}
+                                </Row>
+                            )}
+                            <div className={styles.pagination}>
+                                <Pagination
+                                    defaultCurrent={currentPage}
+                                    onChange={(value) =>
+                                        handlePagination(
+                                            value,
+                                            setMinIndexValue,
+                                            setMaxIndexValue
+                                        )
+                                    }
+                                    defaultPageSize={MAX_ITEMS_PAGE}
+                                    total={listOfServices?.length}
+                                />
+                            </div>
                         </div>
-                    </div>
+                    </Skeleton>
                 </Content>
             </Layout>
             {renderModal()}

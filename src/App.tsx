@@ -14,11 +14,11 @@ import VerifyEmailPage from "./pages/verify-email";
 import SignupPageBarber from "./pages/visitor/signup/signup-barber";
 import SignupLandingPage from "./pages/visitor/signup";
 import ResetPasswordPage from "./pages/visitor/reset-password";
+import AdminDashboardPage from "./pages/admin/dashboard";
 import SignupPageCustomer from "./pages/visitor/signup/signup-customer";
 import BarberDashboardPage from "./pages/barber/dashboard";
 import ConfirmPasswordPage from "./pages/visitor/confirm-password";
 import CustomerDashboardPage from "./pages/customer/dashboard";
-import ModeratorDashboardPage from "./pages/moderator/dashboard";
 
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
@@ -55,12 +55,12 @@ const App: React.FC = () => {
     axios.interceptors.response.use(
         (response) => {
             // If retrieved response status is not OK, redirect to "internal server error" page
-            if (response && response.status !== 200) history.push("/500");
+            if (response && response.status !== 200) history.push("500");
             return response;
         },
         (error) => {
             console.error(error);
-            history.push("/503");
+            history.push("503");
         }
     );
 
@@ -79,6 +79,7 @@ const App: React.FC = () => {
                             component={HomePage}
                         />
                         <ProtectedRoute
+                            exact
                             allowedRoles={[]}
                             path="/signin"
                             component={SigninPage}
@@ -90,16 +91,19 @@ const App: React.FC = () => {
                             component={SignupLandingPage}
                         />
                         <ProtectedRoute
+                            exact
                             allowedRoles={[]}
                             path="/signup/customer"
                             component={SignupPageCustomer}
                         />
                         <ProtectedRoute
+                            exact
                             allowedRoles={[]}
                             path="/signup/barber"
                             component={SignupPageBarber}
                         />
                         <ProtectedRoute
+                            exact
                             allowedRoles={[]}
                             path="/reset-password"
                             component={ResetPasswordPage}
@@ -120,14 +124,11 @@ const App: React.FC = () => {
                             component={CustomerDashboardPage}
                         />
                         <ProtectedRoute
-                            allowedRoles={[Role.Moderator]}
-                            path="/moderator"
-                            component={ModeratorDashboardPage}
+                            allowedRoles={[Role.Admin]}
+                            path="/admin"
+                            component={AdminDashboardPage}
                         />
-                        <Route
-                            path="/verify"
-                            component={VerifyEmailPage}
-                        />
+                        <Route path="/verify" component={VerifyEmailPage} />
                         <Route
                             exact
                             path="/500"

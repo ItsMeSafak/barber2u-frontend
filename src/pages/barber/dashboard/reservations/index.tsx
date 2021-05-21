@@ -1,16 +1,14 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import { Row, Divider, Layout, Pagination, Skeleton, Select, Empty } from "antd";
+import { Row, Divider, Layout, Pagination, Select, Empty } from "antd";
 
 import Status from "../../../../models/enums/Status";
+import Skeleton from "../../../../components/skeleton";
 import Reservation from "../../../../models/Reservation";
-
 import ReservationCard from "../../../../components/card-reservation";
 
 import { BarberContext } from "../../../../contexts/barber-context";
-
 import { getReservations } from "../../../../services/reservation-service";
-
 import { handlePagination } from "../../../../assets/functions/pagination";
 import { MAX_ITEMS_PER_PAGE } from "../../../../assets/constants";
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
@@ -42,17 +40,20 @@ const ReservationsPage: React.FC = () => {
     /**
      * This function fetches the reservation from the backend and displays it on the page.
      */
-    const fetchReservations = useCallback(async (filterStatus: string | null) => {
-        setLoading(true);
-        const response = await getReservations(filterStatus);
+    const fetchReservations = useCallback(
+        async (filterStatus: string | null) => {
+            setLoading(true);
+            const response = await getReservations(filterStatus);
 
-        const { status, message } = response;
-        showHttpResponseNotification(message, status, false);
-        if (!response.data) return;
+            const { status, message } = response;
+            showHttpResponseNotification(message, status, false);
+            if (!response.data) return;
 
-        setReserVationItems(response.data);
-        setLoading(false);
-    }, [setLoading]);
+            setReserVationItems(response.data);
+            setLoading(false);
+        },
+        [setLoading]
+    );
 
     useEffect(() => {
         fetchReservations(currentFilter !== "" ? currentFilter : null);
@@ -75,8 +76,8 @@ const ReservationsPage: React.FC = () => {
 
     /**
      * This function handles the filtering of the reservations based on the status
-     * 
-     * @param value 
+     *
+     * @param value
      */
     const handleFilterChange = (value: string) => {
         setCurrentFilter(value);
@@ -86,34 +87,43 @@ const ReservationsPage: React.FC = () => {
 
     return (
         <Content className={styles.reservations}>
-
-            <h1 className={styles.title}>Reservations</h1>
-            <Select placeholder="Select a status" size="large" allowClear onChange={handleFilterChange}>
+            <Select
+                placeholder="Select a status"
+                size="large"
+                allowClear
+                onChange={handleFilterChange}
+            >
                 <Option value={Status.Active}>Active</Option>
                 <Option value={Status.Pending}>Pending</Option>
                 <Option value={Status.Completed}>Completed</Option>
                 <Option value={Status.Cancelled}>Cancelled</Option>
             </Select>
             <Divider />
-            <Skeleton active loading={loading} />
-
-            <div className={styles.wrapper}>{!loading && (
-                <Row gutter={[20, 20]}>
-                    {reservationItems.length > 0 ?
-                        renderReservationItems(reservationItems) :
-                        <Empty className={styles.noData} />}
-                </Row>
-            )}
-
-                <div className={styles.pagination}>
-                    <Pagination
-                        defaultCurrent={1}
-                        onChange={(value) => handlePagination(value, setMinIndexValue, setMaxIndexValue)}
-                        defaultPageSize={MAX_ITEMS_PAGE}
-                        total={reservationItems.length}
-                    />
+            <Skeleton loading={loading}>
+                <div className={styles.wrapper}>
+                    <Row gutter={[20, 20]}>
+                        {reservationItems.length > 0 ? (
+                            renderReservationItems(reservationItems)
+                        ) : (
+                            <Empty className={styles.noData} />
+                        )}
+                    </Row>
+                    <div className={styles.pagination}>
+                        <Pagination
+                            defaultCurrent={1}
+                            onChange={(value) =>
+                                handlePagination(
+                                    value,
+                                    setMinIndexValue,
+                                    setMaxIndexValue
+                                )
+                            }
+                            defaultPageSize={MAX_ITEMS_PAGE}
+                            total={reservationItems.length}
+                        />
+                    </div>
                 </div>
-            </div>
+            </Skeleton>
         </Content>
     );
 };
