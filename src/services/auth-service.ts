@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import User from "../models/User";
+
 import IHttpResponse from "./http-response";
 
 const BASE_URL = "/auth";
@@ -192,4 +194,22 @@ export const resetPassword = (
                     reject(new Error(error.message));
                 }
             );
+    });
+
+/**
+ * This function updates the user profile.
+ * 
+ * @param {User} user the user object to be updated 
+ * @returns {Promise<IAuthResponse>}
+ */
+export const updateUserProfile = (user: User): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) => {
+        axios.put(`${BASE_URL}/profile`, user).then(
+            (response) => {
+                if (response) resolve(response.data);
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        );
     });

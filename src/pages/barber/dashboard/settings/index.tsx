@@ -4,10 +4,8 @@ import { Card, Skeleton } from "antd";
 
 import GenericForm from "../../../../components/forms/generic-form";
 
-import {
-    getBarber,
-    updateUserProfile,
-} from "../../../../services/user-service";
+import { getBarber } from "../../../../services/barber-service";
+import { updateUserProfile } from "../../../../services/auth-service";
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
 
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
@@ -49,7 +47,8 @@ const SettingsPage: React.FC = () => {
 
     /**
      * This function sets the barber data for the input fields.
-     * @param barber the barber data to be set
+     * 
+     * @param {BarberData} barber the barber data to be set.
      * @returns {Array}
      */
     const setBarberData = useCallback(
@@ -159,6 +158,7 @@ const SettingsPage: React.FC = () => {
      * This function maps the inputfields, to initial values.
      * It takes the field name and value and turns them
      * into a key-value property.
+     * 
      * @returns {JSX}
      */
     const mapInputData = () => {
@@ -174,7 +174,8 @@ const SettingsPage: React.FC = () => {
 
     /**
      * This function updates the barber profile.
-     * @param barber the barber data to be updated.
+     * 
+     * @param {Barber} barber the barber data to be updated.
      */
     const updateBarberProfile = async (barber: Barber) => {
         const response = await updateUserProfile(barber);
@@ -187,12 +188,12 @@ const SettingsPage: React.FC = () => {
         <div className={styles.settings}>
             <Card className={styles.container}>
                 <Skeleton active loading={isLoading} />
-                {!isLoading && <GenericForm
-                    formName="personalDetails"
-                    data={inputFields}
-                    initialValues={mapInputData()}
-                    onFinish={updateBarberProfile}
-                />
+                {!isLoading &&
+                    <GenericForm
+                        formName="personalDetails"
+                        data={inputFields}
+                        initialValues={mapInputData()}
+                        onFinish={updateBarberProfile} />
                 }
             </Card>
         </div>

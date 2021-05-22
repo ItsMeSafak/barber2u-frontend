@@ -58,12 +58,16 @@ export const updateReservationStatus = (
 // eslint-disable-next-line require-jsdoc
 const fixUserObject = (response: IReservationResponse) => {
     response.data.forEach((value, index) => {
+        const reservationValue = Object.setPrototypeOf(
+            value,
+            Reservation.prototype
+        );
         response.data[index].setCustomer = Object.setPrototypeOf(
-            value.getCustomer,
+            reservationValue.getCustomer,
             User.prototype
         );
         response.data[index].setBarber = Object.setPrototypeOf(
-            value.getBarber,
+            reservationValue.getBarber,
             User.prototype
         );
     });
