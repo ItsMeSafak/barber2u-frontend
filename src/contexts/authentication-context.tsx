@@ -10,7 +10,6 @@ import { useCookies } from "react-cookie";
 import User from "../models/User";
 
 import { fetchProfile } from "../services/auth-service";
-
 import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "../assets/constants";
 
 interface ContextProps {
@@ -167,7 +166,11 @@ export const AuthenticationProvider: React.FC = (props) => {
             authenticated,
             setUser: (userObject: User) => setUserObject(userObject),
             setLoading,
-            setAccessToken,
+            setAccessToken: (token: string) => {
+                removeCookie(ACCESS_TOKEN_COOKIE, { path: "/" });
+                setAccessToken(token);
+                saveAccessTokenInCookieIfNotExist();
+            },
             setDefaultColor,
             setRefreshToken,
             setAuthenticated,
@@ -183,6 +186,8 @@ export const AuthenticationProvider: React.FC = (props) => {
             setUserObject,
             setLoading,
             setAccessToken,
+            saveAccessTokenInCookieIfNotExist,
+            removeCookie,
             setDefaultColor,
             setRefreshToken,
             setAuthenticated,
