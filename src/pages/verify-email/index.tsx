@@ -1,10 +1,11 @@
-import React, { useCallback, useContext, useEffect } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import React, { useCallback, useContext, useEffect, useMemo } from "react";
+import { Link, useHistory } from "react-router-dom";
 
 import { Row, Layout, Col } from "antd";
 
 import { verifyEmail } from "../../services/auth-service";
 import { ScreenContext } from "../../contexts/screen-context";
+import { AuthenticationContext } from "../../contexts/authentication-context";
 
 import { showHttpResponseNotification } from "../../assets/functions/notification";
 
@@ -18,24 +19,26 @@ const { Content } = Layout;
  * @returns {JSX}
  */
 const VerifyEmailPage: React.FC = () => {
+    const { authenticated } = useContext(AuthenticationContext);
     const { isMobileOrTablet } = useContext(ScreenContext);
-    const params = new URLSearchParams(useLocation().search);
+
     const history = useHistory();
+    const params = useMemo(() => new URLSearchParams(history.location.search), [
+        history.location.search,
+    ]);
 
     const verifyAccount = useCallback(async () => {
         const response = await verifyEmail(params.get("id"));
 
         const { status, message } = response;
+        if (!(status === 200)) history.push("404");
+
         showHttpResponseNotification(message, status, false);
-    }, []);
+    }, [history, params]);
 
     useEffect(() => {
-        if (!params.has("id")) {
-            history.push("/404");
-        } else {
-            verifyAccount();
-        }
-    }, [history, verifyAccount]);
+        verifyAccount();
+    }, [verifyAccount]);
 
     /**
      * This function renders the default dekstop view of the email verification.
@@ -52,7 +55,9 @@ const VerifyEmailPage: React.FC = () => {
                         Your email has successfully been verified.
                     </p>
                     <Link to="signin">
-                        <p className={styles.link}>Go to sign in</p>
+                        {!authenticated && (
+                            <p className={styles.link}>Go to sign in</p>
+                        )}
                     </Link>
                 </div>
             </Col>

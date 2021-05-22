@@ -98,7 +98,7 @@ const SettingsPage: React.FC = () => {
                     name: "zipCode",
                     placeholder: "Zipcode",
                     icon: "city",
-                    value: user?.getZipcode,
+                    value: user?.getZipCode,
                     editable: true,
                     rules: [{ required: true, message: "Field is empty!" }],
                 },

@@ -154,7 +154,7 @@ export const resetPasswordMail = (email: string): Promise<IAuthResponse> =>
 /**
  * This function sends a put request to the backend, to verify tge account.
  *
- * @param userId userid from the url
+ * @param {string | null} userId userid from the url
  * @returns {Promise<IAuthResponse>}
  */
 export const verifyEmail = (userId: string | null): Promise<IAuthResponse> =>
@@ -197,9 +197,25 @@ export const resetPassword = (
     });
 
 /**
+ * This function re-sends an email to the user to verify their email address.
+ *
+ * @returns {Promise<IAuthResponse>}
+ */
+export const resendVerificationEmail = (): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) => {
+        axios.get(`${BASE_URL}/verify/getemail`).then(
+            (response) => {
+                if (response) resolve(response.data);
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        );
+    });
+
+/**
  * This function updates the user profile.
- * 
- * @param {User} user the user object to be updated 
+ * @param {User} user user to be updated
  * @returns {Promise<IAuthResponse>}
  */
 export const updateUserProfile = (user: User): Promise<IAuthResponse> =>

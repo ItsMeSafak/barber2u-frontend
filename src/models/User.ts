@@ -1,8 +1,16 @@
+import Role from "./enums/Role";
+
+import {
+    ADMIN_DEFAULT_COLOR,
+    BARBER_DEFAULT_COLOR,
+    CUSTOMER_DEFAULT_COLOR,
+} from "../assets/constants";
+
 /**
  * User class which can be used for creating user objects.
  */
 export default class User {
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    /* eslint-disable  require-jsdoc */
     private id: string;
     private firstName: string;
     private lastName: string;
@@ -14,7 +22,6 @@ export default class User {
     private isActive: boolean;
     private isVerified: boolean;
 
-    // eslint-disable-next-line require-jsdoc
     constructor(
         id: string,
         firstName: string,
@@ -39,63 +46,102 @@ export default class User {
         this.isVerified = isVerified;
     }
 
-    // eslint-disable-next-line require-jsdoc
+    get getId(): string {
+        return this.id;
+    }
+
     set setFirstName(value: string) {
         this.firstName = value;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getEmail(): string {
         return this.email;
     }
 
-    // eslint-disable-next-line require-jsdoc
-    get getPhoneNumber(): string {
-        return this.phoneNumber;
-    }
-
-    // eslint-disable-next-line require-jsdoc
-    get getAddress(): string {
-        return this.address;
-    }
-
-    // eslint-disable-next-line require-jsdoc
-    get getZipcode(): string {
-        return this.zipCode;
-    }
-
-    // eslint-disable-next-line require-jsdoc
     get getFirstName(): string {
         return this.firstName;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getLastName(): string {
         return this.lastName;
     }
 
-    // eslint-disable-next-line require-jsdoc
-    get getFullNameWithInitial(): string {
-        return `${this.getFirstNameFirstLetter}. ${this.getLastName}`;
-    }
-
-    // eslint-disable-next-line require-jsdoc
-    get getFirstNameFirstLetter(): string {
-        return this.firstName.charAt(0).toUpperCase();
-    }
-
-    // eslint-disable-next-line require-jsdoc
     get getRoles(): Array<{ id: string; name: string }> {
         return this.roles;
     }
 
-    // eslint-disable-next-line require-jsdoc
+    get getIsVerified(): boolean {
+        return this.isVerified;
+    }
+
+    get getIsActive(): boolean {
+        return this.isActive;
+    }
+
+    get getPhoneNumber(): string {
+        return this.phoneNumber;
+    }
+
+    get getAddress(): string {
+        return this.address;
+    }
+
+    get getZipCode(): string {
+        return this.zipCode;
+    }
+
+    get getFirstNameCapitalized(): string {
+        return (
+            this.getFirstName.charAt(0).toUpperCase() +
+            this.getFirstName.slice(1)
+        );
+    }
+
+    get getLastNameCapitalized(): string {
+        return (
+            this.getLastName.charAt(0).toUpperCase() + this.getLastName.slice(1)
+        );
+    }
+
+    get getFullName(): string {
+        return `${this.getFirstName} ${this.getLastName}`;
+    }
+
+    get getFullNameWithInitial(): string {
+        return `${this.getFirstNameFirstLetter}. ${this.getLastName}`;
+    }
+
+    get getFirstNameFirstLetter(): string {
+        return this.firstName.charAt(0).toUpperCase();
+    }
+
+    get getFullNameCapitalized(): string {
+        return `${this.getFirstNameCapitalized} ${this.getLastNameCapitalized}`;
+    }
+
     get getRoleNames(): Array<string> {
         return this.roles.map(({ name }) => name);
     }
 
-    // eslint-disable-next-line require-jsdoc
-    get getIsVerified(): boolean {
-        return this.isVerified;
+    get getDefaultColor(): string {
+        let color;
+
+        switch (this.getRoleNames[0] as Role) {
+            case Role.Customer:
+                color = CUSTOMER_DEFAULT_COLOR;
+                break;
+            case Role.Barber:
+                color = BARBER_DEFAULT_COLOR;
+                break;
+            case Role.Admin:
+                color = ADMIN_DEFAULT_COLOR;
+                break;
+        }
+
+        return color;
+    }
+
+    getUser(): User {
+        return this;
     }
 }

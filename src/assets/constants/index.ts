@@ -65,8 +65,17 @@ export const REFRESH_TOKEN_COOKIE = `${PACKAGE_NAME}refreshToken`;
 
 // API.
 export const BASE_URL = "http://localhost:8080/api";
-export const ERROR_MESSAGE_BASE = "Something went wrong while trying to call";
 export const GOOGLE_MAPS_BASE_URL = "https://www.google.com/maps/search/";
+
+// Authenticated user role constants.
+export const ADMIN_BASE_URL = "admin";
+export const ADMIN_DEFAULT_COLOR = "blue";
+
+export const BARBER_BASE_URL = "barber";
+export const BARBER_DEFAULT_COLOR = "red";
+
+export const CUSTOMER_BASE_URL = "customer";
+export const CUSTOMER_DEFAULT_COLOR = "green";
 
 // Month names.
 export const MONTH_NAMES = [
@@ -95,3 +104,7 @@ export const PLACEHOLDER_IMAGE =
 
 // Special characters.
 export const EURO_SYMBOL = "€";
+
+// Color constants for within React/JSX.
+export const POSITIVE_COLOR = "#3f8600";
+export const NEGATIVE_COLOR = "#cf1322";

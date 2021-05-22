@@ -1,23 +1,14 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import {
-    Row,
-    Divider,
-    Layout,
-    Pagination,
-    Skeleton,
-    Select,
-    Empty,
-} from "antd";
+import { Row, Divider, Layout, Pagination, Select, Empty } from "antd";
 
 import Status from "../../../../models/enums/Status";
+import Skeleton from "../../../../components/skeleton";
 import Reservation from "../../../../models/Reservation";
-
 import ReservationCard from "../../../../components/card-reservation";
 
 import { BarberContext } from "../../../../contexts/barber-context";
 import { getReservations } from "../../../../services/reservation-service";
-
 import { handlePagination } from "../../../../assets/functions/pagination";
 import { MAX_ITEMS_PER_PAGE } from "../../../../assets/constants";
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
@@ -99,7 +90,6 @@ const ReservationsPage: React.FC = () => {
 
     return (
         <Content className={styles.reservations}>
-            <h1 className={styles.title}>Reservations</h1>
             <Select
                 placeholder="Select a status"
                 size="large"
@@ -112,10 +102,8 @@ const ReservationsPage: React.FC = () => {
                 <Option value={Status.Cancelled}>Cancelled</Option>
             </Select>
             <Divider />
-            <Skeleton active loading={loading} />
-
-            <div className={styles.wrapper}>
-                {!loading && (
+            <Skeleton loading={loading}>
+                <div className={styles.wrapper}>
                     <Row gutter={[20, 20]}>
                         {reservationItems.length > 0 ? (
                             renderReservationItems(reservationItems)
@@ -123,23 +111,22 @@ const ReservationsPage: React.FC = () => {
                             <Empty className={styles.noData} />
                         )}
                     </Row>
-                )}
-
-                <div className={styles.pagination}>
-                    <Pagination
-                        defaultCurrent={1}
-                        onChange={(value) =>
-                            handlePagination(
-                                value,
-                                setMinIndexValue,
-                                setMaxIndexValue
-                            )
-                        }
-                        defaultPageSize={MAX_ITEMS_PAGE}
-                        total={reservationItems.length}
-                    />
+                    <div className={styles.pagination}>
+                        <Pagination
+                            defaultCurrent={1}
+                            onChange={(value) =>
+                                handlePagination(
+                                    value,
+                                    setMinIndexValue,
+                                    setMaxIndexValue
+                                )
+                            }
+                            defaultPageSize={MAX_ITEMS_PAGE}
+                            total={reservationItems.length}
+                        />
+                    </div>
                 </div>
-            </div>
+            </Skeleton>
         </Content>
     );
 };

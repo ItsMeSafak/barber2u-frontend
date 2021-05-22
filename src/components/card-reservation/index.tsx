@@ -165,16 +165,16 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                         icon={getIconByPrefixName("fas", "map-marker-alt")}
                         size="lg"
                     />{" "}
-                    {`${reservationDetail.getCustomer.getAddress}, ${reservationDetail.getCustomer.getZipcode}`}
+                    {`${reservationDetail.getCustomer.getAddress}, ${reservationDetail.getCustomer.getZipCode}`}
                     <a
                         target="_blank"
-                        href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.getCustomer.getZipcode}`}
+                        href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.getCustomer.getZipCode}`}
                         rel="noreferrer"
                     >
                         <FontAwesomeIcon
                             className={`${styles.icon} ${isMobileOrTablet
-                                    ? styles.mobileLink
-                                    : styles.externalLink
+                                ? styles.mobileLink
+                                : styles.externalLink
                                 }`}
                             icon={getIconByPrefixName(
                                 "fas",
@@ -183,7 +183,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                             size="lg"
                         />
                     </a>
-                </p>
+                </p >
 
                 <p>
                     <FontAwesomeIcon
@@ -209,27 +209,31 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                         icon={getIconByPrefixName("fas", "cut")}
                         size="lg"
                     />{" "}
-                    {reservationDetail.getServices.map(({ getName }, index) =>
-                        index !== 0 ? `, ${getName}` : `${getName}`
-                    )}
-                </p>
+                    {
+                        reservationDetail.getServices.map(({ getName }, index) =>
+                            index !== 0 ? `, ${getName}` : `${getName}`
+                        )
+                    }
+                </p >
 
                 <span className={styles.price}>
                     {EURO_SYMBOL}{" "}
-                    {reservationDetail.getServices
-                        .map(
-                            (item) =>
-                                Object.setPrototypeOf(item, Service.prototype)
-                                    .getPrice
-                        )
-                        .reduce(
-                            (servicePrice, currentValue) =>
-                                currentValue + servicePrice
-                        )
-                        .toFixed(2)}
-                </span>
-            </Card>
-        </Col>
+                    {
+                        reservationDetail.getServices
+                            .map(
+                                (item) =>
+                                    Object.setPrototypeOf(item, Service.prototype)
+                                        .getPrice
+                            )
+                            .reduce(
+                                (servicePrice, currentValue) =>
+                                    currentValue + servicePrice
+                            )
+                            .toFixed(2)
+                    }
+                </span >
+            </Card >
+        </Col >
     );
 };
 

@@ -1,0 +1,17 @@
+@import "../../../../assets/config.scss";
+
+.card {
+    box-shadow: $shadow;
+}
+
+.buttonIconPrefix {
+    margin-right: 0.5rem;
+}
+
+.enableButton {
+    @extend .button-success-ghost;
+}
+
+.disableButton {
+    @extend .button-danger-ghost;
+}
