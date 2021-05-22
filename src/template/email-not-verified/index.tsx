@@ -28,10 +28,11 @@ const EmailNotVerified: React.FC = () => {
         <>
             {!user?.getIsVerified && (
                 <Alert
+                    closable
+                    showIcon
                     message="Email is not verified"
                     description="Your email address has not been verified yet!"
                     type="warning"
-                    showIcon
                     style={{ marginBottom: "1rem" }}
                     action={
                         <Button

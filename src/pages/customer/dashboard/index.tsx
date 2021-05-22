@@ -33,12 +33,12 @@ const CustomerDashboardPage: React.FC = () => {
         <Layout>
             <SidebarPartial />
             <Content className={styles.content}>
+                <EmailNotVerified />
                 <PageHeader
                     title={pageName}
                     style={{ padding: 0, marginBottom: "1rem" }}
                 />
                 <Skeleton loading={loading}>
-                    <EmailNotVerified />
                     <UserRoutes components={components} />
                 </Skeleton>
             </Content>
