@@ -21,6 +21,7 @@ interface ComponentProps extends StatisticProps {
     statisticColor?: string;
     positiveValueThreshold?: string | number;
     negativeValueThreshold?: string | number;
+    numericValue?: number;
     withProgressBar?: boolean;
     progressBar?: {
         percentage: number;
@@ -41,6 +42,7 @@ const CardStatistic: React.FC<ComponentProps> = (props) => {
         statisticColor,
         positiveValueThreshold,
         negativeValueThreshold,
+        numericValue,
         withProgressBar,
         progressBar,
     } = props;
@@ -54,6 +56,10 @@ const CardStatistic: React.FC<ComponentProps> = (props) => {
     const getStatisticColor = (value: valueType | undefined) => {
         if (value) {
             if (positiveValueThreshold && !negativeValueThreshold) {
+                if (numericValue != undefined)
+                    return numericValue >= positiveValueThreshold
+                        ? POSITIVE_COLOR
+                        : NEGATIVE_COLOR;
                 if (typeof positiveValueThreshold === "string")
                     return value === positiveValueThreshold
                         ? POSITIVE_COLOR
@@ -65,6 +71,10 @@ const CardStatistic: React.FC<ComponentProps> = (props) => {
             }
 
             if (negativeValueThreshold && !positiveValueThreshold) {
+                if (numericValue)
+                    return numericValue <= negativeValueThreshold
+                        ? POSITIVE_COLOR
+                        : NEGATIVE_COLOR;
                 if (typeof negativeValueThreshold === "string")
                     return value !== negativeValueThreshold
                         ? POSITIVE_COLOR
