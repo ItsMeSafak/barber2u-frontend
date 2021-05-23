@@ -10,22 +10,19 @@ import {
     Pagination,
     Row,
     Select,
-    Skeleton,
 } from "antd";
 
 import Service from "../../../../models/Service";
-
-import {
-    createNewService,
-    getAllServices,
-    updateService,
-} from "../../../../services/services-service";
-
 import ServiceCard from "../../../../components/card-service";
 import NewServiceForm from "../../../../components/forms/new-service";
 
 import { BarberContext } from "../../../../contexts/barber-context";
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
+import {
+    createNewService,
+    getAllServices,
+    updateService,
+} from "../../../../services/services-service";
 
 import { handlePagination } from "../../../../assets/functions/pagination";
 import { MAX_ITEMS_PER_PAGE } from "../../../../assets/constants";
@@ -33,6 +30,7 @@ import { getIconByPrefixName } from "../../../../assets/functions/icon";
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
+import Skeleton from "../../../../components/skeleton";
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -219,7 +217,6 @@ const ServicesPage: React.FC = () => {
         <div className={styles.services}>
             <Layout>
                 <Content>
-                    <h1 className={styles.title}>Services</h1>
                     <Select
                         placeholder="Select a status"
                         size="large"
@@ -231,32 +228,33 @@ const ServicesPage: React.FC = () => {
                     </Select>
                     {renderAddButton()}
                     <Divider />
-                    <Skeleton active loading={loading} />
-                    <div className={styles.wrapper}>
-                        {!loading && listOfServices && (
-                            <Row gutter={[20, 20]}>
-                                {listOfServices.length > 0 ? (
-                                    renderServices()
-                                ) : (
-                                    <Empty className={styles.noData} />
-                                )}
-                            </Row>
-                        )}
-                        <div className={styles.pagination}>
-                            <Pagination
-                                defaultCurrent={currentPage}
-                                onChange={(value) =>
-                                    handlePagination(
-                                        value,
-                                        setMinIndexValue,
-                                        setMaxIndexValue
-                                    )
-                                }
-                                defaultPageSize={MAX_ITEMS_PAGE}
-                                total={listOfServices?.length}
-                            />
+                    <Skeleton loading={loading}>
+                        <div className={styles.wrapper}>
+                            {listOfServices && (
+                                <Row gutter={[20, 20]}>
+                                    {listOfServices.length > 0 ? (
+                                        renderServices()
+                                    ) : (
+                                        <Empty className={styles.noData} />
+                                    )}
+                                </Row>
+                            )}
+                            <div className={styles.pagination}>
+                                <Pagination
+                                    defaultCurrent={currentPage}
+                                    onChange={(value) =>
+                                        handlePagination(
+                                            value,
+                                            setMinIndexValue,
+                                            setMaxIndexValue
+                                        )
+                                    }
+                                    defaultPageSize={MAX_ITEMS_PAGE}
+                                    total={listOfServices?.length}
+                                />
+                            </div>
                         </div>
-                    </div>
+                    </Skeleton>
                 </Content>
             </Layout>
             {renderModal()}
