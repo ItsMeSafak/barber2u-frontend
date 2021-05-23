@@ -9,8 +9,9 @@ import { MAX_ITEMS_PER_PAGE } from "../constants/index";
 export const handlePagination = (
     pageNumber: number,
     setMinIndexValue: (value: number) => void,
-    setMaxIndexValue: (value: number) => void
+    setMaxIndexValue: (value: number) => void,
+    maxItemsPerPage: number
 ) => {
-    setMaxIndexValue(MAX_ITEMS_PER_PAGE * pageNumber);
-    setMinIndexValue(MAX_ITEMS_PER_PAGE * pageNumber - MAX_ITEMS_PER_PAGE);
+    setMaxIndexValue(maxItemsPerPage * pageNumber);
+    setMinIndexValue(maxItemsPerPage * pageNumber - maxItemsPerPage);
 };

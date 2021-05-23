@@ -246,7 +246,8 @@ const ServicesPage: React.FC = () => {
                                         handlePagination(
                                             value,
                                             setMinIndexValue,
-                                            setMaxIndexValue
+                                            setMaxIndexValue,
+                                            MAX_ITEMS_PAGE
                                         )
                                     }
                                     defaultPageSize={MAX_ITEMS_PAGE}

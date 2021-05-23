@@ -36,6 +36,18 @@
         "isDropdownMenu": true
     },
     {
+        "id": "reviews",
+        "url": "/customer/reviews",
+        "name": "Reviews",
+        "icon": ["fas", "comments"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": false,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
+    },
+    {
         "id": "settings",
         "url": "/customer/settings",
         "name": "Settings",

@@ -49,3 +49,14 @@ code {
     text-decoration: underline $primary-color;
     text-underline-position: under;
 }
+
+// Ant Design Rates
+.ant-rate-star-first,
+.ant-rate-star-second {
+    color: #787879;
+}
+
+.ant-rate-star > div:hover,
+.ant-rate-star > div:focus {
+    transform: none;
+}

@@ -13,6 +13,7 @@ import { LocationContext } from "../../../contexts/location-context";
 import { AuthenticationContext } from "../../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
+import ReviewPage from "./reviews";
 
 const { Content } = Layout;
 
@@ -27,7 +28,7 @@ const CustomerDashboardPage: React.FC = () => {
     const { pageName } = useContext(LocationContext);
 
     // The customer dashboard sidebar components to be loaded.
-    const components: React.FC[] = [StatisticsPage, SettingsPage];
+    const components: React.FC[] = [StatisticsPage, ReviewPage, SettingsPage];
 
     return (
         <Layout>
