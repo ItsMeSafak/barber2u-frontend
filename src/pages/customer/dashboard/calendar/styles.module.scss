@@ -1,32 +1,36 @@
 @import "../../../../assets/config.scss";
 
-.h1 {
-    padding: 8px 24px;
-    font-size: 2.5rem;
-    margin: 0;
-}
-.panel {
-    padding: 1px 4px 4px 6px;
-    border-radius: 8px;
-    color: $white-color;
+.card > div {
+    padding: 0;
 
-    &.active {
-        background-color: $primary-color;
+    .h1 {
+        padding: 8px 24px;
+        font-size: 2.5rem;
+        margin: 0;
     }
+    .panel {
+        padding: 1px 4px 4px 6px;
+        border-radius: 8px;
+        color: $white-color;
 
-    &.pending {
-        background-color: $yellow-color;
-    }
+        &.active {
+            background-color: $primary-color;
+        }
 
-    &.cancelled {
-        background-color: $red-color;
-    }
+        &.pending {
+            background-color: $yellow-color;
+        }
 
-    &.completed {
-        background-color: $green-color;
-    }
+        &.cancelled {
+            background-color: $red-color;
+        }
 
-    &.default {
-        background-color: $grey-color;
+        &.completed {
+            background-color: $green-color;
+        }
+
+        &.default {
+            background-color: $grey-color;
+        }
     }
 }

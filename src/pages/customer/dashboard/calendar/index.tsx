@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import Paper from "@material-ui/core/Paper";
+import { Card } from "antd";
 import {
     Appointments as AppointmentsBase,
     AppointmentTooltip as AppointmentTooltipBase,
@@ -35,6 +35,7 @@ import User from "../../../../models/User";
 import Reservation from "../../../../models/Reservation";
 import SchedulerReservation from "../../../../models/SchedulerReservation";
 
+import { ScreenContext } from "../../../../contexts/screen-context";
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
@@ -134,6 +135,7 @@ const Content = (props: AppointmentTooltipBase.ContentProps) => (
  */
 const CalendarPage: React.FC = () => {
     const { user } = useContext(AuthenticationContext);
+    const { isMobile, isTablet, isDesktop } = useContext(ScreenContext);
 
     useEffect(() => {
         getReservations(null).then((response) => {
@@ -156,44 +158,42 @@ const CalendarPage: React.FC = () => {
      * Return the Scheduler default viewstate keyword based on the user screen
      */
     const getDefaultCalendarView = () => {
-        if (window.innerWidth <= WIDTH_SCREEN_XS) return "Day";
-        if (window.innerWidth <= WIDTH_SCREEN_XL) return "Week";
-        return "Month";
+        if (isDesktop) return "Month";
+        if (isTablet) return "Week";
+        return "Day";
     };
 
     return (
-        <>
-            <Paper>
-                <h1 className={styles.h1}>Calendar</h1>
-                <Scheduler data={appointments}>
-                    <ViewState
-                        currentDate={currentDate}
-                        onCurrentDateChange={(date) =>
-                            setCurrentDate(moment(date).format(DATE_FORMAT))
-                        }
-                        defaultCurrentViewName={getDefaultCalendarView()}
-                    />
-                    <Toolbar />
-                    <DateNavigator />
-                    <TodayButton />
-                    <ViewSwitcher />
-                    <MonthView />
-                    <WeekView
-                        startDayHour={SCHEDULER_START_DAY_HOUR}
-                        endDayHour={SCHEDULER_END_DAY_HOUR}
-                    />
-                    <DayView
-                        startDayHour={SCHEDULER_START_DAY_HOUR}
-                        endDayHour={SCHEDULER_END_DAY_HOUR}
-                    />
-                    <Appointments appointmentComponent={ReservationPanel} />
-                    <AppointmentTooltip
-                        contentComponent={Content}
-                        headerComponent={Header}
-                    />
-                </Scheduler>
-            </Paper>
-        </>
+        <Card className={styles.card}>
+            <h1 className={styles.h1}>Calendar</h1>
+            <Scheduler data={appointments}>
+                <ViewState
+                    currentDate={currentDate}
+                    onCurrentDateChange={(date) =>
+                        setCurrentDate(moment(date).format(DATE_FORMAT))
+                    }
+                    defaultCurrentViewName={getDefaultCalendarView()}
+                />
+                <Toolbar />
+                <DateNavigator />
+                <TodayButton />
+                <ViewSwitcher />
+                <MonthView />
+                <WeekView
+                    startDayHour={SCHEDULER_START_DAY_HOUR}
+                    endDayHour={SCHEDULER_END_DAY_HOUR}
+                />
+                <DayView
+                    startDayHour={SCHEDULER_START_DAY_HOUR}
+                    endDayHour={SCHEDULER_END_DAY_HOUR}
+                />
+                <Appointments appointmentComponent={ReservationPanel} />
+                <AppointmentTooltip
+                    contentComponent={Content}
+                    headerComponent={Header}
+                />
+            </Scheduler>
+        </Card>
     );
 };
 

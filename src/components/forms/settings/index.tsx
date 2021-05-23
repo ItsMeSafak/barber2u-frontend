@@ -11,7 +11,6 @@ import { getIconByPrefixName } from "../../../assets/functions/icon";
 import { showHttpResponseNotification } from "../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
-import UserProfile from "../../../models/UserProfile";
 
 /**
  * This component renders a settings form.
@@ -117,14 +116,13 @@ const SettingsForm: React.FC<{ user: User | null }> = (user) => {
      */
     const saveChanges = () => {
         if (user.user) {
-            const newUser: UserProfile = new UserProfile(
-                formValue.email,
-                formValue.firstname,
-                formValue.lastname,
-                formValue.phone,
-                formValue.address,
-                formValue.zipcode
-            );
+            const newUser: User = user.user;
+            newUser.setFirstName = formValue.firstname;
+            newUser.setLastname = formValue.lastname;
+            newUser.setEmail = formValue.email;
+            newUser.setPhoneNumber = formValue.phone;
+            newUser.setAddress = formValue.address;
+            newUser.setZipCode = formValue.zipcode;
             updateUserProfile(newUser).then((response) => {
                 showHttpResponseNotification(
                     "The profile successfully got updated",

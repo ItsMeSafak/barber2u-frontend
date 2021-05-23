@@ -6,6 +6,9 @@ import Reservation from "./Reservation";
 
 /**
  * The reservation is model that consists of an id, style, date, location and a price.
+ *
+ * The attributes should stay public in order to stay compatible with the AppointmentModel.
+ * This compatibility is needed in order to use the DevExpress Scheduler component.
  */
 export default class SchedulerReservation implements AppointmentModel {
     startDate: SchedulerDateTime;

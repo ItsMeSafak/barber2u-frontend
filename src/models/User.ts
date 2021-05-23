@@ -42,11 +42,6 @@ export default class User {
     }
 
     // eslint-disable-next-line require-jsdoc
-    set setFirstName(value: string) {
-        this.firstName = value;
-    }
-
-    // eslint-disable-next-line require-jsdoc
     get getEmail(): string {
         return this.email;
     }
@@ -99,6 +94,36 @@ export default class User {
     // eslint-disable-next-line require-jsdoc
     get getIsVerified(): boolean {
         return this.isVerified;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set setFirstName(value: string) {
+        this.firstName = value;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set setLastname(value: string) {
+        this.lastName = value;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set setEmail(value: string) {
+        this.email = value;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set setPhoneNumber(value: string) {
+        this.phoneNumber = value;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set setAddress(value: string) {
+        this.address = value;
+    }
+
+    // eslint-disable-next-line require-jsdoc
+    set setZipCode(value: string) {
+        this.zipCode = value;
     }
 
     // eslint-disable-next-line require-jsdoc
