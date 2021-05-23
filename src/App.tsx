@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 
 import axios from "axios";
+import createAuthRefreshInterceptor from "axios-auth-refresh";
 
 import { Layout } from "antd";
 
@@ -10,6 +11,9 @@ import Role from "./models/enums/Role";
 import HomePage from "./pages/visitor/home";
 import ErrorPage from "./pages/error";
 import SigninPage from "./pages/visitor/signin";
+import HeaderPartial from "./template/header-partial";
+import FooterPartial from "./template/footer-partial";
+import ProtectedRoute from "./routes/protected-route";
 import VerifyEmailPage from "./pages/verify-email";
 import SignupPageBarber from "./pages/visitor/signup/signup-barber";
 import SignupLandingPage from "./pages/visitor/signup";
@@ -20,32 +24,49 @@ import BarberDashboardPage from "./pages/barber/dashboard";
 import ConfirmPasswordPage from "./pages/visitor/confirm-password";
 import CustomerDashboardPage from "./pages/customer/dashboard";
 
-import HeaderPartial from "./template/header-partial";
-import FooterPartial from "./template/footer-partial";
-import ProtectedRoute from "./routes/protected-route";
-
-import { NavbarProvider } from "./contexts/navbar-context";
-import { AuthenticationContext } from "./contexts/authentication-context";
-
 import { BASE_URL } from "./assets/constants";
+import { NavbarProvider } from "./contexts/navbar-context";
+import { getNewAccessToken } from "./services/auth-service";
+import { AuthenticationContext } from "./contexts/authentication-context";
 
 const { Header, Footer } = Layout;
 
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line require-jsdoc
 const App: React.FC = () => {
-    const { accessToken } = useContext(AuthenticationContext);
+    const { accessToken, refreshToken, setAccessToken } = useContext(
+        AuthenticationContext
+    );
 
     const history = useHistory();
 
-    axios.defaults.headers.Authorization = `Bearer ${accessToken}`;
+    useEffect(() => {
+        axios.defaults.headers.Authorization = `Bearer ${accessToken}`;
+    }, [accessToken]);
+
+    /**
+     * This function generates new access tokens.
+     *
+     * @param {any} request The axios request.
+     * @returns {Promise<any>}
+     */
+    const refreshAccessToken = (request: any) =>
+        getNewAccessToken(refreshToken || "").then(({ data }) => {
+            const { token } = data;
+            setAccessToken(token);
+            request.response.config.headers.Authorization = `Bearer ${token}`;
+            return Promise.resolve();
+        });
+
+    /**
+     * Create axios instance with the authentication refresh logic.
+     */
+    createAuthRefreshInterceptor(axios, refreshAccessToken);
 
     // Axios interceptor - Request.
     axios.interceptors.request.use(
         (request) => {
             request.baseURL = BASE_URL;
-            // TODO:
-            //      - Handle new access tokens.
-            //      - Handle refresh tokens.
             return request;
         },
         (error) => Promise.reject(error)
@@ -60,7 +81,7 @@ const App: React.FC = () => {
         },
         (error) => {
             console.error(error);
-            history.push("503");
+            if (error.request.status === 0) history.push("503");
         }
     );
 
