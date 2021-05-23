@@ -61,9 +61,7 @@ const App: React.FC = () => {
     /**
      * Create axios instance with the authentication refresh logic.
      */
-    createAuthRefreshInterceptor(axios, refreshAccessToken, {
-        pauseInstanceWhileRefreshing: true,
-    });
+    createAuthRefreshInterceptor(axios, refreshAccessToken);
 
     // Axios interceptor - Request.
     axios.interceptors.request.use(
