@@ -1,8 +1,8 @@
-import React, { ReactNode, useContext } from "react";
+import React, { ReactNode, useContext, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { Card, Modal, Tooltip } from "antd";
+import { Card, Form, Input, Modal, Rate, Tooltip } from "antd";
 
 import Role from "../../models/enums/Role";
 import Status from "../../models/enums/Status";
@@ -24,6 +24,17 @@ interface ComponentProps {
     reservationDetail: Reservation;
 }
 
+interface FormValues {
+    reviewText: string;
+    starAmount: number;
+}
+
+interface ReviewFormProps {
+    visible: boolean;
+    onCreate: (values: FormValues) => void;
+    onCancel: () => void;
+}
+
 /**
  * This component renders the reservation card on the reservations page.
  * The card is currently mainly focussed on the Barber role.
@@ -36,6 +47,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     const { setIsUpdated } = useContext(BarberContext);
     const { isMobileOrTablet } = useContext(ScreenContext);
     const { user } = useContext(AuthenticationContext);
+    const [reviewFormVisible, setReviewFormVisible] = useState(false);
 
     /**
      * This function passes a PUT request to the backend and updates the status fo the current reservation.
@@ -90,7 +102,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                 key="review"
                 className={styles.editAction}
                 icon={getIconByPrefixName("fas", "comment")}
-                onClick={() => reviewReservation()}
+                onClick={() => setReviewFormVisible(true)}
             />
         </Tooltip>
     );
@@ -189,17 +201,6 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     };
 
     /**
-     *
-     */
-    const reviewReservation = () => {
-        Modal({
-            centered: true,
-            title: "Place a review",
-            okText: "Create",
-        });
-    };
-
-    /**
      * This function returns the required style class based on the status.
      *
      * @returns {string}
@@ -217,11 +218,78 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
         }
     };
 
+    /**
+     *
+     * @param visible
+     * @param onCreate
+     * @param onCancel
+     * @constructor
+     */
+    const ReviewForm: React.FC<ReviewFormProps> = ({
+        visible,
+        onCreate,
+        onCancel,
+    }) => {
+        const [form] = Form.useForm();
+        return (
+            <Modal
+                visible={visible}
+                title="Create a review"
+                okText="Create"
+                cancelText="Cancel"
+                onCancel={onCancel}
+                onOk={() => {
+                    form.validateFields()
+                        .then((values) => {
+                            form.resetFields();
+                            createReview(values);
+                        })
+                        .catch((info) => {
+                            console.log("Validate Failed:", info);
+                        });
+                }}
+            >
+                <Form form={form} layout="vertical" name="form_in_modal">
+                    <Form.Item
+                        name="reviewText"
+                        label="Message"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please write down your review!",
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="starAmount"
+                        label="Rating"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please a rating!",
+                            },
+                        ]}
+                    >
+                        <Rate allowHalf />
+                    </Form.Item>
+                </Form>
+            </Modal>
+        );
+    };
+
+    /**
+     *
+     * @param values
+     */
+    const createReview = (values: FormValues) => {
+        console.log("Received values of form: ", values);
+        setReviewFormVisible(false);
+    };
+
     return (
-        <Card
-            className={styles.card}
-            actions={actions()}
-        >
+        <Card className={styles.card} actions={actions()}>
             <h2 className={`${styles.header} ${switchColorHeader()}`}>
                 {reservationDetail.status}
             </h2>
@@ -301,6 +369,12 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                     )
                     .toFixed(2)}
             </span>
+
+            <ReviewForm
+                visible={reviewFormVisible}
+                onCreate={createReview}
+                onCancel={() => setReviewFormVisible(false)}
+            />
         </Card>
     );
 };
