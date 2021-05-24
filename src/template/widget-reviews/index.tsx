@@ -22,9 +22,11 @@ const WidgetReviews: React.FC<ComponentProps> = (props) => {
      * Calculate the average rating of all reviews
      */
     const calculateAverageRating = () =>
-        props.reviews
-            .map((review) => review.starAmount)
-            .reduce((a, b) => a + b) / props.reviews.length;
+        props.reviews && props.reviews.length > 0
+            ? props.reviews
+                  .map((review) => review.starAmount)
+                  .reduce((a, b) => a + b) / props.reviews.length
+            : 0;
 
     return (
         <Row gutter={[16, 16]}>

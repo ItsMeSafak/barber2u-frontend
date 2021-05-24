@@ -19,21 +19,18 @@ import { ScreenContext } from "../../contexts/screen-context";
 import { AuthenticationContext } from "../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
+import {createReview} from "../../services/review-service";
 
 interface ComponentProps {
     reservationDetail: Reservation;
 }
 
-interface FormValues {
+interface ReviewFormValues {
     reviewText: string;
     starAmount: number;
 }
 
-interface ReviewFormProps {
-    visible: boolean;
-    onCreate: (values: FormValues) => void;
-    onCancel: () => void;
-}
+// TODO write JsDoc
 
 /**
  * This component renders the reservation card on the reservations page.
@@ -156,6 +153,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
             actionList.push(renderCompleteCardAction());
             actionList.push(renderCancelCardAction());
         } else if (reservationDetail.status === Status.Completed) {
+            // TODO only render review if the user has not placed any yet
             actionList.push(renderReviewCardAction());
         }
         return actionList;
@@ -218,38 +216,31 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
         }
     };
 
-    /**
+
+    /** TODO Display barber/customer name in order to make it clear for the user
      *
-     * @param visible
-     * @param onCreate
-     * @param onCancel
-     * @constructor
      */
-    const ReviewForm: React.FC<ReviewFormProps> = ({
-        visible,
-        onCreate,
-        onCancel,
-    }) => {
+    const ReviewForm = () => {
         const [form] = Form.useForm();
         return (
             <Modal
-                visible={visible}
+                visible={reviewFormVisible}
                 title="Create a review"
                 okText="Create"
                 cancelText="Cancel"
-                onCancel={onCancel}
+                onCancel={() => setReviewFormVisible(false)}
                 onOk={() => {
                     form.validateFields()
-                        .then((values) => {
+                        .then((values: ReviewFormValues) => {
                             form.resetFields();
-                            createReview(values);
+                            onCreate(values);
                         })
                         .catch((info) => {
                             console.log("Validate Failed:", info);
                         });
                 }}
             >
-                <Form form={form} layout="vertical" name="form_in_modal">
+                <Form form={form} layout="vertical" name="review_form_modal">
                     <Form.Item
                         name="reviewText"
                         label="Message"
@@ -283,9 +274,10 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
      *
      * @param values
      */
-    const createReview = (values: FormValues) => {
+    const onCreate = (values: ReviewFormValues) => {
+        createReview(reservationDetail.id, values.reviewText, values.starAmount)
+            .then(() => setReviewFormVisible(false));
         console.log("Received values of form: ", values);
-        setReviewFormVisible(false);
     };
 
     return (
@@ -370,11 +362,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                     .toFixed(2)}
             </span>
 
-            <ReviewForm
-                visible={reviewFormVisible}
-                onCreate={createReview}
-                onCancel={() => setReviewFormVisible(false)}
-            />
+            <ReviewForm />
         </Card>
     );
 };
