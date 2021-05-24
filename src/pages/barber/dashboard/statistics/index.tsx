@@ -12,6 +12,7 @@ import { getReservations } from "../../../../services/reservation-service";
 import { EURO_SYMBOL } from "../../../../assets/constants";
 
 import Spinner from "../../../../components/spinner";
+import CalendarPage from "../../../calendar";
 import CardStatistic from "../../../../components/card-statistic";
 
 import styles from "./styles.module.scss";
@@ -44,7 +45,9 @@ const StatisticsPage: React.FC = () => {
      * 
      * @param {Reservation[]} reservations last months reservations of the barber
      */
-    const calculateIncrease = useCallback((lastReservations: Reservation[], currentReservations: Reservation[]) => {
+    const calculateIncrease = useCallback((
+        lastReservations: Reservation[],
+        currentReservations: Reservation[]) => {
         const lastIncome = calculatePriceAmount(lastReservations);
         const currentIncome = calculatePriceAmount(currentReservations);
         const increase = Math.round((currentIncome * 100.0 / lastIncome) - 100);
@@ -72,14 +75,18 @@ const StatisticsPage: React.FC = () => {
 
         const { data } = response;
         const reservationObjects = data.map((reservation: Reservation) =>
-            Object.setPrototypeOf(reservation, Reservation.prototype)
+            Object.setPrototypeOf(
+                reservation,
+                Reservation.prototype)
         );
 
-        const currentMonthReservations = reservationObjects.filter((reservation) =>
-            moment().month() === moment(reservation.date).month());
+        const currentMonthReservations =
+            reservationObjects.filter((reservation) =>
+                moment().month() === moment(reservation.date).month());
 
-        const lastMonthReservations = reservationObjects.filter((reservation) =>
-            (moment().month() - 1) === moment(reservation.date).month());
+        const lastMonthReservations =
+            reservationObjects.filter((reservation) =>
+                (moment().month() - 1) === moment(reservation.date).month());
 
         calculateIncome(currentMonthReservations);
         calculateCompleted(currentMonthReservations);
@@ -109,7 +116,7 @@ const StatisticsPage: React.FC = () => {
     return (
         <Layout className={styles.statistics}>
             <Content>
-                <Row gutter={[20, 20]}>
+                <Row className={styles.row} gutter={[20, 20]}>
                     <Col xs={24} lg={8}>
                         <Spinner spinning={isLoading}>
                             <CardStatistic
@@ -151,6 +158,7 @@ const StatisticsPage: React.FC = () => {
                         </Spinner>
                     </Col>
                 </Row>
+                <CalendarPage />
             </Content>
         </Layout>
     );
