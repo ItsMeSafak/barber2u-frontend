@@ -184,6 +184,7 @@ const CalendarPage: React.FC = () => {
                             setCurrentDate(moment(date).format(DATE_FORMAT))
                         }
                         currentViewName={viewName}
+                        onCurrentViewNameChange={setViewName}
                     />
                     <Toolbar />
                     <DateNavigator />
