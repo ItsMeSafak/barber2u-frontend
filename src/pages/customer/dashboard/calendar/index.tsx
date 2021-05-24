@@ -22,8 +22,8 @@ import moment from "moment";
 
 import {
     DATE_FORMAT,
-    WIDTH_SCREEN_XL,
-    WIDTH_SCREEN_XS,
+    SCHEDULER_START_DAY_HOUR,
+    SCHEDULER_END_DAY_HOUR,
 } from "../../../../assets/constants";
 
 import { getReservations } from "../../../../services/reservation-service";
@@ -39,10 +39,6 @@ import { ScreenContext } from "../../../../contexts/screen-context";
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
-
-// Start and end of the day for the scheduler day and week view
-const SCHEDULER_START_DAY_HOUR = 8;
-const SCHEDULER_END_DAY_HOUR = 18;
 
 /**
  * Convert Reservation object to the DevExpress Calendar Object
@@ -135,7 +131,7 @@ const Content = (props: AppointmentTooltipBase.ContentProps) => (
  */
 const CalendarPage: React.FC = () => {
     const { user } = useContext(AuthenticationContext);
-    const { isMobile, isTablet, isDesktop } = useContext(ScreenContext);
+    const { isTablet, isDesktop } = useContext(ScreenContext);
 
     useEffect(() => {
         getReservations(null).then((response) => {

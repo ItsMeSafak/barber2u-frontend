@@ -111,3 +111,7 @@ export const EURO_SYMBOL = "€";
 // Color constants for within React/JSX.
 export const POSITIVE_COLOR = "#3f8600";
 export const NEGATIVE_COLOR = "#cf1322";
+
+// Start and end of the day for the scheduler day and week view
+export const SCHEDULER_START_DAY_HOUR = 8;
+export const SCHEDULER_END_DAY_HOUR = 18;

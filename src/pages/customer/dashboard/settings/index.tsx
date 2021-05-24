@@ -1,8 +1,12 @@
 import React, { useContext } from "react";
+
 import { Card } from "antd";
-import styles from "../../../barber/dashboard/settings/styles.module.scss";
+
 import SettingsForm from "../../../../components/forms/settings";
+
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
+
+import styles from "../../../barber/dashboard/settings/styles.module.scss";
 
 /**
  * Customer settings page.

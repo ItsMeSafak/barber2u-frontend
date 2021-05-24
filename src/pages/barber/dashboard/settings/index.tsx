@@ -4,8 +4,9 @@ import { Card } from "antd";
 
 import SettingsForm from "../../../../components/forms/settings";
 
-import styles from "./styles.module.scss";
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
+
+import styles from "./styles.module.scss";
 
 /**
  * This component renders the settings page.

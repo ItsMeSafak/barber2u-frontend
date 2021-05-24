@@ -7,14 +7,14 @@ import UserRoutes from "../../../routes/user-routes";
 import SettingsPage from "./settings";
 import StatisticsPage from "./statistics";
 import SidebarPartial from "../../../template/sidebar-partial";
+import ReservationsPage from "../../barber/dashboard/reservations";
 import EmailNotVerified from "../../../template/email-not-verified";
 
+import { BarberProvider } from "../../../contexts/barber-context";
 import { LocationContext } from "../../../contexts/location-context";
 import { AuthenticationContext } from "../../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
-import ReservationsPage from "../../barber/dashboard/reservations";
-import { BarberProvider } from "../../../contexts/barber-context";
 
 const { Content } = Layout;
 
