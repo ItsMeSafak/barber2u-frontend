@@ -50,10 +50,6 @@ export default class User {
         return this.id;
     }
 
-    set setFirstName(value: string) {
-        this.firstName = value;
-    }
-
     get getEmail(): string {
         return this.email;
     }
@@ -143,5 +139,33 @@ export default class User {
 
     getUser(): User {
         return this;
+    }
+
+    set setFirstName(value: string) {
+        this.firstName = value;
+    }
+
+    set setLastname(value: string) {
+        this.lastName = value;
+    }
+
+    set setEmail(value: string) {
+        this.email = value;
+    }
+
+    set setPhoneNumber(value: string) {
+        this.phoneNumber = value;
+    }
+
+    set setAddress(value: string) {
+        this.address = value;
+    }
+
+    set setZipCode(value: string) {
+        this.zipCode = value;
+    }
+
+    hasRole(role: Role): boolean {
+        return this.getRoleNames.includes(role.valueOf());
     }
 }
