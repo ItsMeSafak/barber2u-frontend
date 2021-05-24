@@ -45,11 +45,10 @@ const StatisticsPage: React.FC = () => {
      * @param {Reservation[]} reservations last months reservations of the barber
      */
     const calculateIncrease = useCallback((lastReservations: Reservation[], currentReservations: Reservation[]) => {
-        const lastIncome = calculatePriceAmount(lastReservations) === 0 ?
-            100 : calculatePriceAmount(lastReservations);
+        const lastIncome = calculatePriceAmount(lastReservations);
         const currentIncome = calculatePriceAmount(currentReservations);
         const increase = Math.round((currentIncome * 100.0 / lastIncome) - 100);
-        setTotalIncrease(increase);
+        if (lastIncome !== 0) setTotalIncrease(increase);
     }, [setTotalIncrease]);
 
     /**
@@ -58,8 +57,8 @@ const StatisticsPage: React.FC = () => {
      * @param {Reservation[]} reservations this months reservations of the barber
      */
     const calculateCompleted = useCallback((reservations: Reservation[]) => {
-        const currentMonthReservations = reservations.filter((res) =>
-            moment().month === moment(res.date).month);
+        const currentMonthReservations = reservations.filter((reservation) =>
+            moment().month === moment(reservation.date).month);
         setTotalCompleted(currentMonthReservations.length);
     }, [setTotalCompleted]);
 
@@ -76,11 +75,11 @@ const StatisticsPage: React.FC = () => {
             Object.setPrototypeOf(reservation, Reservation.prototype)
         );
 
-        const currentMonthReservations = reservationObjects.filter((res) =>
-            moment().month() === moment(res.date).month());
+        const currentMonthReservations = reservationObjects.filter((reservation) =>
+            moment().month() === moment(reservation.date).month());
 
-        const lastMonthReservations = reservationObjects.filter((res) =>
-            (moment().month() - 1) === moment(res.date).month());
+        const lastMonthReservations = reservationObjects.filter((reservation) =>
+            (moment().month() - 1) === moment(reservation.date).month());
 
         calculateIncome(currentMonthReservations);
         calculateCompleted(currentMonthReservations);
@@ -102,9 +101,10 @@ const StatisticsPage: React.FC = () => {
      */
     const calculatePriceAmount = (reservations: Reservation[]): number =>
         reservations.length > 0 ?
-            reservations.map((res) => res.services
-                .map((ser) => ser.price).reduce((acc, price) => acc + price))
-                .reduce((acc, pr) => acc + pr) : 0;
+            reservations.map((reservation) => reservation.services
+                .map((service) => service.price).reduce((accumulator, price) =>
+                    accumulator + price))
+                .reduce((accumulator, price) => accumulator + price) : 0;
 
     return (
         <Layout className={styles.statistics}>
@@ -115,7 +115,7 @@ const StatisticsPage: React.FC = () => {
                             <CardStatistic
                                 data={[
                                     {
-                                        title: "Total reservations completed this month",
+                                        title: `Reservations completed (${moment().format("MMM")})`,
                                         value: totalCompleted,
                                     }]}
                                 positiveValueThreshold={1}
@@ -127,7 +127,7 @@ const StatisticsPage: React.FC = () => {
                             <CardStatistic
                                 data={[
                                     {
-                                        title: "Total income this month",
+                                        title: `Total income (${moment().format("MMMM")})`,
                                         value: totalIncome,
                                         prefix: EURO_SYMBOL
                                     }
@@ -141,7 +141,7 @@ const StatisticsPage: React.FC = () => {
                             <CardStatistic
                                 data={[
                                     {
-                                        title: "Percentual increase compared to last month",
+                                        title: `Income increasement/decreasement (${moment().format("MMMM")})`,
                                         value: totalIncrease,
                                         suffix: "%"
                                     }
