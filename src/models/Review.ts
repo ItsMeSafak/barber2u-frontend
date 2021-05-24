@@ -1,11 +1,10 @@
 import moment, { Moment } from "moment";
-
 import User from "./User";
 
 /**
  *
  */
-export default class Reservation {
+export default class Review {
     id: string;
     reviewer: User;
     image: string;

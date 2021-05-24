@@ -4,6 +4,8 @@ import { Layout, PageHeader } from "antd";
 
 import Skeleton from "../../../components/skeleton";
 import UserRoutes from "../../../routes/user-routes";
+
+import ReviewPage from "../../reviews";
 import SettingsPage from "./settings";
 import ServicesPage from "./services";
 import PortfolioPage from "./portfolio";
@@ -35,6 +37,7 @@ const BarberDashboardPage: React.FC = () => {
         PortfolioPage,
         ServicesPage,
         ReservationsPage,
+        ReviewPage,
         SettingsPage,
     ];
 

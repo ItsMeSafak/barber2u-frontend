@@ -1,13 +1,20 @@
 import React, { useContext, useState } from "react";
+
 import { Card, Col, Layout, Pagination, Rate, Row } from "antd";
 import { Content } from "antd/es/layout/layout";
+
 import moment from "moment";
-import Review from "../../../../models/Review";
-import { AuthenticationContext } from "../../../../contexts/authentication-context";
-import WidgetReviews from "../../../../template/widget-reviews";
+
+import Review from "../../models/Review";
+
+import { AuthenticationContext } from "../../contexts/authentication-context";
+
+import WidgetReviews from "../../template/widget-reviews";
+
+import { handlePagination } from "../../assets/functions/pagination";
+import { MAX_REVIEWS_PER_PAGE } from "../../assets/constants";
+
 import styles from "./styles.module.scss";
-import { handlePagination } from "../../../../assets/functions/pagination";
-import { MAX_REVIEWS_PER_PAGE } from "../../../../assets/constants";
 
 /**
  * @returns {React.FC}

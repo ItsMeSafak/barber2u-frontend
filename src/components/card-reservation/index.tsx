@@ -2,7 +2,7 @@ import React, { ReactNode, useContext } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { Card, Modal } from "antd";
+import { Card, Modal, Tooltip } from "antd";
 
 import Role from "../../models/enums/Role";
 import Status from "../../models/enums/Status";
@@ -54,6 +54,76 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     };
 
     /**
+     *
+     */
+    const renderCompleteCardAction = () => (
+        <Tooltip title="Complete">
+            <FontAwesomeIcon
+                key="complete"
+                className={styles.editAction}
+                icon={getIconByPrefixName("fas", "check")}
+                onClick={() => completeReservation()}
+            />
+        </Tooltip>
+    );
+
+    /**
+     *
+     */
+    const renderCancelCardAction = () => (
+        <Tooltip title="Cancel">
+            <FontAwesomeIcon
+                key="cancel"
+                className={styles.editAction}
+                icon={getIconByPrefixName("fas", "times")}
+                onClick={() => cancelReservation()}
+            />
+        </Tooltip>
+    );
+
+    /**
+     *
+     */
+    const renderReviewCardAction = () => (
+        <Tooltip title="Review">
+            <FontAwesomeIcon
+                key="review"
+                className={styles.editAction}
+                icon={getIconByPrefixName("fas", "comment")}
+                onClick={() => reviewReservation()}
+            />
+        </Tooltip>
+    );
+
+    /**
+     *
+     */
+    const renderAcceptCardAction = () => (
+        <Tooltip title="Accept">
+            <FontAwesomeIcon
+                key="accept"
+                className={styles.editAction}
+                icon={getIconByPrefixName("fas", "thumbs-up")}
+                onClick={() => acceptReservation()}
+            />
+        </Tooltip>
+    );
+
+    /**
+     *
+     */
+    const renderDenyCardAction = () => (
+        <Tooltip title="Deny">
+            <FontAwesomeIcon
+                key="deny"
+                className={styles.editAction}
+                icon={getIconByPrefixName("fas", "thumbs-down")}
+                onClick={() => cancelReservation()}
+            />
+        </Tooltip>
+    );
+
+    /**
      * This function renders the actions a card can have.
      * The actions are:
      * - Approving the reservation,
@@ -63,34 +133,19 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
      */
     const actions = () => {
         const actionList: Array<ReactNode> = [];
-        if (
-            !(
-                user?.hasRole(Role.Customer) &&
-                reservationDetail.status === Status.Pending
-            )
-        ) {
-            actionList.push(
-                <FontAwesomeIcon
-                    key="approve"
-                    className={styles.editAction}
-                    icon={getIconByPrefixName("fas", "check")}
-                    onClick={() =>
-                        reservationDetail.status === Status.Active
-                            ? completeReservation()
-                            : acceptReservation()
-                    }
-                />
-            );
+        if (reservationDetail.status === Status.Pending) {
+            if (user?.hasRole(Role.Customer)) {
+                actionList.push(renderCancelCardAction());
+            } else if (user?.hasRole(Role.Barber)) {
+                actionList.push(renderAcceptCardAction());
+                actionList.push(renderDenyCardAction());
+            }
+        } else if (reservationDetail.status === Status.Active) {
+            actionList.push(renderCompleteCardAction());
+            actionList.push(renderCancelCardAction());
+        } else if (reservationDetail.status === Status.Completed) {
+            actionList.push(renderReviewCardAction());
         }
-
-        actionList.push(
-            <FontAwesomeIcon
-                key="cancel"
-                className={styles.editAction}
-                icon={getIconByPrefixName("fas", "times")}
-                onClick={() => cancelReservation()}
-            />
-        );
         return actionList;
     };
 
@@ -134,6 +189,17 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     };
 
     /**
+     *
+     */
+    const reviewReservation = () => {
+        Modal({
+            centered: true,
+            title: "Place a review",
+            okText: "Create",
+        });
+    };
+
+    /**
      * This function returns the required style class based on the status.
      *
      * @returns {string}
@@ -154,12 +220,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     return (
         <Card
             className={styles.card}
-            actions={
-                reservationDetail.status === Status.Completed ||
-                reservationDetail.status === Status.Cancelled
-                    ? []
-                    : actions()
-            }
+            actions={actions()}
         >
             <h2 className={`${styles.header} ${switchColorHeader()}`}>
                 {reservationDetail.status}
