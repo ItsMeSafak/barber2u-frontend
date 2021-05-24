@@ -31,7 +31,6 @@ import { getReservations } from "../../services/reservation-service";
 import ReservationCard from "../../components/card-reservation";
 
 import Role from "../../models/enums/Role";
-import User from "../../models/User";
 import Reservation from "../../models/Reservation";
 import SchedulerReservation from "../../models/SchedulerReservation";
 
@@ -39,90 +38,6 @@ import { ScreenContext } from "../../contexts/screen-context";
 import { AuthenticationContext } from "../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
-
-/**
- * Convert Reservation object to the DevExpress Calendar Object
- *
- * @param {Reservation[]} reservations List of reservations
- * @param {User | null} user Logged in user object from the AuthenticationContext
- */
-const convertReservationToSchedulerReservation = (
-    reservations: Reservation[],
-    user: User | null
-) => {
-    const schedulerList: SchedulerReservation[] = [];
-    if (user) {
-        reservations.forEach((reservation: Reservation) => {
-            let targetName = "";
-            if (user.hasRole(Role.Customer))
-                targetName = reservation.barber.getFullNameWithInitial;
-            else if (user.hasRole(Role.Barber))
-                targetName = reservation.customer.getFullNameWithInitial;
-            schedulerList.push(
-                new SchedulerReservation(
-                    `${reservation.date}T${reservation.startTime}`,
-                    `${reservation.date}T${reservation.endTime}`,
-                    targetName,
-                    reservation.id,
-                    reservation
-                )
-            );
-        });
-    }
-    return schedulerList;
-};
-
-/**
- * This switch function will select the color for the Reservation panel
- * based on the reservation status code.
- *
- * @param {string} status String of a reservation status code
- */
-const panelColor = (status: string) => {
-    switch (status) {
-        case "PENDING":
-            return styles.pending;
-        case "ACTIVE":
-            return styles.active;
-        case "COMPLETED":
-            return styles.completed;
-        case "CANCELLED":
-            return styles.cancelled;
-        default:
-            return styles.default;
-    }
-};
-
-/**
- * This component will render the panel for each reservation inside the DevExpress calendar
- *
- * @param {AppointmentsBase.AppointmentProps} props The default appointment properties from DevExpress
- */
-const ReservationPanel = (props: AppointmentsBase.AppointmentProps) => (
-    <Appointments.Appointment
-        {...props}
-        className={`${styles.panel} ${panelColor(
-            props.data.reservation.status
-        )}`}
-    >
-        {props.data.title}
-    </Appointments.Appointment>
-);
-
-/**
- * This component will render the empty header for the reservation modal
- */
-const Header = () => <div style={{ display: "none" }} />;
-
-/**
- * This component will render the panel the content for the reservation modal.
- * It makes use of the reservation card component.
- *
- * @param {AppointmentTooltipBase.ContentProps} props The default appointment content properties from DevExpress
- */
-const Content = (props: AppointmentTooltipBase.ContentProps) => (
-    <ReservationCard reservationDetail={props.appointmentData?.reservation} />
-);
 
 /**
  * Calendar page for the reservations.
@@ -136,10 +51,11 @@ const CalendarPage: React.FC = () => {
     useEffect(() => {
         getReservations(null).then((response) => {
             setAppointments(
-                convertReservationToSchedulerReservation(response.data, user)
+                convertReservationToSchedulerReservation(response.data)
             );
         });
         return () => setAppointments([]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     const [appointments, setAppointments] = useState<SchedulerReservation[]>(
@@ -151,12 +67,96 @@ const CalendarPage: React.FC = () => {
     );
 
     /**
+     * This component will render the panel for each reservation inside the DevExpress calendar
+     *
+     * @param {AppointmentsBase.AppointmentProps} props The default appointment properties from DevExpress
+     */
+    const ReservationPanel = (props: AppointmentsBase.AppointmentProps) => (
+        <Appointments.Appointment
+            {...props}
+            className={`${styles.panel} ${panelColor(
+                props.data.reservation.status
+            )}`}
+        >
+            {props.data.title}
+        </Appointments.Appointment>
+    );
+
+    /**
+     * This component will render the empty header for the reservation modal
+     */
+    const Header = () => <div style={{ display: "none" }} />;
+
+    /**
+     * This component will render the panel the content for the reservation modal.
+     * It makes use of the reservation card component.
+     *
+     * @param {AppointmentTooltipBase.ContentProps} props The default appointment content properties from DevExpress
+     */
+    const Content = (props: AppointmentTooltipBase.ContentProps) => (
+        <ReservationCard
+            reservationDetail={props.appointmentData?.reservation}
+        />
+    );
+
+    /**
      * Return the Scheduler default viewstate keyword based on the user screen
      */
     const getDefaultCalendarView = () => {
         if (isDesktop) return "Month";
         if (isTablet) return "Week";
         return "Day";
+    };
+
+    /**
+     * Convert Reservation object to the DevExpress Calendar Object
+     *
+     * @param {Reservation[]} reservations List of reservations
+     */
+    const convertReservationToSchedulerReservation = (
+        reservations: Reservation[]
+    ) => {
+        const schedulerList: SchedulerReservation[] = [];
+        if (user) {
+            reservations.forEach((reservation: Reservation) => {
+                let targetName = "";
+                if (user.hasRole(Role.Customer))
+                    targetName = reservation.barber.getFullNameWithInitial;
+                else if (user.hasRole(Role.Barber))
+                    targetName = reservation.customer.getFullNameWithInitial;
+                schedulerList.push(
+                    new SchedulerReservation(
+                        `${reservation.date}T${reservation.startTime}`,
+                        `${reservation.date}T${reservation.endTime}`,
+                        targetName,
+                        reservation.id,
+                        reservation
+                    )
+                );
+            });
+        }
+        return schedulerList;
+    };
+
+    /**
+     * This switch function will select the color for the Reservation panel
+     * based on the reservation status code.
+     *
+     * @param {string} status String of a reservation status code
+     */
+    const panelColor = (status: string) => {
+        switch (status) {
+            case "PENDING":
+                return styles.pending;
+            case "ACTIVE":
+                return styles.active;
+            case "COMPLETED":
+                return styles.completed;
+            case "CANCELLED":
+                return styles.cancelled;
+            default:
+                return styles.default;
+        }
     };
 
     return (
