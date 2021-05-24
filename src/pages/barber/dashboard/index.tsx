@@ -8,7 +8,7 @@ import SettingsPage from "./settings";
 import ServicesPage from "./services";
 import StatisticsPage from "./statistics";
 import SidebarPartial from "../../../template/sidebar-partial";
-import ReservationsPage from "./reservations";
+import ReservationsPage from "../../reservations";
 import EmailNotVerified from "../../../template/email-not-verified";
 
 import { BarberProvider } from "../../../contexts/barber-context";
