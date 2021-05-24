@@ -12,14 +12,19 @@ import { showHttpResponseNotification } from "../../../assets/functions/notifica
 
 import styles from "./styles.module.scss";
 
+interface ComponentProps {
+    user: User | null;
+}
+
 /**
  * This component renders a settings form.
  * The form consists of input fields regarding the users information.
  *
- * @param user {User | null}   The logged in user object
+ * @param {ComponentProps} props The component properties of the settings page form
  * @returns {JSX}
  */
-const SettingsForm: React.FC<{ user: User | null }> = (user) => {
+const SettingsForm: React.FC<ComponentProps> = (props) => {
+    const { user } = props;
     const [formValue, setFormValue] = useState<{
         [email: string]: string;
         firstname: string;
@@ -28,12 +33,12 @@ const SettingsForm: React.FC<{ user: User | null }> = (user) => {
         address: string;
         zipcode: string;
     }>({
-        email: user.user ? user.user.getEmail : "",
-        firstname: user.user ? user.user.getFirstName : "",
-        lastname: user.user ? user.user.getLastName : "",
-        phone: user.user ? user.user.getPhoneNumber : "",
-        address: user.user ? user.user.getAddress : "",
-        zipcode: user.user ? user.user.getZipCode : "",
+        email: user ? user.getEmail : "",
+        firstname: user ? user.getFirstName : "",
+        lastname: user ? user.getLastName : "",
+        phone: user ? user.getPhoneNumber : "",
+        address: user ? user.getAddress : "",
+        zipcode: user ? user.getZipCode : "",
     });
 
     const inputFieldValues: Array<{
@@ -115,8 +120,8 @@ const SettingsForm: React.FC<{ user: User | null }> = (user) => {
      * After the object creation, it will send a request to the endpoint and update the user profile
      */
     const saveChanges = () => {
-        if (user.user) {
-            const newUser: User = user.user;
+        if (user) {
+            const newUser: User = user;
             newUser.setFirstName = formValue.firstname;
             newUser.setLastname = formValue.lastname;
             newUser.setEmail = formValue.email;

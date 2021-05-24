@@ -24,27 +24,27 @@ import {
     DATE_FORMAT,
     SCHEDULER_START_DAY_HOUR,
     SCHEDULER_END_DAY_HOUR,
-} from "../../../../assets/constants";
+} from "../../assets/constants";
 
-import { getReservations } from "../../../../services/reservation-service";
+import { getReservations } from "../../services/reservation-service";
 
-import ReservationCard from "../../../../components/card-reservation";
+import ReservationCard from "../../components/card-reservation";
 
-import Role from "../../../../models/enums/Role";
-import User from "../../../../models/User";
-import Reservation from "../../../../models/Reservation";
-import SchedulerReservation from "../../../../models/SchedulerReservation";
+import Role from "../../models/enums/Role";
+import User from "../../models/User";
+import Reservation from "../../models/Reservation";
+import SchedulerReservation from "../../models/SchedulerReservation";
 
-import { ScreenContext } from "../../../../contexts/screen-context";
-import { AuthenticationContext } from "../../../../contexts/authentication-context";
+import { ScreenContext } from "../../contexts/screen-context";
+import { AuthenticationContext } from "../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
 
 /**
  * Convert Reservation object to the DevExpress Calendar Object
  *
- * @param reservations {Reservation[]}  List of reservations
- * @param user {User | null}            Logged in user object from the AuthenticationContext
+ * @param {Reservation[]} reservations List of reservations
+ * @param {User | null} user Logged in user object from the AuthenticationContext
  */
 const convertReservationToSchedulerReservation = (
     reservations: Reservation[],
@@ -76,7 +76,7 @@ const convertReservationToSchedulerReservation = (
  * This switch function will select the color for the Reservation panel
  * based on the reservation status code.
  *
- * @param status {string}   String of a reservation status code
+ * @param {string} status String of a reservation status code
  */
 const panelColor = (status: string) => {
     switch (status) {
@@ -96,7 +96,7 @@ const panelColor = (status: string) => {
 /**
  * This component will render the panel for each reservation inside the DevExpress calendar
  *
- * @param props {AppointmentsBase.AppointmentProps}     The default appointment properties from DevExpress
+ * @param {AppointmentsBase.AppointmentProps} props The default appointment properties from DevExpress
  */
 const ReservationPanel = (props: AppointmentsBase.AppointmentProps) => (
     <Appointments.Appointment
@@ -118,7 +118,7 @@ const Header = () => <div style={{ display: "none" }} />;
  * This component will render the panel the content for the reservation modal.
  * It makes use of the reservation card component.
  *
- * @param props {AppointmentTooltipBase.ContentProps}   The default appointment content properties from DevExpress
+ * @param {AppointmentTooltipBase.ContentProps} props The default appointment content properties from DevExpress
  */
 const Content = (props: AppointmentTooltipBase.ContentProps) => (
     <ReservationCard reservationDetail={props.appointmentData?.reservation} />
