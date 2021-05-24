@@ -2,16 +2,16 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import { Row, Divider, Layout, Pagination, Select, Empty, Col } from "antd";
 
-import Status from "../../../../models/enums/Status";
-import Skeleton from "../../../../components/skeleton";
-import Reservation from "../../../../models/Reservation";
-import ReservationCard from "../../../../components/card-reservation";
+import Status from "../../models/enums/Status";
+import Skeleton from "../../components/skeleton";
+import Reservation from "../../models/Reservation";
+import ReservationCard from "../../components/card-reservation";
 
-import { BarberContext } from "../../../../contexts/barber-context";
-import { getReservations } from "../../../../services/reservation-service";
-import { handlePagination } from "../../../../assets/functions/pagination";
-import { MAX_ITEMS_PER_PAGE } from "../../../../assets/constants";
-import { showHttpResponseNotification } from "../../../../assets/functions/notification";
+import { BarberContext } from "../../contexts/barber-context";
+import { getReservations } from "../../services/reservation-service";
+import { handlePagination } from "../../assets/functions/pagination";
+import { MAX_ITEMS_PER_PAGE } from "../../assets/constants";
+import { showHttpResponseNotification } from "../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
