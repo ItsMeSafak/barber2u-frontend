@@ -1,0 +1,36 @@
+@import "../../assets/config";
+
+.card > div {
+    padding: 0;
+
+    .h1 {
+        padding: 8px 24px;
+        font-size: 2.5rem;
+        margin: 0;
+    }
+    .panel {
+        padding: 1px 4px 4px 6px;
+        border-radius: 8px;
+        color: $white-color;
+
+        &.active {
+            background-color: $primary-color;
+        }
+
+        &.pending {
+            background-color: $yellow-color;
+        }
+
+        &.cancelled {
+            background-color: $red-color;
+        }
+
+        &.completed {
+            background-color: $green-color;
+        }
+
+        &.default {
+            background-color: $grey-color;
+        }
+    }
+}

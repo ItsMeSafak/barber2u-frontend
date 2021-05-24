@@ -6,6 +6,8 @@ import Review from "../../../../models/Review";
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
 import WidgetReviews from "../../../../template/widget-reviews";
 
+import CalendarPage from "../../../calendar";
+
 /**
  * Customer statistics page.
  *
@@ -26,6 +28,7 @@ const StatisticsPage: React.FC = () => {
         <Layout>
             <Content>
                 <WidgetReviews reviews={reviews} />
+                <CalendarPage />
             </Content>
         </Layout>
     );

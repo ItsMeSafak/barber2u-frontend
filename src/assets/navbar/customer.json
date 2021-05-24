@@ -36,6 +36,18 @@
         "isDropdownMenu": true
     },
     {
+        "id": "reservations",
+        "url": "/customer/reservations",
+        "name": "Reservations",
+        "icon": ["fas", "ticket-alt"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": false,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
+    },
+    {
         "id": "reviews",
         "url": "/customer/reviews",
         "name": "Reviews",

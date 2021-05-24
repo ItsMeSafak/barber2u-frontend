@@ -1,17 +1,17 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import { Row, Divider, Layout, Pagination, Select, Empty } from "antd";
+import { Row, Divider, Layout, Pagination, Select, Empty, Col } from "antd";
 
-import Status from "../../../../models/enums/Status";
-import Skeleton from "../../../../components/skeleton";
-import Reservation from "../../../../models/Reservation";
-import ReservationCard from "../../../../components/card-reservation";
+import Status from "../../models/enums/Status";
+import Skeleton from "../../components/skeleton";
+import Reservation from "../../models/Reservation";
+import ReservationCard from "../../components/card-reservation";
 
-import { BarberContext } from "../../../../contexts/barber-context";
-import { getReservations } from "../../../../services/reservation-service";
-import { handlePagination } from "../../../../assets/functions/pagination";
-import { MAX_ITEMS_PER_PAGE } from "../../../../assets/constants";
-import { showHttpResponseNotification } from "../../../../assets/functions/notification";
+import { BarberContext } from "../../contexts/barber-context";
+import { getReservations } from "../../services/reservation-service";
+import { handlePagination } from "../../assets/functions/pagination";
+import { MAX_ITEMS_PER_PAGE } from "../../assets/constants";
+import { showHttpResponseNotification } from "../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
@@ -28,7 +28,7 @@ const MAX_ITEMS_PAGE = 6;
  * @returns {JSX}
  */
 const ReservationsPage: React.FC = () => {
-    const [reservationItems, setReserVationItems] = useState<Reservation[]>([]);
+    const [reservationItems, setReservationItems] = useState<Reservation[]>([]);
     const [currentFilter, setCurrentFilter] = useState("");
     const [minIndexValue, setMinIndexValue] = useState(0);
     const [maxIndexValue, setMaxIndexValue] = useState(MAX_ITEMS_PER_PAGE);
@@ -49,7 +49,7 @@ const ReservationsPage: React.FC = () => {
             showHttpResponseNotification(message, status, false);
             if (!response.data) return;
 
-            setReserVationItems(response.data);
+            setReservationItems(response.data);
             setLoading(false);
         },
         [setLoading]
@@ -68,11 +68,11 @@ const ReservationsPage: React.FC = () => {
      * @returns {JSX}
      */
     const renderReservationItems = (reservationList: Reservation[]) =>
-        reservationList
-            .slice(minIndexValue, maxIndexValue)
-            .map((item) => (
-                <ReservationCard key={item.id} reservationDetail={item} />
-            ));
+        reservationList.slice(minIndexValue, maxIndexValue).map((item) => (
+            <Col key={item.id} xs={24} sm={12} lg={8}>
+                <ReservationCard reservationDetail={item} />
+            </Col>
+        ));
 
     /**
      * This function handles the filtering of the reservations based on the status
