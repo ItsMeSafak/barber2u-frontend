@@ -128,10 +128,10 @@ const StatisticsPage: React.FC = () => {
                                 data={[
                                     {
                                         title: "Total income this month",
-                                        value: `${EURO_SYMBOL} ${totalIncome}`,
+                                        value: totalIncome,
+                                        prefix: EURO_SYMBOL
                                     }
                                 ]}
-                                numericValue={totalIncome}
                                 positiveValueThreshold={1}
                             />
                         </Spinner>
@@ -142,10 +142,10 @@ const StatisticsPage: React.FC = () => {
                                 data={[
                                     {
                                         title: "Percentual increase compared to last month",
-                                        value: `${totalIncrease}%`,
+                                        value: totalIncrease,
+                                        suffix: "%"
                                     }
                                 ]}
-                                numericValue={totalIncrease}
                                 positiveValueThreshold={1}
                             />
                         </Spinner>
