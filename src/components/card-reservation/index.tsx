@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { ReactNode, useContext } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { Card, Col, Modal } from "antd";
+import { Card, Modal } from "antd";
 
+import Role from "../../models/enums/Role";
 import Status from "../../models/enums/Status";
 import Reservation from "../../models/Reservation";
 
@@ -15,6 +16,7 @@ import { updateReservationStatus } from "../../services/reservation-service";
 
 import { BarberContext } from "../../contexts/barber-context";
 import { ScreenContext } from "../../contexts/screen-context";
+import { AuthenticationContext } from "../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
 
@@ -33,6 +35,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     const { reservationDetail } = props;
     const { setIsUpdated } = useContext(BarberContext);
     const { isMobileOrTablet } = useContext(ScreenContext);
+    const { user } = useContext(AuthenticationContext);
 
     /**
      * This function passes a PUT request to the backend and updates the status fo the current reservation.
@@ -58,24 +61,38 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
      *
      * @returns {JSX}
      */
-    const actions = () => [
-        <FontAwesomeIcon
-            key="approve"
-            className={styles.editAction}
-            icon={getIconByPrefixName("fas", "check")}
-            onClick={() =>
-                reservationDetail.status === Status.Active
-                    ? completeReservation()
-                    : acceptReservation()
-            }
-        />,
-        <FontAwesomeIcon
-            key="cancel"
-            className={styles.editAction}
-            icon={getIconByPrefixName("fas", "times")}
-            onClick={() => cancelReservation()}
-        />,
-    ];
+    const actions = () => {
+        const actionList: Array<ReactNode> = [];
+        if (
+            !(
+                user?.hasRole(Role.Customer) &&
+                reservationDetail.status === Status.Pending
+            )
+        ) {
+            actionList.push(
+                <FontAwesomeIcon
+                    key="approve"
+                    className={styles.editAction}
+                    icon={getIconByPrefixName("fas", "check")}
+                    onClick={() =>
+                        reservationDetail.status === Status.Active
+                            ? completeReservation()
+                            : acceptReservation()
+                    }
+                />
+            );
+        }
+
+        actionList.push(
+            <FontAwesomeIcon
+                key="cancel"
+                className={styles.editAction}
+                icon={getIconByPrefixName("fas", "times")}
+                onClick={() => cancelReservation()}
+            />
+        );
+        return actionList;
+    };
 
     /**
      * This function render a Modal asking for confirmation for completion of the reservation.
@@ -135,96 +152,95 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     };
 
     return (
-        <Col key={reservationDetail.id} xs={24} sm={12} lg={8}>
-            <Card
-                className={styles.card}
-                actions={
-                    reservationDetail.status === Status.Completed ||
-                    reservationDetail.status === Status.Cancelled
-                        ? []
-                        : actions()
-                }
-            >
-                <h2 className={`${styles.header} ${switchColorHeader()}`}>
-                    {reservationDetail.status}
-                </h2>
+        <Card
+            className={styles.card}
+            actions={
+                reservationDetail.status === Status.Completed ||
+                reservationDetail.status === Status.Cancelled
+                    ? []
+                    : actions()
+            }
+        >
+            <h2 className={`${styles.header} ${switchColorHeader()}`}>
+                {reservationDetail.status}
+            </h2>
 
-                <p>
+            <p>
+                <FontAwesomeIcon
+                    className={styles.icon}
+                    icon={getIconByPrefixName("fas", "user")}
+                    size="lg"
+                />{" "}
+                {user?.hasRole(Role.Customer) &&
+                    reservationDetail.barber.getFullNameWithInitial}
+                {user?.hasRole(Role.Barber) &&
+                    reservationDetail.customer.getFullNameWithInitial}
+            </p>
+
+            <p>
+                <FontAwesomeIcon
+                    className={styles.icon}
+                    icon={getIconByPrefixName("fas", "map-marker-alt")}
+                    size="lg"
+                />{" "}
+                {`${reservationDetail.customer.getAddress}, ${reservationDetail.customer.getZipCode}`}
+                <a
+                    target="_blank"
+                    href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.customer.getZipCode}`}
+                    rel="noreferrer"
+                >
                     <FontAwesomeIcon
-                        className={styles.icon}
-                        icon={getIconByPrefixName("fas", "user")}
+                        className={`${styles.icon} ${
+                            isMobileOrTablet
+                                ? styles.mobileLink
+                                : styles.externalLink
+                        }`}
+                        icon={getIconByPrefixName("fas", "external-link-alt")}
                         size="lg"
-                    />{" "}
-                    {reservationDetail.customer.getFullNameWithInitial}
-                </p>
+                    />
+                </a>
+            </p>
 
-                <p>
-                    <FontAwesomeIcon
-                        className={styles.icon}
-                        icon={getIconByPrefixName("fas", "map-marker-alt")}
-                        size="lg"
-                    />{" "}
-                    {`${reservationDetail.customer.getAddress}, ${reservationDetail.customer.getZipCode}`}
-                    <a
-                        target="_blank"
-                        href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.customer.getZipCode}`}
-                    >
-                        <FontAwesomeIcon
-                            className={`${styles.icon} ${
-                                isMobileOrTablet
-                                    ? styles.mobileLink
-                                    : styles.externalLink
-                            }`}
-                            icon={getIconByPrefixName(
-                                "fas",
-                                "external-link-alt"
-                            )}
-                            size="lg"
-                        />
-                    </a>
-                </p>
+            <p>
+                <FontAwesomeIcon
+                    className={styles.icon}
+                    icon={getIconByPrefixName("fas", "calendar-alt")}
+                    size="lg"
+                />{" "}
+                {reservationDetail.date}
+            </p>
 
-                <p>
-                    <FontAwesomeIcon
-                        className={styles.icon}
-                        icon={getIconByPrefixName("fas", "calendar-alt")}
-                        size="lg"
-                    />{" "}
-                    {reservationDetail.date}
-                </p>
+            <p>
+                <FontAwesomeIcon
+                    className={styles.icon}
+                    icon={getIconByPrefixName("fas", "clock")}
+                    size="lg"
+                />{" "}
+                {`${reservationDetail.startTime} - ${reservationDetail.endTime}`}
+            </p>
 
-                <p>
-                    <FontAwesomeIcon
-                        className={styles.icon}
-                        icon={getIconByPrefixName("fas", "clock")}
-                        size="lg"
-                    />{" "}
-                    {`${reservationDetail.startTime} - ${reservationDetail.endTime}`}
-                </p>
+            <p>
+                <FontAwesomeIcon
+                    className={styles.icon}
+                    icon={getIconByPrefixName("fas", "cut")}
+                    size="lg"
+                />{" "}
+                {reservationDetail.services.map(({ name }, index) =>
+                    index !== 0 ? `, ${name}` : `${name}`
+                )}
+            </p>
 
-                <p>
-                    <FontAwesomeIcon
-                        className={styles.icon}
-                        icon={getIconByPrefixName("fas", "cut")}
-                        size="lg"
-                    />{" "}
-                    {reservationDetail.services.map(({ name }, index) =>
-                        index !== 0 ? `, ${name}` : `${name}`
-                    )}
-                </p>
-
-                <span className={styles.price}>
-                    {EURO_SYMBOL}{" "}
-                    {reservationDetail.services
-                        .map((item) => item.price)
-                        .reduce(
-                            (servicePrice, currentValue) =>
-                                currentValue + servicePrice
-                        )
-                        .toFixed(2)}
-                </span>
-            </Card>
-        </Col>
+            <span className={styles.price}>
+                {EURO_SYMBOL}{" "}
+                {reservationDetail.services
+                    .map((item) => item.price)
+                    .reduce(
+                        (servicePrice, currentValue) =>
+                            currentValue + servicePrice
+                    )
+                    .toFixed(2)}
+            </span>
+        </Card>
     );
 };
 
