@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import { Card } from "antd";
 
@@ -90,9 +90,9 @@ const SettingsPage: React.FC = () => {
     };
 
     /**
-     * This function updates the barber profile.
+     * This function updates the customer profile.
      *
-     * @param {Barber} barber the barber data to be updated.
+     * @param {Customer} customer the customer data to be updated.
      */
     const updateCutomerProfile = async (customer: User) => {
         const response = await updateUserProfile(customer);
