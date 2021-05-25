@@ -67,14 +67,19 @@ export const createReview = (
  */
 const fixReviewObject = (response: IReviewResponse) => {
     if (response.data) {
-        response.data.forEach((value, index) => {
-            response.data[index].dateOfReview = moment(
-                response.data[index].dateOfReview
+        response.data.map((item, index) => {
+            const reviewPrototype = Object.setPrototypeOf(
+                item,
+                Review.prototype
             );
-            response.data[index].reviewer = Object.setPrototypeOf(
-                response.data[index].reviewer,
+            response.data[index].setDateOfReview = moment(
+                reviewPrototype.getDateOfReview
+            );
+            response.data[index].setReviewer = Object.setPrototypeOf(
+                reviewPrototype.getReviewer,
                 User.prototype
             );
+            return response.data[index];
         });
     }
     return response;

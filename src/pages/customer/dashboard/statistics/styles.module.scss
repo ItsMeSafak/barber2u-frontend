@@ -1,0 +1,39 @@
+@import "../../../../assets/config.scss";
+
+.card {
+    box-shadow: $shadow;
+    min-height: 11rem;
+
+    .center {
+        text-align: center;
+    }
+
+    .noReviews {
+        margin: 20px;
+    }
+}
+
+.row {
+    margin-bottom: 20px;
+}
+
+.carousel {
+    .review {
+        max-width: 100% !important;
+
+        p {
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 0;
+            width: 100%;
+        }
+
+        span {
+            margin-top: 12px;
+        }
+    }
+}
