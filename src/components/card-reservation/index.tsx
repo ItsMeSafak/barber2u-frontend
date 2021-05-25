@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Role from "../../models/enums/Role";
 import Status from "../../models/enums/Status";
+import Service from "../../models/Service";
 import Reservation from "../../models/Reservation";
 
 import { BarberContext } from "../../contexts/barber-context";
@@ -41,7 +42,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
      */
     const updateStatus = async (reservationStatus: string) => {
         const response = await updateReservationStatus(
-            reservationDetail.id,
+            reservationDetail.getId,
             reservationStatus
         );
 
@@ -63,7 +64,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
         if (
             !(
                 user?.hasRole(Role.Customer) &&
-                reservationDetail.status === Status.Pending
+                reservationDetail.getStatus === Status.Pending
             )
         ) {
             actionList.push(
@@ -72,7 +73,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                     className={styles.editAction}
                     icon={getIconByPrefixName("fas", "check")}
                     onClick={() =>
-                        reservationDetail.status === Status.Active
+                        reservationDetail.getStatus === Status.Active
                             ? completeReservation()
                             : acceptReservation()
                     }
@@ -136,7 +137,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
      * @returns {string}
      */
     const switchColorHeader = () => {
-        switch (reservationDetail.status) {
+        switch (reservationDetail.getStatus) {
             case Status.Pending:
                 return styles.pending;
             case Status.Cancelled:
@@ -152,14 +153,14 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
         <Card
             className={styles.card}
             actions={
-                reservationDetail.status === Status.Completed ||
-                reservationDetail.status === Status.Cancelled
+                reservationDetail.getStatus === Status.Completed ||
+                reservationDetail.getStatus === Status.Cancelled
                     ? []
                     : actions()
             }
         >
             <h2 className={`${styles.header} ${switchColorHeader()}`}>
-                {reservationDetail.status}
+                {reservationDetail.getStatus}
             </h2>
 
             <p>
@@ -169,9 +170,9 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                     size="lg"
                 />{" "}
                 {user?.hasRole(Role.Customer) &&
-                    reservationDetail.barber.getFullNameWithInitial}
+                    reservationDetail.getBarber.getFullNameWithInitial}
                 {user?.hasRole(Role.Barber) &&
-                    reservationDetail.customer.getFullNameWithInitial}
+                    reservationDetail.getCustomer.getFullNameWithInitial}
             </p>
 
             <p>
@@ -180,10 +181,10 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                     icon={getIconByPrefixName("fas", "map-marker-alt")}
                     size="lg"
                 />{" "}
-                {`${reservationDetail.customer.getAddress}, ${reservationDetail.customer.getZipCode}`}
+                {`${reservationDetail.getCustomer.getAddress}, ${reservationDetail.getCustomer.getZipCode}`}
                 <a
                     target="_blank"
-                    href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.customer.getZipCode}`}
+                    href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.getCustomer.getZipCode}`}
                     rel="noreferrer"
                 >
                     <FontAwesomeIcon
@@ -204,7 +205,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                     icon={getIconByPrefixName("fas", "calendar-alt")}
                     size="lg"
                 />{" "}
-                {reservationDetail.date}
+                {reservationDetail.getDate}
             </p>
 
             <p>
@@ -213,7 +214,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                     icon={getIconByPrefixName("fas", "clock")}
                     size="lg"
                 />{" "}
-                {`${reservationDetail.startTime} - ${reservationDetail.endTime}`}
+                {`${reservationDetail.getStartTime} - ${reservationDetail.getEndTime}`}
             </p>
 
             <p>
@@ -222,20 +223,23 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                     icon={getIconByPrefixName("fas", "cut")}
                     size="lg"
                 />{" "}
-                {reservationDetail.services.map(({ name }, index) =>
-                    index !== 0 ? `, ${name}` : `${name}`
+                {reservationDetail.getServices.map(({ getName }, index) =>
+                    index !== 0 ? `, ${getName}` : `${getName}`
                 )}
             </p>
 
             <span className={styles.price}>
                 {EURO_SYMBOL}{" "}
-                {reservationDetail.services
-                    .map((item) => item.price)
+                {reservationDetail.getServices
+                    .map(
+                        (item) =>
+                            Object.setPrototypeOf(item, Service.prototype)
+                                .getPrice
+                    )
                     .reduce(
                         (servicePrice, currentValue) =>
                             currentValue + servicePrice
-                    )
-                    .toFixed(2)}
+                    )}
             </span>
         </Card>
     );

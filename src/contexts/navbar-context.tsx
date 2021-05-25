@@ -8,7 +8,6 @@ import React, {
 } from "react";
 
 import Role from "../models/enums/Role";
-
 import adminNavbarMenu from "../assets/navbar/admin.json";
 import barberNavbarMenu from "../assets/navbar/barber.json";
 import visitorNavbarMenu from "../assets/navbar/visitor.json";

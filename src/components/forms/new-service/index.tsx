@@ -23,15 +23,15 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
     const { serviceDetail } = props;
     const { isNewItem, formValues, setFormValues } = useContext(BarberContext);
 
-    const [active] = useState(isNewItem || serviceDetail?.active);
+    const [active] = useState(isNewItem || serviceDetail?.getActive);
 
     useEffect(() => {
         if (serviceDetail)
             setFormValues({
-                name: serviceDetail.name,
-                description: serviceDetail.description,
-                time: serviceDetail.time,
-                price: serviceDetail.price,
+                name: serviceDetail.getName,
+                description: serviceDetail.getDescription,
+                time: serviceDetail.getTime,
+                price: serviceDetail.getPrice,
                 isActive: active,
             });
     }, [serviceDetail, setFormValues, active]);
@@ -85,7 +85,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 <Input
                     name="name"
                     className={styles.dropdown}
-                    defaultValue={serviceDetail?.name}
+                    defaultValue={serviceDetail?.getName}
                     placeholder="Style"
                     onChange={onInputChange("name")}
                 />
@@ -94,7 +94,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 <TextArea
                     name="description"
                     className={styles.description}
-                    defaultValue={serviceDetail?.description}
+                    defaultValue={serviceDetail?.getDescription}
                     placeholder="Description"
                     onChange={onInputChange("description")}
                     autoSize={{ maxRows: 10 }}
@@ -105,8 +105,8 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     name="time"
                     className={styles.inputTime}
                     defaultValue={
-                        serviceDetail?.id !== ""
-                            ? serviceDetail?.time
+                        serviceDetail?.getId !== ""
+                            ? serviceDetail?.getTime
                             : undefined
                     }
                     onChange={onNumberChange("time")}
@@ -118,8 +118,8 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                     name="price"
                     className={styles.inputPrice}
                     defaultValue={
-                        serviceDetail?.id !== ""
-                            ? serviceDetail?.price
+                        serviceDetail?.getId !== ""
+                            ? serviceDetail?.getPrice
                             : undefined
                     }
                     placeholder="Price"

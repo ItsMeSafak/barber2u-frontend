@@ -7,9 +7,8 @@ import { Button, Form, Input } from "antd";
 import User from "../../../models/User";
 
 import { signIn } from "../../../services/auth-service";
-import { AuthenticationContext } from "../../../contexts/authentication-context";
-
 import { getIconByPrefixName } from "../../../assets/functions/icon";
+import { AuthenticationContext } from "../../../contexts/authentication-context";
 import { showHttpResponseNotification } from "../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";

@@ -73,7 +73,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
      * This function deletes the current service on the list.
      */
     const deleteCurrentService = async () => {
-        const response = await deleteService(serviceDetail?.id);
+        const response = await deleteService(serviceDetail?.getId);
         setIsDeleted(true);
 
         const { status, message } = response;
@@ -81,25 +81,25 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
     };
 
     return (
-        <Col key={serviceDetail.id} xs={24} sm={12} lg={8}>
+        <Col key={serviceDetail.getId} xs={24} sm={12} lg={8}>
             <Card className={styles.card} actions={actions()}>
                 <h2 className={styles.header}>
-                    {`${serviceDetail.name} `}
+                    {`${serviceDetail.getName} `}
                     <FontAwesomeIcon
                         className={
-                            serviceDetail.active
+                            serviceDetail.getActive
                                 ? styles.certificateOn
                                 : styles.certificateOff
                         }
                         icon={getIconByPrefixName("fas", "certificate")}
                     />
                 </h2>
-                <p>{serviceDetail.description}</p>
+                <p>{serviceDetail.getDescription}</p>
                 <p className={styles.time}>
-                    <span>{serviceDetail.time}</span> minutes
+                    <span>{serviceDetail.getTime}</span> minutes
                 </p>
                 <span className={styles.price}>
-                    {EURO_SYMBOL} {serviceDetail.price.toFixed(2)}
+                    {EURO_SYMBOL} {serviceDetail.getPrice.toFixed(2)}
                 </span>
             </Card>
         </Col>

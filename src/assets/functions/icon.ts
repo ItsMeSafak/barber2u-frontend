@@ -50,9 +50,13 @@ import {
     faEye,
     faMapMarkerAlt,
     faExternalLinkAlt,
+    faAt,
+    faPassport,
+    faGlobe,
+    faPhone,
+    faStreetView,
     faInfoCircle,
     faTicketAlt,
-    faStreetView,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -104,9 +108,13 @@ export const icons = {
     faEye,
     faMapMarkerAlt,
     faExternalLinkAlt,
+    faAt,
+    faPassport,
+    faGlobe,
+    faPhone,
+    faStreetView,
     faInfoCircle,
     faTicketAlt,
-    faStreetView,
 };
 
 /**

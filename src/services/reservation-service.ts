@@ -68,12 +68,16 @@ export const updateReservationStatus = (
  */
 const fixUserObject = (response: IReservationResponse) => {
     response.data.forEach((value, index) => {
-        response.data[index].customer = Object.setPrototypeOf(
-            value.customer,
+        const reservationValue = Object.setPrototypeOf(
+            value,
+            Reservation.prototype
+        );
+        response.data[index].setCustomer = Object.setPrototypeOf(
+            reservationValue.getCustomer,
             User.prototype
         );
-        response.data[index].barber = Object.setPrototypeOf(
-            value.barber,
+        response.data[index].setBarber = Object.setPrototypeOf(
+            reservationValue.getBarber,
             User.prototype
         );
     });

@@ -1,7 +1,6 @@
 import axios from "axios";
 
 import Service from "../models/Service";
-
 import IHttpResponse from "./http-response";
 
 const API_URL = "/services";
@@ -76,7 +75,7 @@ export const deleteService = (id: string): Promise<IServiceResponse> =>
  */
 export const updateService = (service: Service): Promise<IServiceResponse> =>
     new Promise<IServiceResponse>((resolve, reject) => {
-        axios.put(`${API_URL}/update/${service.id}`, service).then(
+        axios.put(`${API_URL}/update/${service.getId}`, service).then(
             (response) => {
                 if (response) resolve(response.data);
             },

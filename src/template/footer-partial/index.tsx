@@ -6,7 +6,6 @@ import MenuItems from "../../components/menu-items";
 import LogoComponent from "../../components/logo";
 
 import { NavbarContext } from "../../contexts/navbar-context";
-
 import {
     CONTACT_DETAILS_ADDRESS,
     CONTACT_DETAILS_EMAIL_ADDRESS,

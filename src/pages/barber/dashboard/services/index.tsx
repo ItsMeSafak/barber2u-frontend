@@ -23,7 +23,6 @@ import {
     getAllServices,
     updateService,
 } from "../../../../services/services-service";
-
 import { handlePagination } from "../../../../assets/functions/pagination";
 import { MAX_ITEMS_PER_PAGE } from "../../../../assets/constants";
 import { getIconByPrefixName } from "../../../../assets/functions/icon";
@@ -33,8 +32,6 @@ import styles from "./styles.module.scss";
 
 const { Content } = Layout;
 const { Option } = Select;
-
-const MAX_ITEMS_PAGE = 6;
 
 /**
  * This component renders the services page, where the barber can display the services they offer.
@@ -59,7 +56,6 @@ const ServicesPage: React.FC = () => {
     const [minIndexValue, setMinIndexValue] = useState(0);
     const [maxIndexValue, setMaxIndexValue] = useState(MAX_ITEMS_PER_PAGE);
     const [currentFilter, setCurrentFilter] = useState("");
-    const [currentPage] = useState(1);
 
     /**
      * This function fetches the services using the getAllServices function from services-service
@@ -71,11 +67,14 @@ const ServicesPage: React.FC = () => {
             setLoading(true);
             const response = await getAllServices(filter);
 
-            const { status, message } = response;
+            const { status, message, data } = response;
             showHttpResponseNotification(message, status, false);
             if (!response.data) return;
 
-            setListOfServices(response.data);
+            const serviceObjects: Array<Service> = data.map((item) =>
+                Object.setPrototypeOf(item, Service.prototype)
+            );
+            setListOfServices(serviceObjects);
             setLoading(false);
         },
         [setLoading, setListOfServices]
@@ -116,7 +115,12 @@ const ServicesPage: React.FC = () => {
         <Button
             className={styles.addBtn}
             type="primary"
-            icon={<FontAwesomeIcon icon={getIconByPrefixName("fas", "plus")} />}
+            icon={
+                <FontAwesomeIcon
+                    icon={getIconByPrefixName("fas", "plus")}
+                    style={{ marginRight: "1rem" }}
+                />
+            }
             size="large"
             onClick={() => {
                 setServiceDetail(new Service("", "", "", 0, 0, true));
@@ -132,12 +136,12 @@ const ServicesPage: React.FC = () => {
      */
     const changeCurrentService = () => {
         if (formValues && serviceDetail) {
-            serviceDetail.name = formValues.name;
-            serviceDetail.description = formValues.description;
-            serviceDetail.time = formValues.time;
-            serviceDetail.price = formValues.price;
-            serviceDetail.active = formValues.isActive;
-            setServiceDetail({ ...serviceDetail });
+            serviceDetail.setName = formValues.name;
+            serviceDetail.setDescription = formValues.description;
+            serviceDetail.setTime = formValues.time;
+            serviceDetail.setPrice = formValues.price;
+            serviceDetail.setActive = formValues.isActive;
+            setServiceDetail(serviceDetail);
         }
     };
 
@@ -196,7 +200,7 @@ const ServicesPage: React.FC = () => {
     const renderServices = () =>
         listOfServices
             ?.map((service) => (
-                <ServiceCard key={service.id} serviceDetail={service} />
+                <ServiceCard key={service.getId} serviceDetail={service} />
             ))
             .slice(minIndexValue, maxIndexValue);
 
@@ -239,7 +243,7 @@ const ServicesPage: React.FC = () => {
                             )}
                             <div className={styles.pagination}>
                                 <Pagination
-                                    defaultCurrent={currentPage}
+                                    defaultCurrent={1}
                                     onChange={(value) =>
                                         handlePagination(
                                             value,
@@ -247,7 +251,7 @@ const ServicesPage: React.FC = () => {
                                             setMaxIndexValue
                                         )
                                     }
-                                    defaultPageSize={MAX_ITEMS_PAGE}
+                                    defaultPageSize={MAX_ITEMS_PER_PAGE}
                                     total={listOfServices?.length}
                                 />
                             </div>

@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
 
+import moment from "moment";
+
 import { Card } from "antd";
 import {
     Appointments as AppointmentsBase,
@@ -18,25 +20,21 @@ import {
     AppointmentTooltip,
     ViewSwitcher,
 } from "@devexpress/dx-react-scheduler-material-ui";
-import moment from "moment";
 
+import Role from "../../models/enums/Role";
+import Spinner from "../../components/spinner";
+import Reservation from "../../models/Reservation";
+import ReservationCard from "../../components/card-reservation";
+import SchedulerReservation from "../../models/SchedulerReservation";
+
+import { ScreenContext } from "../../contexts/screen-context";
+import { getReservations } from "../../services/reservation-service";
+import { AuthenticationContext } from "../../contexts/authentication-context";
 import {
     DATE_FORMAT,
     SCHEDULER_START_DAY_HOUR,
     SCHEDULER_END_DAY_HOUR,
 } from "../../assets/constants";
-
-import { getReservations } from "../../services/reservation-service";
-
-import Spinner from "../../components/spinner";
-import ReservationCard from "../../components/card-reservation";
-
-import Role from "../../models/enums/Role";
-import Reservation from "../../models/Reservation";
-import SchedulerReservation from "../../models/SchedulerReservation";
-
-import { ScreenContext } from "../../contexts/screen-context";
-import { AuthenticationContext } from "../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
 
@@ -70,16 +68,17 @@ const CalendarPage: React.FC = () => {
                 reservations.forEach((reservation: Reservation) => {
                     let targetName = "";
                     if (user.hasRole(Role.Customer))
-                        targetName = reservation.barber.getFullNameWithInitial;
+                        targetName =
+                            reservation.getBarber.getFullNameWithInitial;
                     else if (user.hasRole(Role.Barber))
                         targetName =
-                            reservation.customer.getFullNameWithInitial;
+                            reservation.getCustomer.getFullNameWithInitial;
                     schedulerList.push(
                         new SchedulerReservation(
-                            `${reservation.date}T${reservation.startTime}`,
-                            `${reservation.date}T${reservation.endTime}`,
+                            `${reservation.getDate}T${reservation.getStartTime}`,
+                            `${reservation.getDate}T${reservation.getEndTime}`,
                             targetName,
-                            reservation.id,
+                            reservation.getId,
                             reservation
                         )
                     );

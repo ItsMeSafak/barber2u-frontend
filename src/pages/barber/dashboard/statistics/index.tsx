@@ -5,15 +5,14 @@ import moment from "moment";
 import { Col, Layout, Row } from "antd";
 
 import Status from "../../../../models/enums/Status";
-import Reservation from "../../../../models/Reservation";
-
-import { getReservations } from "../../../../services/reservation-service";
-
-import { EURO_SYMBOL } from "../../../../assets/constants";
-
+import Service from "../../../../models/Service";
 import Spinner from "../../../../components/spinner";
+import Reservation from "../../../../models/Reservation";
 import CalendarPage from "../../../calendar";
 import CardStatistic from "../../../../components/card-statistic";
+
+import { getReservations } from "../../../../services/reservation-service";
+import { EURO_SYMBOL } from "../../../../assets/constants";
 
 import styles from "./styles.module.scss";
 
@@ -72,7 +71,7 @@ const StatisticsPage: React.FC = () => {
         (reservations: Reservation[]) => {
             const currentMonthReservations = reservations.filter(
                 (reservation) =>
-                    moment().month === moment(reservation.date).month
+                    moment().month === moment(reservation.getDate).month
             );
             setTotalCompleted(currentMonthReservations.length);
         },
@@ -124,8 +123,14 @@ const StatisticsPage: React.FC = () => {
         reservations.length > 0
             ? reservations
                   .map((reservation) =>
-                      reservation.services
-                          .map((service) => service.price)
+                      reservation.getServices
+                          .map(
+                              (service) =>
+                                  Object.setPrototypeOf(
+                                      service,
+                                      Service.prototype
+                                  ).getPrice
+                          )
                           .reduce((accumulator, price) => accumulator + price)
                   )
                   .reduce((accumulator, price) => accumulator + price)
@@ -158,7 +163,7 @@ const StatisticsPage: React.FC = () => {
                                         title: `Total income (${moment().format(
                                             "MMMM"
                                         )})`,
-                                        value: totalIncome,
+                                        value: totalIncome.toFixed(2),
                                         prefix: EURO_SYMBOL,
                                     },
                                 ]}

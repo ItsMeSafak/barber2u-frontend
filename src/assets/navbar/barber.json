@@ -24,18 +24,6 @@
         "isDropdownMenu": true
     },
     {
-        "id": "portfolio",
-        "url": "/barber/portfolio",
-        "name": "Portfolio",
-        "icon": ["fas", "camera"],
-        "isNavbarMenu": false,
-        "isFooterMenu": false,
-        "isMobileMenu": false,
-        "isPillButton": false,
-        "isDrawerMenu": true,
-        "isDropdownMenu": false
-    },
-    {
         "id": "services",
         "url": "/barber/services",
         "name": "Services",
