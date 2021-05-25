@@ -185,7 +185,7 @@ const SettingsPage: React.FC = () => {
 
     return (
         <div className={styles.settings}>
-            <Card className={styles.container}>
+            <Card className={styles.container} title="Personal details">
                 <Skeleton active loading={isLoading} />
                 {!isLoading && (
                     <GenericForm
