@@ -26,4 +26,3 @@ export const getBarber = (barberEmail?: string): Promise<IUserResponse> =>
             }
         );
     });
-

@@ -157,7 +157,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
             className={styles.card}
             actions={
                 reservationDetail.getStatus === Status.Completed ||
-                    reservationDetail.getStatus === Status.Cancelled
+                reservationDetail.getStatus === Status.Cancelled
                     ? []
                     : actions()
             }
@@ -191,10 +191,11 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                     rel="noreferrer"
                 >
                     <FontAwesomeIcon
-                        className={`${styles.icon} ${isMobileOrTablet
-                            ? styles.mobileLink
-                            : styles.externalLink
-                            }`}
+                        className={`${styles.icon} ${
+                            isMobileOrTablet
+                                ? styles.mobileLink
+                                : styles.externalLink
+                        }`}
                         icon={getIconByPrefixName("fas", "external-link-alt")}
                         size="lg"
                     />
@@ -233,11 +234,15 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
             <span className={styles.price}>
                 {EURO_SYMBOL}{" "}
                 {reservationDetail.getServices
-                    .map((item) => Object.setPrototypeOf(item, Service.prototype).getPrice)
+                    .map(
+                        (item) =>
+                            Object.setPrototypeOf(item, Service.prototype)
+                                .getPrice
+                    )
                     .reduce(
                         (servicePrice, currentValue) =>
-                            currentValue + servicePrice)
-                }
+                            currentValue + servicePrice
+                    )}
             </span>
         </Card>
     );

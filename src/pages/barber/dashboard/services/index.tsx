@@ -9,7 +9,7 @@ import {
     Modal,
     Pagination,
     Row,
-    Select
+    Select,
 } from "antd";
 
 import Service from "../../../../models/Service";

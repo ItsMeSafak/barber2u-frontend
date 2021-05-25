@@ -47,7 +47,7 @@ const SettingsPage: React.FC = () => {
 
     /**
      * This function sets the barber data for the input fields.
-     * 
+     *
      * @param {BarberData} barber the barber data to be set.
      * @returns {Array}
      */
@@ -158,7 +158,7 @@ const SettingsPage: React.FC = () => {
      * This function maps the inputfields, to initial values.
      * It takes the field name and value and turns them
      * into a key-value property.
-     * 
+     *
      * @returns {JSX}
      */
     const mapInputData = () => {
@@ -174,7 +174,7 @@ const SettingsPage: React.FC = () => {
 
     /**
      * This function updates the barber profile.
-     * 
+     *
      * @param {Barber} barber the barber data to be updated.
      */
     const updateBarberProfile = async (barber: Barber) => {
@@ -188,13 +188,14 @@ const SettingsPage: React.FC = () => {
         <div className={styles.settings}>
             <Card className={styles.container}>
                 <Skeleton active loading={isLoading} />
-                {!isLoading &&
+                {!isLoading && (
                     <GenericForm
                         formName="personalDetails"
                         data={inputFields}
                         initialValues={mapInputData()}
-                        onFinish={updateBarberProfile} />
-                }
+                        onFinish={updateBarberProfile}
+                    />
+                )}
             </Card>
         </div>
     );

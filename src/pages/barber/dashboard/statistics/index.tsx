@@ -16,6 +16,7 @@ import CalendarPage from "../../../calendar";
 import CardStatistic from "../../../../components/card-statistic";
 
 import styles from "./styles.module.scss";
+import Service from "../../../../models/Service";
 
 const { Content } = Layout;
 
@@ -32,38 +33,52 @@ const StatisticsPage: React.FC = () => {
 
     /**
      * This function calculates the total income;
-     * 
+     *
      * @param {Reservation[]} reservations this months reservations of the barber
      */
-    const calculateIncome = useCallback((reservations: Reservation[]) => {
-        const income = calculatePriceAmount(reservations);
-        setTotalIncome(income);
-    }, [setTotalIncome]);
+    const calculateIncome = useCallback(
+        (reservations: Reservation[]) => {
+            const income = calculatePriceAmount(reservations);
+            setTotalIncome(income);
+        },
+        [setTotalIncome]
+    );
 
     /**
      * This function calculates the total increase compared to the last month;
-     * 
+     *
      * @param {Reservation[]} reservations last months reservations of the barber
      */
-    const calculateIncrease = useCallback((
-        lastReservations: Reservation[],
-        currentReservations: Reservation[]) => {
-        const lastIncome = calculatePriceAmount(lastReservations);
-        const currentIncome = calculatePriceAmount(currentReservations);
-        const increase = Math.round((currentIncome * 100.0 / lastIncome) - 100);
-        if (lastIncome !== 0) setTotalIncrease(increase);
-    }, [setTotalIncrease]);
+    const calculateIncrease = useCallback(
+        (
+            lastReservations: Reservation[],
+            currentReservations: Reservation[]
+        ) => {
+            const lastIncome = calculatePriceAmount(lastReservations);
+            const currentIncome = calculatePriceAmount(currentReservations);
+            const increase = Math.round(
+                (currentIncome * 100.0) / lastIncome - 100
+            );
+            if (lastIncome !== 0) setTotalIncrease(increase);
+        },
+        [setTotalIncrease]
+    );
 
     /**
      * This function calculates the total income;
-     * 
+     *
      * @param {Reservation[]} reservations this months reservations of the barber
      */
-    const calculateCompleted = useCallback((reservations: Reservation[]) => {
-        const currentMonthReservations = reservations.filter((reservation) =>
-            moment().month === moment(reservation.date).month);
-        setTotalCompleted(currentMonthReservations.length);
-    }, [setTotalCompleted]);
+    const calculateCompleted = useCallback(
+        (reservations: Reservation[]) => {
+            const currentMonthReservations = reservations.filter(
+                (reservation) =>
+                    moment().month === moment(reservation.getDate).month
+            );
+            setTotalCompleted(currentMonthReservations.length);
+        },
+        [setTotalCompleted]
+    );
 
     /**
      * This function fetches the reservations of the barber;
@@ -75,18 +90,18 @@ const StatisticsPage: React.FC = () => {
 
         const { data } = response;
         const reservationObjects = data.map((reservation: Reservation) =>
-            Object.setPrototypeOf(
-                reservation,
-                Reservation.prototype)
+            Object.setPrototypeOf(reservation, Reservation.prototype)
         );
 
-        const currentMonthReservations =
-            reservationObjects.filter((reservation) =>
-                moment().month() === moment(reservation.date).month());
+        const currentMonthReservations = reservationObjects.filter(
+            (reservation) =>
+                moment().month() === moment(reservation.date).month()
+        );
 
-        const lastMonthReservations =
-            reservationObjects.filter((reservation) =>
-                (moment().month() - 1) === moment(reservation.date).month());
+        const lastMonthReservations = reservationObjects.filter(
+            (reservation) =>
+                moment().month() - 1 === moment(reservation.date).month()
+        );
 
         calculateIncome(currentMonthReservations);
         calculateCompleted(currentMonthReservations);
@@ -102,16 +117,20 @@ const StatisticsPage: React.FC = () => {
 
     /**
      * This function calculates the total amount of money of the given reservations
-     * 
+     *
      * @param {Reservation[]} reservations reservations to be calculated with
      * @returns {number}
      */
     const calculatePriceAmount = (reservations: Reservation[]): number =>
-        reservations.length > 0 ?
-            reservations.map((reservation) => reservation.services
-                .map((service) => service.price).reduce((accumulator, price) =>
-                    accumulator + price))
-                .reduce((accumulator, price) => accumulator + price) : 0;
+        reservations.length > 0
+            ? reservations
+                .map((reservation) =>
+                    reservation.getServices
+                        .map((service) => Object.setPrototypeOf(service, Service.prototype).getPrice)
+                        .reduce((accumulator, price) => accumulator + price)
+                )
+                .reduce((accumulator, price) => accumulator + price)
+            : 0;
 
     return (
         <Layout className={styles.statistics}>
@@ -122,22 +141,11 @@ const StatisticsPage: React.FC = () => {
                             <CardStatistic
                                 data={[
                                     {
-                                        title: `Reservations completed (${moment().format("MMM")})`,
+                                        title: `Reservations completed (${moment().format(
+                                            "MMM"
+                                        )})`,
                                         value: totalCompleted,
-                                    }]}
-                                positiveValueThreshold={1}
-                            />
-                        </Spinner>
-                    </Col>
-                    <Col xs={24} lg={8}>
-                        <Spinner spinning={isLoading}>
-                            <CardStatistic
-                                data={[
-                                    {
-                                        title: `Total income (${moment().format("MMMM")})`,
-                                        value: totalIncome,
-                                        prefix: EURO_SYMBOL
-                                    }
+                                    },
                                 ]}
                                 positiveValueThreshold={1}
                             />
@@ -148,10 +156,28 @@ const StatisticsPage: React.FC = () => {
                             <CardStatistic
                                 data={[
                                     {
-                                        title: `Income increasement/decreasement (${moment().format("MMMM")})`,
+                                        title: `Total income (${moment().format(
+                                            "MMMM"
+                                        )})`,
+                                        value: totalIncome.toFixed(2),
+                                        prefix: EURO_SYMBOL,
+                                    },
+                                ]}
+                                positiveValueThreshold={1}
+                            />
+                        </Spinner>
+                    </Col>
+                    <Col xs={24} lg={8}>
+                        <Spinner spinning={isLoading}>
+                            <CardStatistic
+                                data={[
+                                    {
+                                        title: `Income increasement/decreasement (${moment().format(
+                                            "MMMM"
+                                        )})`,
                                         value: totalIncrease,
-                                        suffix: "%"
-                                    }
+                                        suffix: "%",
+                                    },
                                 ]}
                                 positiveValueThreshold={1}
                             />

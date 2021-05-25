@@ -49,10 +49,12 @@ const CalendarPage: React.FC = () => {
     const { user } = useContext(AuthenticationContext);
     const { isTablet, isDesktop } = useContext(ScreenContext);
 
-    const [appointments, setAppointments] =
-        useState<SchedulerReservation[]>([]);
-    const [currentDate, setCurrentDate] =
-        useState(moment().format(DATE_FORMAT));
+    const [appointments, setAppointments] = useState<SchedulerReservation[]>(
+        []
+    );
+    const [currentDate, setCurrentDate] = useState(
+        moment().format(DATE_FORMAT)
+    );
     const [isLoading, setIsLoading] = useState(false);
     const [viewName, setViewName] = useState("");
 
@@ -61,30 +63,33 @@ const CalendarPage: React.FC = () => {
      *
      * @param {Reservation[]} reservations List of reservations
      */
-    const convertReservationToSchedulerReservation = useCallback((
-        reservations: Reservation[]
-    ) => {
-        const schedulerList: SchedulerReservation[] = [];
-        if (user) {
-            reservations.forEach((reservation: Reservation) => {
-                let targetName = "";
-                if (user.hasRole(Role.Customer))
-                    targetName = reservation.barber.getFullNameWithInitial;
-                else if (user.hasRole(Role.Barber))
-                    targetName = reservation.customer.getFullNameWithInitial;
-                schedulerList.push(
-                    new SchedulerReservation(
-                        `${reservation.date}T${reservation.startTime}`,
-                        `${reservation.date}T${reservation.endTime}`,
-                        targetName,
-                        reservation.id,
-                        reservation
-                    )
-                );
-            });
-        }
-        return schedulerList;
-    }, [user]);
+    const convertReservationToSchedulerReservation = useCallback(
+        (reservations: Reservation[]) => {
+            const schedulerList: SchedulerReservation[] = [];
+            if (user) {
+                reservations.map((reservation: Reservation) => {
+                    let targetName = "";
+                    if (user.hasRole(Role.Customer))
+                        targetName =
+                            reservation.getBarber.getFullNameWithInitial;
+                    else if (user.hasRole(Role.Barber))
+                        targetName =
+                            reservation.getCustomer.getFullNameWithInitial;
+                    schedulerList.push(
+                        new SchedulerReservation(
+                            `${reservation.getDate}T${reservation.getStartTime}`,
+                            `${reservation.getDate}T${reservation.getEndTime}`,
+                            targetName,
+                            reservation.getId,
+                            reservation
+                        )
+                    );
+                });
+            }
+            return schedulerList;
+        },
+        [user]
+    );
 
     const fetchReservations = useCallback(async () => {
         setIsLoading(true);
@@ -93,9 +98,7 @@ const CalendarPage: React.FC = () => {
 
         const { data } = response;
 
-        setAppointments(
-            convertReservationToSchedulerReservation(data)
-        );
+        setAppointments(convertReservationToSchedulerReservation(data));
 
         setIsLoading(false);
     }, [convertReservationToSchedulerReservation]);
@@ -108,8 +111,6 @@ const CalendarPage: React.FC = () => {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user, isTablet, isDesktop]);
-
-
 
     /**
      * This component will render the panel for each reservation inside the DevExpress calendar
@@ -151,36 +152,6 @@ const CalendarPage: React.FC = () => {
         if (isDesktop) return "Month";
         if (isTablet) return "Week";
         return "Day";
-    };
-
-    /**
-     * Convert Reservation object to the DevExpress Calendar Object
-     *
-     * @param {Reservation[]} reservations List of reservations
-     */
-    const convertReservationToSchedulerReservation = (
-        reservations: Reservation[]
-    ) => {
-        const schedulerList: SchedulerReservation[] = [];
-        if (user) {
-            reservations.forEach((reservation: Reservation) => {
-                let targetName = "";
-                if (user.hasRole(Role.Customer))
-                    targetName = reservation.getBarber.getFullNameWithInitial;
-                else if (user.hasRole(Role.Barber))
-                    targetName = reservation.getCustomer.getFullNameWithInitial;
-                schedulerList.push(
-                    new SchedulerReservation(
-                        `${reservation.getDate}T${reservation.getStartTime}`,
-                        `${reservation.getDate}T${reservation.getEndTime}`,
-                        targetName,
-                        reservation.getId,
-                        reservation
-                    )
-                );
-            });
-        }
-        return schedulerList;
     };
 
     /**
