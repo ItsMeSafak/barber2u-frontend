@@ -47,8 +47,8 @@ const ReservationsPage: React.FC = () => {
 
             const { status, message, data } = response;
             showHttpResponseNotification(message, status, false);
-            if (!response.data) return;
-            setReservationItems(response.data);
+            if (!data) return;
+            setReservationItems(data);
             setLoading(false);
         },
         [setLoading]

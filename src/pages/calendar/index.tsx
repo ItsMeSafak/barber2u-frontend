@@ -67,7 +67,7 @@ const CalendarPage: React.FC = () => {
         (reservations: Reservation[]) => {
             const schedulerList: SchedulerReservation[] = [];
             if (user) {
-                reservations.map((reservation: Reservation) => {
+                reservations.forEach((reservation: Reservation) => {
                     let targetName = "";
                     if (user.hasRole(Role.Customer))
                         targetName =
@@ -103,14 +103,22 @@ const CalendarPage: React.FC = () => {
         setIsLoading(false);
     }, [convertReservationToSchedulerReservation]);
 
+    /**
+     * Return the Scheduler default viewstate keyword based on the user screen
+     */
+    const getDefaultCalendarView = useCallback(() => {
+        if (isDesktop) setViewName("Month");
+        else if (isTablet) setViewName("Week");
+        else setViewName("Day");
+    }, [isDesktop, isTablet, setViewName]);
+
     useEffect(() => {
         fetchReservations();
         getDefaultCalendarView();
         return () => {
             setAppointments([]);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user, isTablet, isDesktop]);
+    }, [user, isTablet, isDesktop, fetchReservations, getDefaultCalendarView]);
 
     /**
      * This component will render the panel for each reservation inside the DevExpress calendar
@@ -144,15 +152,6 @@ const CalendarPage: React.FC = () => {
             reservationDetail={props.appointmentData?.reservation}
         />
     );
-
-    /**
-     * Return the Scheduler default viewstate keyword based on the user screen
-     */
-    const getDefaultCalendarView = () => {
-        if (isDesktop) return "Month";
-        if (isTablet) return "Week";
-        return "Day";
-    };
 
     /**
      * This switch function will select the color for the Reservation panel

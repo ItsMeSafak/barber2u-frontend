@@ -4,7 +4,7 @@ import { MAX_ITEMS_PER_PAGE } from "../constants/index";
  * This function handles the pagination of the reservations.
  * The current max amount of reservation cards to be displayed are 6.
  *
- * @param pageNumber the current page number we are on.
+ * @param {number} pageNumber The current page number we are on.
  */
 export const handlePagination = (
     pageNumber: number,

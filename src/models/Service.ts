@@ -9,7 +9,6 @@ export default class Service {
     private time: number;
     private active?: boolean;
 
-    // eslint-disable-next-line require-jsdoc
     constructor(
         id: string,
         name: string,

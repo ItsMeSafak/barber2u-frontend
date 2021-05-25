@@ -13,7 +13,7 @@ import {
 } from "antd";
 
 import Service from "../../../../models/Service";
-
+import Skeleton from "../../../../components/skeleton";
 import ServiceCard from "../../../../components/card-service";
 import NewServiceForm from "../../../../components/forms/new-service";
 
@@ -23,19 +23,15 @@ import {
     getAllServices,
     updateService,
 } from "../../../../services/services-service";
-
 import { handlePagination } from "../../../../assets/functions/pagination";
 import { MAX_ITEMS_PER_PAGE } from "../../../../assets/constants";
 import { getIconByPrefixName } from "../../../../assets/functions/icon";
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
-import Skeleton from "../../../../components/skeleton";
 
 const { Content } = Layout;
 const { Option } = Select;
-
-const INITIAL_PAGE = 1;
 
 /**
  * This component renders the services page, where the barber can display the services they offer.

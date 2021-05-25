@@ -17,7 +17,6 @@ export default class SchedulerReservation implements AppointmentModel {
     id: string;
     reservation: Reservation;
 
-    // eslint-disable-next-line require-jsdoc
     constructor(
         startDate: SchedulerDateTime,
         endDate: SchedulerDateTime,

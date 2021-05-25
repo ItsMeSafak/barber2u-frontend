@@ -5,18 +5,16 @@ import moment from "moment";
 import { Col, Layout, Row } from "antd";
 
 import Status from "../../../../models/enums/Status";
-import Reservation from "../../../../models/Reservation";
-
-import { getReservations } from "../../../../services/reservation-service";
-
-import { EURO_SYMBOL } from "../../../../assets/constants";
-
+import Service from "../../../../models/Service";
 import Spinner from "../../../../components/spinner";
+import Reservation from "../../../../models/Reservation";
 import CalendarPage from "../../../calendar";
 import CardStatistic from "../../../../components/card-statistic";
 
+import { getReservations } from "../../../../services/reservation-service";
+import { EURO_SYMBOL } from "../../../../assets/constants";
+
 import styles from "./styles.module.scss";
-import Service from "../../../../models/Service";
 
 const { Content } = Layout;
 
@@ -124,12 +122,18 @@ const StatisticsPage: React.FC = () => {
     const calculatePriceAmount = (reservations: Reservation[]): number =>
         reservations.length > 0
             ? reservations
-                .map((reservation) =>
-                    reservation.getServices
-                        .map((service) => Object.setPrototypeOf(service, Service.prototype).getPrice)
-                        .reduce((accumulator, price) => accumulator + price)
-                )
-                .reduce((accumulator, price) => accumulator + price)
+                  .map((reservation) =>
+                      reservation.getServices
+                          .map(
+                              (service) =>
+                                  Object.setPrototypeOf(
+                                      service,
+                                      Service.prototype
+                                  ).getPrice
+                          )
+                          .reduce((accumulator, price) => accumulator + price)
+                  )
+                  .reduce((accumulator, price) => accumulator + price)
             : 0;
 
     return (

@@ -1,23 +1,20 @@
 import React, { ReactNode, useContext } from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import { Card, Modal } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Role from "../../models/enums/Role";
 import Status from "../../models/enums/Status";
 import Service from "../../models/Service";
 import Reservation from "../../models/Reservation";
 
-import { getIconByPrefixName } from "../../assets/functions/icon";
-import { showHttpResponseNotification } from "../../assets/functions/notification";
-import { EURO_SYMBOL, GOOGLE_MAPS_BASE_URL } from "../../assets/constants";
-
-import { updateReservationStatus } from "../../services/reservation-service";
-
 import { BarberContext } from "../../contexts/barber-context";
 import { ScreenContext } from "../../contexts/screen-context";
 import { AuthenticationContext } from "../../contexts/authentication-context";
+import { getIconByPrefixName } from "../../assets/functions/icon";
+import { updateReservationStatus } from "../../services/reservation-service";
+import { showHttpResponseNotification } from "../../assets/functions/notification";
+import { EURO_SYMBOL, GOOGLE_MAPS_BASE_URL } from "../../assets/constants";
 
 import styles from "./styles.module.scss";
 

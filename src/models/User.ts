@@ -10,7 +10,6 @@ import {
  * User class which can be used for creating user objects.
  */
 export default class User {
-    /* eslint-disable  require-jsdoc */
     private id: string;
     private firstName: string;
     private lastName: string;

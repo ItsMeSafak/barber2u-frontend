@@ -5,9 +5,9 @@ import { Card, Col, Modal } from "antd";
 
 import Service from "../../models/Service";
 
+import { EURO_SYMBOL } from "../../assets/constants";
 import { deleteService } from "../../services/services-service";
 import { BarberContext } from "../../contexts/barber-context";
-
 import { getIconByPrefixName } from "../../assets/functions/icon";
 import { showHttpResponseNotification } from "../../assets/functions/notification";
 
@@ -99,7 +99,7 @@ const ServiceCard: React.FC<ComponentProps> = (props) => {
                     <span>{serviceDetail.getTime}</span> minutes
                 </p>
                 <span className={styles.price}>
-                    {/* {EURO_SYMBOL} {serviceDetail.getPrice.toFixed(2)} */}
+                    {EURO_SYMBOL} {serviceDetail.getPrice.toFixed(2)}
                 </span>
             </Card>
         </Col>

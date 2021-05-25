@@ -1,13 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { Form, Input, Button } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Form, Input, Button } from "antd";
 
 import { resetPassword } from "../../../services/auth-service";
-
-import { showHttpResponseNotification } from "../../../assets/functions/notification";
 import { getIconByPrefixName } from "../../../assets/functions/icon";
+import { showHttpResponseNotification } from "../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 
@@ -17,12 +16,13 @@ import styles from "./styles.module.scss";
  * @returns {JSX}
  */
 const ConfirmPasswordForm: React.FC = () => {
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
     const history = useHistory();
 
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
     /**
+     * This function handles the logic whenever the form has been submitted.
      *
-     * @param {any} values form values
+     * @param {any} values The form values.
      */
     const onFormFinish = async (values: any) => {
         const query = new URLSearchParams(history.location.search);
