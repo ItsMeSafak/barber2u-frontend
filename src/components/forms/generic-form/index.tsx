@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Form, FormProps, Input, Select } from "antd";
@@ -31,9 +31,11 @@ interface ComponentProps extends FormProps {
 const GenericForm: React.FC<ComponentProps> = (props) => {
     const { formName, data, onFinish, onFinishFailed, initialValues } = props;
     const [formControl] = Form.useForm();
+    const [saveVisible, setSaveVisible] = useState(true);
 
     useEffect(() => {
         formControl.setFieldsValue(initialValues);
+        setSaveVisible(data.filter((item) => !item.editable).length === 0);
     }, [initialValues, formControl]);
 
     /**
@@ -102,7 +104,7 @@ const GenericForm: React.FC<ComponentProps> = (props) => {
             form={formControl}
         >
             {renderFormData()}
-            <Form.Item>
+            {saveVisible && <Form.Item>
                 <Button
                     type="primary"
                     htmlType="submit"
@@ -110,7 +112,7 @@ const GenericForm: React.FC<ComponentProps> = (props) => {
                 >
                     Save changes
                 </Button>
-            </Form.Item>
+            </Form.Item>}
         </Form>
     );
 };
