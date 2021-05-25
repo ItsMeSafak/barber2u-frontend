@@ -8,15 +8,15 @@ import User from "../models/User";
 
 const API_URL = "/review";
 
+/**
+ * Interface for the review responses
+ */
 interface IReviewResponse extends IHttpResponse {
     data: Review[];
 }
 
-// TODO write JsDoc
-
 /**
- *
- * @returns {Promise<IReviewResponse>}
+ * Fetch all the reviews of the user from the server
  */
 export const fetchReviews = (): Promise<IReviewResponse> =>
     new Promise<IReviewResponse>((resolve, reject) => {
@@ -31,9 +31,11 @@ export const fetchReviews = (): Promise<IReviewResponse> =>
     });
 
 /**
- * This function updates the reservation status.
+ * Create/write a new review for the target user.
  *
- * @returns {Promise<IReviewResponse>}
+ * @param {string} reservationId The id of the reservation of the review
+ * @param {string} reviewText The review message
+ * @param {number} starAmount The number value of the rating
  */
 export const createReview = (
     reservationId: string,
@@ -57,7 +59,12 @@ export const createReview = (
             );
     });
 
-// eslint-disable-next-line require-jsdoc
+/**
+ * Cast the server response attributes to their assigned models
+ *
+ * @param {IReviewResponse} response The response object received from the server
+ * @return {IReviewResponse} The updated response object with the attributes assigned to their model
+ */
 const fixReviewObject = (response: IReviewResponse) => {
     if (response.data) {
         response.data.forEach((value, index) => {

@@ -10,13 +10,13 @@ import WidgetReviews from "../../template/widget-reviews";
 import { fetchReviews } from "../../services/review-service";
 
 import { handlePagination } from "../../assets/functions/pagination";
-import { MAX_REVIEWS_PER_PAGE } from "../../assets/constants";
+import { DATE_FORMAT, MAX_REVIEWS_PER_PAGE } from "../../assets/constants";
 
 import styles from "./styles.module.scss";
 
-// TODO write JsDoc
-
 /**
+ * This page is responsible for showing the reviews of a user inside cards.
+ *
  * @returns {React.FC}
  */
 const ReviewPage: React.FC = () => {
@@ -31,7 +31,7 @@ const ReviewPage: React.FC = () => {
     }, []);
 
     /**
-     *
+     * Render the review cards based on their pagination list position
      */
     const renderReviews = () =>
         reviews.slice(minIndexValue, maxIndexValue).map((review) => (
@@ -39,7 +39,7 @@ const ReviewPage: React.FC = () => {
                 <Card
                     className={styles.card}
                     title={review.reviewer.getFullNameWithInitial}
-                    extra={review.dateOfReview.format("DD-MM-YYYY")}
+                    extra={review.dateOfReview.format(DATE_FORMAT)}
                 >
                     <Rate defaultValue={review.starAmount} disabled />
                     <p>{review.reviewText}</p>

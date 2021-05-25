@@ -21,22 +21,26 @@ import { AuthenticationContext } from "../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
 
+/**
+ * Interface for the component properties
+ */
 interface ComponentProps {
     reservationDetail: Reservation;
 }
 
+/**
+ * Interface for the review modal form values
+ */
 interface ReviewFormValues {
     reviewText: string;
     starAmount: number;
 }
 
-// TODO write JsDoc
-
 /**
  * This component renders the reservation card on the reservations page.
  * The card is currently mainly focussed on the Barber role.
  *
- * @param props
+ * @param {ComponentProps} props The properties of the component
  * @returns {JSX}
  */
 const ReservationCard: React.FC<ComponentProps> = (props) => {
@@ -49,7 +53,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     /**
      * This function passes a PUT request to the backend and updates the status fo the current reservation.
      *
-     * @param reservationStatus status that should be applied to the reservation.
+     * @param {string} reservationStatus status that should be applied to the reservation.
      */
     const updateStatus = async (reservationStatus: string) => {
         const response = await updateReservationStatus(
@@ -63,7 +67,9 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     };
 
     /**
+     * Render the card action for completing the reservation
      *
+     * @returns {JSX}
      */
     const renderCompleteCardAction = () => (
         <Tooltip title="Complete">
@@ -77,7 +83,9 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     );
 
     /**
+     * Render the card action for cancelling the reservation
      *
+     * @returns {JSX}
      */
     const renderCancelCardAction = () => (
         <Tooltip title="Cancel">
@@ -91,7 +99,9 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     );
 
     /**
+     * Render the card action for reviewing the reservation
      *
+     * @returns {JSX}
      */
     const renderReviewCardAction = () => (
         <Tooltip title="Review">
@@ -105,7 +115,9 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     );
 
     /**
+     * Render the card action for accepting the reservation
      *
+     * @returns {JSX}
      */
     const renderAcceptCardAction = () => (
         <Tooltip title="Accept">
@@ -119,7 +131,9 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     );
 
     /**
+     * Render the card action for denying the reservation
      *
+     * @returns {JSX}
      */
     const renderDenyCardAction = () => (
         <Tooltip title="Deny">
@@ -133,10 +147,14 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     );
 
     /**
-     * This function renders the actions a card can have.
+     * This function renders the actions a card can have based on the user role
+     * , reservation status and reservation user review status
      * The actions are:
-     * - Approving the reservation,
-     * - Canceling the reservation.
+     * - Canceling the reservation,
+     * - Accepting the reservation,
+     * - Denying the reservation,
+     * - Completing the reservation,
+     * - Reviewing the reservation.
      *
      * @returns {JSX}
      */
@@ -196,7 +214,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     };
 
     /**
-     * This function render a Modal asking for confirmation for cancelation of the reservation.
+     * This function render a Modal asking for confirmation for cancellation of the reservation.
      */
     const cancelReservation = () => {
         Modal.warning({
@@ -211,7 +229,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     /**
      * This function returns the required style class based on the status.
      *
-     * @returns {string}
+     * @returns {string} reservation status style class
      */
     const switchColorHeader = () => {
         switch (reservationDetail.getStatus) {
@@ -227,7 +245,10 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     };
 
     /**
+     * This function returns a modal with a form inside and has the purpose
+     * to be used when an user would like to write a review on the reservation.
      *
+     * @returns {JSX}
      */
     const ReviewForm = () => {
         const [form] = Form.useForm();
@@ -282,8 +303,9 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
     };
 
     /**
+     * This functions sends a server request to create a review
      *
-     * @param values
+     * @param {ReviewFormValues} values The values received from the review form
      */
     const onCreate = (values: ReviewFormValues) => {
         createReview(
@@ -291,7 +313,6 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
             values.reviewText,
             values.starAmount
         ).then(() => setReviewFormVisible(false));
-        console.log("Received values of form: ", values);
     };
 
     return (
