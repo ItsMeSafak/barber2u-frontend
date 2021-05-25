@@ -9,9 +9,8 @@ import LogoComponent from "../../components/logo";
 
 import { NavbarContext } from "../../contexts/navbar-context";
 import { ScreenContext } from "../../contexts/screen-context";
-import { AuthenticationContext } from "../../contexts/authentication-context";
-
 import { getIconByPrefixName } from "../../assets/functions/icon";
+import { AuthenticationContext } from "../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
 

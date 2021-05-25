@@ -1,7 +1,6 @@
 import axios from "axios";
 
 import User from "../models/User";
-
 import IHttpResponse from "./http-response";
 
 const BASE_URL = "/barbers";

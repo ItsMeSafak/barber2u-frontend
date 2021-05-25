@@ -1,8 +1,7 @@
 import axios from "axios";
 
-import IHttpResponse from "./http-response";
-
 import User from "../models/User";
+import IHttpResponse from "./http-response";
 
 const API_URL = "/auth/profile";
 

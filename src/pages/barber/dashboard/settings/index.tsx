@@ -2,16 +2,14 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import { Card, Skeleton } from "antd";
 
+import User from "../../../../models/User";
+import Barber from "../../../../models/Barber";
 import GenericForm from "../../../../components/forms/generic-form";
 
 import { getBarber } from "../../../../services/barber-service";
 import { updateUserProfile } from "../../../../services/auth-service";
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
-
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
-
-import User from "../../../../models/User";
-import Barber from "../../../../models/Barber";
 
 import styles from "./styles.module.scss";
 
@@ -28,8 +26,9 @@ export interface BarberData extends User {
  * @returns {JSX}
  */
 const SettingsPage: React.FC = () => {
-    const [isLoading, setIsLoading] = useState(true);
     const { user } = useContext(AuthenticationContext);
+
+    const [isLoading, setIsLoading] = useState(true);
     const [inputFields, setInputFields] = useState<
         Array<{
             name: string;

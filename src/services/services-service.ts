@@ -1,7 +1,6 @@
 import axios from "axios";
 
 import Service from "../models/Service";
-
 import IHttpResponse from "./http-response";
 
 const API_URL = "/services";

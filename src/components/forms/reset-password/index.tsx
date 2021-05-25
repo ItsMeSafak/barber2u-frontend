@@ -5,7 +5,6 @@ import { Form, Input, Button } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { resetPasswordMail } from "../../../services/auth-service";
-
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 
 import styles from "./styles.module.scss";

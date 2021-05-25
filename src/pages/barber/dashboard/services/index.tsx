@@ -115,7 +115,12 @@ const ServicesPage: React.FC = () => {
         <Button
             className={styles.addBtn}
             type="primary"
-            icon={<FontAwesomeIcon icon={getIconByPrefixName("fas", "plus")} />}
+            icon={
+                <FontAwesomeIcon
+                    icon={getIconByPrefixName("fas", "plus")}
+                    style={{ marginRight: "1rem" }}
+                />
+            }
             size="large"
             onClick={() => {
                 setServiceDetail(new Service("", "", "", 0, 0, true));
