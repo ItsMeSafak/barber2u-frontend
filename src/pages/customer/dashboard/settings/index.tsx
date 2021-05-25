@@ -11,7 +11,6 @@ import { showHttpResponseNotification } from "../../../../assets/functions/notif
 
 import styles from "../../../barber/dashboard/settings/styles.module.scss";
 
-
 /**
  * Customer settings page.
  *
@@ -68,7 +67,7 @@ const SettingsPage: React.FC = () => {
             value: user?.getZipCode,
             editable: true,
             rules: [{ required: true, message: "Field is empty!" }],
-        }
+        },
     ];
 
     /**

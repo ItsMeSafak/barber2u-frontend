@@ -25,7 +25,7 @@ interface ComponentProps extends FormProps {
 
 /**
  * This component render a generic form, with dynamic properties regarding input fields, editability, etc.
- * 
+ *
  * @param {Object} props Component properties.
  * @returns {JSX}
  */
@@ -41,7 +41,7 @@ const GenericForm: React.FC<ComponentProps> = (props) => {
 
     /**
      * Renders input fields, depending on given type of field.
-     * 
+     *
      * @returns {JSX}
      */
     const renderFormData = () =>
@@ -106,15 +106,17 @@ const GenericForm: React.FC<ComponentProps> = (props) => {
             form={formControl}
         >
             {renderFormData()}
-            {saveVisible && <Form.Item>
-                <Button
-                    type="primary"
-                    htmlType="submit"
-                    className={styles.saveButton}
-                >
-                    Save changes
-                </Button>
-            </Form.Item>}
+            {saveVisible && (
+                <Form.Item>
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        className={styles.saveButton}
+                    >
+                        Save changes
+                    </Button>
+                </Form.Item>
+            )}
         </Form>
     );
 };
