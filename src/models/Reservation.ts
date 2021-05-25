@@ -36,52 +36,42 @@ export default class Reservation {
         this.services = services;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getId(): string {
         return this.id;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getDate(): Moment {
         return this.date;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getStartTime(): Moment {
         return this.startTime;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getEndTime(): Moment {
         return this.endTime;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getCustomer(): User {
         return this.customer;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getBarber(): User {
         return this.barber;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getStatus(): string {
         return this.status;
     }
 
-    // eslint-disable-next-line require-jsdoc
     get getServices(): Service[] {
         return this.services;
     }
 
-    // eslint-disable-next-line require-jsdoc
     set setBarber(barber: User) {
         this.barber = barber;
     }
 
-    // eslint-disable-next-line require-jsdoc
     set setCustomer(customer: User) {
         this.customer = customer;
     }
