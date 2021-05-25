@@ -6,6 +6,7 @@ import React, {
     useCallback,
 } from "react";
 import { useHistory } from "react-router-dom";
+
 import Role from "../models/enums/Role";
 
 interface ContextProps {

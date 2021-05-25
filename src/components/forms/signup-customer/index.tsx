@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Form, Input } from "antd";
 
 import { signUp } from "../../../services/auth-service";
-
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 import { showHttpResponseNotification } from "../../../assets/functions/notification";
 

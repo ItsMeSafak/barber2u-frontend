@@ -45,11 +45,10 @@ const ReservationsPage: React.FC = () => {
             setLoading(true);
             const response = await getReservations(filterStatus);
 
-            const { status, message } = response;
+            const { status, message, data } = response;
             showHttpResponseNotification(message, status, false);
-            if (!response.data) return;
-
-            setReservationItems(response.data);
+            if (!data) return;
+            setReservationItems(data);
             setLoading(false);
         },
         [setLoading]
@@ -69,7 +68,7 @@ const ReservationsPage: React.FC = () => {
      */
     const renderReservationItems = (reservationList: Reservation[]) =>
         reservationList.slice(minIndexValue, maxIndexValue).map((item) => (
-            <Col key={item.id} xs={24} sm={12} lg={8}>
+            <Col key={item.getId} xs={24} sm={12} lg={8}>
                 <ReservationCard reservationDetail={item} />
             </Col>
         ));

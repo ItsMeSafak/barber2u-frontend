@@ -259,7 +259,7 @@ const StatisticsPage: React.FC = () => {
                                         title: "Completed",
                                         value: reservations.filter(
                                             (reservation) =>
-                                                reservation.status ===
+                                                reservation.getStatus ===
                                                 "COMPLETED"
                                         ).length,
                                         prefix: renderIconWithAdditionalIcon(

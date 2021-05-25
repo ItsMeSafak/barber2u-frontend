@@ -5,7 +5,6 @@ import { Col, Row } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { ScreenContext } from "../../../contexts/screen-context";
-
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 
 import styles from "./styles.module.scss";

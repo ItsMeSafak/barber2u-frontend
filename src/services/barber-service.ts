@@ -3,20 +3,20 @@ import axios from "axios";
 import User from "../models/User";
 import IHttpResponse from "./http-response";
 
-const API_URL = "/auth/profile";
+const BASE_URL = "/barbers";
 
 interface IUserResponse extends IHttpResponse {
     data: User;
 }
 
 /**
- * This function updates the user profile
+ * This function fetches the barber profile
  *
- * @param {User} user The updated user object
+ * @param {string} barberEmail the email of the barber to be fetched
  */
-export const updateUserProfile = (user: User): Promise<IUserResponse> =>
+export const getBarber = (barberEmail?: string): Promise<IUserResponse> =>
     new Promise<IUserResponse>((resolve, reject) => {
-        axios.put(`${API_URL}`, user).then(
+        axios.get(`${BASE_URL}/${barberEmail}`).then(
             (response) => {
                 if (response) resolve(response.data);
             },

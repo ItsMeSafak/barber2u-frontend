@@ -10,6 +10,7 @@ import Spinner from "../../../../components/spinner";
 import GenericForm from "../../../../components/forms/generic-form";
 
 import { getIconByPrefixName } from "../../../../assets/functions/icon";
+import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 import {
     disableUser,
     enableUser,
@@ -18,7 +19,6 @@ import {
 } from "../../../../services/admin-service";
 
 import styles from "./styles.module.scss";
-import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 
 const { TabPane } = Tabs;
 
@@ -76,9 +76,7 @@ const UsersPage: React.FC = () => {
     useEffect(() => {
         loadData("customers");
 
-        return () => {
-            setLoading(true);
-        };
+        return () => setLoading(true);
     }, [loadData]);
 
     /**
@@ -243,7 +241,6 @@ const UsersPage: React.FC = () => {
                     onClick={() => enableOrDisableUser(user, isActive)}
                 >
                     {buttonText}
-                    {/* {user.getId} */}
                 </Button>
             </Space>
         );
@@ -252,8 +249,8 @@ const UsersPage: React.FC = () => {
     /**
      * This function either enables or disables the desired user.
      *
-     * @param user The user object.
-     * @param isActive Whether the user is active.
+     * @param {User} user The user object.
+     * @param {boolean} isActive Whether the user is active.
      * @returns {void}
      */
     const enableOrDisableUser = async (user: User, isActive: boolean) => {

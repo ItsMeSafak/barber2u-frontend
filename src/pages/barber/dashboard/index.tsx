@@ -8,7 +8,6 @@ import UserRoutes from "../../../routes/user-routes";
 import ReviewPage from "../../reviews";
 import SettingsPage from "./settings";
 import ServicesPage from "./services";
-import PortfolioPage from "./portfolio";
 import StatisticsPage from "./statistics";
 import SidebarPartial from "../../../template/sidebar-partial";
 import ReservationsPage from "../../reservations";
@@ -34,7 +33,6 @@ const BarberDashboardPage: React.FC = () => {
     // The barber dashboard sidebar components to be loaded.
     const components: React.FC[] = [
         StatisticsPage,
-        PortfolioPage,
         ServicesPage,
         ReservationsPage,
         ReviewPage,

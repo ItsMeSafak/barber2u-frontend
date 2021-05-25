@@ -2,6 +2,7 @@ import {
     AppointmentModel,
     SchedulerDateTime,
 } from "@devexpress/dx-react-scheduler";
+
 import Reservation from "./Reservation";
 
 /**
@@ -17,7 +18,6 @@ export default class SchedulerReservation implements AppointmentModel {
     id: string;
     reservation: Reservation;
 
-    // eslint-disable-next-line require-jsdoc
     constructor(
         startDate: SchedulerDateTime,
         endDate: SchedulerDateTime,
