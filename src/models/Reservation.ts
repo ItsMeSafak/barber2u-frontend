@@ -16,7 +16,6 @@ export default class Reservation {
     status: string;
     services: Service[];
 
-    // eslint-disable-next-line require-jsdoc
     constructor(
         id: string,
         date: Moment,

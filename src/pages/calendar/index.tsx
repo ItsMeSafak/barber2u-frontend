@@ -49,10 +49,12 @@ const CalendarPage: React.FC = () => {
     const { user } = useContext(AuthenticationContext);
     const { isTablet, isDesktop } = useContext(ScreenContext);
 
-    const [appointments, setAppointments] =
-        useState<SchedulerReservation[]>([]);
-    const [currentDate, setCurrentDate] =
-        useState(moment().format(DATE_FORMAT));
+    const [appointments, setAppointments] = useState<SchedulerReservation[]>(
+        []
+    );
+    const [currentDate, setCurrentDate] = useState(
+        moment().format(DATE_FORMAT)
+    );
     const [isLoading, setIsLoading] = useState(false);
     const [viewName, setViewName] = useState("");
 
@@ -61,30 +63,32 @@ const CalendarPage: React.FC = () => {
      *
      * @param {Reservation[]} reservations List of reservations
      */
-    const convertReservationToSchedulerReservation = useCallback((
-        reservations: Reservation[]
-    ) => {
-        const schedulerList: SchedulerReservation[] = [];
-        if (user) {
-            reservations.forEach((reservation: Reservation) => {
-                let targetName = "";
-                if (user.hasRole(Role.Customer))
-                    targetName = reservation.barber.getFullNameWithInitial;
-                else if (user.hasRole(Role.Barber))
-                    targetName = reservation.customer.getFullNameWithInitial;
-                schedulerList.push(
-                    new SchedulerReservation(
-                        `${reservation.date}T${reservation.startTime}`,
-                        `${reservation.date}T${reservation.endTime}`,
-                        targetName,
-                        reservation.id,
-                        reservation
-                    )
-                );
-            });
-        }
-        return schedulerList;
-    }, [user]);
+    const convertReservationToSchedulerReservation = useCallback(
+        (reservations: Reservation[]) => {
+            const schedulerList: SchedulerReservation[] = [];
+            if (user) {
+                reservations.forEach((reservation: Reservation) => {
+                    let targetName = "";
+                    if (user.hasRole(Role.Customer))
+                        targetName = reservation.barber.getFullNameWithInitial;
+                    else if (user.hasRole(Role.Barber))
+                        targetName =
+                            reservation.customer.getFullNameWithInitial;
+                    schedulerList.push(
+                        new SchedulerReservation(
+                            `${reservation.date}T${reservation.startTime}`,
+                            `${reservation.date}T${reservation.endTime}`,
+                            targetName,
+                            reservation.id,
+                            reservation
+                        )
+                    );
+                });
+            }
+            return schedulerList;
+        },
+        [user]
+    );
 
     const fetchReservations = useCallback(async () => {
         setIsLoading(true);
@@ -93,12 +97,19 @@ const CalendarPage: React.FC = () => {
 
         const { data } = response;
 
-        setAppointments(
-            convertReservationToSchedulerReservation(data)
-        );
+        setAppointments(convertReservationToSchedulerReservation(data));
 
         setIsLoading(false);
     }, [convertReservationToSchedulerReservation]);
+
+    /**
+     * Return the Scheduler default viewstate keyword based on the user screen
+     */
+    const getDefaultCalendarView = useCallback(() => {
+        if (isDesktop) setViewName("Month");
+        else if (isTablet) setViewName("Week");
+        else setViewName("Day");
+    }, [isDesktop, isTablet, setViewName]);
 
     useEffect(() => {
         fetchReservations();
@@ -106,10 +117,7 @@ const CalendarPage: React.FC = () => {
         return () => {
             setAppointments([]);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user, isTablet, isDesktop]);
-
-
+    }, [user, isTablet, isDesktop, fetchReservations, getDefaultCalendarView]);
 
     /**
      * This component will render the panel for each reservation inside the DevExpress calendar
@@ -143,15 +151,6 @@ const CalendarPage: React.FC = () => {
             reservationDetail={props.appointmentData?.reservation}
         />
     );
-
-    /**
-     * Return the Scheduler default viewstate keyword based on the user screen
-     */
-    const getDefaultCalendarView = () => {
-        if (isDesktop) setViewName("Month");
-        else if (isTablet) setViewName("Week");
-        else setViewName("Day");
-    };
 
     /**
      * This switch function will select the color for the Reservation panel

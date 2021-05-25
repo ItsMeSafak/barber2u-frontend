@@ -1,15 +1,14 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 
-import TextArea from "antd/lib/input/TextArea";
 import { Form, Input, Switch, InputNumber } from "antd";
 
 import Service from "../../../models/Service";
 
 import { BarberContext } from "../../../contexts/barber-context";
 
-import { EURO_SYMBOL } from "../../../assets/constants";
-
 import styles from "./styles.module.scss";
+
+const { TextArea } = Input;
 
 interface FormProps {
     serviceDetail: Service | null;
@@ -23,6 +22,7 @@ interface FormProps {
 const NewServiceForm: React.FC<FormProps> = (props) => {
     const { serviceDetail } = props;
     const { isNewItem, formValues, setFormValues } = useContext(BarberContext);
+
     const [active] = useState(isNewItem || serviceDetail?.active);
 
     useEffect(() => {

@@ -5,12 +5,11 @@ import { Card, Col, Modal } from "antd";
 
 import Service from "../../models/Service";
 
+import { EURO_SYMBOL } from "../../assets/constants";
 import { deleteService } from "../../services/services-service";
 import { BarberContext } from "../../contexts/barber-context";
-
-import { EURO_SYMBOL } from "../../assets/constants";
-import { showHttpResponseNotification } from "../../assets/functions/notification";
 import { getIconByPrefixName } from "../../assets/functions/icon";
+import { showHttpResponseNotification } from "../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
 

@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Card, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 
 import User from "../../../models/User";
 
 import { updateUserProfile } from "../../../services/user-service";
-
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 import { showHttpResponseNotification } from "../../../assets/functions/notification";
 
@@ -96,7 +95,6 @@ const SettingsForm: React.FC<ComponentProps> = (props) => {
             <Form.Item key={name}>
                 <Input
                     name={name}
-                    size="large"
                     defaultValue={formValue[name]}
                     onChange={(event) =>
                         setFormValue({
@@ -139,10 +137,7 @@ const SettingsForm: React.FC<ComponentProps> = (props) => {
 
     return (
         <Form>
-            <Card type="inner" title="Personal details">
-                {inputFieldValues && renderInputFields()}
-            </Card>
-
+            {inputFieldValues && renderInputFields()}
             <Form.Item>
                 <Button
                     type="primary"

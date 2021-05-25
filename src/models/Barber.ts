@@ -4,7 +4,6 @@ import User from "./User";
  * Barber class which can be used for creating barber objects.
  */
 export default class Barber extends User {
-    /* eslint-disable  require-jsdoc */
     private companyName: string;
     private kvkNumber: string;
     private btwVatNumber: string;

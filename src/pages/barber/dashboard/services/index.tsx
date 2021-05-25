@@ -13,11 +13,11 @@ import {
 } from "antd";
 
 import Service from "../../../../models/Service";
+import Skeleton from "../../../../components/skeleton";
 import ServiceCard from "../../../../components/card-service";
 import NewServiceForm from "../../../../components/forms/new-service";
 
 import { BarberContext } from "../../../../contexts/barber-context";
-import { AuthenticationContext } from "../../../../contexts/authentication-context";
 import {
     createNewService,
     getAllServices,
@@ -30,7 +30,6 @@ import { getIconByPrefixName } from "../../../../assets/functions/icon";
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
-import Skeleton from "../../../../components/skeleton";
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -44,7 +43,6 @@ const MAX_ITEMS_PAGE = 6;
  * @returns {JSX}
  */
 const ServicesPage: React.FC = () => {
-    const { user } = useContext(AuthenticationContext);
     const {
         loading,
         serviceDetail,
@@ -61,7 +59,7 @@ const ServicesPage: React.FC = () => {
     const [minIndexValue, setMinIndexValue] = useState(0);
     const [maxIndexValue, setMaxIndexValue] = useState(MAX_ITEMS_PER_PAGE);
     const [currentFilter, setCurrentFilter] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage] = useState(1);
 
     /**
      * This function fetches the services using the getAllServices function from services-service
@@ -80,7 +78,7 @@ const ServicesPage: React.FC = () => {
             setListOfServices(response.data);
             setLoading(false);
         },
-        [user, setLoading, setListOfServices]
+        [setLoading, setListOfServices]
     );
 
     useEffect(() => {
