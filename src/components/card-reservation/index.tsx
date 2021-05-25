@@ -8,16 +8,18 @@ import Status from "../../models/enums/Status";
 import Service from "../../models/Service";
 import Reservation from "../../models/Reservation";
 
-import { BarberContext } from "../../contexts/barber-context";
-import { ScreenContext } from "../../contexts/screen-context";
-import { AuthenticationContext } from "../../contexts/authentication-context";
 import { getIconByPrefixName } from "../../assets/functions/icon";
-import { updateReservationStatus } from "../../services/reservation-service";
 import { showHttpResponseNotification } from "../../assets/functions/notification";
 import { EURO_SYMBOL, GOOGLE_MAPS_BASE_URL } from "../../assets/constants";
 
+import { createReview } from "../../services/review-service";
+import { updateReservationStatus } from "../../services/reservation-service";
+
+import { BarberContext } from "../../contexts/barber-context";
+import { ScreenContext } from "../../contexts/screen-context";
+import { AuthenticationContext } from "../../contexts/authentication-context";
+
 import styles from "./styles.module.scss";
-import {createReview} from "../../services/review-service";
 
 interface ComponentProps {
     reservationDetail: Reservation;
@@ -140,19 +142,29 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
      */
     const actions = () => {
         const actionList: Array<ReactNode> = [];
-        if (reservationDetail.status === Status.Pending) {
-            if (user?.hasRole(Role.Customer)) {
+        switch (reservationDetail.getStatus) {
+            case Status.Pending:
+                if (user?.hasRole(Role.Customer)) {
+                    actionList.push(renderCancelCardAction());
+                } else if (user?.hasRole(Role.Barber)) {
+                    actionList.push(renderAcceptCardAction());
+                    actionList.push(renderDenyCardAction());
+                }
+                break;
+            case Status.Active:
+                actionList.push(renderCompleteCardAction());
                 actionList.push(renderCancelCardAction());
-            } else if (user?.hasRole(Role.Barber)) {
-                actionList.push(renderAcceptCardAction());
-                actionList.push(renderDenyCardAction());
-            }
-        } else if (reservationDetail.status === Status.Active) {
-            actionList.push(renderCompleteCardAction());
-            actionList.push(renderCancelCardAction());
-        } else if (reservationDetail.status === Status.Completed) {
-            // TODO only render review if the user has not placed any yet
-            actionList.push(renderReviewCardAction());
+                break;
+            case Status.Completed:
+                if (
+                    (user?.hasRole(Role.Customer) &&
+                        !reservationDetail.getReviewedByCustomer) ||
+                    (user?.hasRole(Role.Barber) &&
+                        !reservationDetail.getReviewedByBarber)
+                ) {
+                    actionList.push(renderReviewCardAction());
+                }
+                break;
         }
         return actionList;
     };
@@ -214,8 +226,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
         }
     };
 
-
-    /** TODO Display barber/customer name in order to make it clear for the user
+    /**
      *
      */
     const ReviewForm = () => {
@@ -223,7 +234,9 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
         return (
             <Modal
                 visible={reviewFormVisible}
-                title="Create a review"
+                title={`Write a review to: ${
+                    reservationDetail.getTargetUser(user).getFullNameWithInitial
+                }`}
                 okText="Create"
                 cancelText="Cancel"
                 onCancel={() => setReviewFormVisible(false)}
@@ -257,11 +270,11 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                         rules={[
                             {
                                 required: true,
-                                message: "Please a rating!",
+                                message: "Please give a rating!",
                             },
                         ]}
                     >
-                        <Rate allowHalf />
+                        <Rate />
                     </Form.Item>
                 </Form>
             </Modal>
@@ -273,8 +286,11 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
      * @param values
      */
     const onCreate = (values: ReviewFormValues) => {
-        createReview(reservationDetail.id, values.reviewText, values.starAmount)
-            .then(() => setReviewFormVisible(false));
+        createReview(
+            reservationDetail.getId,
+            values.reviewText,
+            values.starAmount
+        ).then(() => setReviewFormVisible(false));
         console.log("Received values of form: ", values);
     };
 

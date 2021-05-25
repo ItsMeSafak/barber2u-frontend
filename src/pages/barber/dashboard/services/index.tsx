@@ -249,7 +249,7 @@ const ServicesPage: React.FC = () => {
                                             value,
                                             setMinIndexValue,
                                             setMaxIndexValue,
-                                            MAX_ITEMS_PAGE
+                                            MAX_ITEMS_PER_PAGE
                                         )
                                     }
                                     defaultPageSize={MAX_ITEMS_PER_PAGE}
