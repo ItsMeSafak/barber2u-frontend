@@ -1,14 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import { Card } from "antd";
 
+import User from "../../../../models/User";
 import GenericForm from "../../../../components/forms/generic-form";
 
 import { updateUserProfile } from "../../../../services/auth-service";
 import { AuthenticationContext } from "../../../../contexts/authentication-context";
 import { showHttpResponseNotification } from "../../../../assets/functions/notification";
-
-import User from "../../../../models/User";
 
 import styles from "../../../barber/dashboard/settings/styles.module.scss";
 
@@ -20,6 +19,7 @@ import styles from "../../../barber/dashboard/settings/styles.module.scss";
  */
 const SettingsPage: React.FC = () => {
     const { user } = useContext(AuthenticationContext);
+
     const inputFields = [
         {
             name: "firstName",

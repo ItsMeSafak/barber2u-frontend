@@ -15,9 +15,9 @@ import styles from "./styles.module.scss";
  * @returns {JSX}
  */
 const ResetPasswordForm: React.FC = () => {
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
     const [isSuccess, setIsSuccess] = useState(false);
 
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
     /**
      * This function is being used whenever the form succeeds.
      *
