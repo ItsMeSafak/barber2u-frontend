@@ -52,7 +52,7 @@ export const ERROR_STATUSES: Array<{
 
 // String constants.
 export const PACKAGE_NAME = "com.barber2u.app.";
-export const APP_SLOGAN_1 = "Need to get rid of that ol' Haircut?";
+export const APP_SLOGAN_1 = "Do you need a fresh new haircut?";
 export const APP_SLOGAN_2 = "Find a Barber near you Today!";
 export const APPLICATION_NAME = "Barber2U";
 export const CONTACT_DETAILS_ADDRESS = "Wibauthuis 12A";
@@ -97,8 +97,41 @@ export const MONTH_NAMES = [
 export const MAX_ITEMS_PER_PAGE = 6;
 
 // Placeholders.
-export const PLACEHOLDER_TEXT =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat unde iste, soluta est quasi expedita. Beatae soluta quo in eveniet! Quaerat accusamus eveniet quae mollitia sequi nobis fuga ut delectus.";
+export const PLACEHOLDER_TEXT_HOW_DOES_IT_WORK =
+    "At Barber2U we connect customers with hairdressers. Do you also want a nice haircut? Register and make an appointment in a few simple steps!";
+export const PLACEHOLDER_TEXT_ABOUT =
+    "BARBER2U consists of a team of 6 students with a passion for innovation. As individuals we have our own talents, ambitions and visions, but together we make the biggest impact.";
+
+// Placeholders about.
+export const PLACEHOLDER_IMAGE_CEO =
+    "../assets/images/ceo.jpg";
+export const PLACEHOLDER_IMAGE_CTO =
+    "../assets/images/cto.jpg";
+export const PLACEHOLDER_IMAGE_COO =
+    "../assets/images/coo.jpg";
+
+// Placeholders how does it work.
+export const PLACEHOLDER_TEXT_STEP1 =
+    "First go to the registration page and fill in all your details.";
+export const PLACEHOLDER_TEXT_STEP2 =
+    "Go to the listings page and find the barber that suits you!";
+export const PLACEHOLDER_TEXT_STEP3 =
+    "Make a reservation and get a fresh haircut!";
+export const PLACEHOLDER_IMAGE_STEP1 =
+    "../assets/images/step-1.png";
+export const PLACEHOLDER_IMAGE_STEP2 =
+    "../assets/images/step-2.png";
+export const PLACEHOLDER_IMAGE_STEP3 =
+    "../assets/images/step-3.png";
+
+// Placeholders review.
+export const PLACEHOLDER_REVIEW1 =
+    "I really liked the barber that I have met via BARBER2U";
+export const PLACEHOLDER_REVIEW2 =
+    "This is really a nice website!";
+export const PLACEHOLDER_REVIEW3 =
+    "Thank you BARBER2U!";
+
 export const PLACEHOLDER_IMAGE =
     "https://t3.ftcdn.net/jpg/02/68/55/60/360_F_268556012_c1WBaKFN5rjRxR2eyV33znK4qnYeKZjm.jpg";
 

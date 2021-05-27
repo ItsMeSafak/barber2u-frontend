@@ -6,8 +6,10 @@ import { Button, Col, Row } from "antd";
 import CardImage from "../../../../components/card-image";
 
 import {
-    PLACEHOLDER_IMAGE,
-    PLACEHOLDER_TEXT,
+    PLACEHOLDER_TEXT_ABOUT,
+    PLACEHOLDER_IMAGE_CEO,
+    PLACEHOLDER_IMAGE_COO,
+    PLACEHOLDER_IMAGE_CTO,
 } from "../../../../assets/constants";
 
 import styles from "./styles.module.scss";
@@ -22,19 +24,19 @@ const AboutSection: React.FC = () => {
     // Mock data.
     const aboutMockData = [
         {
-            name: "John Doe",
+            name: "Marianne Huigens",
             title: "CEO",
-            description: PLACEHOLDER_TEXT,
+            image: PLACEHOLDER_IMAGE_CEO
         },
         {
             name: "John Johnson",
             title: "COO",
-            description: PLACEHOLDER_TEXT,
+            image: PLACEHOLDER_IMAGE_COO
         },
         {
-            name: "John Smith",
+            name: "Peter Willems",
             title: "CTO",
-            description: PLACEHOLDER_TEXT,
+            image: PLACEHOLDER_IMAGE_CTO
         },
     ];
 
@@ -44,13 +46,12 @@ const AboutSection: React.FC = () => {
      * @returns {JSX}
      */
     const renderAboutCards = () =>
-        aboutMockData.map(({ name, title, description }) => (
+        aboutMockData.map(({ name, title, image }) => (
             <Col key={name} className={styles.cardCol} xs={24} md={12} xl={8}>
                 <CardImage
-                    image={PLACEHOLDER_IMAGE}
+                    image={image}
                     title={name}
                     label={title}
-                    description={description}
                     labelColor="blue"
                     hoverable
                 />
@@ -63,12 +64,7 @@ const AboutSection: React.FC = () => {
                 <h2 className={styles.sectionTitle}>About</h2>
             </Col>
             <Col xs={24} lg={12}>
-                <p>{PLACEHOLDER_TEXT}</p>
-                <Link to="/about">
-                    <Button type="primary" shape="round" size="large">
-                        Get to know us
-                    </Button>
-                </Link>
+                <p>{PLACEHOLDER_TEXT_ABOUT}</p>
             </Col>
             <Col span={24}>
                 <Row justify="center">
