@@ -5,7 +5,7 @@ import { Carousel, Col, Row } from "antd";
 import {
     PLACEHOLDER_REVIEW1,
     PLACEHOLDER_REVIEW2,
-    PLACEHOLDER_REVIEW3
+    PLACEHOLDER_REVIEW3,
 } from "../../../../assets/constants";
 
 import styles from "./styles.module.scss";
@@ -20,17 +20,17 @@ const ReviewSection: React.FC = () => {
         {
             reviewNumber: 1,
             review: PLACEHOLDER_REVIEW1,
-            writer: "Darlene"
+            writer: "Darlene",
         },
         {
             reviewNumber: 2,
             review: PLACEHOLDER_REVIEW2,
-            writer: "Ismail"
+            writer: "Ismail",
         },
         {
             reviewNumber: 3,
             review: PLACEHOLDER_REVIEW3,
-            writer: "Derk"
+            writer: "Derk",
         },
     ];
 
@@ -38,7 +38,7 @@ const ReviewSection: React.FC = () => {
      * Rendering the reviews content data inside the carousel
      */
     const renderReviews = () =>
-        reviewMockData.map(({ reviewNumber, review, writer}) => (
+        reviewMockData.map(({ reviewNumber, review, writer }) => (
             <Row key={reviewNumber} justify="center">
                 <Col className={styles.review} xs={24} lg={12}>
                     <p>

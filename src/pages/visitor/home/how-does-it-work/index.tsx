@@ -28,17 +28,17 @@ const HowDoesItWorkSection: React.FC = () => {
         {
             step: 1,
             description: PLACEHOLDER_TEXT_STEP1,
-            image: PLACEHOLDER_IMAGE_STEP1
+            image: PLACEHOLDER_IMAGE_STEP1,
         },
         {
             step: 2,
             description: PLACEHOLDER_TEXT_STEP2,
-            image: PLACEHOLDER_IMAGE_STEP2
+            image: PLACEHOLDER_IMAGE_STEP2,
         },
         {
             step: 3,
             description: PLACEHOLDER_TEXT_STEP3,
-            image: PLACEHOLDER_IMAGE_STEP3
+            image: PLACEHOLDER_IMAGE_STEP3,
         },
     ];
 

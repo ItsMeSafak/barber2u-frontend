@@ -26,17 +26,17 @@ const AboutSection: React.FC = () => {
         {
             name: "Marianne Huigens",
             title: "CEO",
-            image: PLACEHOLDER_IMAGE_CEO
+            image: PLACEHOLDER_IMAGE_CEO,
         },
         {
             name: "John Johnson",
             title: "COO",
-            image: PLACEHOLDER_IMAGE_COO
+            image: PLACEHOLDER_IMAGE_COO,
         },
         {
             name: "Peter Willems",
             title: "CTO",
-            image: PLACEHOLDER_IMAGE_CTO
+            image: PLACEHOLDER_IMAGE_CTO,
         },
     ];
 

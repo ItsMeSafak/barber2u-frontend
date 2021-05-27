@@ -103,12 +103,9 @@ export const PLACEHOLDER_TEXT_ABOUT =
     "BARBER2U consists of a team of 6 students with a passion for innovation. As individuals we have our own talents, ambitions and visions, but together we make the biggest impact.";
 
 // Placeholders about.
-export const PLACEHOLDER_IMAGE_CEO =
-    "../assets/images/ceo.jpg";
-export const PLACEHOLDER_IMAGE_CTO =
-    "../assets/images/cto.jpg";
-export const PLACEHOLDER_IMAGE_COO =
-    "../assets/images/coo.jpg";
+export const PLACEHOLDER_IMAGE_CEO = "../assets/images/ceo.jpg";
+export const PLACEHOLDER_IMAGE_CTO = "../assets/images/cto.jpg";
+export const PLACEHOLDER_IMAGE_COO = "../assets/images/coo.jpg";
 
 // Placeholders how does it work.
 export const PLACEHOLDER_TEXT_STEP1 =
@@ -117,20 +114,15 @@ export const PLACEHOLDER_TEXT_STEP2 =
     "Go to the listings page and find the barber that suits you!";
 export const PLACEHOLDER_TEXT_STEP3 =
     "Make a reservation and get a fresh haircut!";
-export const PLACEHOLDER_IMAGE_STEP1 =
-    "../assets/images/step-1.png";
-export const PLACEHOLDER_IMAGE_STEP2 =
-    "../assets/images/step-2.png";
-export const PLACEHOLDER_IMAGE_STEP3 =
-    "../assets/images/step-3.png";
+export const PLACEHOLDER_IMAGE_STEP1 = "../assets/images/step-1.png";
+export const PLACEHOLDER_IMAGE_STEP2 = "../assets/images/step-2.png";
+export const PLACEHOLDER_IMAGE_STEP3 = "../assets/images/step-3.png";
 
 // Placeholders review.
 export const PLACEHOLDER_REVIEW1 =
     "I really liked the barber that I have met via BARBER2U";
-export const PLACEHOLDER_REVIEW2 =
-    "This is really a nice website!";
-export const PLACEHOLDER_REVIEW3 =
-    "Thank you BARBER2U!";
+export const PLACEHOLDER_REVIEW2 = "This is really a nice website!";
+export const PLACEHOLDER_REVIEW3 = "Thank you BARBER2U!";
 
 export const PLACEHOLDER_IMAGE =
     "https://t3.ftcdn.net/jpg/02/68/55/60/360_F_268556012_c1WBaKFN5rjRxR2eyV33znK4qnYeKZjm.jpg";
