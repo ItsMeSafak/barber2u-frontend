@@ -308,7 +308,13 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
             reservationDetail.getId,
             values.reviewText,
             values.starAmount
-        ).then(() => setReviewFormVisible(false));
+        ).then((response) => {
+            const { status, message } = response;
+
+            setReviewFormVisible(false);
+            showHttpResponseNotification(message, status);
+            setIsUpdated(true);
+        });
     };
 
     return (
