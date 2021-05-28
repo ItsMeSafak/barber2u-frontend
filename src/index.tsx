@@ -20,15 +20,15 @@ library.add(icons);
 
 ReactDOM.render(
     <React.StrictMode>
-        <AuthenticationProvider>
-            <ScreenProvider>
-                <BrowserRouter>
-                    <CookiesProvider>
+        <CookiesProvider>
+            <AuthenticationProvider>
+                <ScreenProvider>
+                    <BrowserRouter>
                         <App />
-                    </CookiesProvider>
-                </BrowserRouter>
-            </ScreenProvider>
-        </AuthenticationProvider>
+                    </BrowserRouter>
+                </ScreenProvider>
+            </AuthenticationProvider>
+        </CookiesProvider>
     </React.StrictMode>,
     document.getElementById("root")
 );

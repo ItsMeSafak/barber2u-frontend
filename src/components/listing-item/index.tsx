@@ -26,19 +26,14 @@ import {
     fetchBarberWorkdays,
     fetchBarberAvailability,
 } from "../../services/listing-service";
-import { sendCreateReservation } from "../../services/reservation-service";
+// import { sendCreateReservation } from "../../services/reservation-service";
 
-import {
-    AFTERNOON_STRING,
-    DATE_FORMAT,
-    EVENING_STRING,
-    MORNING_STRING,
-    NIGHT_STRING,
-} from "../../assets/constants";
+import { DATE_FORMAT } from "../../assets/constants";
 
 import { showHttpResponseNotification } from "../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
+import User from "../../models/User";
 
 const { TabPane } = Tabs;
 
@@ -220,18 +215,18 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber, imageSrc: 
         const EVENING_MOMENT = day.clone().startOf("day").add(18, "hour");
         const TOMORROW_NIGHT_MOMENT = day.clone().startOf("day").add(1, "day");
 
-        // Check each moment scenario in order to return the correct string
-        if (day.isSameOrAfter(NIGHT_MOMENT) && day.isBefore(MORNING_MOMENT))
-            return NIGHT_STRING;
-        if (day.isSameOrAfter(MORNING_MOMENT) && day.isBefore(AFTERNOON_MOMENT))
-            return MORNING_STRING;
-        if (day.isSameOrAfter(AFTERNOON_MOMENT) && day.isBefore(EVENING_MOMENT))
-            return AFTERNOON_STRING;
-        if (
-            day.isSameOrAfter(EVENING_MOMENT) &&
-            day.isBefore(TOMORROW_NIGHT_MOMENT)
-        )
-            return EVENING_STRING;
+        // // Check each moment scenario in order to return the correct string
+        // if (day.isSameOrAfter(NIGHT_MOMENT) && day.isBefore(MORNING_MOMENT))
+        //     return NIGHT_STRING;
+        // if (day.isSameOrAfter(MORNING_MOMENT) && day.isBefore(AFTERNOON_MOMENT))
+        //     return MORNING_STRING;
+        // if (day.isSameOrAfter(AFTERNOON_MOMENT) && day.isBefore(EVENING_MOMENT))
+        //     return AFTERNOON_STRING;
+        // if (
+        //     day.isSameOrAfter(EVENING_MOMENT) &&
+        //     day.isBefore(TOMORROW_NIGHT_MOMENT)
+        // )
+        //     return EVENING_STRING;
         return "";
     };
 
@@ -247,7 +242,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber, imageSrc: 
      * Fetch the barber listing data from the server with the listing service.
      */
     const getListing = async () => {
-        await fetchBarberListing(barber.getUser.getEmail)
+        await fetchBarberListing(barber.getEmail)
             .then((response) => {
                 setServices(response.data.services);
             })
@@ -263,7 +258,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber, imageSrc: 
      */
     const getWorkDays = async (time: number) => {
         if (time > 0)
-            await fetchBarberWorkdays(barber.getUser.getEmail, time)
+            await fetchBarberWorkdays(barber.getEmail, time)
                 .then((response) => {
                     setWorkDays(response.data);
                     if (response.data.length > 0)
@@ -285,7 +280,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber, imageSrc: 
     const getAvailability = async (time: number) => {
         if (time > 0 && selectedDay)
             await fetchBarberAvailability(
-                barber.getUser.getEmail,
+                barber.getEmail,
                 time,
                 selectedDay.format(DATE_FORMAT)
             )
@@ -308,24 +303,24 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber, imageSrc: 
      * Create a reservation request via the reservation service to the server.
      */
     const createReservation = async () => {
-        if (selectedTime)
-            await sendCreateReservation(
-                barber.getUser.getEmail,
-                selectedServices,
-                selectedTime
-            )
-                .then((response) => {
-                    showHttpResponseNotification(
-                        response.message,
-                        response.status
-                    );
-                })
-                .catch((error) =>
-                    showHttpResponseNotification(
-                        error.message,
-                        error.status
-                    )
-                );
+        // if (selectedTime)
+        //     await sendCreateReservation(
+        //         barber.getUser.getEmail,
+        //         selectedServices,
+        //         selectedTime
+        //     )
+        //         .then((response) => {
+        //             showHttpResponseNotification(
+        //                 response.message,
+        //                 response.status
+        //             );
+        //         })
+        //         .catch((error) =>
+        //             showHttpResponseNotification(
+        //                 error.message,
+        //                 error.status
+        //             )
+        //         );
     };
 
     /**
@@ -333,7 +328,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber, imageSrc: 
      */
     const calculateTimeRequired = () =>
         selectedServices
-            .map((service) => service.time)
+            .map((service) => service.getTime)
             .reduce((x, y) => x + y, 0);
 
     /**
@@ -341,7 +336,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber, imageSrc: 
      */
     const calculateTotalPrice = () =>
         selectedServices
-            .map((service) => service.price)
+            .map((service) => service.getPrice)
             .reduce((x, y) => x + y, 0);
 
     /**
@@ -359,7 +354,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber, imageSrc: 
                 const serviceList: Service[] = [];
                 (selected as []).forEach((serviceName) => {
                     const serviceFound = services.find(
-                        (service) => service.name === serviceName
+                        (service) => service.getName === serviceName
                     );
                     if (serviceFound) {
                         serviceList.push(serviceFound);
@@ -369,10 +364,10 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber, imageSrc: 
             }}
         >
             {services.map((service) => (
-                <Select.Option value={service.name} key={service.id}>
+                <Select.Option value={service.getName} key={service.getId}>
                     <Row justify="space-between" gutter={16}>
-                        <Col>{service.name}</Col>
-                        <Col>&euro; {service.price}</Col>
+                        <Col>{service.getActive}</Col>
+                        <Col>&euro; {service.getPrice}</Col>
                     </Row>
                 </Select.Option>
             ))}
@@ -495,7 +490,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber, imageSrc: 
                 Services selected:
                 <ul>
                     {selectedServices.map((service: Service) => (
-                        <li key={service.id}>{service.name}</li>
+                        <li key={service.getId}>{service.getName}</li>
                     ))}
                 </ul>
             </Row>
@@ -516,27 +511,6 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber, imageSrc: 
             Reserve
         </Button>
     );
-
-    /**
-     * Render the portfolio, so examples of work can be shown in multiple
-     * images grouped in the service name
-     */
-    const renderPortfolio = () =>
-        tempBarber.portfolio.map((service) => (
-            <Col key={service.name}>
-                <Row className={styles.serviceName}>{service.name}</Row>
-                <Row>
-                    {service.imageUrls.map((imageUrl) => (
-                        <Col key={imageUrl} className={styles.portfolioImage}>
-                            <Image
-                                width={PORTFOLIO_IMAGE_WIDTH}
-                                src={imageUrl}
-                            />
-                        </Col>
-                    ))}
-                </Row>
-            </Col>
-        ));
 
     /**
      * Render the reviews, so everyone can share their opinion and experiences
@@ -566,13 +540,13 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber, imageSrc: 
     const randomInt = Math.floor(Math.random() * 5) + 1;
     const cities = [0, "Amsterdam", "Rotterdam", "Den Haag", "Hilversum", "Breda"];
     return (
-        <Col className={styles.container} onClick={() => history.push(`/listing/${barber.getUser.getEmail}`)}>
+        <Col className={styles.container} onClick={() => history.push("/listing/test@test.com55")}>
             <Row className={styles.containerTop}>
                 <Col className={styles.imageCol} style={{ backgroundImage: `url(http://192.168.2.8:8080/api/media/${imageSrc})` }} />
                 <Col className={styles.containerTopContent}>
                     <Row>
                         <h3 className={styles.barberName}>
-                            {barber.getUser.getFullNameWithInitial} - {cities[randomInt]}
+                            {barber.getFirstName} - {cities[randomInt]}
                         </h3>
                     </Row>
                     <Row>
@@ -583,62 +557,6 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber, imageSrc: 
                             defaultValue={randomInt}
                         /> ({(randomInt * 2) + 10})
                     </Row>
-                </Col>
-            </Row>
-            <Row
-                className={`${styles.containerBottom} ${collapsed ? "" : styles.hide
-                    }`}
-            >
-                <Col span={24}>
-                    <Tabs type="card">
-                        <TabPane
-                            tab={<div className={styles.tab}>Reservation</div>}
-                            key="1"
-                        >
-                            <Row>Service:</Row>
-                            <Row>{renderServiceSelect()}</Row>
-                            <Row>Availability:</Row>
-                            <Row justify="center">
-                                <Col className={styles.dateTimePicker}>
-                                    <Row>
-                                        {renderDayPicker()}
-                                        {renderCustomDayPicker()}
-                                    </Row>
-                                </Col>
-                            </Row>
-                            <div
-                                className={`
-                                ${styles.slider} 
-                                ${styles.dateTimePicker}
-                            `}
-                            >
-                                <Slider {...sliderSettings} ref={slickRef}>
-                                    {renderTimePicker()}
-                                    {(!selectedDay ||
-                                        !selectedTime ||
-                                        getWeekWorkdays.length === 0) && (
-                                            <p>There are no available times.</p>
-                                        )}
-                                </Slider>
-                            </div>
-                            <Row>{renderSummary()}</Row>
-                            <Row justify="end">
-                                <Col>{renderReserveButton()}</Col>
-                            </Row>
-                        </TabPane>
-                        <TabPane
-                            tab={<div className={styles.tab}>Portfolio</div>}
-                            key="2"
-                        >
-                            {renderPortfolio()}
-                        </TabPane>
-                        <TabPane
-                            tab={<div className={styles.tab}>Reviews</div>}
-                            key="3"
-                        >
-                            <Col>{renderReviews()}</Col>
-                        </TabPane>
-                    </Tabs>
                 </Col>
             </Row>
         </Col>

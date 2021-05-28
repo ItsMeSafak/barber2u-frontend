@@ -8,20 +8,12 @@ import Service from "../models/Service";
 import MomentRange from "../models/MomentRange";
 
 import { DATE_FORMAT } from "../assets/constants";
+import IHttpResponse from "./http-response";
 
-/**
- * Response interface for the Barber items
- */
-interface APIBarbersResponse {
-    data: Barber[];
-    message: string;
-    status: number;
-    success: boolean;
+interface IBarberResponse extends IHttpResponse {
+    data: Array<Barber>;
 }
 
-/**
- * Response interface for the Barber listings
- */
 interface APIBarberListingResponse {
     data: {
         barber: Barber;
@@ -32,9 +24,6 @@ interface APIBarberListingResponse {
     success: boolean;
 }
 
-/**
- * Response interface for the Barber availability
- */
 interface APIBarberAvailabilityResponse {
     data: MomentRange[];
     message: string;
@@ -56,20 +45,13 @@ interface APIBarberWorkdaysResponse {
  * This function sends a request to the servers, requesting the
  * user data of the barber.
  *
- * @return {APIBarbersResponse | Error} the response object or an error message
+ * @return {IBarberResponse} the response object or an error message
  */
-export const fetchBarbers = (): Promise<APIBarbersResponse> =>
-    new Promise<APIBarbersResponse>((resolve, reject) => {
+export const fetchBarbers = (): Promise<IBarberResponse> =>
+    new Promise<IBarberResponse>((resolve, reject) => {
         axios.get("/barbers").then(
             (response) => {
-                if (response.status === 200) {
-                    resolve(fixBarberObject(response.data));
-                } else
-                    reject(
-                        new Error(
-                            "Something went wrong with retrieving the barber data"
-                        )
-                    );
+                if (response) resolve(response.data);
             },
             (error) => {
                 reject(new Error(error.message));
@@ -186,17 +168,17 @@ export const fetchBarberWorkdays = (
  * @param response {APIBarbersResponse} response object interface
  * @return {APIBarbersResponse} casted object interface
  */
-const fixBarberObject = (response: APIBarbersResponse) => {
-    response.data.forEach((value, index) => {
-        const barber: Barber = Barber.fromJSON(value);
-        response.data[index] = barber;
-        response.data[index].setUser = Object.setPrototypeOf(
-            barber.getUser,
-            User.prototype
-        );
-    });
-    return response;
-};
+// const fixBarberObject = (response: APIBarbersResponse) => {
+//     response.data.forEach((value, index) => {
+//         const barber: Barber = Barber.fromJSON(value);
+//         response.data[index] = barber;
+//         response.data[index].setUser = Object.setPrototypeOf(
+//             barber.getUser,
+//             User.prototype
+//         );
+//     });
+//     return response;
+// };
 
 /**
  * Cast the json response object properties to their own classes.

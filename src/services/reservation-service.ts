@@ -1,56 +1,85 @@
 import axios from "axios";
 
-import Service from "../models/Service";
-import MomentRange from "../models/MomentRange";
+import User from "../models/User";
+import Reservation from "../models/Reservation";
+import IHttpResponse from "./http-response";
 
-import { DATE_FORMAT, TIME_FORMAT } from "../assets/constants";
+const API_URL = "/reservation";
 
-/**
- * Response interface for the Barber items
- */
-interface APICreateReservationResponse {
-    message: string;
-    status: number;
-    success: boolean;
+interface IReservationResponse extends IHttpResponse {
+    data: Reservation[];
 }
 
 /**
- * This function sends a request to the servers, creating a new reservation
- * based token from the user, the email from the barber, a list of services
- * and the timeslot of the reservation.
+ * This function fetches the reservations.
  *
- * @param barberEmail Email from whom you want to make a reservation with
- * @param services List of selected services
- * @param date Date range of the start and end time
- * @return {APICreateReservationResponse | Error} the response object or an error message
+ * @param {string | null} reservationStatus The status of the reservation.
+ * @returns {Promise<IReservationResponse>}
  */
-export const sendCreateReservation = (
-    barberEmail: string,
-    services: Service[],
-    date: MomentRange
-): Promise<APICreateReservationResponse> =>
-    new Promise<APICreateReservationResponse>((resolve, reject) => {
+/**
+ *
+ * @param reservationStatus
+ * @returns
+ */
+export const getReservations = (
+    reservationStatus: string | null
+): Promise<IReservationResponse> =>
+    new Promise<IReservationResponse>((resolve, reject) => {
+        axios.get(API_URL, { params: { status: reservationStatus } }).then(
+            (response) => {
+                if (response) resolve(fixUserObject(response.data));
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        );
+    });
+
+/**
+ * This function updates the reservation status.
+ *
+ * @returns {Promise<IReservationResponse>}
+ */
+export const updateReservationStatus = (
+    reservationId: string,
+    reservationStatus: string
+): Promise<IReservationResponse> =>
+    new Promise<IReservationResponse>((resolve, reject) => {
         axios
-            .post("/reservation/create", {
-                barberMail: barberEmail,
-                serviceIds: services.map((service) => service.id),
-                date: date.startTime.format(DATE_FORMAT),
-                startTime: date.startTime.format(TIME_FORMAT),
-                endTime: date.endTime.format(TIME_FORMAT),
+            .put(`${API_URL}/status`, {
+                id: reservationId,
+                status: reservationStatus,
             })
             .then(
                 (response) => {
-                    if (response.status === 200) {
-                        resolve(response.data);
-                    } else
-                        reject(
-                            new Error(
-                                "Something went wrong with creating your reservation"
-                            )
-                        );
+                    if (response) resolve(response.data);
                 },
                 (error) => {
                     reject(new Error(error.message));
                 }
             );
     });
+
+/**
+ * This function is used to cast data to the right class.
+ *
+ * @param {IReservationResponse} response Reservation response
+ * @returns {Array}
+ */
+const fixUserObject = (response: IReservationResponse) => {
+    response.data.forEach((value, index) => {
+        const reservationValue = Object.setPrototypeOf(
+            value,
+            Reservation.prototype
+        );
+        response.data[index].setCustomer = Object.setPrototypeOf(
+            reservationValue.getCustomer,
+            User.prototype
+        );
+        response.data[index].setBarber = Object.setPrototypeOf(
+            reservationValue.getBarber,
+            User.prototype
+        );
+    });
+    return response;
+};

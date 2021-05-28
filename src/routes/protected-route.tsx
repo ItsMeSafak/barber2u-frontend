@@ -3,7 +3,13 @@ import { Route, Redirect, RouteProps } from "react-router-dom";
 
 import Role from "../models/enums/Role";
 
+import { LocationProvider } from "../contexts/location-context";
 import { AuthenticationContext } from "../contexts/authentication-context";
+import {
+    ADMIN_BASE_URL,
+    BARBER_BASE_URL,
+    CUSTOMER_BASE_URL,
+} from "../assets/constants";
 
 interface ComponentProps extends RouteProps {
     allowedRoles: Array<Role>;
@@ -52,11 +58,11 @@ const ProtectedRoute: React.FC<ComponentProps> = (props) => {
         if (authenticated && user) {
             switch (user.getRoleNames[0] as Role) {
                 case Role.Customer:
-                    return <Redirect to="/customer" />;
+                    return <Redirect to={`/${CUSTOMER_BASE_URL}`} />;
                 case Role.Barber:
-                    return <Redirect to="/barber" />;
-                case Role.Moderator:
-                    return <Redirect to="/moderator" />;
+                    return <Redirect to={`/${BARBER_BASE_URL}`} />;
+                case Role.Admin:
+                    return <Redirect to={`/${ADMIN_BASE_URL}`} />;
             }
         }
         return <Redirect to="/signin" />;
@@ -73,7 +79,7 @@ const ProtectedRoute: React.FC<ComponentProps> = (props) => {
         allowedRoles.length > 0 &&
         userRoles?.some((role: string) => allowedRoles.includes(role as Role));
 
-    return renderComponent();
+    return <LocationProvider>{renderComponent()}</LocationProvider>;
 };
 
 export default ProtectedRoute;

@@ -1,0 +1,50 @@
+[
+    {
+        "id": "admin",
+        "url": "/admin",
+        "name": "Dashboard",
+        "icon": ["fas", "chart-pie"],
+        "isNavbarMenu": true,
+        "isFooterMenu": true,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
+    },
+    {
+        "id": "signout",
+        "url": "",
+        "name": "Sign out",
+        "icon": ["fas", "sign-out-alt"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDrawerMenu": false,
+        "isDropdownMenu": true
+    },
+    {
+        "id": "users",
+        "url": "/admin/users",
+        "name": "Users",
+        "icon": ["fas", "users"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": false,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
+    },
+    {
+        "id": "settings",
+        "url": "/admin/settings",
+        "name": "Settings",
+        "icon": ["fas", "cog"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": false,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
+    }
+]

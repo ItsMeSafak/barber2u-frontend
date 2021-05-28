@@ -1,5 +1,6 @@
 import axios from "axios";
 
+import User from "../models/User";
 import IHttpResponse from "./http-response";
 
 const BASE_URL = "/auth";
@@ -8,6 +9,7 @@ interface IAuthResponse extends IHttpResponse {
     data: {
         roles: Array<string>;
         token: string;
+        refreshToken: string;
         type: string;
         user: {
             id: string;
@@ -150,6 +152,24 @@ export const resetPasswordMail = (email: string): Promise<IAuthResponse> =>
     });
 
 /**
+ * This function sends a put request to the backend, to verify tge account.
+ *
+ * @param {string | null} userId userid from the url
+ * @returns {Promise<IAuthResponse>}
+ */
+export const verifyEmail = (userId: string | null): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) => {
+        axios.put(`${BASE_URL}/verify/email/${userId}`).then(
+            (response) => {
+                if (response) resolve(response.data);
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        );
+    });
+
+/**
  * This functions sends put request to the backend, to reset the user password
  *
  * @param {string} password the user password
@@ -174,4 +194,60 @@ export const resetPassword = (
                     reject(new Error(error.message));
                 }
             );
+    });
+
+/**
+ * This function re-sends an email to the user to verify their email address.
+ *
+ * @returns {Promise<IAuthResponse>}
+ */
+export const resendVerificationEmail = (): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) => {
+        axios.get(`${BASE_URL}/verify/getemail`).then(
+            (response) => {
+                if (response) resolve(response.data);
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        );
+    });
+
+/**
+ * This function retrieves a new access token with a given valid refresh token and a valid or invalid access token which actually belongs to the user.
+ * If these tokens do not belong to the user, the token will not be generated.
+ *
+ * @param {string} refreshToken The refresh token of the user.
+ * @returns {Promise<IAuthResponse>}
+ */
+export const getNewAccessToken = (
+    refreshToken: string
+): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) => {
+        axios.post(`${BASE_URL}/refreshtoken`, { refreshToken }).then(
+            (response) => {
+                if (response) resolve(response.data);
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        );
+    });
+
+/**
+* This function updates the user profile.
+
+* @param {User} user user to be updated.
+* @returns {Promise<IAuthResponse>}
+*/
+export const updateUserProfile = (user: User): Promise<IAuthResponse> =>
+    new Promise<IAuthResponse>((resolve, reject) => {
+        axios.put(`${BASE_URL}/profile`, user).then(
+            (response) => {
+                if (response) resolve(response.data);
+            },
+            (error) => {
+                reject(new Error(error.message));
+            }
+        );
     });

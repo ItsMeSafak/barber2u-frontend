@@ -9,9 +9,8 @@ import LogoComponent from "../../components/logo";
 
 import { NavbarContext } from "../../contexts/navbar-context";
 import { ScreenContext } from "../../contexts/screen-context";
-import { AuthenticationContext } from "../../contexts/authentication-context";
-
 import { getIconByPrefixName } from "../../assets/functions/icon";
+import { AuthenticationContext } from "../../contexts/authentication-context";
 
 import styles from "./styles.module.scss";
 
@@ -23,7 +22,9 @@ import styles from "./styles.module.scss";
 const HeaderPartial: React.FC = () => {
     const { menuItems } = useContext(NavbarContext);
     const { isMobileOrTablet } = useContext(ScreenContext);
-    const { user, authenticated, logout } = useContext(AuthenticationContext);
+    const { user, authenticated, defaultColor, logout } = useContext(
+        AuthenticationContext
+    );
 
     const [drawerVisible, setDrawerVisible] = useState(false);
 
@@ -89,7 +90,11 @@ const HeaderPartial: React.FC = () => {
 
         return (
             <li>
-                <Avatar style={{ backgroundColor: "orange" }} size={32} gap={0}>
+                <Avatar
+                    style={{ backgroundColor: defaultColor }}
+                    size={32}
+                    gap={0}
+                >
                     {user?.getFirstNameFirstLetter}
                 </Avatar>
                 <Dropdown overlay={dropdownMenu} placement="bottomCenter" arrow>

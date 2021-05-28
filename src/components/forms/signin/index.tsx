@@ -7,9 +7,8 @@ import { Button, Form, Input } from "antd";
 import User from "../../../models/User";
 
 import { signIn } from "../../../services/auth-service";
-import { AuthenticationContext } from "../../../contexts/authentication-context";
-
 import { getIconByPrefixName } from "../../../assets/functions/icon";
+import { AuthenticationContext } from "../../../contexts/authentication-context";
 import { showHttpResponseNotification } from "../../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
@@ -21,7 +20,7 @@ import styles from "./styles.module.scss";
  * @returns {JSX}
  */
 const SignInForm: React.FC = () => {
-    const { setUser, setAccessToken, setRefreshToken } = useContext(
+    const { setUser, setAccessToken, setRefreshToken, logout } = useContext(
         AuthenticationContext
     );
 
@@ -38,6 +37,7 @@ const SignInForm: React.FC = () => {
      * It will redirect the user to the correct page when logged in succesfully.
      */
     const handleSignIn = async () => {
+        logout();
         const { email, password } = formValue;
         const response = await signIn(email, password);
 
@@ -45,10 +45,10 @@ const SignInForm: React.FC = () => {
         showHttpResponseNotification(message, status);
         if (!response.data) return;
 
-        const { token, user } = response.data;
+        const { token, refreshToken, user } = response.data;
         setUser((user as unknown) as User);
         setAccessToken(token);
-        setRefreshToken("REFRESHTOKEN-TODO");
+        setRefreshToken(refreshToken);
     };
 
     return (

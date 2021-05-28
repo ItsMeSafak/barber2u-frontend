@@ -8,13 +8,17 @@ import React, {
 } from "react";
 
 import Role from "../models/enums/Role";
-
+import adminNavbarMenu from "../assets/navbar/admin.json";
 import barberNavbarMenu from "../assets/navbar/barber.json";
 import visitorNavbarMenu from "../assets/navbar/visitor.json";
 import customerNavbarMenu from "../assets/navbar/customer.json";
-import moderatorNavbarMenu from "../assets/navbar/moderator.json";
 
 import { AuthenticationContext } from "./authentication-context";
+import {
+    ADMIN_DEFAULT_COLOR,
+    BARBER_DEFAULT_COLOR,
+    CUSTOMER_DEFAULT_COLOR,
+} from "../assets/constants";
 
 interface ContextProps {
     menuItems: Array<{
@@ -61,7 +65,9 @@ export const NavbarContext = createContext<ContextProps>(contextDefaultValues);
  */
 export const NavbarProvider: React.FC = (props) => {
     const { children } = props;
-    const { user, authenticated } = useContext(AuthenticationContext);
+    const { user, authenticated, setDefaultColor } = useContext(
+        AuthenticationContext
+    );
 
     const [menuItems, setMenuItems] = useState(contextDefaultValues.menuItems);
 
@@ -72,8 +78,8 @@ export const NavbarProvider: React.FC = (props) => {
                     return customerNavbarMenu;
                 case Role.Barber:
                     return barberNavbarMenu;
-                case Role.Moderator:
-                    return moderatorNavbarMenu;
+                case Role.Admin:
+                    return adminNavbarMenu;
             }
         }
 
@@ -92,8 +98,8 @@ export const NavbarProvider: React.FC = (props) => {
             setMenuItems(getMenuItemsByUserRole(Role.Customer));
         if (isRoleIncluded(Role.Barber))
             setMenuItems(getMenuItemsByUserRole(Role.Barber));
-        if (isRoleIncluded(Role.Moderator))
-            setMenuItems(getMenuItemsByUserRole(Role.Moderator));
+        if (isRoleIncluded(Role.Admin))
+            setMenuItems(getMenuItemsByUserRole(Role.Admin));
     }, [
         user,
         menuItems,
@@ -102,9 +108,21 @@ export const NavbarProvider: React.FC = (props) => {
         isRoleIncluded,
     ]);
 
+    const getDefaultColorByUserRole = useCallback(() => {
+        if (authenticated && user && user.getRoles) {
+            if (isRoleIncluded(Role.Customer))
+                setDefaultColor(CUSTOMER_DEFAULT_COLOR);
+            if (isRoleIncluded(Role.Barber))
+                setDefaultColor(BARBER_DEFAULT_COLOR);
+            if (isRoleIncluded(Role.Admin))
+                setDefaultColor(ADMIN_DEFAULT_COLOR);
+        }
+    }, [authenticated, user, isRoleIncluded, setDefaultColor]);
+
     useEffect(() => {
+        getDefaultColorByUserRole();
         getMenuByUserRole();
-    }, [getMenuByUserRole]);
+    }, [getDefaultColorByUserRole, getMenuByUserRole]);
 
     const providerValues = useMemo(
         () => ({

@@ -18,6 +18,7 @@ import { fetchBarbers } from "../../services/listing-service";
 
 import styles from "./styles.module.scss";
 import { ScreenContext } from "../../contexts/screen-context";
+import User from "../../models/User";
 
 /**
  * A component for showing an overview of all the available barbers as a
@@ -46,19 +47,31 @@ const Listings: React.FC = () => {
      * Fetch the available barbers from the server with the listing service.
      */
     const getBarbers = async () => {
-        await fetchBarbers()
-            .then((response) => {
-                setBarbers(response.data);
-                setLoading(false);
-            })
-            .catch((error) =>
-                showHttpResponseNotification(error.message, error.status)
-            );
+        const response = await fetchBarbers();
+
+        const { data } = response;
+
+
+
+        console.log(data);
+
+
+
+        // await fetchBarbers()
+        //     .then(({ data }) => {
+        //         // setBarbers(response.data);
+        //         // console.log(response);
+        //         data.map(({ user, companyName, kvkNumber, btwVatNumber, workRadius }) => new Barber(Object.setPrototypeOf(user, User.prototype), companyName, kvkNumber, btwVatNumber, workRadius));
+        //         setLoading(false);
+        //     })
+        //     .catch((error) =>
+        //         showHttpResponseNotification(error.message, error.status)
+        //     );
     };
 
     /**
-     * Render the header that displays the total amount of barbers.
-     */
+          * Render teh e ader   that   displays the total amount of barbers.
+    */
     const renderTotalBarbersHeader = () => (
         <h1 className={styles.amountBarbers}>
             Found <span>{barbers.length}</span> local barbers
@@ -66,7 +79,7 @@ const Listings: React.FC = () => {
     );
 
     /**
-     * Render the select box used to sort the listing items.
+* Render the select box used to sort the listing items.
      */
     const renderSortBySelect = () => (
         <Select defaultValue="recommended">
@@ -78,14 +91,14 @@ const Listings: React.FC = () => {
     );
 
     /**
-     * Render all the barber listing items.
+* Render all the barber listing items.
      */
     const renderListingItems = () =>
         barbers &&
         barbers.map((barber: Barber) => {
             const randomInt = Math.floor(Math.random() * IMAGE_NAMES.length);
             return (<ListingItem
-                key={barber.getUser.getEmail}
+                key={barber.getUser().getEmail}
                 barber={barber}
                 imageSrc={IMAGE_NAMES[randomInt]}
                 tempBarber={barberListings[0] as TempBarber}

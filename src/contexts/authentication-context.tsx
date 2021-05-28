@@ -10,17 +10,18 @@ import { useCookies } from "react-cookie";
 import User from "../models/User";
 
 import { fetchProfile } from "../services/auth-service";
-
 import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "../assets/constants";
 
 interface ContextProps {
     user: User | null;
     loading: boolean;
+    defaultColor: string | undefined;
     accessToken: string | null;
     refreshToken: string | null;
     authenticated: boolean;
     setUser: (user: User) => void;
     setLoading: (loading: boolean) => void;
+    setDefaultColor: (color: string) => void;
     setAccessToken: (token: string) => void;
     setRefreshToken: (token: string) => void;
     setAuthenticated: (authenticated: boolean) => void;
@@ -30,11 +31,13 @@ interface ContextProps {
 const contextDefaultValues: ContextProps = {
     user: null,
     loading: true,
+    defaultColor: undefined,
     accessToken: null,
     refreshToken: null,
     authenticated: false,
     setUser: () => {},
     setLoading: () => {},
+    setDefaultColor: () => {},
     setAccessToken: () => {},
     setRefreshToken: () => {},
     setAuthenticated: () => {},
@@ -56,9 +59,15 @@ export const AuthenticationProvider: React.FC = (props) => {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     const { children } = props;
 
-    const [cookies, setCookie, removeCookie] = useCookies();
+    const [cookies, setCookie, removeCookie] = useCookies([
+        ACCESS_TOKEN_COOKIE,
+        REFRESH_TOKEN_COOKIE,
+    ]);
     const [user, setUser] = useState(contextDefaultValues.user);
     const [loading, setLoading] = useState(contextDefaultValues.loading);
+    const [defaultColor, setDefaultColor] = useState(
+        contextDefaultValues.defaultColor
+    );
     const [accessToken, setAccessToken] = useState(
         cookies[ACCESS_TOKEN_COOKIE] || contextDefaultValues.accessToken
     );
@@ -105,8 +114,8 @@ export const AuthenticationProvider: React.FC = (props) => {
     }, [saveDataInCookieAndState, refreshToken]);
 
     const deleteUserDataFromCookieAndState = useCallback(() => {
-        removeCookie(ACCESS_TOKEN_COOKIE);
-        removeCookie(REFRESH_TOKEN_COOKIE);
+        removeCookie(ACCESS_TOKEN_COOKIE, { path: "/" });
+        removeCookie(REFRESH_TOKEN_COOKIE, { path: "/" });
         setUser(null);
         setAccessToken(null);
         setRefreshToken(null);
@@ -152,11 +161,17 @@ export const AuthenticationProvider: React.FC = (props) => {
             user,
             loading,
             accessToken,
+            defaultColor,
             refreshToken,
             authenticated,
             setUser: (userObject: User) => setUserObject(userObject),
             setLoading,
-            setAccessToken,
+            setAccessToken: (token: string) => {
+                removeCookie(ACCESS_TOKEN_COOKIE, { path: "/" });
+                setAccessToken(token);
+                saveAccessTokenInCookieIfNotExist();
+            },
+            setDefaultColor,
             setRefreshToken,
             setAuthenticated,
             logout: () => deleteUserDataFromCookieAndState(),
@@ -165,11 +180,15 @@ export const AuthenticationProvider: React.FC = (props) => {
             user,
             loading,
             accessToken,
+            defaultColor,
             refreshToken,
             authenticated,
             setUserObject,
             setLoading,
             setAccessToken,
+            saveAccessTokenInCookieIfNotExist,
+            removeCookie,
+            setDefaultColor,
             setRefreshToken,
             setAuthenticated,
             deleteUserDataFromCookieAndState,

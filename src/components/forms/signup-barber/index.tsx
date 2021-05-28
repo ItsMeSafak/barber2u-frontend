@@ -6,7 +6,6 @@ import { Button, Col, Form, Input, Row, Steps } from "antd";
 
 import { signUpBarber } from "../../../services/auth-service";
 import { ScreenContext } from "../../../contexts/screen-context";
-
 import { getIconByPrefixName } from "../../../assets/functions/icon";
 import { showHttpResponseNotification } from "../../../assets/functions/notification";
 

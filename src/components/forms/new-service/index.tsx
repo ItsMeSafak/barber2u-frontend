@@ -1,15 +1,14 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 
-import TextArea from "antd/lib/input/TextArea";
 import { Form, Input, Switch, InputNumber } from "antd";
 
 import Service from "../../../models/Service";
 
-import { ServiceContext } from "../../../contexts/service-context";
-
-import { EURO_SYMBOL } from "../../../assets/constants";
+import { BarberContext } from "../../../contexts/barber-context";
 
 import styles from "./styles.module.scss";
+
+const { TextArea } = Input;
 
 interface FormProps {
     serviceDetail: Service | null;
@@ -22,18 +21,17 @@ interface FormProps {
  */
 const NewServiceForm: React.FC<FormProps> = (props) => {
     const { serviceDetail } = props;
-    const { isNewService, formValues, setFormValues } = useContext(
-        ServiceContext
-    );
-    const [active] = useState(isNewService || serviceDetail?.active);
+    const { isNewItem, formValues, setFormValues } = useContext(BarberContext);
+
+    const [active] = useState(isNewItem || serviceDetail?.getActive);
 
     useEffect(() => {
         if (serviceDetail)
             setFormValues({
-                name: serviceDetail.name,
-                description: serviceDetail.description,
-                time: serviceDetail.time,
-                price: serviceDetail.price,
+                name: serviceDetail.getName,
+                description: serviceDetail.getDescription,
+                time: serviceDetail.getTime,
+                price: serviceDetail.getPrice,
                 isActive: active,
             });
     }, [serviceDetail, setFormValues, active]);
@@ -87,7 +85,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 <Input
                     name="name"
                     className={styles.dropdown}
-                    defaultValue={serviceDetail?.name}
+                    defaultValue={serviceDetail?.getName}
                     placeholder="Style"
                     onChange={onInputChange("name")}
                 />
@@ -96,7 +94,7 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 <TextArea
                     name="description"
                     className={styles.description}
-                    defaultValue={serviceDetail?.description}
+                    defaultValue={serviceDetail?.getDescription}
                     placeholder="Description"
                     onChange={onInputChange("description")}
                     autoSize={{ maxRows: 10 }}
@@ -106,7 +104,11 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 <InputNumber
                     name="time"
                     className={styles.inputTime}
-                    defaultValue={serviceDetail?.time}
+                    defaultValue={
+                        serviceDetail?.getId !== ""
+                            ? serviceDetail?.getTime
+                            : undefined
+                    }
                     onChange={onNumberChange("time")}
                     placeholder="Minutes"
                 />
@@ -115,8 +117,12 @@ const NewServiceForm: React.FC<FormProps> = (props) => {
                 <InputNumber
                     name="price"
                     className={styles.inputPrice}
-                    defaultValue={serviceDetail?.price}
-                    formatter={(value) => `${EURO_SYMBOL} ${value}`}
+                    defaultValue={
+                        serviceDetail?.getId !== ""
+                            ? serviceDetail?.getPrice
+                            : undefined
+                    }
+                    placeholder="Price"
                     onChange={onNumberChange("price")}
                 />
             </Form.Item>
