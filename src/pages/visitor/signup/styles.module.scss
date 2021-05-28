@@ -32,12 +32,12 @@
     }
 
     .leftColumn {
-        background-image: url("../../../assets/images/picture-3.png");
+        background-image: url($IMAGE_URL + "picture-3.png");
         border-right: 0.1rem solid grey;
     }
 
     .rightColumn {
-        background-image: url("../../../assets/images/picture-5.jpg");
+        background-image: url($IMAGE_URL + "picture-5.jpg");
         border-left: 0.1rem solid grey;
     }
 }

@@ -10,7 +10,8 @@ import Role from "./models/enums/Role";
 import HomePage from "./pages/visitor/home";
 import ErrorPage from "./pages/error";
 import SigninPage from "./pages/visitor/signin";
-import ListingPage from "./pages/listings";
+import ListingPage from "./pages/listing";
+import ListingsPage from "./pages/listings";
 import VerifyEmailPage from "./pages/verify-email";
 import SignupPageBarber from "./pages/visitor/signup/signup-barber";
 import SignupLandingPage from "./pages/visitor/signup";
@@ -80,6 +81,12 @@ const App: React.FC = () => {
                             component={HomePage}
                         />
                         <ProtectedRoute
+                            exact
+                            allowedRoles={[]}
+                            path="/listing/:email"
+                            component={ListingPage}
+                        />
+                        <ProtectedRoute
                             allowedRoles={[]}
                             path="/signin"
                             component={SigninPage}
@@ -113,7 +120,7 @@ const App: React.FC = () => {
                         <ProtectedRoute
                             allowedRoles={[Role.Customer]}
                             path="/listings"
-                            component={ListingPage}
+                            component={ListingsPage}
                         />
                         <ProtectedRoute
                             allowedRoles={[Role.Barber]}

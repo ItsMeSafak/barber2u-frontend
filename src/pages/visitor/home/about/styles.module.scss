@@ -5,7 +5,7 @@
     color: $light-grey-color;
     text-align: center;
     padding: 1rem;
-    background-image: url("../../../../assets/images/picture-2.png");
+    background-image: url($IMAGE_URL + "picture-2.png");
     background-size: cover;
     position: relative;
     object-fit: cover;

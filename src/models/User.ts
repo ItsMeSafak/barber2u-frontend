@@ -61,7 +61,7 @@ export default class User {
 
     // eslint-disable-next-line require-jsdoc
     get getFullNameWithInitial(): string {
-        return `${this.getFirstNameFirstLetter}. ${this.getLastName}`;
+        return `${this.getFirstNameFirstLetter}.${this.getLastName.charAt(0).toUpperCase() + this.getLastName.slice(1)}`;
     }
 
     // eslint-disable-next-line require-jsdoc

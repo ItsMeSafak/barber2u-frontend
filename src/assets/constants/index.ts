@@ -15,40 +15,40 @@ export const ERROR_STATUSES: Array<{
     iconPrefix: string;
     iconName: string;
 }> = [
-    {
-        code: 401,
-        message: "Unauthorized",
-        description: "The page you tried to visit is authorized!",
-        color: "red",
-        iconPrefix: "fas",
-        iconName: "lock",
-    },
-    {
-        code: 404,
-        message: "Page Not Found",
-        description: "The page you tried to visit does not exist!",
-        color: "orange",
-        iconPrefix: "fas",
-        iconName: "file-alt",
-    },
-    {
-        code: 500,
-        message: "Internal Server Error",
-        description:
-            "The server encountered an unexpected condition which prevented it from fulfilling the request, try again later!",
-        color: "red",
-        iconPrefix: "fas",
-        iconName: "server",
-    },
-    {
-        code: 503,
-        message: "Service Unavailable",
-        description: "Service is currently not available, try again later!",
-        color: "red",
-        iconPrefix: "fas",
-        iconName: "server",
-    },
-];
+        {
+            code: 401,
+            message: "Unauthorized",
+            description: "The page you tried to visit is authorized!",
+            color: "red",
+            iconPrefix: "fas",
+            iconName: "lock",
+        },
+        {
+            code: 404,
+            message: "Page Not Found",
+            description: "The page you tried to visit does not exist!",
+            color: "orange",
+            iconPrefix: "fas",
+            iconName: "file-alt",
+        },
+        {
+            code: 500,
+            message: "Internal Server Error",
+            description:
+                "The server encountered an unexpected condition which prevented it from fulfilling the request, try again later!",
+            color: "red",
+            iconPrefix: "fas",
+            iconName: "server",
+        },
+        {
+            code: 503,
+            message: "Service Unavailable",
+            description: "Service is currently not available, try again later!",
+            color: "red",
+            iconPrefix: "fas",
+            iconName: "server",
+        },
+    ];
 
 // String constants.
 export const PACKAGE_NAME = "com.barber2u.app.";
@@ -64,7 +64,7 @@ export const ACCESS_TOKEN_COOKIE = `${PACKAGE_NAME}accessToken`;
 export const REFRESH_TOKEN_COOKIE = `${PACKAGE_NAME}refreshToken`;
 
 // API.
-export const BASE_URL = "http://localhost:8080/api";
+export const BASE_URL = "http://192.168.2.8:8080/api";
 export const ERROR_MESSAGE_BASE = "Something went wrong while trying to call";
 
 // Month names.

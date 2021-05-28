@@ -1,6 +1,6 @@
 @import "src/assets/styles/colors";
 
-.listings {
+.listing {
     .header {
         height: auto;
         background: none;
@@ -29,17 +29,5 @@
                 margin-left: auto;
             }
         }
-    }
-    .listingsRow {
-        width: 75%;
-        margin: auto;
-        .listingItems {
-            padding-left: 30px;
-        }
-    }
-
-    .listingsRowMobile {
-        width: 100%;
-        margin: auto;
     }
 }

@@ -6,7 +6,7 @@
     align-items: center;
 
     & > div:first-child {
-        background-image: url("../../../../assets/images/picture-4.jpeg");
+        background-image: url($IMAGE_URL + "picture-4.jpeg");
         background-size: cover;
         background-position: center;
         position: relative;
@@ -29,7 +29,7 @@
 }
 
 .mobileContent {
-    background-image: url("../../../../assets/images/picture-4.jpeg");
+    background-image: url($IMAGE_URL + "picture-4.jpeg");
     background-size: cover;
     background-position: center;
     position: relative;

@@ -1,32 +1,51 @@
 @import "src/assets/styles/colors";
 
+.container:first-child {
+    margin-top: 16px;
+}
+
+.container:not(:first-child) {
+    margin-top: 1.7rem;
+}
+
 .container {
-    border-radius: 10px;
-    margin: 16px 0;
+    border-radius: 3px;
     background-color: white;
     width: 100%;
     max-width: 100%;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px 0px;
 
-    .containerTop,
-    .containerBottom {
-        padding: 16px;
+    .imageCol {
+        width: 100%;
+        height: 250px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .imageCol::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.3);
     }
 
     .containerTop {
-        .profileImage {
-            border: solid 3px black;
-            border-radius: 100px;
-        }
-
         .containerTopContent {
             margin-left: 16px;
+            padding: 16px;
 
             .barberName {
-                font-size: 2.5rem;
+                font-size: 1.5rem;
+                margin-bottom: 0;
             }
 
             .rating {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
+                line-height: 0;
             }
         }
     }

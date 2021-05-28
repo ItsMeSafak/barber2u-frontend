@@ -4,7 +4,7 @@
     text-align: center;
     padding: 1rem;
     font-size: 1rem;
-    background-image: url("../../../../assets/images/picture-1.jpg");
+    background-image: url($IMAGE_URL + "picture-1.jpg");
     position: relative;
     object-fit: cover;
     background-size: cover;

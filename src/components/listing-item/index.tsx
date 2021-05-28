@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import {
     Button,
@@ -34,6 +35,7 @@ import {
     MORNING_STRING,
     NIGHT_STRING,
 } from "../../assets/constants";
+
 import { showHttpResponseNotification } from "../../assets/functions/notification";
 
 import styles from "./styles.module.scss";
@@ -50,9 +52,10 @@ const { TabPane } = Tabs;
  * @param tempBarber {TempBarber} The temporary user object of a barber from json data.
  * @returns {JSX}
  */
-const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
+const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber, imageSrc: string }> = ({
     barber,
     tempBarber,
+    imageSrc
 }) => {
     const sliderSettings = {
         infinite: false,
@@ -86,6 +89,8 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
         ],
     };
 
+    const history = useHistory();
+
     const slickRef = useRef<Slider>(null);
 
     /**
@@ -93,7 +98,7 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
      */
     const resetSlick = () => slickRef.current?.slickGoTo(0);
 
-    const PROFILE_IMAGE_WIDTH = 150;
+    const PROFILE_IMAGE_WIDTH = 300;
     const PORTFOLIO_IMAGE_WIDTH = 200;
 
     /**
@@ -387,10 +392,9 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 flex={1}
                 className={`
                     ${styles.dayPicker} 
-                    ${
-                        selectedDay?.isSame(day, "day")
-                            ? styles.dayPickerActive
-                            : ""
+                    ${selectedDay?.isSame(day, "day")
+                        ? styles.dayPickerActive
+                        : ""
                     }
                 `}
                 onClick={() => setSelectedDay(day)}
@@ -411,11 +415,10 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 flex={1}
                 className={`
                 ${styles.dayPicker} 
-                ${
-                    selectedDay?.isSame(customDatePickerValue, "day")
+                ${selectedDay?.isSame(customDatePickerValue, "day")
                         ? styles.dayPickerActive
                         : ""
-                }
+                    }
             `}
             >
                 <DatePicker
@@ -455,10 +458,9 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                 <Card
                     className={`
                         ${styles.cards} 
-                        ${
-                            day.startTime.isSame(selectedTime.startTime)
-                                ? styles.cardsActive
-                                : ""
+                        ${day.startTime.isSame(selectedTime.startTime)
+                            ? styles.cardsActive
+                            : ""
                         }
                     `}
                     title={getPartOfTheDayString(day.startTime)}
@@ -561,49 +563,31 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
             </div>
         ));
 
+    const randomInt = Math.floor(Math.random() * 5) + 1;
+    const cities = [0, "Amsterdam", "Rotterdam", "Den Haag", "Hilversum", "Breda"];
     return (
-        <Col className={styles.container}>
+        <Col className={styles.container} onClick={() => history.push(`/listing/${barber.getUser.getEmail}`)}>
             <Row className={styles.containerTop}>
-                <Col>
-                    <Image
-                        width={PROFILE_IMAGE_WIDTH}
-                        src={tempBarber.imageUrl}
-                        preview={false}
-                        className={styles.profileImage}
-                    />
-                </Col>
+                <Col className={styles.imageCol} style={{ backgroundImage: `url(http://192.168.2.8:8080/api/media/${imageSrc})` }} />
                 <Col className={styles.containerTopContent}>
                     <Row>
-                        <span className={styles.barberName}>
-                            {barber.getUser.getFullNameWithInitial}
-                        </span>
+                        <h3 className={styles.barberName}>
+                            {barber.getUser.getFullNameWithInitial} - {cities[randomInt]}
+                        </h3>
                     </Row>
                     <Row>
                         <Rate
                             disabled
                             allowHalf
                             className={styles.rating}
-                            defaultValue={tempBarber.rate}
-                        />
-                    </Row>
-                    <Row>
-                        <Button
-                            onClick={() => setCollapsed(!collapsed)}
-                            className={
-                                collapsed
-                                    ? "ant-btn-secundary"
-                                    : "ant-btn-primary"
-                            }
-                        >
-                            {collapsed ? "Cancel" : "Reserve"}
-                        </Button>
+                            defaultValue={randomInt}
+                        /> ({(randomInt * 2) + 10})
                     </Row>
                 </Col>
             </Row>
             <Row
-                className={`${styles.containerBottom} ${
-                    collapsed ? "" : styles.hide
-                }`}
+                className={`${styles.containerBottom} ${collapsed ? "" : styles.hide
+                    }`}
             >
                 <Col span={24}>
                     <Tabs type="card">
@@ -633,8 +617,8 @@ const ListingItem: React.FC<{ barber: Barber; tempBarber: TempBarber }> = ({
                                     {(!selectedDay ||
                                         !selectedTime ||
                                         getWeekWorkdays.length === 0) && (
-                                        <p>There are no available times.</p>
-                                    )}
+                                            <p>There are no available times.</p>
+                                        )}
                                 </Slider>
                             </div>
                             <Row>{renderSummary()}</Row>
