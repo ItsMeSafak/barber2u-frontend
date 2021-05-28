@@ -5,8 +5,13 @@ import { Col, Row } from "antd";
 import CardImage from "../../../../components/card-image";
 
 import {
-    PLACEHOLDER_IMAGE,
-    PLACEHOLDER_TEXT,
+    PLACEHOLDER_IMAGE_STEP1,
+    PLACEHOLDER_IMAGE_STEP2,
+    PLACEHOLDER_IMAGE_STEP3,
+    PLACEHOLDER_TEXT_HOW_DOES_IT_WORK,
+    PLACEHOLDER_TEXT_STEP1,
+    PLACEHOLDER_TEXT_STEP2,
+    PLACEHOLDER_TEXT_STEP3,
 } from "../../../../assets/constants";
 
 import styles from "./styles.module.scss";
@@ -22,15 +27,18 @@ const HowDoesItWorkSection: React.FC = () => {
     const instructionsMockData = [
         {
             step: 1,
-            description: PLACEHOLDER_TEXT,
+            description: PLACEHOLDER_TEXT_STEP1,
+            image: PLACEHOLDER_IMAGE_STEP1,
         },
         {
             step: 2,
-            description: PLACEHOLDER_TEXT,
+            description: PLACEHOLDER_TEXT_STEP2,
+            image: PLACEHOLDER_IMAGE_STEP2,
         },
         {
             step: 3,
-            description: PLACEHOLDER_TEXT,
+            description: PLACEHOLDER_TEXT_STEP3,
+            image: PLACEHOLDER_IMAGE_STEP3,
         },
     ];
 
@@ -40,10 +48,10 @@ const HowDoesItWorkSection: React.FC = () => {
      * @returns {JSX}
      */
     const renderCards = () =>
-        instructionsMockData.map(({ step, description }) => (
+        instructionsMockData.map(({ step, description, image }) => (
             <Col key={step} className={styles.cardCol} xs={24} md={12} xl={8}>
                 <CardImage
-                    image={PLACEHOLDER_IMAGE}
+                    image={image}
                     title={`Step ${step}`}
                     description={description}
                     hoverable
@@ -57,7 +65,7 @@ const HowDoesItWorkSection: React.FC = () => {
                 <h2 className={styles.sectionTitle}>How does it work?</h2>
             </Col>
             <Col xs={24} lg={12}>
-                <p>{PLACEHOLDER_TEXT}</p>
+                <p>{PLACEHOLDER_TEXT_HOW_DOES_IT_WORK}</p>
             </Col>
             <Col span={24}>
                 <Row justify="center">
