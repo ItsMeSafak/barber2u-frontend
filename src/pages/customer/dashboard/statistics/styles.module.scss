@@ -1,0 +1,18 @@
+@import "../../../../assets/config.scss";
+
+.card {
+    box-shadow: $shadow;
+    min-height: 11rem;
+
+    .center {
+        text-align: center;
+    }
+
+    .noReviews {
+        margin: 20px;
+    }
+}
+
+.row {
+    margin-bottom: 20px;
+}

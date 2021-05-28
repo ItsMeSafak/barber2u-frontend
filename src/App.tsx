@@ -31,8 +31,6 @@ import { AuthenticationContext } from "./contexts/authentication-context";
 
 const { Header, Footer } = Layout;
 
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-// eslint-disable-next-line require-jsdoc
 const App: React.FC = () => {
     const { accessToken, refreshToken, setAccessToken } = useContext(
         AuthenticationContext

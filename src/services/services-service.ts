@@ -12,7 +12,7 @@ interface IServiceResponse extends IHttpResponse {
 /**
  * This function fetches the services.
  *
- * @param {string} barber email of the barber.
+ * @param {string} barber Email of the barber.
  * @returns {Promise<IServiceResponse>}
  */
 export const getAllServices = (
@@ -32,9 +32,9 @@ export const getAllServices = (
 /**
  * This function creates a new service for the given barber.
  *
- * @param {string} token token we received when logged in
- * @param {Service} service service created
- * @param {string} barber barber email
+ * @param {string} token Token we received when logged in.
+ * @param {Service} service Service created.
+ * @param {string} barber Barber email.
  * @returns {Promise<IServiceResponse>}
  */
 export const createNewService = (service: Service): Promise<IServiceResponse> =>
@@ -51,8 +51,9 @@ export const createNewService = (service: Service): Promise<IServiceResponse> =>
 
 /**
  * This function deletes a service based on the id given.
- * @param {string} token token we received when logged in
- * @param {string} id service id
+ *
+ * @param {string} token Token we received when logged in.
+ * @param {string} id Service id.
  * @returns {Promise<IServiceResponse>}
  */
 export const deleteService = (id: string): Promise<IServiceResponse> =>
@@ -69,8 +70,9 @@ export const deleteService = (id: string): Promise<IServiceResponse> =>
 
 /**
  * This function updates a service.
- * @param {string} token token we received when logged in
- * @param {Service} service given service to be updated
+ *
+ * @param {string} token Token we received when logged in.
+ * @param {Service} service Given service to be updated.
  * @returns {Promise<IServiceResponse>}
  */
 export const updateService = (service: Service): Promise<IServiceResponse> =>

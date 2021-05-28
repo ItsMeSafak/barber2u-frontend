@@ -1,6 +1,5 @@
 import { ReportHandler } from "web-vitals";
 
-// eslint-disable-next-line require-jsdoc
 const reportWebVitals = (onPerfEntry?: ReportHandler): void => {
     if (onPerfEntry && onPerfEntry instanceof Function) {
         import("web-vitals").then(

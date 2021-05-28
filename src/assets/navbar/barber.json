@@ -48,6 +48,18 @@
         "isDropdownMenu": false
     },
     {
+        "id": "reviews",
+        "url": "/barber/reviews",
+        "name": "Reviews",
+        "icon": ["fas", "comments"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": false,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
+    },
+    {
         "id": "settings",
         "url": "/barber/settings",
         "name": "Settings",

@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-import { Button, Col, Row } from "antd";
+import { Col, Row } from "antd";
 
 import CardImage from "../../../../components/card-image";
 
@@ -22,7 +21,7 @@ import styles from "./styles.module.scss";
  */
 const AboutSection: React.FC = () => {
     // Mock data.
-    const aboutMockData = [
+    const aboutData = [
         {
             name: "Marianne Huigens",
             title: "CEO",
@@ -46,7 +45,7 @@ const AboutSection: React.FC = () => {
      * @returns {JSX}
      */
     const renderAboutCards = () =>
-        aboutMockData.map(({ name, title, image }) => (
+        aboutData.map(({ name, title, image }) => (
             <Col key={name} className={styles.cardCol} xs={24} md={12} xl={8}>
                 <CardImage
                     image={image}

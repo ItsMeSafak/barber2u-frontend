@@ -1,17 +1,5 @@
 [
     {
-        "id": "customer",
-        "url": "/customer",
-        "name": "Dashboard",
-        "icon": ["fas", "chart-pie"],
-        "isNavbarMenu": true,
-        "isFooterMenu": true,
-        "isMobileMenu": true,
-        "isPillButton": false,
-        "isDrawerMenu": true,
-        "isDropdownMenu": false
-    },
-    {
         "id": "listing",
         "url": "/listings",
         "name": "Listings",
@@ -21,6 +9,18 @@
         "isMobileMenu": true,
         "isPillButton": false,
         "isDrawerMenu": false,
+        "isDropdownMenu": false
+    },
+    {
+        "id": "customer",
+        "url": "/customer",
+        "name": "Dashboard",
+        "icon": ["fas", "chart-pie"],
+        "isNavbarMenu": true,
+        "isFooterMenu": true,
+        "isMobileMenu": true,
+        "isPillButton": false,
+        "isDrawerMenu": true,
         "isDropdownMenu": false
     },
     {
@@ -40,6 +40,18 @@
         "url": "/customer/reservations",
         "name": "Reservations",
         "icon": ["fas", "ticket-alt"],
+        "isNavbarMenu": false,
+        "isFooterMenu": false,
+        "isMobileMenu": false,
+        "isPillButton": false,
+        "isDrawerMenu": true,
+        "isDropdownMenu": false
+    },
+    {
+        "id": "reviews",
+        "url": "/customer/reviews",
+        "name": "Reviews",
+        "icon": ["fas", "comments"],
         "isNavbarMenu": false,
         "isFooterMenu": false,
         "isMobileMenu": false,

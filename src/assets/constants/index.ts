@@ -95,6 +95,7 @@ export const MONTH_NAMES = [
 
 // Maximum card items in dashboard
 export const MAX_ITEMS_PER_PAGE = 6;
+export const MAX_REVIEWS_PER_PAGE = 8;
 
 // Placeholders.
 export const PLACEHOLDER_TEXT_HOW_DOES_IT_WORK =

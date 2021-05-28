@@ -1,0 +1,25 @@
+@import "../../assets/config";
+
+.reviews {
+    .card {
+        box-shadow: $shadow;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 51rem;
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    }
+
+    .noData {
+        margin: 0 auto;
+    }
+}

@@ -57,6 +57,11 @@ import {
     faStreetView,
     faInfoCircle,
     faTicketAlt,
+    faComments,
+    faComment,
+    faThumbsUp,
+    faThumbsDown,
+    faStar,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -115,6 +120,11 @@ export const icons = {
     faStreetView,
     faInfoCircle,
     faTicketAlt,
+    faComments,
+    faComment,
+    faThumbsUp,
+    faThumbsDown,
+    faStar,
 };
 
 /**

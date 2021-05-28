@@ -4,6 +4,7 @@ import { Layout, PageHeader } from "antd";
 
 import Skeleton from "../../../components/skeleton";
 import UserRoutes from "../../../routes/user-routes";
+import ReviewPage from "../../reviews";
 import SettingsPage from "./settings";
 import StatisticsPage from "./statistics";
 import SidebarPartial from "../../../template/sidebar-partial";
@@ -32,6 +33,7 @@ const CustomerDashboardPage: React.FC = () => {
     const components: React.FC[] = [
         StatisticsPage,
         ReservationsPage,
+        ReviewPage,
         SettingsPage,
     ];
 
