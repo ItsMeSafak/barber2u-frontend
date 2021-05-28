@@ -12,7 +12,8 @@ interface IUserResponse extends IHttpResponse {
 /**
  * This function updates the user profile
  *
- * @param {User} user The updated user object
+ * @param {User} user The updated user object.
+ * @returns {Promise<IUserResponse>}
  */
 export const updateUserProfile = (user: User): Promise<IUserResponse> =>
     new Promise<IUserResponse>((resolve, reject) => {

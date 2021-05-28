@@ -30,7 +30,6 @@ const CustomerDashboardPage: React.FC = () => {
     const { pageName } = useContext(LocationContext);
 
     // The customer dashboard sidebar components to be loaded.
-
     const components: React.FC[] = [
         StatisticsPage,
         ReservationsPage,

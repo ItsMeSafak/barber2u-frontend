@@ -3,12 +3,11 @@ import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Card, Carousel, Col, Empty, Layout, Rate, Row } from "antd";
+import { Col, Layout, Row } from "antd";
 
 import Review from "../../../../models/Review";
 import Status from "../../../../models/enums/Status";
 import Service from "../../../../models/Service";
-
 import Spinner from "../../../../components/spinner";
 import Reservation from "../../../../models/Reservation";
 import CalendarPage from "../../../calendar";
@@ -141,18 +140,6 @@ const StatisticsPage: React.FC = () => {
             : 0;
 
     /**
-     * Rendering the reviews content data inside the carousel
-     */
-    const renderReviews = () =>
-        reviews.slice(0, 5).map((review) => (
-            <Row key={review.getId} justify="center">
-                <Col className={styles.review} xs={24} lg={12}>
-                    <p>{review.getReviewText}</p>
-                </Col>
-            </Row>
-        ));
-
-    /**
      * This function calculates the total amount of money of the given reservations
      *
      * @param {Reservation[]} reservations reservations to be calculated with
@@ -183,7 +170,7 @@ const StatisticsPage: React.FC = () => {
      */
     const renderBarberStatistics = () => (
         <Row className={styles.row} gutter={[20, 20]}>
-            <Col xs={24} lg={8}>
+            <Col xs={24} lg={12} xl={6}>
                 <Spinner spinning={isLoading}>
                     <CardStatistic
                         data={[
@@ -198,7 +185,7 @@ const StatisticsPage: React.FC = () => {
                     />
                 </Spinner>
             </Col>
-            <Col xs={24} lg={8}>
+            <Col xs={24} lg={12} xl={6}>
                 <Spinner spinning={isLoading}>
                     <CardStatistic
                         data={[
@@ -214,12 +201,12 @@ const StatisticsPage: React.FC = () => {
                     />
                 </Spinner>
             </Col>
-            <Col xs={24} lg={8}>
+            <Col xs={24} lg={12} xl={6}>
                 <Spinner spinning={isLoading}>
                     <CardStatistic
                         data={[
                             {
-                                title: `Income increasement/decreasement (${moment().format(
+                                title: `Income increase (${moment().format(
                                     "MMMM"
                                 )})`,
                                 value: totalIncrease,
@@ -230,17 +217,7 @@ const StatisticsPage: React.FC = () => {
                     />
                 </Spinner>
             </Col>
-        </Row>
-    );
-
-    /**
-     * This function renders the review statistics.
-     *
-     * @returns {JSX}
-     */
-    const renderReviewStatistics = () => (
-        <Row className={styles.row} gutter={[16, 16]}>
-            <Col xs={24} lg={12}>
+            <Col xs={24} lg={12} xl={6}>
                 <Spinner spinning={isLoading}>
                     <CardStatistic
                         data={[
@@ -262,36 +239,18 @@ const StatisticsPage: React.FC = () => {
                                 title: "Average rating",
                                 value: calculateAverageRating().toFixed(1),
                                 prefix: (
-                                    <Rate
-                                        value={calculateAverageRating()}
-                                        allowHalf
-                                        disabled
+                                    <FontAwesomeIcon
+                                        className={styles.icon}
+                                        icon={getIconByPrefixName(
+                                            "fas",
+                                            "star"
+                                        )}
+                                        size="1x"
                                     />
                                 ),
                             },
                         ]}
                     />
-                </Spinner>
-            </Col>
-            <Col xs={24} lg={12}>
-                <Spinner spinning={isLoading}>
-                    <Card className={styles.card}>
-                        <Carousel
-                            autoplay
-                            draggable
-                            className={styles.carousel}
-                            dots={false}
-                        >
-                            {reviews.length > 0 ? (
-                                renderReviews()
-                            ) : (
-                                <Empty
-                                    className={styles.noReviews}
-                                    image={Empty.PRESENTED_IMAGE_SIMPLE}
-                                />
-                            )}
-                        </Carousel>
-                    </Card>
                 </Spinner>
             </Col>
         </Row>
@@ -301,7 +260,6 @@ const StatisticsPage: React.FC = () => {
         <Layout className={styles.statistics}>
             <Content>
                 {renderBarberStatistics()}
-                {renderReviewStatistics()}
                 <CalendarPage />
             </Content>
         </Layout>

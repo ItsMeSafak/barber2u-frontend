@@ -4,11 +4,9 @@ import { Content } from "antd/es/layout/layout";
 import { Card, Col, Divider, Empty, Layout, Pagination, Rate, Row } from "antd";
 
 import Review from "../../models/Review";
-
-import { fetchReviews } from "../../services/review-service";
-
 import Skeleton from "../../components/skeleton";
 
+import { fetchReviews } from "../../services/review-service";
 import { handlePagination } from "../../assets/functions/pagination";
 import { showHttpResponseNotification } from "../../assets/functions/notification";
 import { DATE_FORMAT, MAX_REVIEWS_PER_PAGE } from "../../assets/constants";

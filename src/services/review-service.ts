@@ -1,10 +1,9 @@
 import axios from "axios";
-
 import moment from "moment";
-import IHttpResponse from "./http-response";
 
-import Review from "../models/Review";
 import User from "../models/User";
+import Review from "../models/Review";
+import IHttpResponse from "./http-response";
 
 const API_URL = "/review";
 
@@ -17,6 +16,8 @@ interface IReviewResponse extends IHttpResponse {
 
 /**
  * Fetch all the reviews of the user from the server
+ *
+ * @returns {Promise<IReviewResponse>}
  */
 export const fetchReviews = (): Promise<IReviewResponse> =>
     new Promise<IReviewResponse>((resolve, reject) => {
@@ -36,6 +37,7 @@ export const fetchReviews = (): Promise<IReviewResponse> =>
  * @param {string} reservationId The id of the reservation of the review
  * @param {string} reviewText The review message
  * @param {number} starAmount The number value of the rating
+ * @returns {Promise<IReviewResponse>}
  */
 export const createReview = (
     reservationId: string,

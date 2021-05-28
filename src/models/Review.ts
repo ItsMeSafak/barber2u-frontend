@@ -12,7 +12,6 @@ export default class Review {
     private reviewText: string;
     private dateOfReview: Moment;
 
-    // eslint-disable-next-line require-jsdoc
     constructor(
         id: string,
         reviewer: User,

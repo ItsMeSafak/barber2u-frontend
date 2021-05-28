@@ -262,14 +262,10 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                 cancelText="Cancel"
                 onCancel={() => setReviewFormVisible(false)}
                 onOk={() => {
-                    form.validateFields()
-                        .then((values: ReviewFormValues) => {
-                            form.resetFields();
-                            onCreate(values);
-                        })
-                        .catch((info) => {
-                            console.log("Validate Failed:", info);
-                        });
+                    form.validateFields().then((values: ReviewFormValues) => {
+                        form.resetFields();
+                        onCreate(values);
+                    });
                 }}
             >
                 <Form form={form} layout="vertical" name="review_form_modal">

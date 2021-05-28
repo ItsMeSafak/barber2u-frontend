@@ -16,24 +16,3 @@
 .row {
     margin-bottom: 20px;
 }
-
-.carousel {
-    .review {
-        max-width: 100% !important;
-
-        p {
-            user-select: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            margin: 0;
-            width: 100%;
-        }
-
-        span {
-            margin-top: 12px;
-        }
-    }
-}

@@ -61,6 +61,7 @@ import {
     faComment,
     faThumbsUp,
     faThumbsDown,
+    faStar,
 } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -123,6 +124,7 @@ export const icons = {
     faComment,
     faThumbsUp,
     faThumbsDown,
+    faStar,
 };
 
 /**
