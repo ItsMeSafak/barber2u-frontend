@@ -70,12 +70,15 @@ export const GOOGLE_MAPS_BASE_URL = "https://www.google.com/maps/search/";
 // Authenticated user role constants.
 export const ADMIN_BASE_URL = "admin";
 export const ADMIN_DEFAULT_COLOR = "blue";
+export const ADMIN_DEFAULT_HEADER_COLOR = "#5f59e3";
 
 export const BARBER_BASE_URL = "barber";
 export const BARBER_DEFAULT_COLOR = "red";
+export const BARBER_DEFAULT_HEADER_COLOR = "#e36259";
 
 export const CUSTOMER_BASE_URL = "customer";
-export const CUSTOMER_DEFAULT_COLOR = "green";
+export const CUSTOMER_DEFAULT_COLOR = "orange";
+export const CUSTOMER_DEFAULT_HEADER_COLOR = "#806217";
 
 // Month names.
 export const MONTH_NAMES = [

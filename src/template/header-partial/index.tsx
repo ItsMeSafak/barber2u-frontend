@@ -99,7 +99,10 @@ const HeaderPartial: React.FC = () => {
                 </Avatar>
                 <Dropdown overlay={dropdownMenu} placement="bottomCenter" arrow>
                     <Button type="link" className={styles.userDropdownButton}>
-                        <span>{user?.getFullNameWithInitial}</span>
+                        <span>
+                            {user?.getFullNameWithInitial} (
+                            {user?.getCleanedRoleNames[0]})
+                        </span>
                         <FontAwesomeIcon
                             icon={getIconByPrefixName("fas", "caret-down")}
                         />

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 
 import axios from "axios";
@@ -32,15 +32,23 @@ import { AuthenticationContext } from "./contexts/authentication-context";
 const { Header, Footer } = Layout;
 
 const App: React.FC = () => {
-    const { accessToken, refreshToken, setAccessToken } = useContext(
-        AuthenticationContext
-    );
+    const {
+        accessToken,
+        refreshToken,
+        defaultHeaderColor,
+        setDefaultHeaderColor,
+        setAccessToken,
+    } = useContext(AuthenticationContext);
 
     const history = useHistory();
 
     useEffect(() => {
         axios.defaults.headers.Authorization = `Bearer ${accessToken}`;
     }, [accessToken]);
+
+    useEffect(() => {
+        setDefaultHeaderColor(defaultHeaderColor || "#252525");
+    }, [defaultHeaderColor]);
 
     /**
      * This function generates new access tokens.
@@ -86,7 +94,10 @@ const App: React.FC = () => {
     return (
         <NavbarProvider>
             <Layout className="layoutContainer">
-                <Header className="header">
+                <Header
+                    className="header"
+                    style={{ backgroundColor: defaultHeaderColor }}
+                >
                     <HeaderPartial />
                 </Header>
                 <Layout>
