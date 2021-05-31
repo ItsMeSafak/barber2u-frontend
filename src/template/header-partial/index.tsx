@@ -99,10 +99,7 @@ const HeaderPartial: React.FC = () => {
                 </Avatar>
                 <Dropdown overlay={dropdownMenu} placement="bottomCenter" arrow>
                     <Button type="link" className={styles.userDropdownButton}>
-                        <span>
-                            {user?.getFullNameWithInitial} (
-                            {user?.getCleanedRoleNames[0]})
-                        </span>
+                        <span>{user?.getFullNameWithInitial}</span>
                         <FontAwesomeIcon
                             icon={getIconByPrefixName("fas", "caret-down")}
                         />
@@ -157,6 +154,9 @@ const HeaderPartial: React.FC = () => {
             <Link to="/">
                 <h1 className={styles.logo}>
                     <LogoComponent iconPrefix="fas" iconName="cut" />
+                    <span className={styles.dashboardText}>
+                        {} / {user?.getCleanedRoleNames[0]}
+                    </span>
                 </h1>
             </Link>
             {isMobileOrTablet ? renderHamburgerMenu() : renderNavbarMenu()}
