@@ -12,7 +12,7 @@ describe("Init service card component", () => {
         instance = create(
             <ServiceCard serviceDetail={serviceObject} />
         ).root;
-    })
+    });
 
     it("Should contain correct star color", () => {
         expect(serviceObject.getActive).toBeFalsy();
@@ -23,5 +23,5 @@ describe("Init service card component", () => {
     it("Should contain correct properties", () => {
         expect(instance.findByProps({ className: "header" }).children[0]).toContain(serviceObject.getName);
         expect(instance.findByProps({ className: "price" }).children).toEqual([EURO_SYMBOL, " ", serviceObject.getPrice.toFixed(2)]);
-    })
+    });
 })
