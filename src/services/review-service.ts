@@ -3,6 +3,9 @@ import moment from "moment";
 
 import User from "../models/User";
 import Review from "../models/Review";
+import Reservation from "../models/Reservation";
+import ReviewDetails from "../models/ReviewDetails";
+
 import IHttpResponse from "./http-response";
 
 const API_URL = "/review";
@@ -11,7 +14,7 @@ const API_URL = "/review";
  * Interface for the review responses
  */
 interface IReviewResponse extends IHttpResponse {
-    data: Review[];
+    data: ReviewDetails;
 }
 
 /**
@@ -69,20 +72,43 @@ export const createReview = (
  */
 const fixReviewObject = (response: IReviewResponse) => {
     if (response.data) {
-        response.data.map((item, index) => {
-            const reviewPrototype = Object.setPrototypeOf(
-                item,
-                Review.prototype
-            );
-            response.data[index].setDateOfReview = moment(
-                reviewPrototype.getDateOfReview
-            );
-            response.data[index].setReviewer = Object.setPrototypeOf(
-                reviewPrototype.getReviewer,
-                User.prototype
-            );
-            return response.data[index];
-        });
+        response.data = Object.setPrototypeOf(
+            response.data,
+            ReviewDetails.prototype
+        );
+
+        /**
+         * Cast the review item properties to their assigned models
+         *
+         * @param {Review[]} reviews The reviews of which the item properties should get casted.
+         */
+        const fixReviewItemObject = (reviews: Review[]) =>
+            reviews.map((oldItem) => {
+                const newItem = oldItem;
+                const reviewPrototype = Object.setPrototypeOf(
+                    newItem,
+                    Review.prototype
+                );
+                newItem.setDateOfReview = moment(
+                    reviewPrototype.getDateOfReview
+                );
+                newItem.setTargetUser = Object.setPrototypeOf(
+                    reviewPrototype.getTargetUser,
+                    User.prototype
+                );
+                newItem.setReviewer = Object.setPrototypeOf(
+                    reviewPrototype.getReviewer,
+                    User.prototype
+                );
+                newItem.setReservation = Object.setPrototypeOf(
+                    reviewPrototype.getReservation,
+                    Reservation.prototype
+                );
+                return newItem;
+            });
+
+        fixReviewItemObject(response.data.getReceivedReviews);
+        fixReviewItemObject(response.data.getWrittenReviews);
     }
     return response;
 };
