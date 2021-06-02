@@ -37,7 +37,7 @@ const SettingsPage: React.FC = () => {
             type: "select",
             name: "roles",
             icon: "envelope",
-            value: user?.getRoleNames.map((role) => role.replace("ROLE_", "")),
+            value: user?.getCleanedRoleNames,
         },
     ];
 
