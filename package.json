@@ -40,8 +40,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "npm build",
-    "test": "npm test",
+    "build": "npm run build",
+    "test": "npm run test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
     "format": "prettier --write src/**/*.{ts,tsx,scss,css,json}",
