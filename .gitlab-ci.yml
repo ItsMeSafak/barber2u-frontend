@@ -4,7 +4,7 @@ cache:
   paths:
     - node_modules/
 before_script:
-  - npm install
+  - npm clean install
 
 stages:
   - build
