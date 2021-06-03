@@ -175,7 +175,7 @@ const StatisticsPage: React.FC = () => {
                         data={[
                             {
                                 title: `Reservations completed (${moment().format(
-                                    "MMM"
+                                    "MMMM"
                                 )})`,
                                 value: totalCompleted,
                             },
