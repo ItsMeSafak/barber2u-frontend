@@ -1,0 +1,45 @@
+image: node:latest
+
+cache:
+  paths:
+    - node_modules/
+
+before_script:
+  - npm run lint
+  - npm run format
+
+stages:
+  - build
+  - test
+  - deploy
+
+buildApp:
+  stage: build
+  tags:
+    - hva
+  only:
+    changes:
+      - "src/"
+  script:
+    - npm run build
+
+testApp:
+  stage: test
+  tags:
+    - hva
+  only:
+    changes:
+      - "src/"
+  script:
+    - npm test
+
+deployApp:
+  stage: deploy
+  tags:
+    - hva
+  only:
+    changes:
+      - "src/"
+  script:
+    - git push heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/barber2u-fe-staging.git master
+    - echo "the app is deployed"
