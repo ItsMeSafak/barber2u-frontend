@@ -1,5 +1,5 @@
 import { Input } from "antd";
-import { act, create, ReactTestInstance } from "react-test-renderer";
+import { create, ReactTestInstance } from "react-test-renderer";
 import GenericForm from "../components/forms/generic-form";
 
 let instance: ReactTestInstance;
