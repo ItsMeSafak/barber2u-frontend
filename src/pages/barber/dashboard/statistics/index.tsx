@@ -45,8 +45,8 @@ const StatisticsPage: React.FC = () => {
     }, []);
 
     /**
-     * This function calculates the total income;
-     *
+     * This function calculates the total income
+     *a
      * @param {Reservation[]} reservations this months reservations of the barber
      */
     const calculateIncome = useCallback(
@@ -134,8 +134,8 @@ const StatisticsPage: React.FC = () => {
     const calculateAverageRating = () =>
         reviews && reviews.length > 0
             ? reviews
-                  .map((review) => review.getStarAmount)
-                  .reduce((a, b) => a + b) / reviews.length
+                .map((review) => review.getStarAmount)
+                .reduce((a, b) => a + b) / reviews.length
             : 0;
 
     /**
@@ -147,18 +147,18 @@ const StatisticsPage: React.FC = () => {
     const calculatePriceAmount = (reservations: Reservation[]): number =>
         reservations.length > 0
             ? reservations
-                  .map((reservation) =>
-                      reservation.getServices
-                          .map(
-                              (service) =>
-                                  Object.setPrototypeOf(
-                                      service,
-                                      Service.prototype
-                                  ).getPrice
-                          )
-                          .reduce((accumulator, price) => accumulator + price)
-                  )
-                  .reduce((accumulator, price) => accumulator + price)
+                .map((reservation) =>
+                    reservation.getServices
+                        .map(
+                            (service) =>
+                                Object.setPrototypeOf(
+                                    service,
+                                    Service.prototype
+                                ).getPrice
+                        )
+                        .reduce((accumulator, price) => accumulator + price)
+                )
+                .reduce((accumulator, price) => accumulator + price)
             : 0;
 
     /**
