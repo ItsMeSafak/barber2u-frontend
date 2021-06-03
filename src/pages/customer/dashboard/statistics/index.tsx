@@ -32,8 +32,7 @@ const StatisticsPage: React.FC = () => {
         const response = await fetchReviews();
         if (!response) return;
 
-        const { data } = response;
-        setReviews(data);
+        setReviews(response.data.getReceivedReviews);
         setIsLoading(false);
     }, []);
 
@@ -64,7 +63,7 @@ const StatisticsPage: React.FC = () => {
                     <CardStatistic
                         data={[
                             {
-                                title: "Total reviews",
+                                title: "Total received reviews",
                                 value: reviews.length,
                                 prefix: (
                                     <FontAwesomeIcon

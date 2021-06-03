@@ -16,12 +16,14 @@ interface ContextProps {
     user: User | null;
     loading: boolean;
     defaultColor: string | undefined;
+    defaultHeaderColor: string | undefined;
     accessToken: string | null;
     refreshToken: string | null;
     authenticated: boolean;
     setUser: (user: User) => void;
     setLoading: (loading: boolean) => void;
     setDefaultColor: (color: string) => void;
+    setDefaultHeaderColor: (color: string) => void;
     setAccessToken: (token: string) => void;
     setRefreshToken: (token: string) => void;
     setAuthenticated: (authenticated: boolean) => void;
@@ -32,12 +34,14 @@ const contextDefaultValues: ContextProps = {
     user: null,
     loading: true,
     defaultColor: undefined,
+    defaultHeaderColor: undefined,
     accessToken: null,
     refreshToken: null,
     authenticated: false,
     setUser: () => {},
     setLoading: () => {},
     setDefaultColor: () => {},
+    setDefaultHeaderColor: () => {},
     setAccessToken: () => {},
     setRefreshToken: () => {},
     setAuthenticated: () => {},
@@ -66,6 +70,9 @@ export const AuthenticationProvider: React.FC = (props) => {
     const [user, setUser] = useState(contextDefaultValues.user);
     const [loading, setLoading] = useState(contextDefaultValues.loading);
     const [defaultColor, setDefaultColor] = useState(
+        contextDefaultValues.defaultColor
+    );
+    const [defaultHeaderColor, setDefaultHeaderColor] = useState(
         contextDefaultValues.defaultColor
     );
     const [accessToken, setAccessToken] = useState(
@@ -120,6 +127,8 @@ export const AuthenticationProvider: React.FC = (props) => {
         setAccessToken(null);
         setRefreshToken(null);
         setAuthenticated(false);
+        setDefaultColor("#fff");
+        setDefaultHeaderColor("#252525");
     }, [removeCookie]);
 
     useEffect(() => {
@@ -162,6 +171,7 @@ export const AuthenticationProvider: React.FC = (props) => {
             loading,
             accessToken,
             defaultColor,
+            defaultHeaderColor,
             refreshToken,
             authenticated,
             setUser: (userObject: User) => setUserObject(userObject),
@@ -172,6 +182,7 @@ export const AuthenticationProvider: React.FC = (props) => {
                 saveAccessTokenInCookieIfNotExist();
             },
             setDefaultColor,
+            setDefaultHeaderColor,
             setRefreshToken,
             setAuthenticated,
             logout: () => deleteUserDataFromCookieAndState(),
@@ -181,6 +192,7 @@ export const AuthenticationProvider: React.FC = (props) => {
             loading,
             accessToken,
             defaultColor,
+            defaultHeaderColor,
             refreshToken,
             authenticated,
             setUserObject,
@@ -189,6 +201,7 @@ export const AuthenticationProvider: React.FC = (props) => {
             saveAccessTokenInCookieIfNotExist,
             removeCookie,
             setDefaultColor,
+            setDefaultHeaderColor,
             setRefreshToken,
             setAuthenticated,
             deleteUserDataFromCookieAndState,

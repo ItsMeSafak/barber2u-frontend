@@ -14,11 +14,6 @@ import visitorNavbarMenu from "../assets/navbar/visitor.json";
 import customerNavbarMenu from "../assets/navbar/customer.json";
 
 import { AuthenticationContext } from "./authentication-context";
-import {
-    ADMIN_DEFAULT_COLOR,
-    BARBER_DEFAULT_COLOR,
-    CUSTOMER_DEFAULT_COLOR,
-} from "../assets/constants";
 
 interface ContextProps {
     menuItems: Array<{
@@ -65,9 +60,12 @@ export const NavbarContext = createContext<ContextProps>(contextDefaultValues);
  */
 export const NavbarProvider: React.FC = (props) => {
     const { children } = props;
-    const { user, authenticated, setDefaultColor } = useContext(
-        AuthenticationContext
-    );
+    const {
+        user,
+        authenticated,
+        setDefaultColor,
+        setDefaultHeaderColor,
+    } = useContext(AuthenticationContext);
 
     const [menuItems, setMenuItems] = useState(contextDefaultValues.menuItems);
 
@@ -110,14 +108,11 @@ export const NavbarProvider: React.FC = (props) => {
 
     const getDefaultColorByUserRole = useCallback(() => {
         if (authenticated && user && user.getRoles) {
-            if (isRoleIncluded(Role.Customer))
-                setDefaultColor(CUSTOMER_DEFAULT_COLOR);
-            if (isRoleIncluded(Role.Barber))
-                setDefaultColor(BARBER_DEFAULT_COLOR);
-            if (isRoleIncluded(Role.Admin))
-                setDefaultColor(ADMIN_DEFAULT_COLOR);
+            const { defaultColor, defaultHeaderColor } = user.getDefaultColors;
+            setDefaultColor(defaultColor);
+            setDefaultHeaderColor(defaultHeaderColor);
         }
-    }, [authenticated, user, isRoleIncluded, setDefaultColor]);
+    }, [authenticated, user, setDefaultColor, setDefaultHeaderColor]);
 
     useEffect(() => {
         getDefaultColorByUserRole();

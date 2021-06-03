@@ -2,8 +2,11 @@ import Role from "./enums/Role";
 
 import {
     ADMIN_DEFAULT_COLOR,
+    ADMIN_DEFAULT_HEADER_COLOR,
     BARBER_DEFAULT_COLOR,
+    BARBER_DEFAULT_HEADER_COLOR,
     CUSTOMER_DEFAULT_COLOR,
+    CUSTOMER_DEFAULT_HEADER_COLOR,
 } from "../assets/constants";
 
 /**
@@ -118,22 +121,32 @@ export default class User {
         return this.roles.map(({ name }) => name);
     }
 
-    get getDefaultColor(): string {
-        let color;
+    get getDefaultColors(): {
+        defaultColor: string;
+        defaultHeaderColor: string;
+    } {
+        let defaultColor, defaultHeaderColor;
 
         switch (this.getRoleNames[0] as Role) {
             case Role.Customer:
-                color = CUSTOMER_DEFAULT_COLOR;
+                defaultColor = CUSTOMER_DEFAULT_COLOR;
+                defaultHeaderColor = CUSTOMER_DEFAULT_HEADER_COLOR;
                 break;
             case Role.Barber:
-                color = BARBER_DEFAULT_COLOR;
+                defaultColor = BARBER_DEFAULT_COLOR;
+                defaultHeaderColor = BARBER_DEFAULT_HEADER_COLOR;
                 break;
             case Role.Admin:
-                color = ADMIN_DEFAULT_COLOR;
+                defaultColor = ADMIN_DEFAULT_COLOR;
+                defaultHeaderColor = ADMIN_DEFAULT_HEADER_COLOR;
                 break;
         }
 
-        return color;
+        return { defaultColor, defaultHeaderColor };
+    }
+
+    get getCleanedRoleNames(): Array<string> {
+        return this.roles.map(({ name }) => name.replace("ROLE_", ""));
     }
 
     getUser(): User {

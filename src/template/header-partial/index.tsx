@@ -154,6 +154,9 @@ const HeaderPartial: React.FC = () => {
             <Link to="/">
                 <h1 className={styles.logo}>
                     <LogoComponent iconPrefix="fas" iconName="cut" />
+                    <span className={styles.dashboardText}>
+                        {} / {user?.getCleanedRoleNames[0]}
+                    </span>
                 </h1>
             </Link>
             {isMobileOrTablet ? renderHamburgerMenu() : renderNavbarMenu()}
