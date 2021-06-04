@@ -16,6 +16,9 @@ buildApp:
   only:
     changes:
       - "src/"
+  artifacts:
+    paths:
+      - node_modules/
   script:
     - echo "build started"
     - npm run build
