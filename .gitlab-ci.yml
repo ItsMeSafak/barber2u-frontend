@@ -16,9 +16,7 @@ buildApp:
     paths:
       - build/
   script:
-    - echo "npm started"
     - npm install
-    - echo "npm finished"
     - echo "build started"
     - npm run build
     - echo "build completed"
@@ -31,6 +29,7 @@ testApp:
     changes:
       - "src/"
   script:
+    - npm install
     - npm run test
     - echo "test completed"
 
