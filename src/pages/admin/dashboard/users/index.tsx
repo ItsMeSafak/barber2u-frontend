@@ -317,9 +317,7 @@ const UsersPage: React.FC = () => {
                 type: "select",
                 name: "roles",
                 icon: "envelope",
-                value: selectedUser?.getRoleNames.map((role) =>
-                    role.replace("ROLE_", "")
-                ),
+                value: selectedUser?.getCleanedRoleNames,
             },
         ];
 
@@ -384,7 +382,8 @@ const UsersPage: React.FC = () => {
         <>
             <Avatar
                 style={{
-                    backgroundColor: selectedUser?.getDefaultColor,
+                    backgroundColor:
+                        selectedUser?.getDefaultColors.defaultColor,
                     marginRight: "1rem",
                 }}
                 size={32}

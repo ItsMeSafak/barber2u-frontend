@@ -62,7 +62,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
         );
 
         const { status, message } = response;
-        showHttpResponseNotification(message, status, false);
+        showHttpResponseNotification(message, status);
         setIsUpdated(true);
     };
 
