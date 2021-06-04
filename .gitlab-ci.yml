@@ -1,9 +1,5 @@
 image: node:latest
 
-before_script:
-  - rm -rf package-lock.jsono
-  - npm ci
-
 stages:
   - build
   - test
@@ -17,6 +13,9 @@ buildApp:
     changes:
       - "src/"
   script:
+    - echo "build started"
+    - npm install
+    - echo "node modules fixed"
     - npm run build
     - echo "build completed"
 
