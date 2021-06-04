@@ -40,7 +40,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "npm run build --configuration $ENVIRONMENT",
+    "build": "react-scripts build",
     "test": "npm run test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
