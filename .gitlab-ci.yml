@@ -7,18 +7,21 @@ stages:
 
 before_script:
   - rm -rf build
-  - CI=false npm install
+  - npm install
 
 buildApp:
   stage: build
   tags:
     - hva
+  only:
+    changes:
+      - "src/"
   artifacts:
     paths:
       - build/
   script:
     - echo "build started"
-    - CI=false npm run build
+    - npm run build
     - echo "build completed"
 
 testApp:
