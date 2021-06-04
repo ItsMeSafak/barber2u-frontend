@@ -16,6 +16,9 @@ buildApp:
     paths:
       - build/
   script:
+    - echo "npm started"
+    - npm install
+    - echo "npm finished"
     - echo "build started"
     - npm run build
     - echo "build completed"
