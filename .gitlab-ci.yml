@@ -5,6 +5,14 @@ stages:
   - test
   - deploy
 
+cache:
+  paths:
+    - node_modules/
+
+before_script:
+  - remove -rf package-lock.json
+  - npm install
+
 buildApp:
   stage: build
   tags:
@@ -14,8 +22,6 @@ buildApp:
       - "src/"
   script:
     - echo "build started"
-    - npm install
-    - echo "node modules fixed"
     - npm run build
     - echo "build completed"
 
