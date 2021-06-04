@@ -1,5 +1,9 @@
 image: node:latest
 
+before_script:
+  - rm -rf package-lock.jsono
+  - npm ci
+
 stages:
   - build
   - test
