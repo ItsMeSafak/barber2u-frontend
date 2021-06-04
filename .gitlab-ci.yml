@@ -20,6 +20,8 @@ buildApp:
     paths:
       - node_modules/
   script:
+    - echo "npm install started"
+    - npm install
     - echo "build started"
     - npm run build
     - echo "build completed"
