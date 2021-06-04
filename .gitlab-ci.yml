@@ -30,7 +30,7 @@ testApp:
       - "src/"
   script:
     - npm install
-    - npm run test -- --watchAll
+    - npm run test -- --watchAll=false
     - echo "test completed"
 
 deployApp:
