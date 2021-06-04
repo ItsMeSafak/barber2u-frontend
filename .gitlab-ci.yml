@@ -10,7 +10,7 @@ cache:
     - node_modules/
 
 before_script:
-  - remove -rf package-lock.json
+  - rm -rf package-lock.json
   - npm install
 
 buildApp:
