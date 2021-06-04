@@ -16,7 +16,6 @@ buildApp:
     paths:
       - build/
   script:
-    - node install -g node-gyp
     - echo "npm started"
     - npm install
     - echo "npm finished"
