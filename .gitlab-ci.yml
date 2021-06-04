@@ -5,9 +5,9 @@ stages:
   - test
   - deploy
 
-cache:
-  paths:
-    - node_modules/
+before_script:
+  - rm -rf build     # remove the existing build
+  - CI=false npm install     # install required packages
 
 buildApp:
   stage: build
@@ -21,8 +21,7 @@ buildApp:
       - build/
   script:
     - echo "build started"
-    - npm install
-    - npm run build
+    - CI=false npm run build
     - echo "build completed"
 
 testApp:
