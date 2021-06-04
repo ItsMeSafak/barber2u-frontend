@@ -18,11 +18,10 @@ buildApp:
       - "src/"
   artifacts:
     paths:
-      - node_modules/
+      - build/
   script:
-    - echo "npm install started"
-    - npm install
     - echo "build started"
+    - npm install
     - npm run build
     - echo "build completed"
 
