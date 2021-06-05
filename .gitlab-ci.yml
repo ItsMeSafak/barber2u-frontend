@@ -1,8 +1,5 @@
 image: node:14
 
-before_script:
-  - npm install eslint-config-airbnb
-
 stages:
   - build
   - test
@@ -20,6 +17,9 @@ buildApp:
       - build/
   script:
     - npm install
+    - echo "eslint started"
+    - npm install eslint-config-airbnb
+    - echo "eslint ended"
     - echo "build started"
     - npm run build
     - echo "build completed"
