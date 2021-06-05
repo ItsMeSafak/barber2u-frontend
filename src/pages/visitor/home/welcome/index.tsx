@@ -19,7 +19,7 @@ const WelcomeSection: React.FC = () => (
             <h2 className={styles.sectionDescription}>{APP_SLOGAN_2}</h2>
             <Link to="signup">
                 <Button type="primary" shape="round" size="large">
-                    Create an account now!!!
+                    Create an account now!
                 </Button>
             </Link>
         </div>

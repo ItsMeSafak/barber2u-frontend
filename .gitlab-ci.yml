@@ -40,6 +40,9 @@ deployApp:
   only:
     changes:
       - "src/"
+  environment:
+    name: production
+    url: https://git.heroku.com/barber2u-fe.git
   script:
-    - git push heroku https://$HEROKU_USER:$HEROKU_API_KEY@git.heroku.com/barber2u-fe-staging.git master
+    - git push heroku master
     - echo "the app is deployed"
