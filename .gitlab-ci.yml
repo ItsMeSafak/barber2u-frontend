@@ -17,9 +17,6 @@ buildApp:
       - build/
   script:
     - npm install
-    - echo "eslint started"
-    - npm install eslint-config-airbnb
-    - echo "eslint ended"
     - echo "build started"
     - npm run build
     - echo "build completed"
