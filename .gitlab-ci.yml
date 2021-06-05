@@ -1,5 +1,9 @@
 image: node:14
 
+before_script:
+  - npm install eslint
+  - eslint --ext .js,.jsx,.ts,.tsx
+
 stages:
   - build
   - test
