@@ -1,8 +1,7 @@
 image: node:14
 
 before_script:
-  - npm install eslint
-  - eslint --ext .js,.jsx,.ts,.tsx
+  - npm install eslint-config-airbnb
 
 stages:
   - build
