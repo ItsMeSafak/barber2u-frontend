@@ -35,6 +35,7 @@ testApp:
 
 deployApp:
   stage: deploy
+  image: ruby:latest
   tags:
     - hva
   only:
