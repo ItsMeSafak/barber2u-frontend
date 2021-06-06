@@ -24,4 +24,4 @@ describe("Init service card component", () => {
         expect(instance.findByProps({ className: "header" }).children[0]).toContain(serviceObject.getName);
         expect(instance.findByProps({ className: "price" }).children).toEqual([EURO_SYMBOL, " ", serviceObject.getPrice.toFixed(2)]);
     });
-})
+});

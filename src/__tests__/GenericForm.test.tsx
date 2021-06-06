@@ -19,7 +19,7 @@ let inputData: Array<{
 describe("Generic form tests", () => {
     beforeEach(() => {
         // The Jest documentation has an official workaround
-        Object.defineProperty(window, 'matchMedia', {
+        Object.defineProperty(window, "matchMedia", {
             writable: true,
             value: jest.fn().mockImplementation(query => ({
                 matches: false,
@@ -74,4 +74,4 @@ describe("Generic form tests", () => {
 
         expect(instance.findByType(Input).props.defaultValue).toBe("Doe");
     });
-})
+});

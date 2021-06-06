@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, useEffect, useContext } from "react";
+import React, { ChangeEvent, useState, useEffect, useContext, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -48,7 +48,7 @@ const SignupFormBarber: React.FC = () => {
 
     const history = useHistory();
 
-    const formInputs = [
+    const formInputs = useMemo(() => [
         {
             step: 1,
             name: "firstName",
@@ -120,7 +120,7 @@ const SignupFormBarber: React.FC = () => {
             placeholder: "BTW Number",
             icon: ["fas", "file-invoice-dollar"],
         },
-    ];
+    ], [formValue]);
 
     useEffect(() => {
         setFormValue(formValue);
