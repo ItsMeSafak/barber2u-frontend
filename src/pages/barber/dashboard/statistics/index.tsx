@@ -45,8 +45,8 @@ const StatisticsPage: React.FC = () => {
     }, []);
 
     /**
-     * This function calculates the total income;
-     *
+     * This function calculates the total income
+     *a
      * @param {Reservation[]} reservations this months reservations of the barber
      */
     const calculateIncome = useCallback(
