@@ -35,7 +35,7 @@ const StatisticsPage: React.FC = () => {
     const [reviews, setReviews] = useState<Review[]>([]);
 
     /**
-     * This function fetches the reviews of a barber
+     * This function fetches the reviews of a barber.
      */
     const getReviews = useCallback(async () => {
         const response = await fetchReviews();
