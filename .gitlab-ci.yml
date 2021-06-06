@@ -1,8 +1,5 @@
 image: node:14
 
-before_script:
-  - npm run format
-
 stages:
   - build
   - test
@@ -20,6 +17,7 @@ buildApp:
       - build/
   script:
     - npm install
+    - npm run format
     - echo "build started"
     - npm run build
     - echo "build completed"
