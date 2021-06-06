@@ -41,6 +41,8 @@ deployApp:
     - hva
   only:
     changes:
+      - "src/"
+    refs:
       - master
   environment:
     name: production
