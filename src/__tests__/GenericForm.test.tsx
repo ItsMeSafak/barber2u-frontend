@@ -19,9 +19,9 @@ let inputData: Array<{
 describe("Generic form tests", () => {
     beforeEach(() => {
         // The Jest documentation has an official workaround
-        Object.defineProperty(window, 'matchMedia', {
+        Object.defineProperty(window, "matchMedia", {
             writable: true,
-            value: jest.fn().mockImplementation(query => ({
+            value: jest.fn().mockImplementation((query) => ({
                 matches: false,
                 media: query,
                 onchange: null,
@@ -37,14 +37,12 @@ describe("Generic form tests", () => {
             {
                 name: "First name",
                 icon: "user",
-                value: "John"
-            }
-
+                value: "John",
+            },
         ];
 
-        instance = create(<GenericForm
-            formName="Sample form"
-            data={inputData} />
+        instance = create(
+            <GenericForm formName="Sample form" data={inputData} />
         ).root;
     });
 
@@ -58,20 +56,16 @@ describe("Generic form tests", () => {
     });
 
     it("Should have correct form input field data when changed", () => {
-        inputData.fill(
-            {
-                name: "Last name",
-                icon: "user",
-                value: "Doe"
-            }
-        );
+        inputData.fill({
+            name: "Last name",
+            icon: "user",
+            value: "Doe",
+        });
 
-        instance =
-            create(<GenericForm
-                formName="Sample form"
-                data={inputData} />
-            ).root;
+        instance = create(
+            <GenericForm formName="Sample form" data={inputData} />
+        ).root;
 
         expect(instance.findByType(Input).props.defaultValue).toBe("Doe");
     });
-})
+});

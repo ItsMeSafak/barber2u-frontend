@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useState, useEffect, useContext } from "react";
+import React, {
+    ChangeEvent,
+    useState,
+    useEffect,
+    useContext,
+    useMemo,
+} from "react";
 import { useHistory } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -48,79 +54,82 @@ const SignupFormBarber: React.FC = () => {
 
     const history = useHistory();
 
-    const formInputs = [
-        {
-            step: 1,
-            name: "firstName",
-            value: formValue.firstName,
-            placeholder: "Firstname",
-            icon: ["fas", "id-card"],
-        },
-        {
-            step: 1,
-            name: "lastName",
-            value: formValue.lastName,
-            placeholder: "Lastname",
-            icon: ["fas", "id-card"],
-        },
-        {
-            step: 1,
-            name: "email",
-            value: formValue.email,
-            placeholder: "Email",
-            icon: ["fas", "envelope"],
-        },
-        {
-            step: 1,
-            name: "password",
-            type: "password",
-            value: formValue.password,
-            placeholder: "Password",
-            icon: ["fas", "key"],
-        },
-        {
-            step: 2,
-            name: "companyName",
-            value: formValue.companyName,
-            placeholder: "Company name",
-            icon: ["fas", "building"],
-        },
-        {
-            step: 2,
-            name: "phoneNumber",
-            value: formValue.phoneNumber,
-            placeholder: "Phone number",
-            icon: ["fas", "mobile-alt"],
-        },
-        {
-            step: 2,
-            name: "address",
-            value: formValue.address,
-            placeholder: "Address",
-            icon: ["fas", "address-book"],
-        },
-        {
-            step: 2,
-            name: "zipCode",
-            value: formValue.zipCode,
-            placeholder: "ZIP Code",
-            icon: ["fas", "city"],
-        },
-        {
-            step: 2,
-            name: "kvkNumber",
-            value: formValue.kvkNumber,
-            placeholder: "KvK",
-            icon: ["fas", "building"],
-        },
-        {
-            step: 2,
-            name: "btwVatNumber",
-            value: formValue.btwVatNumber,
-            placeholder: "BTW Number",
-            icon: ["fas", "file-invoice-dollar"],
-        },
-    ];
+    const formInputs = useMemo(
+        () => [
+            {
+                step: 1,
+                name: "firstName",
+                value: formValue.firstName,
+                placeholder: "Firstname",
+                icon: ["fas", "id-card"],
+            },
+            {
+                step: 1,
+                name: "lastName",
+                value: formValue.lastName,
+                placeholder: "Lastname",
+                icon: ["fas", "id-card"],
+            },
+            {
+                step: 1,
+                name: "email",
+                value: formValue.email,
+                placeholder: "Email",
+                icon: ["fas", "envelope"],
+            },
+            {
+                step: 1,
+                name: "password",
+                type: "password",
+                value: formValue.password,
+                placeholder: "Password",
+                icon: ["fas", "key"],
+            },
+            {
+                step: 2,
+                name: "companyName",
+                value: formValue.companyName,
+                placeholder: "Company name",
+                icon: ["fas", "building"],
+            },
+            {
+                step: 2,
+                name: "phoneNumber",
+                value: formValue.phoneNumber,
+                placeholder: "Phone number",
+                icon: ["fas", "mobile-alt"],
+            },
+            {
+                step: 2,
+                name: "address",
+                value: formValue.address,
+                placeholder: "Address",
+                icon: ["fas", "address-book"],
+            },
+            {
+                step: 2,
+                name: "zipCode",
+                value: formValue.zipCode,
+                placeholder: "ZIP Code",
+                icon: ["fas", "city"],
+            },
+            {
+                step: 2,
+                name: "kvkNumber",
+                value: formValue.kvkNumber,
+                placeholder: "KvK",
+                icon: ["fas", "building"],
+            },
+            {
+                step: 2,
+                name: "btwVatNumber",
+                value: formValue.btwVatNumber,
+                placeholder: "BTW Number",
+                icon: ["fas", "file-invoice-dollar"],
+            },
+        ],
+        [formValue]
+    );
 
     useEffect(() => {
         setFormValue(formValue);
