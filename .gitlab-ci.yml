@@ -40,7 +40,7 @@ deployApp:
     - hva
   only:
     changes:
-      - "src/"
+      - master
   environment:
     name: production
     url: https://git.heroku.com/barber2u-fe.git
