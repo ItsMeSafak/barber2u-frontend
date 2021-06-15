@@ -235,11 +235,11 @@ export const getNewAccessToken = (
     });
 
 /**
-* This function updates the user profile.
-
-* @param {User} user user to be updated.
-* @returns {Promise<IAuthResponse>}
-*/
+ * This function updates the user profile.
+ *
+ * @param {User} user user to be updated.
+ * @returns {Promise<IAuthResponse>}
+ */
 export const updateUserProfile = (user: User): Promise<IAuthResponse> =>
     new Promise<IAuthResponse>((resolve, reject) => {
         axios.put(`${BASE_URL}/profile`, user).then(

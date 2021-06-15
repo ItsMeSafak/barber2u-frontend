@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Carousel, Col, Row } from "antd";
+import Slider from "react-slick";
+import { Col, Row } from "antd";
 
 import {
     PLACEHOLDER_REVIEW1,
@@ -16,7 +17,9 @@ import styles from "./styles.module.scss";
  * @returns {JSX}
  */
 const ReviewSection: React.FC = () => {
-    const reviewMockData = [
+    const [currentSlide, setCurrentSlide] = useState(0);
+
+    const reviews = [
         {
             reviewNumber: 1,
             review: PLACEHOLDER_REVIEW1,
@@ -38,7 +41,7 @@ const ReviewSection: React.FC = () => {
      * Rendering the reviews content data inside the carousel
      */
     const renderReviews = () =>
-        reviewMockData.map(({ reviewNumber, review, writer }) => (
+        reviews.map(({ reviewNumber, review, writer }) => (
             <Row key={reviewNumber} justify="center">
                 <Col className={styles.review} xs={24} lg={12}>
                     <p>
@@ -52,13 +55,27 @@ const ReviewSection: React.FC = () => {
     return (
         <Row id="reviews" className={styles.section} justify="center">
             <Col span={24}>
-                <Carousel
+                <Slider
                     autoplay={false}
                     draggable
                     className={styles.carousel}
+                    arrows={false}
+                    dots={true}
+                    beforeChange={(prev, next) => {
+                        setCurrentSlide(next);
+                    }}
+                    customPaging={(index) => (
+                        <p
+                            className={
+                                index === currentSlide
+                                    ? styles.customDotsActive
+                                    : styles.customDots
+                            }
+                        />
+                    )}
                 >
                     {renderReviews()}
-                </Carousel>
+                </Slider>
             </Col>
         </Row>
     );

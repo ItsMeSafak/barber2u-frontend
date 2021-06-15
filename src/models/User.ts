@@ -106,7 +106,7 @@ export default class User {
     }
 
     get getFullNameWithInitial(): string {
-        return `${this.getFirstNameFirstLetter}. ${this.getLastName}`;
+        return `${this.getFirstNameFirstLetter}. ${this.getLastNameCapitalized}`;
     }
 
     get getFirstNameFirstLetter(): string {

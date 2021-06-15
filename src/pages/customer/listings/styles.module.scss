@@ -1,0 +1,45 @@
+@import "src/assets/styles/colors";
+
+.listings {
+    .header {
+        height: auto;
+        background: none;
+
+        .amountBarbers {
+            padding: 32px 0;
+            text-align: center;
+            font-size: 2rem;
+
+            span {
+                border-bottom: solid 3px black;
+            }
+        }
+    }
+
+    .mainSection {
+        text-align: left;
+        background-color: $light-grey-color;
+        padding: 16px;
+        height: auto;
+
+        .sortByRow {
+            width: 75%;
+            margin: auto;
+            div {
+                margin-left: auto;
+            }
+        }
+    }
+    .listingsRow {
+        width: 75%;
+        margin: auto;
+        .listingItems {
+            padding-left: 0px;
+        }
+    }
+
+    .listingsRowMobile {
+        width: 100%;
+        margin: auto;
+    }
+}
