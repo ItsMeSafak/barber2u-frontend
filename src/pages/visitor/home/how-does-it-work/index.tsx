@@ -1,13 +1,10 @@
 import React from "react";
 
 import { Col, Row } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import CardImage from "../../../../components/card-image";
-
+import { getIconByPrefixName } from "../../../../assets/functions/icon";
 import {
-    PLACEHOLDER_IMAGE_STEP1,
-    PLACEHOLDER_IMAGE_STEP2,
-    PLACEHOLDER_IMAGE_STEP3,
     PLACEHOLDER_TEXT_HOW_DOES_IT_WORK,
     PLACEHOLDER_TEXT_STEP1,
     PLACEHOLDER_TEXT_STEP2,
@@ -23,22 +20,21 @@ import styles from "./styles.module.scss";
  * @returns {JSX}
  */
 const HowDoesItWorkSection: React.FC = () => {
-    // Mock data.
-    const instructionsMockData = [
+    const instructions = [
         {
             step: 1,
             description: PLACEHOLDER_TEXT_STEP1,
-            image: PLACEHOLDER_IMAGE_STEP1,
+            icon: "user-edit",
         },
         {
             step: 2,
             description: PLACEHOLDER_TEXT_STEP2,
-            image: PLACEHOLDER_IMAGE_STEP2,
+            icon: "cut",
         },
         {
             step: 3,
             description: PLACEHOLDER_TEXT_STEP3,
-            image: PLACEHOLDER_IMAGE_STEP3,
+            icon: "calendar",
         },
     ];
 
@@ -48,14 +44,14 @@ const HowDoesItWorkSection: React.FC = () => {
      * @returns {JSX}
      */
     const renderCards = () =>
-        instructionsMockData.map(({ step, description, image }) => (
+        instructions.map(({ step, description, icon }) => (
             <Col key={step} className={styles.cardCol} xs={24} md={12} xl={8}>
-                <CardImage
-                    image={image}
-                    title={`Step ${step}`}
-                    description={description}
-                    hoverable
+                <FontAwesomeIcon
+                    icon={getIconByPrefixName("fas", icon)}
+                    size="5x"
                 />
+                <div className={styles.step}>{step}</div>
+                <h4>{description}</h4>
             </Col>
         ));
 

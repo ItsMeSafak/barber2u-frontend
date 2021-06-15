@@ -16,5 +16,23 @@
 
     .cardCol {
         margin: 1rem 0;
+
+        h4 {
+            text-align: center;
+        }
+    }
+
+    .step {
+        background: $primary-color;
+        border-radius: 0.8em;
+        -moz-border-radius: 0.8em;
+        -webkit-border-radius: 0.8em;
+        color: #ffffff;
+        width: 100%;
+        margin: 1rem auto;
+        font-weight: bold;
+        line-height: 1.6em;
+        text-align: center;
+        width: 1.6em;
     }
 }

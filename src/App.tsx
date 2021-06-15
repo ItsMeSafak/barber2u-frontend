@@ -11,6 +11,7 @@ import Role from "./models/enums/Role";
 import HomePage from "./pages/visitor/home";
 import ErrorPage from "./pages/error";
 import SigninPage from "./pages/visitor/signin";
+import ListingsPage from "./pages/customer/listings";
 import HeaderPartial from "./template/header-partial";
 import FooterPartial from "./template/footer-partial";
 import ProtectedRoute from "./routes/protected-route";
@@ -28,6 +29,7 @@ import { BASE_URL } from "./assets/constants";
 import { NavbarProvider } from "./contexts/navbar-context";
 import { getNewAccessToken } from "./services/auth-service";
 import { AuthenticationContext } from "./contexts/authentication-context";
+import ListingPage from "./pages/customer/listing";
 
 const { Header, Footer } = Layout;
 
@@ -152,6 +154,16 @@ const App: React.FC = () => {
                             allowedRoles={[Role.Customer]}
                             path="/customer"
                             component={CustomerDashboardPage}
+                        />
+                        <ProtectedRoute
+                            allowedRoles={[Role.Customer]}
+                            path="/listings"
+                            component={ListingsPage}
+                        />
+                        <ProtectedRoute
+                            allowedRoles={[Role.Customer]}
+                            path="/listing"
+                            component={ListingPage}
                         />
                         <ProtectedRoute
                             allowedRoles={[Role.Admin]}

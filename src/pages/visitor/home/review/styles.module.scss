@@ -17,11 +17,6 @@
             li,
             li.slick-active {
                 margin: 0 8px;
-
-                button {
-                    background-color: $primary-color !important;
-                    height: 8px;
-                }
             }
         }
     }
@@ -46,4 +41,14 @@
             margin-top: 12px;
         }
     }
+}
+
+.customDots {
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 8px;
+}
+
+.customDotsActive {
+    background-color: $primary-color;
+    height: 8px;
 }

@@ -65,6 +65,7 @@ export const REFRESH_TOKEN_COOKIE = `${PACKAGE_NAME}refreshToken`;
 
 // API.
 export const BASE_URL = "http://localhost:8080/api";
+export const MEDIA_URL = `${BASE_URL}/media`;
 export const GOOGLE_MAPS_BASE_URL = "https://www.google.com/maps/search/";
 
 // Authenticated user role constants.
@@ -107,9 +108,9 @@ export const PLACEHOLDER_TEXT_ABOUT =
     "BARBER2U consists of a team of 6 students with a passion for innovation. As individuals we have our own talents, ambitions and visions, but together we make the biggest impact.";
 
 // Placeholders about.
-export const PLACEHOLDER_IMAGE_CEO = "../assets/images/ceo.jpg";
-export const PLACEHOLDER_IMAGE_CTO = "../assets/images/cto.jpg";
-export const PLACEHOLDER_IMAGE_COO = "../assets/images/coo.jpg";
+export const PLACEHOLDER_IMAGE_CEO = `${MEDIA_URL}/ceo.png`;
+export const PLACEHOLDER_IMAGE_CTO = `${MEDIA_URL}/cto.png`;
+export const PLACEHOLDER_IMAGE_COO = `${MEDIA_URL}/coo.png`;
 
 // Placeholders how does it work.
 export const PLACEHOLDER_TEXT_STEP1 =
@@ -118,9 +119,6 @@ export const PLACEHOLDER_TEXT_STEP2 =
     "Go to the listings page and find the barber that suits you!";
 export const PLACEHOLDER_TEXT_STEP3 =
     "Make a reservation and get a fresh haircut!";
-export const PLACEHOLDER_IMAGE_STEP1 = "../assets/images/step-1.png";
-export const PLACEHOLDER_IMAGE_STEP2 = "../assets/images/step-2.png";
-export const PLACEHOLDER_IMAGE_STEP3 = "../assets/images/step-3.png";
 
 // Placeholders review.
 export const PLACEHOLDER_REVIEW1 =
@@ -133,6 +131,8 @@ export const PLACEHOLDER_IMAGE =
 
 // Date format strings
 export const DATE_FORMAT = "YYYY-MM-DD";
+export const TIME_FORMAT = "HH:mm:ss";
+export const HOUR_MINUTE_FORMAT = "HH:mm";
 
 // Special characters.
 export const EURO_SYMBOL = "€";

@@ -1,0 +1,187 @@
+@import "src/assets/styles/colors";
+
+.header {
+    height: 250px !important;
+    position: relative;
+    background-size: cover !important;
+    background-position: center !important;
+    h1 {
+        font-size: 2rem;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        z-index: 1;
+    }
+}
+
+.header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.mainSection {
+    width: 75%;
+    margin: auto;
+}
+
+.serviceRow {
+    position: relative;
+    margin: auto;
+    border-radius: 3px;
+    background-color: white;
+    max-width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 4px 12px 0px;
+    padding: 12px;
+    margin-top: 15px;
+    width: 75%;
+    cursor: pointer;
+    .serviceRowSub {
+        width: 100%;
+    }
+}
+
+.serviceRowActive:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-width: 0 57px 57px 0;
+    border-style: solid;
+    border-color: #fff $primary-color;
+}
+
+.servicesTitle {
+    width: 75%;
+    margin: auto;
+    margin-top: 20px;
+    font-size: 2rem;
+    h3 {
+        text-align: center;
+        margin: auto;
+    }
+}
+
+.emptyElement {
+    margin: auto !important;
+}
+
+// Date Time Picker
+.dateTimePicker {
+    width: 75%;
+    margin: auto;
+    > * {
+        margin: 8px 0;
+    }
+
+    .dayPicker {
+        float: left;
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        cursor: pointer;
+        margin-right: 4px;
+
+        &.dayPickerActive {
+            border: solid 1px $primary-color;
+            border-radius: 25px;
+        }
+
+        .antdDatepicker {
+            padding: 0;
+            & > div {
+                height: 30px;
+                width: 30px;
+                display: flex;
+                justify-content: center;
+                & > input {
+                    display: none;
+                }
+                & > span {
+                    margin-left: 0;
+                    color: black;
+                }
+            }
+        }
+    }
+}
+
+.cards {
+    border-radius: 3px;
+    border-color: $primary-color !important;
+    cursor: pointer;
+    margin: 0 5px !important;
+
+    > div:first-child {
+        border-bottom-color: $primary-color;
+    }
+}
+
+.cardActive > div:first-child {
+    background-color: rgba($primary-color, 0.3);
+}
+
+.reservationButton {
+    width: 100% !important;
+    margin-top: 20px;
+}
+
+.availableCarousel {
+    width: 75%;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.customDatePicker {
+    margin-bottom: 10px !important;
+}
+
+.summaryCol {
+    padding: 20px;
+    position: fixed;
+    top: 50%;
+    transform: translate(-3%, -50%);
+    right: 3%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 4px 12px 0px;
+    border-radius: 3px;
+    width: 15%;
+    background-color: #fff;
+
+    span {
+        width: 100%;
+    }
+
+    .bold {
+        font-weight: bold;
+        margin: 0;
+    }
+
+    li {
+        list-style: none;
+    }
+}
+
+.summaryColMobile {
+    padding: 20px;
+    width: 100%;
+    background-color: #fff;
+    span {
+        width: 100%;
+    }
+    .bold {
+        font-weight: bold;
+        margin: 0;
+    }
+    li {
+        list-style: none;
+    }
+}

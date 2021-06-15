@@ -154,7 +154,7 @@ const HeaderPartial: React.FC = () => {
             <Link to="/">
                 <h1 className={styles.logo}>
                     <LogoComponent iconPrefix="fas" iconName="cut" />
-                    {user && (
+                    {user && !isMobileOrTablet && (
                         <span className={styles.dashboardText}>
                             {} / {user?.getCleanedRoleNames[0]}
                         </span>
