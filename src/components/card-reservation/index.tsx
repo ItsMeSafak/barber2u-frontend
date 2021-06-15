@@ -255,9 +255,8 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
         return (
             <Modal
                 visible={reviewFormVisible}
-                title={`Write a review to: ${
-                    reservationDetail.getTargetUser(user).getFullNameWithInitial
-                }`}
+                title={`Write a review to: ${reservationDetail.getTargetUser(user).getFullNameWithInitial
+                    }`}
                 okText="Create"
                 cancelText="Cancel"
                 onCancel={() => setReviewFormVisible(false)}
@@ -348,11 +347,10 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                     rel="noreferrer"
                 >
                     <FontAwesomeIcon
-                        className={`${styles.icon} ${
-                            isMobileOrTablet
+                        className={`${styles.icon} ${isMobileOrTablet
                                 ? styles.mobileLink
                                 : styles.externalLink
-                        }`}
+                            }`}
                         icon={getIconByPrefixName("fas", "external-link-alt")}
                         size="lg"
                     />
@@ -394,7 +392,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                     .map(
                         (item) =>
                             Object.setPrototypeOf(item, Service.prototype)
-                                .getPrice
+                                .getPrice.toFixed(2)
                     )
                     .reduce(
                         (servicePrice, currentValue) =>
