@@ -23,14 +23,6 @@ const ListingItem: React.FC<ComponentProps> = (props) => {
     const { barber, imageSource } = props;
 
     const randomInt = Math.floor(Math.random() * 5) + 1;
-    const cities = [
-        0,
-        "Amsterdam",
-        "Rotterdam",
-        "Den Haag",
-        "Hilversum",
-        "Breda",
-    ];
 
     return (
         <Link
@@ -51,9 +43,13 @@ const ListingItem: React.FC<ComponentProps> = (props) => {
                     <Col className={styles.containerTopContent}>
                         <Row>
                             <h3 className={styles.barberName}>
-                                {barber.getFullNameWithInitial} -{" "}
-                                {cities[randomInt]}
+                                {barber.getFullNameWithInitial}
                             </h3>
+                        </Row>
+                        <Row>
+                            <p className={styles.barberDetails}>
+                                {barber.getCompanyName} ({barber.getKvkNumber})
+                            </p>
                         </Row>
                         <Row>
                             <Rate
