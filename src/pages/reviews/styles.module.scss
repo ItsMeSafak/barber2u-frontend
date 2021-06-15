@@ -3,6 +3,12 @@
 .reviews {
     .card {
         box-shadow: $shadow;
+
+        .alignRight {
+            text-align: right;
+            font-size: small;
+            font-style: italic;
+        }
     }
 
     .wrapper {

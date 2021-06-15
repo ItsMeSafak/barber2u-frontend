@@ -50,6 +50,17 @@ const ReviewPage: React.FC = () => {
         setIsLoading(false);
     }, []);
 
+    /**
+     * Get the name of the target user from a reservation
+     *
+     * @param {Review} review The review object with all the required data
+     * @param {ReviewUserType} type The User type of the review. Either a target user or reviewer.
+     */
+    const getReviewTargetUserName = (review: Review, type: ReviewUserType) =>
+        type === ReviewUserType.Reviewer
+            ? `To: ${review.getTargetUser.getFullNameWithInitial}`
+            : `From: ${review.getReviewer.getFullNameWithInitial}`;
+
     useEffect(() => {
         getReviews();
     }, [getReviews]);
@@ -107,15 +118,14 @@ const ReviewPage: React.FC = () => {
             <Col key={review.getId} xs={24} md={12} lg={8} xxl={6}>
                 <Card
                     className={styles.card}
-                    title={
-                        type === ReviewUserType.Reviewer
-                            ? review.getTargetUser.getFullNameWithInitial
-                            : review.getReviewer.getFullNameWithInitial
-                    }
-                    extra={review.getDateOfReview.format(DATE_FORMAT)}
+                    title={getReviewTargetUserName(review, type)}
                 >
                     <Rate defaultValue={review.getStarAmount} disabled />
                     <p>{review.getReviewText}</p>
+                    <div className={styles.alignRight}>
+                        Review date: {" "}
+                        {review.getDateOfReview.format(DATE_FORMAT)}
+                    </div>
                 </Card>
             </Col>
         ));
