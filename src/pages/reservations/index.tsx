@@ -68,7 +68,7 @@ const ReservationsPage: React.FC = () => {
      */
     const renderReservationItems = (reservationList: Reservation[]) =>
         reservationList.slice(minIndexValue, maxIndexValue).map((item) => (
-            <Col key={item.getId} xs={24} sm={12} lg={8}>
+            <Col key={item.getId} xs={24} md={12} lg={8} xxl={6}>
                 <ReservationCard reservationDetail={item} />
             </Col>
         ));
