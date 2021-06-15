@@ -1,12 +1,34 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.scss";
+import { BrowserRouter } from "react-router-dom";
+import { CookiesProvider } from "react-cookie";
+
+import { library } from "@fortawesome/fontawesome-svg-core";
+
+import { ScreenProvider } from "./contexts/screen-context";
+import { AuthenticationProvider } from "./contexts/authentication-context";
+
+import { icons } from "./assets/functions/icon";
+
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+import "./index.scss";
+
+// Make font awesome icons global.
+library.add(icons);
+
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+        <CookiesProvider>
+            <AuthenticationProvider>
+                <ScreenProvider>
+                    <BrowserRouter>
+                        <App />
+                    </BrowserRouter>
+                </ScreenProvider>
+            </AuthenticationProvider>
+        </CookiesProvider>
     </React.StrictMode>,
     document.getElementById("root")
 );

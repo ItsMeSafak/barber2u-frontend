@@ -1,0 +1,17 @@
+@import "../../assets/config.scss";
+
+.content {
+    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+
+    .returnButton {
+        @extend .button-primary-ghost;
+    }
+}

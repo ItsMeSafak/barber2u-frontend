@@ -1,0 +1,75 @@
+@import "../../../assets/config.scss";
+
+.content {
+    div {
+        overflow: hidden;
+    }
+
+    .leftColumn,
+    .rightColumn {
+        cursor: pointer;
+        transition: 0.2s linear;
+        height: calc(100vh - 4rem);
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        &::after {
+            z-index: -9999;
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        &:hover {
+            transform: scale(1.15);
+        }
+    }
+
+    .leftColumn {
+        background-image: url("../../../assets/images/picture-3.png");
+        border-right: 0.1rem solid grey;
+    }
+
+    .rightColumn {
+        background-image: url("../../../assets/images/picture-5.jpg");
+        border-left: 0.1rem solid grey;
+    }
+}
+
+.mobileContent {
+    @extend .content;
+
+    .leftColumn,
+    .rightColumn {
+        height: calc(50vh - 2rem);
+        border: 0;
+    }
+
+    div {
+        border-top: 0.1rem solid grey;
+        border-bottom: 0.1rem solid grey;
+    }
+}
+
+.title {
+    transition: 0.2s linear;
+    color: $light-grey-color;
+    user-select: none;
+    font-size: 1.5rem;
+    font-weight: bolder;
+    background: rgb(0, 0, 0); /* Fallback color */
+    background: rgba(0, 0, 0, 0.4);
+    padding: 2rem;
+    width: 100%;
+    text-align: center;
+
+    .icon {
+        margin-right: 1rem;
+    }
+}

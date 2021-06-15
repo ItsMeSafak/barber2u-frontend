@@ -1,0 +1,38 @@
+@import "../../../../index.scss";
+@import "../../../../assets/config.scss";
+
+.section {
+    text-align: center;
+    padding: 1rem;
+    font-size: 1rem;
+    min-height: 100vh;
+
+    .sectionTitle {
+        @extend .underlined-text;
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin: 5rem 0 2rem 0;
+    }
+
+    .cardCol {
+        margin: 1rem 0;
+
+        h4 {
+            text-align: center;
+        }
+    }
+
+    .step {
+        background: $primary-color;
+        border-radius: 0.8em;
+        -moz-border-radius: 0.8em;
+        -webkit-border-radius: 0.8em;
+        color: #ffffff;
+        width: 100%;
+        margin: 1rem auto;
+        font-weight: bold;
+        line-height: 1.6em;
+        text-align: center;
+        width: 1.6em;
+    }
+}

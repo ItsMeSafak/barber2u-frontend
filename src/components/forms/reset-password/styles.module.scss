@@ -1,0 +1,20 @@
+@import "../../../assets/config.scss";
+
+.resetPasswordForm {
+    border-radius: 3px;
+    background-color: $secondary-color;
+    padding: 30px;
+    text-align: center;
+
+    h2 {
+        text-align: center;
+        color: white;
+        text-decoration: underline $primary-color;
+        text-underline-position: under;
+        font-size: 1.8rem;
+    }
+
+    .successMessage {
+        color: white;
+    }
+}

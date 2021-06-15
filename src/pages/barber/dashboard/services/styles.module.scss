@@ -1,0 +1,31 @@
+@import "../../../../assets/config.scss";
+
+.services {
+    .addBtn {
+        margin-bottom: 20px;
+        margin: 0 10px;
+    }
+
+    .saveBtn {
+        background-color: $green-color !important;
+        border-color: $green-color;
+    }
+
+    .noData {
+        margin: 0 auto;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 40rem;
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    }
+}

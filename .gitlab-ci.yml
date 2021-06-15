@@ -1,0 +1,54 @@
+image: node:14
+
+stages:
+  - build
+  - test
+  - deploy
+
+buildApp:
+  stage: build
+  tags:
+    - hva
+  only:
+    changes:
+      - "src/"
+  artifacts:
+    paths:
+      - build/
+  script:
+    - npm install
+    - npm run format
+    - echo "build started"
+    - npm run build
+    - echo "build completed"
+
+testApp:
+  stage: test
+  tags:
+    - hva
+  only:
+    changes:
+      - "src/"
+  script:
+    - npm install
+    - npm run test -- --watchAll=false
+    - echo "test completed"
+
+deployApp:
+  stage: deploy
+  image: ruby:latest
+  tags:
+    - hva
+  only:
+    changes:
+      - "src/"
+    refs:
+      - master
+  environment:
+    name: production
+    url: https://git.heroku.com/barber2u-fe.git
+  script:
+    - apt-get update -yq
+    - apt-get install -y ruby ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=barber2u-fe --api-key=$HEROKU_API_KEY
