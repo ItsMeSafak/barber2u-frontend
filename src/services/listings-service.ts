@@ -37,7 +37,7 @@ interface IBarberServicesResponse extends IHttpResponse {
  */
 export const getBarbers = (): Promise<IBarberResponse> =>
     new Promise<IBarberResponse>((resolve, reject) => {
-        axios.get("/barbers").then(
+        axios.get("/barbers/listings").then(
             (response) => {
                 if (response) resolve(response.data);
             },

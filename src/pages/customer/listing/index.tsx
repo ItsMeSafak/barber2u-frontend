@@ -58,7 +58,8 @@ const ListingPage: React.FC = () => {
     >();
 
     const { barber, imageSource } = location.state[0];
-    const [isLoading, setLoading] = useState(true);
+    const [isLoadingServices, setLoadingServices] = useState(true);
+    const [isLoadingTimes, setLoadingTimes] = useState(false);
     const [barberObject, setBarberObject] = useState(barber);
     const [image, setImage] = useState(imageSource);
     const [services, setServices] = useState(Array<Service>());
@@ -81,6 +82,7 @@ const ListingPage: React.FC = () => {
      * Get all services of a barber
      */
     const retrieveServices = useCallback(async () => {
+        setLoadingServices(true);
         const response = await getBarberServices(barberObject.getEmail);
         const { data } = response;
         const serviceObjects = data.services.map(
@@ -88,12 +90,14 @@ const ListingPage: React.FC = () => {
                 new Service(id, name, description, price, time, active ?? false)
         );
         setServices(serviceObjects);
+        setLoadingServices(false);
     }, [barberObject]);
 
     /**
      * Get all timeslots from a date
      */
     const retrieveTimeSlots = useCallback(async () => {
+        setLoadingTimes(true);
         if (selectedDay.current && timeRequired.current > 0) {
             const response = await getBarberAvailability(
                 barberObject.getEmail,
@@ -108,6 +112,7 @@ const ListingPage: React.FC = () => {
                 setSelectedTimeSlot(firstTimeSlot);
             }
         }
+        setLoadingTimes(false);
     }, [barberObject]);
 
     /**
@@ -146,7 +151,8 @@ const ListingPage: React.FC = () => {
     const calculateTotalPrice = () =>
         selectedServices
             .map((service) => service.getPrice)
-            .reduce((x, y) => x + y, 0);
+            .reduce((x, y) => x + y, 0)
+            .toFixed(2);
 
     /**
      * The workdays for the daypicker selector
@@ -163,6 +169,17 @@ const ListingPage: React.FC = () => {
             }
             return false;
         });
+
+    useEffect(() => {
+        setBarberObject(Object.setPrototypeOf(barber, Barber.prototype));
+        retrieveServices();
+        setImage(imageSource);
+    }, [location, barber, imageSource, retrieveServices]);
+
+    useEffect(() => {
+        timeRequired.current = calculateTimeRequired();
+        retrieveWorkDays();
+    }, [selectedServices, calculateTimeRequired, retrieveWorkDays]);
 
     /**
      * Returns false if one of the requirements is not met in order to place a resernvation
@@ -199,13 +216,6 @@ const ListingPage: React.FC = () => {
         ],
     };
 
-    useEffect(() => {
-        setBarberObject(Object.setPrototypeOf(barber, Barber.prototype));
-        retrieveServices();
-        setImage(imageSource);
-        setLoading(false);
-    }, [location, barber, imageSource, retrieveServices]);
-
     /**
      * Create a reservation request via the reservation service to the server.
      */
@@ -240,11 +250,6 @@ const ListingPage: React.FC = () => {
     function handleServiceSelection(service: Service) {
         setSelectedServices([...selectedServices, service]);
     }
-
-    useEffect(() => {
-        timeRequired.current = calculateTimeRequired();
-        retrieveWorkDays();
-    }, [selectedServices, calculateTimeRequired, retrieveWorkDays]);
 
     /**
      * Render the select box of which all the barber services are displayed with
@@ -450,23 +455,25 @@ const ListingPage: React.FC = () => {
                 <h1>{barberObject.getFullNameWithInitial}</h1>
             </Header>
             <Content className={styles.mainSection}>
-                <Skeleton loading={isLoading}>
-                    <Row className={styles.servicesTitle}>
-                        <h3>Services</h3>
-                    </Row>
-                    <Row>
+                <Row className={styles.servicesTitle}>
+                    <h3>Services</h3>
+                </Row>
+                <Row>
+                    <Skeleton loading={isLoadingServices}>
                         <Col xs={24}>{renderServiceSelect()}</Col>
+                    </Skeleton>
+                </Row>
+                <Divider />
+                <Row className={styles.servicesTitle}>
+                    <h3>Available slots</h3>
+                </Row>
+                {getWeekWorkdays && selectedServices.length > 0 && (
+                    <Row className={styles.dateTimePicker}>
+                        <Col xs={24}>{renderCustomDayPicker()}</Col>
                     </Row>
-                    <Divider />
-                    <Row className={styles.servicesTitle}>
-                        <h3>Available slots</h3>
-                    </Row>
-                    {getWeekWorkdays && selectedServices.length > 0 && (
-                        <Row className={styles.dateTimePicker}>
-                            <Col xs={24}>{renderCustomDayPicker()}</Col>
-                        </Row>
-                    )}
-                    <Row className={styles.availableCarousel}>
+                )}
+                <Row className={styles.availableCarousel}>
+                    <Skeleton loading={isLoadingTimes}>
                         <Col xs={24}>
                             <Slider {...sliderSettings} ref={slickRef}>
                                 {selectedServices.length > 0 ? (
@@ -484,9 +491,9 @@ const ListingPage: React.FC = () => {
                                 )}
                             </Slider>
                         </Col>
-                    </Row>
-                    {renderSummary()}
-                </Skeleton>
+                    </Skeleton>
+                </Row>
+                {renderSummary()}
             </Content>
         </Layout>
     );

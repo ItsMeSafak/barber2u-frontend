@@ -83,19 +83,19 @@ const ListingsPage: React.FC = () => {
                 </h1>
             </Header>
             <Content className={styles.mainSection}>
-                <Skeleton loading={isLoading}>
-                    <Row
-                        className={
-                            isMobileOrTablet
-                                ? styles.listingsRowMobile
-                                : styles.listingsRow
-                        }
-                    >
+                <Row
+                    className={
+                        isMobileOrTablet
+                            ? styles.listingsRowMobile
+                            : styles.listingsRow
+                    }
+                >
+                    <Skeleton loading={isLoading}>
                         <Col xs={24} lg={24} className={styles.listingItems}>
                             <Row>{renderListingItems()}</Row>
                         </Col>
-                    </Row>
-                </Skeleton>
+                    </Skeleton>
+                </Row>
             </Content>
         </Layout>
     );
