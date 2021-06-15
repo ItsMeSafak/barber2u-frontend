@@ -142,7 +142,7 @@ const SignupFormCustomer: React.FC = () => {
                     <Input
                         name="phoneNumber"
                         size="large"
-                        placeholder="PhoneNumber number"
+                        placeholder="Phone number"
                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
                             setFormValue({
                                 ...formValue,
