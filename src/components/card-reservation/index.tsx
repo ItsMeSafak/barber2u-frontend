@@ -344,7 +344,7 @@ const ReservationCard: React.FC<ComponentProps> = (props) => {
                 {`${reservationDetail.getCustomer.getAddress}, ${reservationDetail.getCustomer.getZipCode}`}
                 <a
                     target="_blank"
-                    href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.getCustomer.getZipCode}`}
+                    href={`${GOOGLE_MAPS_BASE_URL}${reservationDetail.getCustomer.getAddress}%20${reservationDetail.getCustomer.getZipCode}`}
                     rel="noreferrer"
                 >
                     <FontAwesomeIcon
